@@ -1,0 +1,60 @@
+@use "sass:map";
+@use "sass:math";
+
+$v-button-size-vars-by-variant: () !default;
+$v-button-sizes: 'sm' 'md';
+
+// root
+$v-button: (
+    common: (
+        position: relative,
+        display: inline-flex,
+        align-items: center,
+        justify-content: center,
+        border: initial,
+        padding: initial,
+        background-color: initial,
+        color: var(--theme-color-content-primary, initial),
+        cursor: pointer,
+        text-decoration: none,
+        font-weight: 700,
+        text-transform: uppercase,
+        line-height: 1.5,
+    ),
+    sm: (
+        font-size: rem(12),
+    ),
+    md: (
+        font-size: rem(14),
+    ),
+);
+
+// icon
+$v-button-icon: (
+    common: (
+        display: flex,
+        flex-shrink: 0,
+        align-items: center,
+        justify-content: center,
+        color: currentcolor,
+    ),
+);
+
+// label
+$v-button-label: (
+    common: (
+        position: relative,
+        display: initial,
+        text-overflow: ellipsis,
+        white-space: nowrap,
+    ),
+);
+
+// Merged
+$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
+    default: (
+        (vars: $v-button, prefix: ''),
+        (vars: $v-button-icon, prefix: 'icon'),
+        (vars: $v-button-label, prefix: 'label'),
+    )
+));

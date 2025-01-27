@@ -1,0 +1,7 @@
+@use "assets/scss/variables/ease-curves" as *;
+
+@each $key, $value in $ease-curves {
+    :export {
+        #{$key}: $value;
+    }
+}

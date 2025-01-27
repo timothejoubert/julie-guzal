@@ -1,0 +1,59 @@
+@use 'assets/scss/variables/fonts' as *;
+
+@font-face {
+    font-display: swap;
+    font-family: $font-mango;
+    src: url('~/assets/fonts/mango-grotesk-variable.ttf') format('truetype');
+}
+
+// TODO: convert variable font to woff2
+@font-face {
+    font-display: swap;
+    font-family: $font-noi;
+    src:
+        // url('~/assets/fonts/noi-grotesk-variable.woff2') format('woff2'),
+        // url('~/assets/fonts/noi-grotesk-variable.woff') format('woff'),
+        url('~/assets/fonts/noi-grotesk-variable.ttf') format('truetype');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: $font-space-mono;
+    font-weight: 400;
+    src:
+        url('~/assets/fonts/spacemono-regular-subset.woff2') format('woff2'),
+        url('~/assets/fonts/spacemono-regular-subset.woff') format('woff'),
+        url('~/assets/fonts/spacemono-regular-subset.ttf') format('truetype');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: $font-space-mono;
+    font-style: italic;
+    font-weight: 400;
+    src:
+        url('~/assets/fonts/spacemono-italic-subset.woff2') format('woff2'),
+        url('~/assets/fonts/spacemono-italic-subset.woff') format('woff'),
+        url('~/assets/fonts/spacemono-italic-subset.ttf') format('truetype');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: $font-space-mono;
+    font-weight: 700;
+    src:
+        url('~/assets/fonts/spacemono-bold-subset.woff2') format('woff2'),
+        url('~/assets/fonts/spacemono-bold-subset.woff') format('woff'),
+        url('~/assets/fonts/spacemono-bold-subset.ttf') format('truetype');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: $font-space-mono;
+    font-style: italic;
+    font-weight: 700;
+    src:
+        url('~/assets/fonts/spacemono-bolditalic-subset.woff2') format('woff2'),
+        url('~/assets/fonts/spacemono-bolditalic-subset.woff') format('woff'),
+        url('~/assets/fonts/spacemono-bolditalic-subset.ttf') format('truetype');
+}

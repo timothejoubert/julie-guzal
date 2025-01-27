@@ -1,0 +1,18 @@
+@use 'assets/scss/functions/rem' as *;
+
+$gutters: (
+     0: rem(16),
+     md: rem(28),
+) !default;
+$grid-widths: (
+    0: calc(100% - 2 * var(--gutter)),
+    md: calc(100% - 2 * var(--gutter)),
+) !default;
+$grid-max-widths: (
+    // 0: 1920px,
+) !default;
+$grid-columns: (
+    0: 6,
+    md: 14,
+) !default;
+

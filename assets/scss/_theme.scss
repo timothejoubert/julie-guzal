@@ -1,0 +1,10 @@
+@use 'assets/scss/mixins/theme' as *;
+@use 'assets/scss/variables/themes' as *;
+@use 'sass:meta';
+
+ :root {
+     color: var(--theme-color-on-background);
+     background-color: var(--theme-color-background);
+
+     @include theme(dark);
+ }

@@ -1,0 +1,23 @@
+@use 'assets/scss/functions/rem' as *;
+
+html {
+    background-color: var(--theme-color-background);
+    scroll-behavior: smooth;
+
+    --spacing-over-title-padding-block: #{rem(16)};
+}
+
+body {
+    margin: initial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--theme-color-primary, var(--theme-color-on-background));
+    outline-offset: 2px;
+}
+
+pre {
+    white-space: pre-wrap;
+}

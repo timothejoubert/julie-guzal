@@ -1,0 +1,15 @@
+@use "assets/scss/variables/themes" as *;
+
+@each $key, $value in $themes {
+    @if type-of($value) == map {
+        @each $colorKey, $colorValue in $value {
+            :export {
+                #{$key}-#{$colorKey}: $colorValue;
+            }
+        }
+    } @else {
+        :export {
+            #{$key}: $value;
+        }
+    }
+}

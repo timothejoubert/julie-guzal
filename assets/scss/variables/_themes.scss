@@ -1,0 +1,11 @@
+$themes: (
+    light: (
+        color-background: #FFFFFF,
+        color-on-background: #1A1A1A,
+    ),
+    dark: (
+        color-background: #151515,
+        color-on-background: #FFFFFF,
+    ),
+);
+$default-theme: dark;

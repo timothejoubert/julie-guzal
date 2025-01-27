@@ -1,0 +1,54 @@
+{
+  "format": "custom",
+  "id": "menu",
+  "label": "Menu",
+  "repeatable": false,
+  "status": true,
+  "json": {
+    "Main": {
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "links": {
+        "type": "Group",
+        "config": {
+          "label": "links",
+          "repeat": true,
+          "fields": {
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "Label",
+                "placeholder": ""
+              }
+            },
+            "internal_page": {
+              "type": "Link",
+              "config": {
+                "label": "Internal page",
+                "select": "document",
+                "customtypes": [
+                  "home_page",
+                  "about_page",
+                  "lab_page",
+                  "gallery_page"
+                ]
+              }
+            },
+            "external_url": {
+              "type": "Text",
+              "config": {
+                "label": "External url",
+                "placeholder": ""
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

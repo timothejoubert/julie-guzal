@@ -1,0 +1,61 @@
+{
+  "id": "cross_nav",
+  "type": "SharedSlice",
+  "name": "CrossNav",
+  "description": "CrossNav",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "Text",
+          "config": {
+            "label": "Title",
+            "placeholder": ""
+          }
+        },
+        "theme": {
+          "type": "Select",
+          "config": {
+            "label": "Theme",
+            "placeholder": "",
+            "options": [
+              "light",
+              "dark"
+            ],
+            "default_value": "light"
+          }
+        },
+        "links": {
+          "type": "Group",
+          "config": {
+            "label": "Links",
+            "repeat": true,
+            "fields": {
+              "internal_page": {
+                "type": "Link",
+                "config": {
+                  "label": "Internal page",
+                  "select": "document",
+                  "repeat": false,
+                  "customtypes": [
+                    "about_page",
+                    "home_page",
+                    "lab_page",
+                    "gallery_page"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

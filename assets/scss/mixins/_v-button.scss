@@ -1,0 +1,59 @@
+@use 'sass:map';
+@use 'sass:list';
+@use "sass:string";
+
+/**
+ * Get css vars for a specific size
+ */
+@mixin v-button-size($size, $variant: default) {
+    @if map-has-key($v-button-size-vars-by-variant, $variant) {
+        $vars: map-get($v-button-size-vars-by-variant, $variant);
+
+        @each $value in $vars {
+            @if map-has-key($value, vars) and map-has-key($value, prefix) {
+                @include v-button-css-vars-by-size(map-get($value, vars), $size, map-get($value, prefix));
+            }
+        }
+    }
+}
+
+/**
+ * Set property with appropriate css var name and default value
+ */
+@mixin v-button-default-css-vars($vars, $prefix: '', $default: 'md') {
+    // get common values
+    @include default-css-vars('v-button', $vars, $prefix, 'common');
+
+    // get specific size value
+    @include default-css-vars('v-button', $vars, $prefix, $default);
+}
+
+@mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
+    @include css-vars-by-size('v-button', $vars, $size, $prefix);
+}
+
+/**
+ * Get css vars for a specific variant
+ */
+@mixin v-button-variant-css-vars($name: 'default', $prefix: '', $vars: $v-button-size-vars-by-variant) {
+    @if map-has-key($vars, $name) {
+        $variant-values: map.get($vars, $name);
+
+        // Loop through variant template item
+        @each $vars, $prefixes in $variant-values {
+            $variant-prefix: nth($prefixes, 2);
+
+            @if $variant-prefix == $prefix {
+                @include v-button-default-css-vars(nth($vars, 2), $prefix);
+            }
+        }
+    }
+}
+
+@mixin v-button-emphasis-css-vars($name: 'high', $prefix: '') {
+    @include v-button-variant-css-vars($name, $prefix, $v-button-size-vars-by-emphasis);
+}
+
+@mixin v-button-custom-css-vars($name: 'high', $prefix: '') {
+    @include v-button-variant-css-vars($name, $prefix, $v-button-size-vars-by-custom);
+}
