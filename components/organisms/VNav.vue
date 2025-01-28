@@ -57,14 +57,29 @@ const links = menu.value?.data.links || []
 
 .link {
     display: flex;
-    color: inherit;
     padding: initial;
     padding-inline: initial;
     text-decoration: none;
+    color: var(--theme-color-brand-inactive);
+    transition: color 0.3s;
+    font-family: $font-lecturis-family;
     text-transform: uppercase;
 
     &[aria-current="page"] {
-      text-decoration: underline;
+      color: var(--theme-color-brand-text);
     }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--theme-color-brand-text);
+    }
+  }
+
+  @include media('>=lg') {
+      font-weight: 400;
+      line-height: 1.4;
+    font-size: rem(16);
+    text-transform: initial;
+  }
 }
 </style>

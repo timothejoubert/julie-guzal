@@ -21,32 +21,7 @@
 }
 
 // Body
-.text-body-lg {
-    @include text-body-lg;
-}
 
 .text-body-md {
     @include text-body-md;
-}
-
-.text-body-sm {
-    @include text-body-sm;
-}
-
-.text-body-xs {
-    @include text-body-xs;
-}
-
-// OverTitle
-.text-over-title-md {
-    @include text-over-title-md;
-}
-
-.text-over-title-sm {
-    @include text-over-title-sm;
-}
-
-// Components
-.text-tag-md {
-    @include text-tag-md;
 }

@@ -47,6 +47,9 @@ useHead({
 
 <template>
     <div>
+        <header>
+            <VTopBar :title="webResponse?.data?.title" />
+        </header>
         <div>{{ pageType }}</div>
         <pre>{{ webResponse }}</pre>
     </div>
