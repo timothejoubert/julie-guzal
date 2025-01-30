@@ -22,12 +22,20 @@
 							[
 								"internal_page",
 								{
-									"__TYPE__": "LinkContent",
 									"key": "5bbd530f-7bd5-4a33-bff5-6833a9b8bdcf",
+									"__TYPE__": "LinkContent",
 									"value": {
 										"__TYPE__": "DocumentLink",
 										"id": "mock_document_id"
 									}
+								}
+							],
+							[
+								"label",
+								{
+									"__TYPE__": "FieldContent",
+									"value": "slope",
+									"type": "Text"
 								}
 							]
 						]

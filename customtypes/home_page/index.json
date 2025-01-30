@@ -51,15 +51,6 @@
         },
         "type": "Image"
       }
-    },
-    "Slices": {
-      "slices2": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
-        "config": {
-          "choices": {}
-        }
-      }
     }
   }
 }

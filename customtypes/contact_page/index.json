@@ -1,7 +1,7 @@
 {
   "format": "page",
-  "id": "about_page",
-  "label": "About page",
+  "id": "contact_page",
+  "label": "Contact page",
   "repeatable": false,
   "status": true,
   "json": {
@@ -10,6 +10,20 @@
         "type": "Text",
         "config": {
           "label": "Title",
+          "placeholder": ""
+        }
+      },
+      "title_mobile": {
+        "type": "Text",
+        "config": {
+          "label": "Title mobile",
+          "placeholder": ""
+        }
+      },
+      "color": {
+        "type": "Color",
+        "config": {
+          "label": "Color",
           "placeholder": ""
         }
       },
@@ -32,7 +46,42 @@
                 "label": "Content",
                 "placeholder": "",
                 "allowTargetBlank": true,
-                "multi": "strong,em,hyperlink,paragraph"
+                "multi": "strong,em,paragraph,hyperlink"
+              }
+            }
+          }
+        }
+      },
+      "credits": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Credits",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "strong,em,hyperlink"
+        }
+      },
+      "right_column": {
+        "type": "Group",
+        "config": {
+          "label": "Right column",
+          "repeat": false,
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "image",
+                "constraint": {},
+                "thumbnails": []
+              }
+            },
+            "content": {
+              "type": "StructuredText",
+              "config": {
+                "label": "Content",
+                "placeholder": "",
+                "allowTargetBlank": true,
+                "multi": "strong,em,hyperlink"
               }
             }
           }

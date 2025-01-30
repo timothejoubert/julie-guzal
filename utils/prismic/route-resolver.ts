@@ -24,8 +24,12 @@ export const prismicDocumentRoutes: PrismicDocumentRoute[] = [
         path: '/:lang?/lab',
     },
     {
-        type: 'about_page',
+        type: 'contact_page',
         path: '/:lang?/contact',
+    },
+    {
+        type: 'project_page',
+        path: '/:lang?/project/:uid',
     },
 ]
 

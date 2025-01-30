@@ -8,6 +8,7 @@
     </ClientOnly>
 
     <NuxtLoadingIndicator color="white" />
+    <VTopBar />
     <NuxtPage />
 </template>
 

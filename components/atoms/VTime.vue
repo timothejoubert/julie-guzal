@@ -23,13 +23,5 @@ const output = computed(() => {
     <time
         v-if="date"
         :datetime="date"
-        :class="$style.root"
-        class="text-over-title-sm"
     >{{ output }}</time>
 </template>
-
-<style lang="scss" module>
-.root {
-    font-weight: 600;
-}
-</style>

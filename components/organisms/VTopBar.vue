@@ -2,9 +2,8 @@
 const settings = await usePrismicSettingsDocument()
 const description = settings?.data?.site_description
 
-defineProps<{
-    title?: string
-}>()
+const currentPage = useCurrentPage()
+const pageTitle = computed(() => currentPage.value.webResponse?.data?.title)
 </script>
 
 <template>
@@ -13,7 +12,7 @@ defineProps<{
         class="grid"
     >
         <h1 :class="$style.title">
-            {{ title }}
+            {{ pageTitle }}
         </h1>
         <VNav :class="$style.nav" />
         <VText

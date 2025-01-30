@@ -15,14 +15,13 @@ defineProps({
 
 <style lang="scss" module>
 @use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/variables/fonts' as *;
 
 .root {
-    border-radius: rem(2);
-
-    // background-color: var(--theme-color-primary);
-    background-color: color-mix(in srgb, var(--theme-color-primary) 10%, var(--theme-color-background));
     color: var(--theme-color-on-background);
-    padding-block: rem(5) rem(2);
-    padding-inline: rem(11);
+    font-family: $font-suisse-family;
+    font-size: rem(14);
+    font-weight: 300;
+    line-height: 1.3;
 }
 </style>

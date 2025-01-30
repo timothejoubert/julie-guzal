@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
+import type {
+    AboutPageDocument, ContactPageDocument,
+    GalleryPageDocument,
+    HomePageDocument,
+    LabPageDocument,
+    ProjectPageDocument,
+} from '~/prismicio-types'
 
 definePageMeta({
     pageTransition: defaultPageTransition,
@@ -28,10 +35,12 @@ else if (!webResponse) {
 await usePrismicSeoMeta(webResponse)
 const alternateLinks = usePrismicHead(webResponse)
 
-const runtimeConfig = useRuntimeConfig()
+const settings = await usePrismicSettingsDocument()
+
 const title = computed(() => {
     const pageTitle = webResponse?.data.meta_title || webResponse?.data.title
-    return `${pageTitle} | ${runtimeConfig.public.site.name}`
+    const siteName = settings?.data?.site_name || useRuntimeConfig().public.site.name
+    return `${pageTitle} | ${siteName}`
 })
 
 usePage({
@@ -43,14 +52,23 @@ usePage({
 useHead({
     title: title.value,
 })
+
+const homeDocument = computed(() => pageType === 'home_page' && webResponse as HomePageDocument)
+const contactDocument = computed(() => pageType === 'contact_page' && webResponse as ContactPageDocument)
+const labDocument = computed(() => pageType === 'lab_page' && webResponse as LabPageDocument)
+const projectDocument = computed(() => pageType === 'project_page' && webResponse as ProjectPageDocument)
+const archiveDocument = computed(() => pageType === 'gallery_page' && webResponse as GalleryPageDocument)
 </script>
 
 <template>
     <div>
-        <header>
-            <VTopBar :title="webResponse?.data?.title" />
-        </header>
-        <div>{{ pageType }}</div>
-        <pre>{{ webResponse }}</pre>
+        <LazyVHomePage
+            v-if="homeDocument"
+            :document="homeDocument"
+        />
+        <LazyVContactPage
+            v-else-if="contactDocument"
+            :document="contactDocument"
+        />
     </div>
 </template>

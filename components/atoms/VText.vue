@@ -6,7 +6,6 @@ export type VTextContent = string | RichTextField | KeyTextField | null
 
 interface VTextProps {
     tag?: string
-    textClass?: string
     content?: VTextContent
 }
 

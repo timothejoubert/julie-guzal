@@ -33,9 +33,9 @@
                 "select": "document",
                 "customtypes": [
                   "home_page",
-                  "about_page",
                   "lab_page",
-                  "gallery_page"
+                  "gallery_page",
+                  "contact_page"
                 ]
               }
             },
