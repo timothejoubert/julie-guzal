@@ -40,13 +40,19 @@ const flatRichTextContent = computed(() => {
     </component>
     <PrismicRichText
         v-else-if="!!richText[0]"
-        :class="$style.root"
+        :class="[$style.root, $attrs.class]"
         :field="richText"
+        wrapper="div"
     />
 </template>
 
 <style lang="scss" module>
 .root {
+
+    *:first-child {
+        margin-top: initial;
+    }
+
   strong {
     font-weight: bold;
   }

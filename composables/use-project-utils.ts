@@ -17,11 +17,17 @@ export function useProjectUtils(project: PossibleProjectPageDocument | undefined
     const title = computed(() => data.value?.title)
     const image = computed(() => data.value?.image?.url && data.value.image)
     const date = computed(() => data.value?.creation_date)
+    const content = computed(() => data.value?.content)
+    const credits = computed(() => data.value?.credits)
+    const externalUrl = computed(() => data.value?.external_url)
 
     return {
         image,
         title,
         date,
         tags,
+        content,
+        credits,
+        externalUrl,
     }
 }

@@ -2,7 +2,7 @@
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import type {
-    AboutPageDocument, ContactPageDocument,
+    ContactPageDocument,
     GalleryPageDocument,
     HomePageDocument,
     LabPageDocument,
@@ -55,8 +55,8 @@ useHead({
 
 const homeDocument = computed(() => pageType === 'home_page' && webResponse as HomePageDocument)
 const contactDocument = computed(() => pageType === 'contact_page' && webResponse as ContactPageDocument)
-const labDocument = computed(() => pageType === 'lab_page' && webResponse as LabPageDocument)
 const projectDocument = computed(() => pageType === 'project_page' && webResponse as ProjectPageDocument)
+const labDocument = computed(() => pageType === 'lab_page' && webResponse as LabPageDocument)
 const archiveDocument = computed(() => pageType === 'gallery_page' && webResponse as GalleryPageDocument)
 </script>
 
@@ -69,6 +69,10 @@ const archiveDocument = computed(() => pageType === 'gallery_page' && webRespons
         <LazyVContactPage
             v-else-if="contactDocument"
             :document="contactDocument"
+        />
+        <LazyVProjectPage
+            v-else-if="projectDocument"
+            :document="projectDocument"
         />
     </div>
 </template>
