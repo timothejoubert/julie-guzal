@@ -5,6 +5,8 @@ import { version } from '#root/package.json'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/i18n/i18n.config'
 import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 
+const path = require('path')
+
 const isDev = process.env.NODE_ENV === 'development'
 
 export default defineNuxtConfig({
@@ -74,9 +76,9 @@ export default defineNuxtConfig({
     },
     compatibilityDate: '2024-07-09',
     nitro: {
-        // output: {
-        //     publicDir: path.join(__dirname, '/app'),
-        // },
+        output: {
+            publicDir: path.join(__dirname, '/app'),
+        },
         routeRules: {
             '/**': {
                 headers: {
