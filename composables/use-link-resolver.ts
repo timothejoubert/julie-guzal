@@ -21,7 +21,7 @@ export function useLinkResolver(reference: PossibleRouteReference) {
         }
         else if (typeof reference === 'object' && isPrismicDocumentRoute(reference)) {
             const { getLocalizedUrl } = useLocale()
-            return getLocalizedUrl(reference.path.replace('/:lang?', ''))
+            return getLocalizedUrl(reference.path.replace('/:lang?', '')) || '/'
         }
         else if (typeof reference === 'string') {
             const hasLang = reference.includes('/:lang?')

@@ -3,12 +3,21 @@ $themes: (
         color-background: #FFFFFF,
         color-on-background: #1A1A1A,
 
+        color-brand-text: #1A1A1A,
+        color-brand-inactive: #AEAEAE,
     ),
     dark: (
         color-background: #151515,
         color-on-background: #FFFFFF,
 
         color-brand-text: #FFFFFF,
+        color-brand-inactive: #AEAEAE,
+    ),
+    yellow: (
+        color-background: #CDFF3E,
+        color-on-background: #151515,
+
+        color-brand-text: #1A1A1A,
         color-brand-inactive: #AEAEAE,
     ),
 );

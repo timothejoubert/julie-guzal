@@ -34,18 +34,23 @@ const rootClasses = computed(() => {
                 v-for="(linkGroup, index) in primary.links"
                 :key="index"
                 :to="linkGroup.internal_page"
-                :label="linkGroup.label || linkGroup.internal_page.url"
                 :class="$style.link"
-            />
+            >
+                <VIcon
+                    name="arrow-right-top"
+                    :class="$style.arrow"
+                    width="53"
+                    height="53"
+                />
+                {{ linkGroup.label || linkGroup.internal_page.url }}
+            </VPrismicLink>
         </template>
     </VSlice>
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/functions/fluid' as *;
 @use 'assets/scss/variables/fonts' as *;
-@use 'assets/scss/mixins/include-media' as *;
 @use 'assets/scss/mixins/theme' as *;
 
 @mixin font() {
@@ -88,13 +93,38 @@ const rootClasses = computed(() => {
 
 .link {
     @include font;
+
+    display: flex;
+    justify-content: flex-end;
+    column-gap: rem(18);
     text-align: right;
     grid-column: 1 / -1;
     text-decoration: none;
     color: var(--theme-color-on-background);
+    overflow: hidden;
 
     @include media('>=lg') {
         grid-column: 6 / -1;
+    }
+}
+
+.arrow {
+    width: fluid((xs: 21, xl: 64));
+    height: auto;
+    opacity: 0;
+    translate: rem(-10) rem(30);
+    transform-origin: right bottom;
+    rotate: 20deg;
+    transition-property: opacity, translate, rotate;
+    transition-duration: 0.2s;
+    transition-timing-function: ease(out-quad);
+
+    @media (hover: hover) {
+        .link:hover & {
+            translate: 0 0;
+            rotate: 0deg;
+            opacity: 1;
+        }
     }
 }
 </style>

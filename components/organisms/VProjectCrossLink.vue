@@ -7,12 +7,15 @@ const props = defineProps<{
 
 const projects = await usePrismicMainProjects()
 
-const nextProject = computed(() => {
-    const index = projects.value.findIndex(project => project.id === props.current.id)
-    return index === -1 ? projects.value[0] : projects.value[index]
+const nextProjectIndex = computed(() => {
+    const currentIndex = projects.value.findIndex(project => project.id === props.current.id)
+    const getFirstIndex = currentIndex === -1 || currentIndex === projects.value.length - 1
+    return getFirstIndex ? 0 : currentIndex + 1
 })
 
-console.log(projects.value)
+const nextProject = computed(() => {
+    return projects.value[nextProjectIndex.value]
+})
 </script>
 
 <template>
@@ -44,7 +47,13 @@ console.log(projects.value)
             :class="$style.next"
         >
             <div :class="$style.next__title">
-                {{ nextProject.data.title }}↗
+                {{ nextProject.data.title }}
+                <VIcon
+                    :class="$style.arrow"
+                    name="arrow-right-bottom"
+                    width="20"
+                    height="20"
+                />
             </div>
             <VPrismicImage
                 v-if="nextProject.data.image"
@@ -119,7 +128,7 @@ console.log(projects.value)
     text-decoration: none;
     color: var(--theme-color-on-background);
     white-space: break-spaces;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s, color 0.3s;
 
     @media (hover: hover) {
         .list:has(&:hover) & {
@@ -127,6 +136,7 @@ console.log(projects.value)
         }
 
         &:hover {
+            color: var(--theme-color-primary);
             opacity: 1 !important;
         }
     }
@@ -169,6 +179,25 @@ console.log(projects.value)
     @include media('>=lg') {
         width: 100%;
         margin-left: initial;
+    }
+}
+
+.arrow {
+    height: auto;
+    opacity: 0;
+    translate: rem(10) rem(10);
+    transform-origin: right bottom;
+    rotate: 20deg;
+    transition-property: opacity, translate, rotate;
+    transition-duration: 0.2s;
+    transition-timing-function: ease(out-quad);
+
+    @media (hover: hover) {
+        .next:hover & {
+            translate: 0 0;
+            rotate: 0deg;
+            opacity: 1;
+        }
     }
 }
 </style>

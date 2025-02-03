@@ -2,12 +2,25 @@
 const menu = await usePrismicMenuDocument()
 
 const links = menu.value?.data.links || []
+
+const props = defineProps<{
+    theme?: 'light' | 'dark'
+}>()
+
+const $style = useCssModule()
+const rootClasses = computed(() => {
+    return [
+        $style.root,
+        props.theme && $style[`root--theme-${props.theme}`],
+        'v-nav',
+    ]
+})
 </script>
 
 <template>
     <nav
         aria-label="Main"
-        :class="$style.root"
+        :class="rootClasses"
     >
         <ul
             v-if="links.length"
@@ -31,28 +44,50 @@ const links = menu.value?.data.links || []
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/functions/flex-grid' as *;
 @use 'assets/scss/variables/fonts' as *;
-@use "assets/scss/mixins/include-media" as *;
+@use "assets/scss/mixins/theme" as *;
 @use "assets/scss/functions/ease" as *;
 
 .root {
+    grid-column: 1 / -1;
+    width: 100%;
+    position: fixed;
+    bottom: rem(24);
+    z-index: 11;
+
+    @include theme-variants;
+
+    @include media('>=md') {
+        position: relative;
+        bottom: initial;
+        grid-column: 9 / -1;
+    }
+
     @include media('>=lg') {
-        width: flex-grid(11, 14);
+
+        grid-column: 7 / span 1;
     }
 }
 
 .list {
     display: flex;
     flex-direction: column;
-    width: 50%;
     padding: initial;
     margin-block: initial;
+
+    @include media('<md') {
+        background-color: var(--theme-color-background);
+        flex-direction: row;
+        justify-content: center;
+        border-radius: rem(12);
+        width: fit-content;
+        margin-inline: auto;
+    }
 }
 
 .item {
-    list-style: none;
+    display: contents;
 }
 
 .link {
@@ -75,11 +110,24 @@ const links = menu.value?.data.links || []
     }
   }
 
+    @include media('<md') {
+        padding-block: rem(18);
+        padding-inline: rem(14);
+
+        .item:first-child & {
+            padding-left: rem(24);
+        }
+
+        .item:last-child & {
+            padding-right: rem(24);
+        }
+    }
+
   @include media('>=lg') {
-      font-weight: 400;
-      line-height: 1.4;
-    font-size: rem(16);
-    text-transform: initial;
+        font-weight: 400;
+        line-height: 1.4;
+        font-size: rem(16);
+        text-transform: initial;
   }
 }
 </style>

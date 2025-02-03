@@ -491,9 +491,7 @@ interface MenuDocumentData {
 export type MenuDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<MenuDocumentData>, "menu", Lang>;
 
-type ProjectPageDocumentDataSlicesSlice = CrossNavSlice;
-
-type ProjectPageDocumentDataSlices2Slice = never;
+type ProjectPageDocumentDataSlicesSlice = MediaSlice | CrossNavSlice;
 
 /**
  * Content for Project page documents
@@ -617,16 +615,7 @@ interface ProjectPageDocumentData {
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  meta_image: prismic.ImageField<never> /**
-   * Slice Zone field in *Project page*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: project_page.slices2[]
-   * - **Tab**: Slices
-   * - **Documentation**: https://prismic.io/docs/field#slices
-   */;
-  slices2: prismic.SliceZone<ProjectPageDocumentDataSlices2Slice>;
+  meta_image: prismic.ImageField<never>;
 }
 
 /**
@@ -939,6 +928,116 @@ export type MasonryMediasSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Primary content in *Media → Default → Primary*
+ */
+export interface MediaSliceDefaultPrimary {
+  /**
+   * Image field in *Media → Default → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.default.primary.image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+
+  /**
+   * Embed field in *Media → Default → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.default.primary.embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  embed: prismic.EmbedField;
+}
+
+/**
+ * Default variation for Media Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<MediaSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Primary content in *Media → DuoMedia → Primary*
+ */
+export interface MediaSliceDuoMediaPrimary {
+  /**
+   * Main image field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.duoMedia.primary.main_image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  main_image: prismic.ImageField<never>;
+
+  /**
+   * Main embed field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.duoMedia.primary.main_embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  main_embed: prismic.EmbedField;
+
+  /**
+   * Secondary image field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.duoMedia.primary.secondary_image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  secondary_image: prismic.ImageField<never>;
+
+  /**
+   * Secondary embed field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Embed
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.duoMedia.primary.secondary_embed
+   * - **Documentation**: https://prismic.io/docs/field#embed
+   */
+  secondary_embed: prismic.EmbedField;
+}
+
+/**
+ * DuoMedia variation for Media Slice
+ *
+ * - **API ID**: `duoMedia`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaSliceDuoMedia = prismic.SharedSliceVariation<
+  "duoMedia",
+  Simplify<MediaSliceDuoMediaPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Media*
+ */
+type MediaSliceVariation = MediaSliceDefault | MediaSliceDuoMedia;
+
+/**
+ * Media Shared Slice
+ *
+ * - **API ID**: `media`
+ * - **Description**: Media
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type MediaSlice = prismic.SharedSlice<"media", MediaSliceVariation>;
+
+/**
  * Primary content in *Photography → Default → Primary*
  */
 export interface PhotographySliceDefaultPrimary {
@@ -1034,7 +1133,6 @@ declare module "@prismicio/client" {
       ProjectPageDocument,
       ProjectPageDocumentData,
       ProjectPageDocumentDataSlicesSlice,
-      ProjectPageDocumentDataSlices2Slice,
       SettingsDocument,
       SettingsDocumentData,
       SettingsDocumentDataSocialsItem,
@@ -1049,6 +1147,12 @@ declare module "@prismicio/client" {
       MasonryMediasSliceDefaultPrimary,
       MasonryMediasSliceVariation,
       MasonryMediasSliceDefault,
+      MediaSlice,
+      MediaSliceDefaultPrimary,
+      MediaSliceDuoMediaPrimary,
+      MediaSliceVariation,
+      MediaSliceDefault,
+      MediaSliceDuoMedia,
       PhotographySlice,
       PhotographySliceDefaultPrimary,
       PhotographySliceVariation,

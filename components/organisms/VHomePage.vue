@@ -12,28 +12,45 @@ const slices = computed(() => props.document.data.slices)
 </script>
 
 <template>
-    <ul
-        :class="$style.list"
-        class="grid"
-    >
-        <VProjectCard
-            v-for="(project, i) in projects"
-            :key="project?.id || i"
-            :project="project"
-            root-tag="li"
-            :class="$style.project"
-        />
-    </ul>
-    <LazySliceZone
-        v-if="slices?.length"
-        :slices="slices"
-        :components="components"
-    />
+    <div>
+        <VTopBar :class="$style['top-bar']" />
+        <main>
+            <ul
+                :class="$style.list"
+                class="grid"
+            >
+                <VProjectCard
+                    v-for="(project, i) in projects"
+                    :key="project?.id || i"
+                    :project="project"
+                    root-tag="li"
+                    :class="$style.project"
+                />
+            </ul>
+            <LazySliceZone
+                v-if="slices?.length"
+                :slices="slices"
+                :components="components"
+            />
+        </main>
+    </div>
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/mixins/theme' as *;
 @use 'assets/scss/mixins/include-media' as *;
+
+.top-bar {
+    & :global(.v-nav) {
+        @include theme('light')
+    }
+
+    @include media('>=lg') {
+        & :global(.v-nav) {
+            @include theme('dark')
+        }
+    }
+}
 
 .list {
     margin-top: rem(208);

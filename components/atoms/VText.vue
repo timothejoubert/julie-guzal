@@ -48,19 +48,19 @@ const flatRichTextContent = computed(() => {
 
 <style lang="scss" module>
 .root {
-
     *:first-child {
         margin-top: initial;
     }
 
-  strong {
-    font-weight: bold;
-  }
+    strong {
+        font-weight: bold;
+    }
 
-  a {
-    text-decoration: underline;
-    text-decoration-thickness: 0.5px;
-    text-underline-offset: 2px;
-  }
+    a {
+        text-decoration: underline;
+        text-decoration-thickness: 0.5px;
+        text-underline-offset: 2px;
+        color: inherit;
+    }
 }
 </style>

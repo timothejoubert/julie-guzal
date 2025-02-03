@@ -2,7 +2,7 @@
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 
 const route = useRoute()
-
+const isProjectPage = ref(false)
 if (typeof route.name !== 'string' || route.name?.includes('uid__')) {
     const pageType = getDocumentTypeByUrl(route.path)
 
@@ -15,6 +15,7 @@ if (typeof route.name !== 'string' || route.name?.includes('uid__')) {
 
     const { webResponse } = await usePrismicFetchPage(pageType)
     useCurrentPage({ webResponse })
+    isProjectPage.value = webResponse.type === 'project_page'
 }
 </script>
 
@@ -25,8 +26,5 @@ if (typeof route.name !== 'string' || route.name?.includes('uid__')) {
     </ClientOnly>
 
     <NuxtLoadingIndicator color="white" />
-    <VTopBar />
     <NuxtPage />
 </template>
-
-<!-- <style lang="scss" module></style> -->

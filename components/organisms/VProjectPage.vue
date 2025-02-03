@@ -2,6 +2,8 @@
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
+import { components } from '~/slices'
+import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
 
 const props = defineProps<{
     document: ProjectPageDocument
@@ -10,6 +12,9 @@ const props = defineProps<{
 const { image, title, tags, date, content, credits, externalUrl } = useProjectUtils(props.document)
 
 const tagsText = computed(() => tags.value.join(', '))
+const slices = computed(() => props.document.data.slices)
+
+const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_page)
 </script>
 
 <template>
@@ -18,6 +23,16 @@ const tagsText = computed(() => tags.value.join(', '))
             :class="$style.header"
             class="grid"
         >
+            <VPrismicLink
+                :to="projectListingUrl"
+                :class="$style.back"
+            >
+                <VIcon
+                    :class="$style.back__arrow"
+                    name="arrow-back"
+                />
+                {{ $t('back') }}
+            </VPrismicLink>
             <VPrismicImage
                 v-if="image"
                 :document="image"
@@ -44,8 +59,13 @@ const tagsText = computed(() => tags.value.join(', '))
                 :class="$style.content"
             />
         </header>
-        <main>
-            <div
+        <main :class="$style.main">
+            <LazySliceZone
+                v-if="slices?.length"
+                :slices="slices"
+                :components="components"
+            />
+            <section
                 :class="$style.credits"
                 class="grid"
             >
@@ -63,7 +83,7 @@ const tagsText = computed(() => tags.value.join(', '))
                     :label="externalUrl"
                     :class="$style['external-link']"
                 />
-            </div>
+            </section>
         </main>
         <VProjectCrossLink :current="document" />
     </div>
@@ -78,6 +98,25 @@ const tagsText = computed(() => tags.value.join(', '))
 $item-margin-top: rem(289);
 
 .root {
+}
+
+.header {
+    position: relative;
+}
+
+.back {
+    position: absolute;
+    left: 0;
+    top: rem(24);
+    display: flex;
+    align-items: center;
+    gap: rem(14);
+    font-family: $font-lecturis-family;
+    font-size: rem(20);
+    line-height: 1.4;
+    text-decoration: none;
+    z-index: 1;
+    color: var(--theme-color-on-background);
 }
 
 .image {
@@ -159,6 +198,10 @@ $item-margin-top: rem(289);
         margin-top: $item-margin-top;
         grid-column: 8 / -1;
     }
+}
+
+.main {
+    margin-top: rem(96);
 }
 
 .credits {

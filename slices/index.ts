@@ -8,5 +8,6 @@ export const components = defineSliceZoneComponents({
   masonry_medias: defineAsyncComponent(
     () => import("./MasonryMedias/index.vue"),
   ),
+  media: defineAsyncComponent(() => import("./Media/index.vue")),
   photography: defineAsyncComponent(() => import("./Photography/index.vue")),
 });

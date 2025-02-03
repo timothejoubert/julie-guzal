@@ -35,7 +35,6 @@ export default defineNuxtConfig({
                 { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon/favicon-96x96.png' },
                 { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
                 { rel: 'manifest', href: '/favicon/site.webmanifest' },
-                { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg', color: '#fff' },
             ],
             script: [
                 {
@@ -115,14 +114,8 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
+                    additionalData: '@use "assets/scss/_resources.scss" as *;',
                     quietDeps: true,
-                    // For now, just silence the deprecation warning.
-                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
-                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
-                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
-                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
-                    // silenceDeprecations: ['legacy-js-api'],
-                    api: 'modern-compiler',
                 },
             },
         },

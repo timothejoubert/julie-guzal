@@ -73,6 +73,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "media": {
+              "type": "SharedSlice"
+            },
             "cross_nav": {
               "type": "SharedSlice"
             }
@@ -105,15 +108,6 @@
           "thumbnails": []
         },
         "type": "Image"
-      }
-    },
-    "Slices": {
-      "slices2": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
-        "config": {
-          "choices": {}
-        }
       }
     }
   }

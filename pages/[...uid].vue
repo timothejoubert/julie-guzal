@@ -57,22 +57,28 @@ const homeDocument = computed(() => pageType === 'home_page' && webResponse as H
 const contactDocument = computed(() => pageType === 'contact_page' && webResponse as ContactPageDocument)
 const projectDocument = computed(() => pageType === 'project_page' && webResponse as ProjectPageDocument)
 const labDocument = computed(() => pageType === 'lab_page' && webResponse as LabPageDocument)
-const archiveDocument = computed(() => pageType === 'gallery_page' && webResponse as GalleryPageDocument)
+const galleryDocument = computed(() => pageType === 'gallery_page' && webResponse as LabPageDocument)
 </script>
 
 <template>
-    <div>
-        <LazyVHomePage
-            v-if="homeDocument"
-            :document="homeDocument"
-        />
-        <LazyVContactPage
-            v-else-if="contactDocument"
-            :document="contactDocument"
-        />
-        <LazyVProjectPage
-            v-else-if="projectDocument"
-            :document="projectDocument"
-        />
-    </div>
+    <LazyVHomePage
+        v-if="homeDocument"
+        :document="homeDocument"
+    />
+    <LazyVContactPage
+        v-else-if="contactDocument"
+        :document="contactDocument"
+    />
+    <LazyVProjectPage
+        v-else-if="projectDocument"
+        :document="projectDocument"
+    />
+    <LazyVLabPage
+        v-else-if="labDocument"
+        :document="labDocument"
+    />
+    <LazyVGalleryPage
+        v-else-if="galleryDocument"
+        :document="galleryDocument"
+    />
 </template>
