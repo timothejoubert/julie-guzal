@@ -62,10 +62,10 @@ const rootClasses = computed(() => {
 }
 
 .root {
-    @include theme-variants;
-
     position: relative;
     padding-block: rem(12);
+
+    @include theme-variants;
 
     &::before {
         position: absolute;
@@ -82,6 +82,7 @@ const rootClasses = computed(() => {
 
 .title {
     @include font;
+
     margin-block: 0;
     grid-column: 1 / -1;
     color: var(--theme-color-on-background);
