@@ -74,6 +74,9 @@ export default defineNuxtConfig({
     },
     compatibilityDate: '2024-07-09',
     nitro: {
+        // output: {
+        //     publicDir: path.join(__dirname, '/app'),
+        // },
         routeRules: {
             '/**': {
                 headers: {
@@ -215,4 +218,5 @@ export default defineNuxtConfig({
         input: '~/assets/images/icons',
         output: '~/assets/images/sprites',
     },
+    target: 'static',
 })
