@@ -10,12 +10,49 @@ const props = defineProps(
     ]),
 )
 
+function getSizes() {
+    if (isDuoMedia.value) return 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw'
+    return 'xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw hq:100vw qhd:100vw'
+}
+
 const isDuoMedia = computed(() => props.slice.variation === 'duoMedia')
-const images = computed(() => {
+
+function getFilledDocument(img: object, embed: object) {
+    return embed?.embed_url ? embed : img
+}
+
+const mediaGroup = computed(() => {
     if (isDuoMedia.value) {
-        return []
+        return [
+            {
+                document: getFilledDocument(props.slice.primary.main_image, props.slice.primary.main_embed),
+                image: {
+                    document: props.slice.primary.main_image,
+                    sizes: getSizes(),
+                },
+                video: {},
+            },
+            {
+                document: getFilledDocument(props.slice.primary.secondary_image, props.slice.primary.secondary_embed),
+                image: {
+                    document: props.slice.primary.secondary_image,
+                    sizes: getSizes(),
+                },
+                video: {},
+            },
+        ]
     }
-    return [props.slice.primary.image]
+
+    return [
+        {
+            document: getFilledDocument(props.slice.primary.image, props.slice.primary.embed),
+            image: {
+                document: props.slice.primary.image,
+                sizes: getSizes(),
+            },
+            video: {},
+        },
+    ]
 })
 </script>
 
@@ -25,12 +62,14 @@ const images = computed(() => {
         :class="[$style.root, isDuoMedia && $style['root--duo-media']]"
         class="grid"
     >
-        <VPrismicImage
-            v-for="(image, index) in images"
+        <VPrismicMedia
+            v-for="(media, index) in mediaGroup"
             :key="index"
-            :document="image"
+            :document="media.document"
+            :image="media.image"
+            :video="media.video"
             :class="$style.image"
-            sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw hq:100vw qhd:100vw"
+            :sizes="getSizes()"
         />
     </VSlice>
 </template>
@@ -45,7 +84,15 @@ const images = computed(() => {
 }
 
 .image {
+    --v-player-video-height: 100%;
+
     width: 100%;
     grid-column: 1 / -1;
+
+    @include media('>=md') {
+        .root--duo-media & {
+            grid-column:  span 6;
+        }
+    }
 }
 </style>

@@ -24,13 +24,15 @@ const hasLazyVideoPlayer = computed(() => {
 })
 
 const videoData = computed(() => {
-    if (props.embedField?.embed_url) {
-        const embedId = new URL(props.embedField.embed_url)?.pathname?.substring(1)
+    if (props.embedField?.embed_url || props.document?.embed_url) {
+        const embedField = props.document?.embed_url ? props.document : props.embedField
+
+        const embedId = new URL(embedField.embed_url)?.pathname?.substring(1)
 
         return {
-            width: props.embedField.width,
-            height: props.embedField.height,
-            embedPlatform: props.embedField.provider_name,
+            width: embedField.width,
+            height: embedField.height,
+            embedPlatform: embedField.provider_name,
             embedId,
             autoplay: hasLazyVideoPlayer.value,
         }
@@ -131,7 +133,7 @@ const onVideoEnded = () => (hadInteraction.value = false)
     />
 </template>
 
-<style lang="scss" module="">
+<style lang="scss" module>
 @use 'assets/scss/functions/rem' as *;
 
 .root {

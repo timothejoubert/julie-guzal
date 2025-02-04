@@ -21,7 +21,7 @@ export function usePrismicMedia(document: UsePrismicMediaOptions) {
         console.log('usePrismicMedia mediaType', doc)
 
         if (!doc) return 'no document'
-        else if ('type' in doc && doc.type) return doc.type
+        else if (typeof doc === 'object' && 'type' in doc && doc.type) return doc.type
         else if (isFilledLinkToMediaField(doc)) return doc.kind
         else if (isVideoEmbedField(doc)) return 'video'
         else if (isFilledImageField(doc)) return 'image'
