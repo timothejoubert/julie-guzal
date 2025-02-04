@@ -10,4 +10,7 @@ export const components = defineSliceZoneComponents({
   ),
   media: defineAsyncComponent(() => import("./Media/index.vue")),
   photography: defineAsyncComponent(() => import("./Photography/index.vue")),
+  simple_content: defineAsyncComponent(
+    () => import("./SimpleContent/index.vue"),
+  ),
 });

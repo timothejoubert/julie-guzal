@@ -1,0 +1,30 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "default",
+		"primary": {
+			"title": {
+				"__TYPE__": "FieldContent",
+				"value": "quite",
+				"type": "Text"
+			},
+			"secondary_title": {
+				"__TYPE__": "FieldContent",
+				"value": "equipment",
+				"type": "Text"
+			},
+			"content": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Ex laborum adipisicing amet consequat minim esse aliquip Lorem labore quis aliqua. Velit id occaecat ad cillum velit pariatur labore sint est ullamco. Proident quis quis occaecat duis laborum et nostrud tempor in nulla ipsum in."
+						}
+					}
+				]
+			}
+		},
+		"items": []
+	}
+]

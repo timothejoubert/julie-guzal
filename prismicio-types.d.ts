@@ -491,7 +491,10 @@ interface MenuDocumentData {
 export type MenuDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<MenuDocumentData>, "menu", Lang>;
 
-type ProjectPageDocumentDataSlicesSlice = MediaSlice | CrossNavSlice;
+type ProjectPageDocumentDataSlicesSlice =
+  | SimpleContentSlice
+  | MediaSlice
+  | CrossNavSlice;
 
 /**
  * Content for Project page documents
@@ -1092,6 +1095,71 @@ export type PhotographySlice = prismic.SharedSlice<
   PhotographySliceVariation
 >;
 
+/**
+ * Primary content in *SimpleContent → Default → Primary*
+ */
+export interface SimpleContentSliceDefaultPrimary {
+  /**
+   * Title field in *SimpleContent → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: simple_content.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Secondary title field in *SimpleContent → Default → Primary*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: simple_content.default.primary.secondary_title
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  secondary_title: prismic.KeyTextField;
+
+  /**
+   * Content field in *SimpleContent → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: simple_content.default.primary.content
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+}
+
+/**
+ * Default variation for SimpleContent Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SimpleContentSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<SimpleContentSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *SimpleContent*
+ */
+type SimpleContentSliceVariation = SimpleContentSliceDefault;
+
+/**
+ * SimpleContent Shared Slice
+ *
+ * - **API ID**: `simple_content`
+ * - **Description**: SimpleContent
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SimpleContentSlice = prismic.SharedSlice<
+  "simple_content",
+  SimpleContentSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -1157,6 +1225,10 @@ declare module "@prismicio/client" {
       PhotographySliceDefaultPrimary,
       PhotographySliceVariation,
       PhotographySliceDefault,
+      SimpleContentSlice,
+      SimpleContentSliceDefaultPrimary,
+      SimpleContentSliceVariation,
+      SimpleContentSliceDefault,
     };
   }
 }
