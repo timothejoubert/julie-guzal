@@ -69,7 +69,6 @@ const mediaGroup = computed(() => {
             :image="media.image"
             :video="media.video"
             :class="$style.image"
-            :sizes="getSizes()"
         />
     </VSlice>
 </template>
