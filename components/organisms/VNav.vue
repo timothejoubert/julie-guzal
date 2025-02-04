@@ -54,6 +54,7 @@ const rootClasses = computed(() => {
     width: 100%;
     position: fixed;
     bottom: rem(24);
+    left: 0;
     z-index: 11;
 
     @include theme-variants;
@@ -61,6 +62,7 @@ const rootClasses = computed(() => {
     @include media('>=md') {
         position: relative;
         bottom: initial;
+        left: initial;
         grid-column: 9 / -1;
     }
 
