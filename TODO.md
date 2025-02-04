@@ -1,6 +1,8 @@
 ## In progress
-- VTitleAnchor
-- Fetch prev and next project cta
+- VNav mobile
+- VPrismicMedia
+- ContentSlice
+- Hybrid render with preview page
 
 ## TODO
 - redesign nav
