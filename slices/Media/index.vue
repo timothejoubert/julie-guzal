@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Content } from '@prismicio/client'
+import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
 
 const props = defineProps(
     getSliceComponentProps<Content.MediaSlice>([
@@ -10,50 +11,65 @@ const props = defineProps(
     ]),
 )
 
-function getSizes() {
-    if (isDuoMedia.value) return 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw'
-    return 'xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw hq:100vw qhd:100vw'
-}
-
 const isDuoMedia = computed(() => props.slice.variation === 'duoMedia')
 
-function getFilledDocument(img: object, embed: object) {
-    return embed?.embed_url ? embed : img
+function getFilledDocument({ image, embed, linkToMedia }: { image?: ImageField, embed?: EmbedField, linkToMedia?: LinkToMediaField }) {
+    if (embed?.embed_url) return embed
+    else if (image?.url) return image
+    else if ((linkToMedia as { url?: string })?.url) return linkToMedia
+
+    return undefined
 }
 
 const mediaGroup = computed(() => {
     if (isDuoMedia.value) {
         return [
             {
-                document: getFilledDocument(props.slice.primary.main_image, props.slice.primary.main_embed),
+                document: getFilledDocument({
+                    image: props.slice.primary.main_image,
+                    embed: props.slice.primary.main_embed,
+                    linkToMedia: props.slice.primary.main_video,
+                }),
                 image: {
-                    document: props.slice.primary.main_image,
-                    sizes: getSizes(),
+                    sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw',
                 },
-                video: {},
+                video: {
+                    thumbnail: getFilledDocument({ image: props.slice.primary.main_image }),
+                },
             },
             {
-                document: getFilledDocument(props.slice.primary.secondary_image, props.slice.primary.secondary_embed),
+                document: getFilledDocument({
+                    image: props.slice.primary.secondary_image,
+                    embed: props.slice.primary.secondary_embed,
+                    linkToMedia: props.slice.primary.secondary_video,
+                }),
                 image: {
-                    document: props.slice.primary.secondary_image,
-                    sizes: getSizes(),
+                    sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw',
                 },
-                video: {},
+                video: {
+                    thumbnail: getFilledDocument({ image: props.slice.primary.secondary_image }),
+                },
             },
         ]
     }
 
     return [
         {
-            document: getFilledDocument(props.slice.primary.image, props.slice.primary.embed),
+            document: getFilledDocument({
+                image: props.slice.primary.image,
+                embed: props.slice.primary.embed,
+                linkToMedia: props.slice.primary.video,
+            }),
             image: {
-                document: props.slice.primary.image,
-                sizes: getSizes(),
+                sizes: 'xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw hq:100vw qhd:100vw',
             },
-            video: {},
+            video: {
+                thumbnail: getFilledDocument({ image: props.slice.primary.image }) },
         },
     ]
 })
+
+console.log('Media slice content', props.slice.primary)
 </script>
 
 <template>
@@ -62,14 +78,18 @@ const mediaGroup = computed(() => {
         :class="[$style.root, isDuoMedia && $style['root--duo-media']]"
         class="grid"
     >
-        <VPrismicMedia
+        <template
             v-for="(media, index) in mediaGroup"
             :key="index"
-            :document="media.document"
-            :image="media.image"
-            :video="media.video"
-            :class="$style.image"
-        />
+        >
+            <VPrismicMedia
+                v-if="media.document"
+                :document="media.document"
+                :image="media.image"
+                :video="media.video"
+                :class="$style.image"
+            />
+        </template>
     </VSlice>
 </template>
 
@@ -83,8 +103,6 @@ const mediaGroup = computed(() => {
 }
 
 .image {
-    --v-player-video-height: 100%;
-
     width: 100%;
     grid-column: 1 / -1;
 

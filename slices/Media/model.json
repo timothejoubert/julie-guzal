@@ -26,6 +26,15 @@
             "label": "Embed",
             "placeholder": ""
           }
+        },
+        "video": {
+          "type": "Link",
+          "config": {
+            "label": "video",
+            "placeholder": "",
+            "select": "media",
+            "allowText": false
+          }
         }
       },
       "items": {}
@@ -53,6 +62,15 @@
             "placeholder": ""
           }
         },
+        "main_video": {
+          "type": "Link",
+          "config": {
+            "label": "Main video",
+            "placeholder": "",
+            "select": "media",
+            "allowText": false
+          }
+        },
         "secondary_image": {
           "type": "Image",
           "config": {
@@ -66,6 +84,15 @@
           "config": {
             "label": "Secondary embed",
             "placeholder": ""
+          }
+        },
+        "secondary_video": {
+          "type": "Link",
+          "config": {
+            "label": "Secondary video",
+            "placeholder": "",
+            "select": "media",
+            "allowText": false
           }
         }
       },

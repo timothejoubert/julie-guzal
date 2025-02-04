@@ -1,22 +1,19 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { EmbedField, LinkToMediaField } from '@prismicio/types'
 import { commonVideoProps, videoAttributes } from '~/utils/video/video-props'
-import type { PrismicVideoField } from '~/utils/prismic/prismic-media'
 import type { vPrismicImageProps } from '~/components/atoms/VPrismicImage'
 import type { PossibleMedia } from '~/composables/use-prismic-media'
+import { isVideoEmbedField } from '~/utils/prismic/guard'
 
 const props = defineProps({
     ...commonVideoProps,
     ...videoAttributes,
     document: { type: Object as PropType<PossibleMedia> },
-    linkToMediaField: { type: Object as PropType<LinkToMediaField> },
-    embedField: { type: Object as PropType<EmbedField> },
-    video: { type: Object as PropType<PrismicVideoField> },
-    thumbnail: { type: Object as PropType<vPrismicImageProps> },
+    thumbnail: { type: Object as PropType<PossibleMedia> },
+    thumbnailProps: { type: Object as PropType<vPrismicImageProps> },
 })
 
-const hasThumbnail = computed(() => !!props.thumbnail?.document?.url)
+const hasThumbnail = computed(() => !!usePrismicMedia(props.thumbnail).url.value)
 
 const slots = useSlots()
 const hasLazyVideoPlayer = computed(() => {
@@ -24,36 +21,26 @@ const hasLazyVideoPlayer = computed(() => {
 })
 
 const videoData = computed(() => {
-    if (props.embedField?.embed_url || props.document?.embed_url) {
-        const embedField = props.document?.embed_url ? props.document : props.embedField
+    const embedData = {}
 
-        const embedId = new URL(embedField.embed_url)?.pathname?.substring(1)
-
-        return {
-            width: embedField.width,
-            height: embedField.height,
-            embedPlatform: embedField.provider_name,
-            embedId,
-            autoplay: hasLazyVideoPlayer.value,
-        }
-    }
-    else if (props.linkToMediaField?.url) {
-        return {
-            width: props.linkToMediaField?.width,
-            height: props.linkToMediaField?.height,
-            src: props.linkToMediaField?.url,
-        }
-    }
-    else if (props.document?.src) {
-        return props.document
+    if (isVideoEmbedField(props.document)) {
+        Object.assign(embedData, {
+            embedPlatform: props.document.provider_name,
+            embedId: new URL(props.document.embed_url)?.pathname?.substring(1),
+            autoplay: hasLazyVideoPlayer.value || props.autoplay,
+        })
     }
 
-    return {}
+    return {
+        ...embedData,
+        ...(props.document || {}),
+        src: props.document?.src || props.document?.url,
+    }
 })
 
 const videoAttrs = computed(() => {
-    const width = props.embedField?.width || props.linkToMediaField?.width || props.document?.width || props?.width || 1920
-    const height = props.embedField?.height || props.linkToMediaField?.height || props.document?.height || props?.height || 1080
+    const width = props.document?.width || props?.width || 1920
+    const height = props.document?.height || props?.height || 1080
 
     const attrs = Object.entries(props).reduce((acc, [key, value]) => {
         if ((key in commonVideoProps || key in videoAttributes)) acc[key] = value
@@ -65,6 +52,24 @@ const videoAttrs = computed(() => {
         width,
         height,
     }
+})
+
+const thumbnailProps = computed(() => {
+    const result = {
+        document: props.thumbnail,
+        ...(props.thumbnailProps || {}),
+    }
+
+    if (videoAttrs.value.width && videoAttrs.value.height) {
+        Object.assign(result, {
+            fit: 'crop',
+            ar: `${videoAttrs.value.width}:${videoAttrs.value.height}`,
+            width: videoAttrs.value.width,
+            height: videoAttrs.value.height,
+        })
+    }
+
+    return result
 })
 
 const videoProps = computed(() => {
@@ -102,28 +107,27 @@ const onVideoEnded = () => (hadInteraction.value = false)
         >
             <VIcon
                 name="play"
-                aria-hidden="true"
+                width="18"
+                height="18"
             />
         </button>
-        <slot>
-            <VPrismicImage
-                v-if="hasThumbnail"
-                v-bind="thumbnail"
-                :class="$style.thumbnail"
-                @click="onClick"
-            />
-            <div
-                v-else
-                :class="[$style.thumbnail, $style['thumbnail--placeholder']]"
-                :style="{ aspectRatio: videoRatio || 16 / 9 }"
-            />
-        </slot>
+        <VPrismicImage
+            v-if="hasThumbnail"
+            v-bind="thumbnailProps"
+            :class="$style.thumbnail"
+            @click="onClick"
+        />
+        <div
+            v-else
+            :class="[$style.thumbnail, $style['thumbnail--placeholder']]"
+            :style="{ aspectRatio: videoRatio || 16 / 9 }"
+        />
         <VVideoPlayer
             v-if="hadInteraction"
             v-bind="videoProps"
             :autoplay="true"
             :plyr="{ listener: { ended: onVideoEnded } }"
-            :class="$style.video"
+            :class="[$style.video, $style['video--with-thumbnail']]"
         />
     </div>
     <VVideoPlayer
@@ -151,16 +155,20 @@ const onVideoEnded = () => (hadInteraction.value = false)
     --v-button-position: absolute;
 
     position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 1;
     top: 50%;
     left: 50%;
-    width: rem(52);
-    height: rem(52);
+    width: rem(32);
+    height: rem(32);
     border: none;
     border-radius: 100%;
     background-color: white;
     cursor: pointer;
     transform: translate(-50%, -50%);
+    padding: initial;
 
     .root--had-interaction & {
         pointer-events: none;
@@ -194,6 +202,8 @@ const onVideoEnded = () => (hadInteraction.value = false)
 }
 
 .video {
+    --v-player-video-height: 100%;
+
     display: block;
 }
 </style>

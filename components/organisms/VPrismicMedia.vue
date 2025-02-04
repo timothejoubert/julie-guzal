@@ -34,7 +34,11 @@ export default defineComponent({
             const result = { document: props.document }
 
             if (mediaType.value === 'video') {
-                Object.assign(result, { ...props.video, thumbnail: props.image })
+                Object.assign(result, {
+                    ...props.video,
+                    thumbnailProps: props.image,
+                    thumbnail: props.video?.thumbnail || props.image?.document,
+                })
             }
             else if (mediaType.value === 'image') {
                 Object.assign(result, props.image)

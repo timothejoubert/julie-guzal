@@ -14,12 +14,6 @@ export const vVideoPlayerProps = {
     plyr: { type: Object as PropType<Plyr.Options> },
 }
 
-// Sources
-function getUrl(src?: string): string | undefined {
-    return src
-    // return src && !src.startsWith('http') && !src.startsWith('/') ? useDocumentUrl(src) : src
-}
-
 export default defineComponent({
     props: vVideoPlayerProps,
     setup(props) {
@@ -56,7 +50,7 @@ export default defineComponent({
                 return getEmbedSrc(props.embedId as string, platform, params)
             }
             else {
-                return getUrl(props.src)
+                return props.src
             }
         })
 
@@ -68,7 +62,7 @@ export default defineComponent({
                 .filter(file => !!file.relativePath)
                 .map((file) => {
                     return {
-                        src: getUrl(file.relativePath),
+                        src: file.relativePath,
                         type: file.mimeType,
                     }
                 })

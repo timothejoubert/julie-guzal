@@ -953,6 +953,16 @@ export interface MediaSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#embed
    */
   embed: prismic.EmbedField;
+
+  /**
+   * video field in *Media → Default → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.default.primary.video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  video: prismic.LinkToMediaField;
 }
 
 /**
@@ -993,6 +1003,16 @@ export interface MediaSliceDuoMediaPrimary {
   main_embed: prismic.EmbedField;
 
   /**
+   * Main video field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.duoMedia.primary.main_video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  main_video: prismic.LinkToMediaField;
+
+  /**
    * Secondary image field in *Media → DuoMedia → Primary*
    *
    * - **Field Type**: Image
@@ -1011,6 +1031,16 @@ export interface MediaSliceDuoMediaPrimary {
    * - **Documentation**: https://prismic.io/docs/field#embed
    */
   secondary_embed: prismic.EmbedField;
+
+  /**
+   * Secondary video field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Link to Media
+   * - **Placeholder**: *None*
+   * - **API ID Path**: media.duoMedia.primary.secondary_video
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  secondary_video: prismic.LinkToMediaField;
 }
 
 /**
