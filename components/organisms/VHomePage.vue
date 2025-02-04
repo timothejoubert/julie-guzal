@@ -45,7 +45,7 @@ const slices = computed(() => props.document.data.slices)
         @include theme('light')
     }
 
-    @include media('>=lg') {
+    @include media('>=md') {
         & :global(.v-nav) {
             @include theme('dark')
         }

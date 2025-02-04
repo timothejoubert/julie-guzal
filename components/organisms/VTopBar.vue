@@ -4,6 +4,7 @@ const description = settings?.data?.site_description
 
 const currentPage = useCurrentPage()
 const pageTitle = computed(() => currentPage.value.webResponse?.data?.title)
+const pageTitleMobile = computed(() => currentPage.value.webResponse?.data?.title_mobile)
 
 const isProject = computed(() => currentPage.value.webResponse.type === 'project_page')
 </script>
@@ -15,7 +16,16 @@ const isProject = computed(() => currentPage.value.webResponse.type === 'project
         class="grid"
     >
         <h1 :class="$style.title">
-            {{ pageTitle }}
+            <template v-if="pageTitleMobile">
+                <span :class="$style['title-desktop']">{{ pageTitle }}</span>
+                <span
+                    v-if="pageTitleMobile"
+                    :class="$style['title-mobile']"
+                >{{ pageTitleMobile }}</span>
+            </template>
+            <template v-else>
+                {{ pageTitle }}
+            </template>
         </h1>
         <VNav
             :class="$style.nav"
@@ -56,6 +66,22 @@ const isProject = computed(() => currentPage.value.webResponse.type === 'project
 
     @include media('>=lg') {
         grid-column: 1 / span 5;
+    }
+}
+
+.title-mobile {
+    display: block;
+
+    @include media('>=md') {
+        display: none;
+    }
+}
+
+.title-desktop {
+    display: none;
+
+    @include media('>=md') {
+        display: block;
     }
 }
 

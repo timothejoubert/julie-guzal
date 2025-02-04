@@ -78,7 +78,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
         @include theme('dark')
     }
 
-    @include media('>=lg') {
+    @include media('>=md') {
         & :global(.v-nav) {
             @include theme('light')
         }
@@ -158,12 +158,18 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 }
 
 .right_column {
-    grid-column: 1 / -1;
     display: flex;
     align-items: flex-end;
+    margin-top: rem(48);
+    grid-column: 4 / -1;
+
+    @include media('>=md') {
+        margin-top: rem(126);
+    }
 
     @include media('>=lg') {
         grid-column: span 3;
+        margin-top: 0;
     }
 }
 
@@ -181,6 +187,11 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 .credits {
     @include font-body;
     grid-column: 1 /-1;
+    margin-top: rem(24);
+
+    @include media('>=md') {
+        margin-top: 0;
+    }
 
     @include media('>=lg') {
         grid-column: 1 / 9;
