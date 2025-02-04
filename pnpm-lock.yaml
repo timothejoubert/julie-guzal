@@ -46,8 +46,8 @@ importers:
         specifier: ^0.1.16
         version: 0.1.16
       '@slicemachine/adapter-nuxt':
-        specifier: ^0.3.65
-        version: 0.3.65(@prismicio/types@0.2.9)(nuxt@3.15.2(@parcel/watcher@2.5.0)(@types/node@22.10.7)(db0@0.2.1)(eslint@9.18.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.31.0)(sass@1.83.4)(stylelint@16.13.2(typescript@5.7.3))(terser@5.37.0)(typescript@5.7.3)(vite@6.0.7(@types/node@22.10.7)(jiti@2.4.2)(sass@1.83.4)(terser@5.37.0)(yaml@2.7.0))(yaml@2.7.0))
+        specifier: ^0.3.66
+        version: 0.3.66(@prismicio/types@0.2.9)(nuxt@3.15.2(@parcel/watcher@2.5.0)(@types/node@22.10.7)(db0@0.2.1)(eslint@9.18.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.31.0)(sass@1.83.4)(stylelint@16.13.2(typescript@5.7.3))(terser@5.37.0)(typescript@5.7.3)(vite@6.0.7(@types/node@22.10.7)(jiti@2.4.2)(sass@1.83.4)(terser@5.37.0)(yaml@2.7.0))(yaml@2.7.0))
       '@types/lodash':
         specifier: ^4.17.14
         version: 4.17.14
@@ -79,8 +79,8 @@ importers:
         specifier: 1.83.4
         version: 1.83.4
       slice-machine-ui:
-        specifier: ^2.12.2
-        version: 2.12.2(@prismicio/types@0.2.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: ^2.12.3
+        version: 2.12.3(@prismicio/types@0.2.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       stylelint:
         specifier: ^16.13.2
         version: 16.13.2(typescript@5.7.3)
@@ -710,8 +710,8 @@ packages:
     resolution: {integrity: sha512-8tR1xe7ZEbkabTuE/tNhzpolygUn9OaYp9yuYAF4MgDNZg06C3Qny80bes2/e9/Wm3aVkPUlCw6WgU7mQd0yEg==}
     engines: {node: '>= 16'}
 
-  '@intlify/shared@11.0.1':
-    resolution: {integrity: sha512-lH164+aDDptHZ3dBDbIhRa1dOPQUp+83iugpc+1upTOWCnwyC1PVis6rSWNMMJ8VQxvtHQB9JMib48K55y0PvQ==}
+  '@intlify/shared@11.1.0':
+    resolution: {integrity: sha512-DvpNSxiMrFqYMaGSRDDnQgO/L0MqNH4KWw9CUx8LRHHIdWp08En9DpmSRNpauUOxKpHAhyJJxx92BHZk9J84EQ==}
     engines: {node: '>= 16'}
 
   '@intlify/unplugin-vue-i18n@6.0.3':
@@ -1366,14 +1366,14 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@slicemachine/adapter-nuxt@0.3.65':
-    resolution: {integrity: sha512-jhEaVRk3LRaXRbAOa05cmPn4yqr7/HZpL1k4Dd61gpP0mwJuQqS4JX4chR7inIMuO98kYKndTbwYyulCFGp2ZQ==}
+  '@slicemachine/adapter-nuxt@0.3.66':
+    resolution: {integrity: sha512-NxQZAmCQGC4mO82tjFzgRJTmsPV2Zs4BuMbJN0dPl0zcY/LF2/WVzh9+aBCDEBZ4HpjZnyusMIyDbv36vvBuOw==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
       nuxt: ^3.0.0
 
-  '@slicemachine/manager@0.24.2':
-    resolution: {integrity: sha512-YnKmOAk4bFBnpfZqjuv7FjTOl7rOezVOZnETYtQirTM9yKC6BFyV2D9zsAbulSSHiXVL48MZ5lP6GNE2QbpHDQ==}
+  '@slicemachine/manager@0.24.3':
+    resolution: {integrity: sha512-fAiWR8iAbSBkV+ZsViV2iPXOB8SNKHTndrtEa3X+56QPg1yewT9iCFbI94TvOpO0PxEc432fGWcBkGBQmIpxUQ==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
       msw: ^1.1.0
@@ -1381,8 +1381,8 @@ packages:
       msw:
         optional: true
 
-  '@slicemachine/plugin-kit@0.4.64':
-    resolution: {integrity: sha512-ll1SDIZE/56uRAWETv7iyYHoX9NAypKZ1a4q7q5Qp21OpSP6teVVH0IT1NLQr94RbeQkmArumky6P/wYn5CTgw==}
+  '@slicemachine/plugin-kit@0.4.65':
+    resolution: {integrity: sha512-JzfkVDPEApv3oFPS2Y9H07dV0kJge3BxfjQ8G3s6EABQlf4hNTruI+4a9byvOffvg0YJwCe26Ce057K8xkm6Ng==}
     engines: {node: '>=14.15.0'}
 
   '@stylistic/eslint-plugin@2.13.0':
@@ -4323,8 +4323,8 @@ packages:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}
     engines: {node: '>=10'}
 
-  slice-machine-ui@2.12.2:
-    resolution: {integrity: sha512-mfAv4pwGqQatyrBkoCo6Eyu9ldl+2MiCNUFyDTWLkNOVxKj3PRblM1N1GnrpNVEqRMspRPwIOorREUZDGYiSGA==}
+  slice-machine-ui@2.12.3:
+    resolution: {integrity: sha512-9AfB8lDCVaq9jTxcNGYZRgelgCj5oNrxC8I1zhoYOGcS+BsKo0GmZCB+dgP1F9rwPsKIA7ZyxBVzkjP2Y2eOSw==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4374,8 +4374,8 @@ packages:
   standard-as-callback@2.1.0:
     resolution: {integrity: sha512-qoRRSyROncaz1z0mvYqIE4lCd9p2R90i6GxW3uZv5ucSu8tU7B5HXUP1gG8pVZsYNVaXjk8ClXHPttLyxAL48A==}
 
-  start-slicemachine@0.12.44:
-    resolution: {integrity: sha512-5V1qZTZZbBDhL8kmhrlKfEqaRUEjWhDParv9H0vo9nnHyAIFlTDK7j3J/m0b5aVqZvw5pymbrd4lCrzClxt8Tw==}
+  start-slicemachine@0.12.45:
+    resolution: {integrity: sha512-6YeoZUy5TIEpPVrCa2FIlCfjDwNdqtaF/dXdASjRHXcqh67uOcE6G594rlMna/f0t2dA5h0YC3QegN/bX4A1WQ==}
     engines: {node: '>=14.15.0'}
     hasBin: true
 
@@ -5724,14 +5724,14 @@ snapshots:
 
   '@intlify/shared@11.0.0-rc.1': {}
 
-  '@intlify/shared@11.0.1': {}
+  '@intlify/shared@11.1.0': {}
 
   '@intlify/unplugin-vue-i18n@6.0.3(@vue/compiler-dom@3.5.13)(eslint@9.18.0(jiti@2.4.2))(rollup@4.31.0)(typescript@5.7.3)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.1(eslint@9.18.0(jiti@2.4.2))
       '@intlify/bundle-utils': 10.0.0(vue-i18n@10.0.5(vue@3.5.13(typescript@5.7.3)))
-      '@intlify/shared': 11.0.1
-      '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.0.1)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
+      '@intlify/shared': 11.1.0
+      '@intlify/vue-i18n-extensions': 8.0.0(@intlify/shared@11.1.0)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
       '@rollup/pluginutils': 5.1.4(rollup@4.31.0)
       '@typescript-eslint/scope-manager': 8.20.0
       '@typescript-eslint/typescript-estree': 8.20.0(typescript@5.7.3)
@@ -5755,11 +5755,11 @@ snapshots:
 
   '@intlify/utils@0.13.0': {}
 
-  '@intlify/vue-i18n-extensions@8.0.0(@intlify/shared@11.0.1)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))':
+  '@intlify/vue-i18n-extensions@8.0.0(@intlify/shared@11.1.0)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.5(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@babel/parser': 7.26.5
     optionalDependencies:
-      '@intlify/shared': 11.0.1
+      '@intlify/shared': 11.1.0
       '@vue/compiler-dom': 3.5.13
       vue: 3.5.13(typescript@5.7.3)
       vue-i18n: 10.0.5(vue@3.5.13(typescript@5.7.3))
@@ -6671,11 +6671,11 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@slicemachine/adapter-nuxt@0.3.65(@prismicio/types@0.2.9)(nuxt@3.15.2(@parcel/watcher@2.5.0)(@types/node@22.10.7)(db0@0.2.1)(eslint@9.18.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.31.0)(sass@1.83.4)(stylelint@16.13.2(typescript@5.7.3))(terser@5.37.0)(typescript@5.7.3)(vite@6.0.7(@types/node@22.10.7)(jiti@2.4.2)(sass@1.83.4)(terser@5.37.0)(yaml@2.7.0))(yaml@2.7.0))':
+  '@slicemachine/adapter-nuxt@0.3.66(@prismicio/types@0.2.9)(nuxt@3.15.2(@parcel/watcher@2.5.0)(@types/node@22.10.7)(db0@0.2.1)(eslint@9.18.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.31.0)(sass@1.83.4)(stylelint@16.13.2(typescript@5.7.3))(terser@5.37.0)(typescript@5.7.3)(vite@6.0.7(@types/node@22.10.7)(jiti@2.4.2)(sass@1.83.4)(terser@5.37.0)(yaml@2.7.0))(yaml@2.7.0))':
     dependencies:
       '@prismicio/simulator': 0.1.4
       '@prismicio/types-internal': 3.3.0(fp-ts@2.16.9)(io-ts-types@0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))))(io-ts@2.2.22(fp-ts@2.16.9))
-      '@slicemachine/plugin-kit': 0.4.64(@prismicio/types@0.2.9)
+      '@slicemachine/plugin-kit': 0.4.65(@prismicio/types@0.2.9)
       common-tags: 1.8.2
       fp-ts: 2.16.9
       io-ts: 2.2.22(fp-ts@2.16.9)
@@ -6688,7 +6688,7 @@ snapshots:
     transitivePeerDependencies:
       - '@prismicio/types'
 
-  '@slicemachine/manager@0.24.2(@prismicio/types@0.2.9)':
+  '@slicemachine/manager@0.24.3(@prismicio/types@0.2.9)':
     dependencies:
       '@antfu/ni': 0.20.0
       '@prismicio/client': 7.15.1
@@ -6696,7 +6696,7 @@ snapshots:
       '@prismicio/mocks': 2.8.0
       '@prismicio/types-internal': 3.3.0(fp-ts@2.16.9)(io-ts-types@0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))))(io-ts@2.2.22(fp-ts@2.16.9))
       '@segment/analytics-node': 2.2.1
-      '@slicemachine/plugin-kit': 0.4.64(@prismicio/types@0.2.9)
+      '@slicemachine/plugin-kit': 0.4.65(@prismicio/types@0.2.9)
       cookie: 1.0.2
       cors: 2.8.5
       execa: 7.2.0
@@ -6720,7 +6720,7 @@ snapshots:
       - '@prismicio/types'
       - encoding
 
-  '@slicemachine/plugin-kit@0.4.64(@prismicio/types@0.2.9)':
+  '@slicemachine/plugin-kit@0.4.65(@prismicio/types@0.2.9)':
     dependencies:
       '@prismicio/client': 7.15.1
       common-tags: 1.8.2
@@ -10128,11 +10128,11 @@ snapshots:
       astral-regex: 2.0.0
       is-fullwidth-code-point: 3.0.0
 
-  slice-machine-ui@2.12.2(@prismicio/types@0.2.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  slice-machine-ui@2.12.3(@prismicio/types@0.2.9)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@radix-ui/react-visually-hidden': 1.1.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@slicemachine/manager': 0.24.2(@prismicio/types@0.2.9)
-      start-slicemachine: 0.12.44(@prismicio/types@0.2.9)
+      '@slicemachine/manager': 0.24.3(@prismicio/types@0.2.9)
+      start-slicemachine: 0.12.45(@prismicio/types@0.2.9)
     transitivePeerDependencies:
       - '@prismicio/types'
       - '@types/express'
@@ -10187,11 +10187,11 @@ snapshots:
 
   standard-as-callback@2.1.0: {}
 
-  start-slicemachine@0.12.44(@prismicio/types@0.2.9):
+  start-slicemachine@0.12.45(@prismicio/types@0.2.9):
     dependencies:
       '@prismicio/mocks': 2.8.0
       '@prismicio/types-internal': 3.3.0(fp-ts@2.16.9)(io-ts-types@0.5.19(fp-ts@2.16.9)(io-ts@2.2.22(fp-ts@2.16.9))(monocle-ts@2.3.13(fp-ts@2.16.9))(newtype-ts@0.3.5(fp-ts@2.16.9)(monocle-ts@2.3.13(fp-ts@2.16.9))))(io-ts@2.2.22(fp-ts@2.16.9))
-      '@slicemachine/manager': 0.24.2(@prismicio/types@0.2.9)
+      '@slicemachine/manager': 0.24.3(@prismicio/types@0.2.9)
       body-parser: 1.20.3
       chalk: 4.1.2
       cors: 2.8.5
