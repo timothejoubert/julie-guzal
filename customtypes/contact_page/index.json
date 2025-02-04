@@ -20,13 +20,6 @@
           "placeholder": ""
         }
       },
-      "color": {
-        "type": "Color",
-        "config": {
-          "label": "Color",
-          "placeholder": ""
-        }
-      },
       "columns": {
         "type": "Group",
         "config": {

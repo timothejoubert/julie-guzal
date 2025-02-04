@@ -83,17 +83,6 @@ interface ContactPageDocumentData {
   title_mobile: prismic.KeyTextField;
 
   /**
-   * Color field in *Contact page*
-   *
-   * - **Field Type**: Color
-   * - **Placeholder**: *None*
-   * - **API ID Path**: contact_page.color
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#color
-   */
-  color: prismic.ColorField;
-
-  /**
    * Columns field in *Contact page*
    *
    * - **Field Type**: Group
