@@ -4,5 +4,7 @@
     "back": "Back",
     "play_video": "Play the video",
     "media_viewer.close": "Close media viewer",
-    "close": "Close"
+    "close": "Close",
+    "error_code": "Error {code}",
+    "error_page.not_found.body": "Page not found..."
 }

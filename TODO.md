@@ -1,7 +1,6 @@
 ## In progress
-- VNav mobile
-- VPrismicMedia
-- ContentSlice
+- Fix preview
+- 
 - Hybrid render with preview page
 
 ## TODO
@@ -19,6 +18,9 @@
 - VPrismicLink slot warning
 
 ## Done
+- VNav mobile
+- VPrismicMedia
+- ContentSlice
 - Create VArrowButton
 - Fix SvgSprite
 - VFilterBar
