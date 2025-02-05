@@ -1,10 +1,8 @@
 // https://prismic.io/docs/route-resolver#resolvers
 // https://prismic.io/docs/nuxt-3-define-routes
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { extractValueBetweenOccurrence } from '#root/utils/string/extract'
 import { I18N_LOCALES } from '#root/i18n/i18n.config'
 import type { PrismicDocumentType } from '~/types/api'
-import { isPreviewRoute } from '~/utils/prismic/preview'
 
 export interface PrismicDocumentRoute {
     type: PrismicDocumentType
