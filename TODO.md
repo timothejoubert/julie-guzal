@@ -1,7 +1,6 @@
 ## In progress
-- Fix preview
-- 
-- Hybrid render with preview page
+- create GalleryGrid with repeatable field instead unique Photography slice
+- GalleryModal + slider
 
 ## TODO
 - redesign nav
@@ -18,6 +17,8 @@
 - VPrismicLink slot warning
 
 ## Done
+- Fix preview
+- Hybrid render with preview page
 - VNav mobile
 - VPrismicMedia
 - ContentSlice
