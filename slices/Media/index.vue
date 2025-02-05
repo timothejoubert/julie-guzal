@@ -2,14 +2,7 @@
 import type { Content } from '@prismicio/client'
 import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
 
-const props = defineProps(
-    getSliceComponentProps<Content.MediaSlice>([
-        'slice',
-        'index',
-        'slices',
-        'context',
-    ]),
-)
+const props = defineProps(getSliceComponentProps<Content.MediaSlice>())
 
 const isDuoMedia = computed(() => props.slice.variation === 'duoMedia')
 

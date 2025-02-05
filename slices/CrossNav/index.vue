@@ -62,8 +62,10 @@ const rootClasses = computed(() => {
 }
 
 .root {
+    isolation: isolate;
     position: relative;
     padding-block: rem(12);
+    color: var(--theme-color-on-background);
 
     @include theme-variants;
 

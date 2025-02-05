@@ -57,7 +57,7 @@ const homeDocument = computed(() => pageType === 'home_page' && webResponse as H
 const contactDocument = computed(() => pageType === 'contact_page' && webResponse as ContactPageDocument)
 const projectDocument = computed(() => pageType === 'project_page' && webResponse as ProjectPageDocument)
 const labDocument = computed(() => pageType === 'lab_page' && webResponse as LabPageDocument)
-const galleryDocument = computed(() => pageType === 'gallery_page' && webResponse as LabPageDocument)
+const galleryDocument = computed(() => pageType === 'gallery_page' && webResponse as GalleryPageDocument)
 </script>
 
 <template>
