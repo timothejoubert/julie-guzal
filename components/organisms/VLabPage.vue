@@ -7,14 +7,13 @@ const props = defineProps<{
 }>()
 
 const data = computed(() => props.document.data)
-const slices = computed(() => props.document.data.slices)
+const slices = computed(() => data.value.slices)
 </script>
 
 <template>
     <div>
         <VTopBar />
         <main>
-            <pre>{{ data }}</pre>
             <LazySliceZone
                 v-if="slices?.length"
                 :slices="slices"

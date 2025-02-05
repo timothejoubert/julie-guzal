@@ -1,24 +1,46 @@
 <script setup lang="ts">
-import type { Content } from "@prismicio/client";
+import type { MasonryMediasSlice } from '~/prismicio-types'
 
-// The array passed to `getSliceComponentProps` is purely optional.
-// Consider it as a visual hint for you when templating your slice.
-defineProps(
-  getSliceComponentProps<Content.MasonryMediasSlice>([
-    "slice",
-    "index",
-    "slices",
-    "context",
-  ]),
-);
+const props = defineProps(getSliceComponentProps<MasonryMediasSlice>())
+const primary = computed(() => props.slice.primary)
 </script>
 
 <template>
-  <section
-    :data-slice-type="slice.slice_type"
-    :data-slice-variation="slice.variation"
-  >
-    Placeholder component for masonry_medias (variation: {{ slice.variation }})
-    Slices
-  </section>
+    <VSlice
+        :slice="slice"
+        :class="$style.root"
+    >
+        <template v-if="primary.list.length">
+            <VPrismicMedia
+                v-for="(field, index) in primary.list"
+                :key="index"
+                :class="$style.image"
+                :document="field.image"
+                :image="{ sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw' }"
+            />
+        </template>
+    </VSlice>
 </template>
+
+<style lang="scss" module>
+.root {
+    margin-block: rem(242) rem(120);
+    column-count: 1;
+    padding-inline: var(--gutter);
+
+    @include media('>=lg') {
+        margin-block: rem(235) rem(180);
+        column-count: 2;
+        column-gap: rem(24);
+    }
+}
+
+.image {
+    grid: 1 / -1;
+    margin-bottom: rem(10);
+
+    @include media('>=lg') {
+        margin-bottom: rem(24);
+    }
+}
+</style>
