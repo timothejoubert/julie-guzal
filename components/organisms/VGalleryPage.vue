@@ -8,22 +8,34 @@ const props = defineProps<{
     document: GalleryPageDocument
 }>()
 
-const data = computed(() => props.document.data)
+// const data = computed(() => props.document.data)
 const slices = computed(() => props.document.data.slices)
 
 const isPhotographySlice = (sliceItem: Slice) => (sliceItem?.slice_type === 'photography')
 
 const photoSliceList = computed(() => {
     const list = slices.value.filter(sliceItem => isPhotographySlice(sliceItem))
-    return [...list, ...list, ...list, ...list, ...list, ...list, ...list, ...list]
+    return list // [...list, ...list, ...list, ...list, ...list, ...list, ...list, ...list]
 })
 
 const otherSliceList = computed(() => {
     return slices.value.filter(sliceItem => !isPhotographySlice(sliceItem))
 })
 
+const mediaList = computed(() => {
+    return photoSliceList.value.map((sliceItem) => {
+        return {
+            ...sliceItem.primary.image,
+            copyright: sliceItem.primary.image?.copyright || sliceItem.primary.description,
+        }
+    })
+})
+
+const { documents, index: mediaViewerIndex } = useMediaViewer()
+
 function onImgClicked(index: number) {
-    console.log('onImgClicked', index)
+    documents.value = mediaList.value
+    mediaViewerIndex.value = index
 }
 </script>
 

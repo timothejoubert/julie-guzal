@@ -48,38 +48,49 @@ const rootClasses = computed(() => {
         ref="root"
         :class="rootClasses"
     >
-        <button
-            :class="$style.close"
-            :aria-label="$t('media_viewer.close')"
-            @click="close"
-        >
-            <VIcon
-                name="close-small"
-                width="14"
-                height="14"
-            />
-        </button>
         <div
-            :class="$style.medias"
+            :class="$style.wrapper"
         >
-            <VPrismicMedia
-                v-for="(document, index) in documents"
-                :key="index"
-                :document="document"
-            />
+            <button
+                :class="$style.close"
+                :aria-label="$t('media_viewer.close')"
+                @click="close"
+            >
+                {{ $t('close') }}
+            </button>
+            <div
+                :class="$style.medias"
+            >
+                <div
+                    v-for="(document, index) in documents"
+                    :key="index"
+                    :class="$style.slide"
+                >
+                    <VPrismicMedia
+                        :document="document"
+                        :class="$style.image"
+                    />
+                    <VText
+                        v-if="document.copyright"
+                        :content="document.copyright"
+                        :class="$style.figcaption"
+                    />
+                </div>
+            </div>
         </div>
     </dialog>
 </template>
 
 <style lang="scss" module>
 @use 'assets/scss/mixins/include-media' as *;
+@use 'assets/scss/mixins/theme' as *;
+@use 'assets/scss/variables/fonts' as *;
 @use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/functions/flex-grid' as *;
 
 .root {
     position: fixed;
     z-index: 101;
-    display: flex;
     width: 100%;
     max-width: initial;
     height: 100%;
@@ -89,9 +100,19 @@ const rootClasses = computed(() => {
     padding: initial;
     border: initial;
     margin: initial;
-    background-color: var(--theme-color-background);
-    color: var(--theme-color-on-background);
     inset: 0;
+    background: initial;
+    overflow: hidden;
+
+    color: var(--theme-color-on-background);
+    background-color: var(--theme-color-background);
+
+    @include theme('light');
+}
+
+.wrapper {
+    padding-block: rem(24);
+    height: 100%;
 }
 
 .close {
@@ -104,7 +125,6 @@ const rootClasses = computed(() => {
     justify-content: center;
     border: initial;
     background-color: initial;
-    color: var(--theme-color-on-background);
     cursor: pointer;
 
     @include media('>=lg') {
@@ -114,7 +134,36 @@ const rootClasses = computed(() => {
 }
 
 .medias {
-    width: calc(100% - var(--gutter) * 4);
-    max-height: 90vh;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: flex-end;
+}
+
+.slide {
+    display: flex;
+    align-items: flex-end;
+    padding-inline: var(--gutter);
+    column-gap: var(--gutter);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.image {
+    width: flex-grid(5, 12);
+    //width: calc(#{flex-grid-value(5, 12, '%', true)});
+
+    @include media('>=lg') {
+    }
+}
+
+.figcaption {
+    font-family: $font-suisse-family;
+    font-size: rem(14);
+    line-height: 1.42;
+    font-weight: 400;
+    width: flex-grid(2, 12);
+    //width: calc(#{flex-grid-value(2, 12, '%', true)});
 }
 </style>
