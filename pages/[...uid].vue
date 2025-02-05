@@ -13,10 +13,6 @@ definePageMeta({
     pageTransition: defaultPageTransition,
 })
 
-// TODO: fix preview
-// Preview url example
-// https://julie-guzal.netlify.app/preview?token=https://julie-guzal.prismic.io/previews/Z6KzYREAAC0ACYuj:Z6LBqREAACsACaFS?websitePreviewId%3DZ6FQNhEAACwAB0Gl&documentId=Z5fnzxIAACsACUn6
-
 const route = useRoute()
 const pageType = getDocumentTypeByUrl(route.path)
 

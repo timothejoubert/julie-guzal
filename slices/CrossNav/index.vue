@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import type { Content } from '@prismicio/client'
+import type { SliceComponentProps } from '@prismicio/vue'
+import type { CrossNavSlice } from '~/prismicio-types'
 
-const props = defineProps(
-    getSliceComponentProps<Content.CrossNavSlice>([
-        'slice',
-        'index',
-        'slices',
-        'context',
-    ]),
-)
+const props = defineProps<SliceComponentProps<CrossNavSlice>>()
 const primary = computed(() => props.slice.primary)
 
 const { t } = useI18n()

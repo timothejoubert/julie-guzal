@@ -2,6 +2,7 @@ import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { endpoint } from '#root/slicemachine.config.json'
 import { version } from '#root/package.json'
+import nuxtPage from '#root/constants/nuxt-page'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/i18n/i18n.config'
 import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 
@@ -81,6 +82,7 @@ export default defineNuxtConfig({
         },
         routeRules: {
             '/**': {
+                prerender: true,
                 headers: {
                     // 'Access-Control-Allow-Origin': 'Same-Origin \'self\' \'http://localhost:3000\' \'https://i.ytimg.com\'',
                     'Access-Control-Allow-Origin': '*',
@@ -99,11 +101,14 @@ export default defineNuxtConfig({
                 },
             },
             '/_icons': {
+                prerender: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
             },
-            '/preview': {
+            '/prismic-preview': {
+                swr: false,
+                prerender: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
@@ -198,7 +203,7 @@ export default defineNuxtConfig({
     },
     prismic: {
         endpoint,
-        preview: '/preview',
+        preview: nuxtPage.PREVIEW,
         toolbar: true,
         clientConfig: {
             routes: prismicDocumentRoutes,

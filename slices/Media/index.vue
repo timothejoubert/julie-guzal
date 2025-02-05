@@ -61,8 +61,6 @@ const mediaGroup = computed(() => {
         },
     ]
 })
-
-console.log('Media slice content', props.slice.primary)
 </script>
 
 <template>

@@ -1,21 +1,16 @@
 <script  lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
+import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
 
 const route = useRoute()
-const isProjectPage = ref(false)
-if (typeof route.name !== 'string' || route.name?.includes('uid__')) {
-    const pageType = getDocumentTypeByUrl(route.path)
+const { isPreview } = usePrismicPreviewRoute()
+if (typeof route.name !== 'string' || route.name?.includes('uid__') || isPreview) {
+    const pageType = isPreview ? 'preview' : getDocumentTypeByUrl(route.path)
 
-    if (!pageType) {
-        throw createError({
-            statusCode: 404,
-            statusMessage: `can't getDocumentTypeByUrl on ${route.path}`,
-        })
+    if (pageType) {
+        const { webResponse } = await usePrismicFetchPage(pageType)
+        useCurrentPage({ webResponse })
     }
-
-    const { webResponse } = await usePrismicFetchPage(pageType)
-    useCurrentPage({ webResponse })
-    isProjectPage.value = webResponse.type === 'project_page'
 }
 </script>
 

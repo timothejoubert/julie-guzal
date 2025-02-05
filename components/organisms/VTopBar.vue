@@ -11,6 +11,7 @@ const pageTitleMobile = computed(() => currentPage.value.webResponse?.data?.titl
 const isProject = computed(() => currentPage.value.webResponse?.type === 'project_page')
 
 const { isHidden, isOnPageTop } = useTopBarScroll()
+
 const $style = useCssModule()
 const rootClasses = computed(() => {
     return [$style.root,

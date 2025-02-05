@@ -9,6 +9,8 @@ export function useLocale() {
     const route = useRoute()
     const { $i18n } = useNuxtApp()
 
+    const hasMultipleLocale = computed(() => $i18n.locales.value.length > 1)
+
     const extractLocaleFromUrl = computed(() => {
         return $i18n.locales.value.find((locale) => {
             return route.fullPath.includes(locale.code) || route.fullPath.includes(getFormattedLocale(locale.code))
@@ -16,6 +18,8 @@ export function useLocale() {
     })
 
     const fetchLocaleOption = computed(() => {
+        if (!hasMultipleLocale.value) return undefined
+
         if (!extractLocaleFromUrl.value)
             return undefined // { lang: $i18n.defaultLocale }
         else return { lang: extractLocaleFromUrl.value }

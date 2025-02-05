@@ -1,23 +1,18 @@
-import { getSelfObjectOrFirstMapObject } from '~/utils/object/get-self-object-or-first-map-object'
-
-const DOCUMENT_ID_KEY = 'documentId'
+// Preview url example:
+// https://julie-guzal.netlify.app
+// /prismic-preview?token=https://julie-guzal.prismic.io/previews/Z6KzYREAAC0ACYuj:Z6OpxBEAACcACyfI?websitePreviewId=Z6FQNhEAACwAB0Gl&documentId=Z5vznhEAAC0A_xZN
 
 export function usePrismicPreviewRoute() {
     const route = useRoute()
 
-    let documentId = getSelfObjectOrFirstMapObject(route.params.documentId)
-    const idIndex = route.fullPath.indexOf(DOCUMENT_ID_KEY)
-
-    if (!documentId && idIndex !== -1) {
-        const startIndex = idIndex + DOCUMENT_ID_KEY.length + 1
-        const lastIndexParams = Math.max(route.fullPath.lastIndexOf('&'), route.fullPath.lastIndexOf('?'))
-
-        documentId = route.fullPath.substring(startIndex, lastIndexParams > idIndex ? lastIndexParams : undefined)
-    }
+    const searchParams = new URLSearchParams(route.fullPath)
+    const documentID = searchParams.get('documentId')
+    const previewToken = searchParams.get('token')
+    const websitePreviewId = searchParams.get('websitePreviewId')
 
     const runtimeConfig = useRuntimeConfig()
     const previewPath = runtimeConfig.public?.prismic?.preview
-    const isPreview = route.fullPath.includes(`/${previewPath}`) || !!documentId
+    const isPreview = route.fullPath.includes(`/${previewPath}`) || !!documentID
 
-    return { isPreview, documentId }
+    return { isPreview, documentID, previewToken, websitePreviewId }
 }
