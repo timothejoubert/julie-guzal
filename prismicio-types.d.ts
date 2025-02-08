@@ -176,7 +176,7 @@ export type ContactPageDocument<Lang extends string = string> =
       Lang
   >
 
-type GalleryPageDocumentDataSlicesSlice = CrossNavSlice | PhotographySlice
+type GalleryPageDocumentDataSlicesSlice = GalleryGridSlice | CrossNavSlice
 
 /**
  * Content for Gallery Page documents
@@ -860,6 +860,76 @@ export type CrossNavSlice = prismic.SharedSlice<
 >
 
 /**
+ * Item in *GalleryGrid → Default → Primary → Item*
+ */
+export interface GalleryGridSliceDefaultPrimaryItemItem {
+    /**
+   * image field in *GalleryGrid → Default → Primary → Item*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gallery_grid.default.primary.item[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+    image: prismic.ImageField<never>
+
+    /**
+   * Description field in *GalleryGrid → Default → Primary → Item*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gallery_grid.default.primary.item[].description
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+    description: prismic.RichTextField
+}
+
+/**
+ * Primary content in *GalleryGrid → Default → Primary*
+ */
+export interface GalleryGridSliceDefaultPrimary {
+    /**
+   * Item field in *GalleryGrid → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: gallery_grid.default.primary.item[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+    item: prismic.GroupField<Simplify<GalleryGridSliceDefaultPrimaryItemItem>>
+}
+
+/**
+ * Default variation for GalleryGrid Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GalleryGridSliceDefault = prismic.SharedSliceVariation<
+    'default',
+    Simplify<GalleryGridSliceDefaultPrimary>,
+    never
+>
+
+/**
+ * Slice variation for *GalleryGrid*
+ */
+type GalleryGridSliceVariation = GalleryGridSliceDefault
+
+/**
+ * GalleryGrid Shared Slice
+ *
+ * - **API ID**: `gallery_grid`
+ * - **Description**: GalleryGrid
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type GalleryGridSlice = prismic.SharedSlice<
+    'gallery_grid',
+    GalleryGridSliceVariation
+>
+
+/**
  * Item in *MasonryMedias → Default → Primary → List*
  */
 export interface MasonryMediasSliceDefaultPrimaryListItem {
@@ -952,6 +1022,17 @@ export interface MediaSliceDefaultPrimary {
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
     video: prismic.LinkToMediaField
+
+    /**
+   * Video autoplay field in *Media → Default → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: media.default.primary.video_autoplay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+    video_autoplay: prismic.BooleanField
 }
 
 /**
@@ -1002,6 +1083,17 @@ export interface MediaSliceDuoMediaPrimary {
     main_video: prismic.LinkToMediaField
 
     /**
+   * Main video autoplay field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: media.duoMedia.primary.main_video_autoplay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+    main_video_autoplay: prismic.BooleanField
+
+    /**
    * Secondary image field in *Media → DuoMedia → Primary*
    *
    * - **Field Type**: Image
@@ -1030,6 +1122,17 @@ export interface MediaSliceDuoMediaPrimary {
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
     secondary_video: prismic.LinkToMediaField
+
+    /**
+   * Secondary video autoplay field in *Media → DuoMedia → Primary*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: media.duoMedia.primary.secondary_video_autoplay
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+    secondary_video_autoplay: prismic.BooleanField
 }
 
 /**
@@ -1058,61 +1161,6 @@ type MediaSliceVariation = MediaSliceDefault | MediaSliceDuoMedia
  * - **Documentation**: https://prismic.io/docs/slice
  */
 export type MediaSlice = prismic.SharedSlice<'media', MediaSliceVariation>
-
-/**
- * Primary content in *Photography → Default → Primary*
- */
-export interface PhotographySliceDefaultPrimary {
-    /**
-   * Image field in *Photography → Default → Primary*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: photography.default.primary.image
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-    image: prismic.ImageField<never>
-
-    /**
-   * Description field in *Photography → Default → Primary*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: photography.default.primary.description
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-    description: prismic.RichTextField
-}
-
-/**
- * Default variation for Photography Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type PhotographySliceDefault = prismic.SharedSliceVariation<
-    'default',
-    Simplify<PhotographySliceDefaultPrimary>,
-    never
->
-
-/**
- * Slice variation for *Photography*
- */
-type PhotographySliceVariation = PhotographySliceDefault
-
-/**
- * Photography Shared Slice
- *
- * - **API ID**: `photography`
- * - **Description**: Photography
- * - **Documentation**: https://prismic.io/docs/slice
- */
-export type PhotographySlice = prismic.SharedSlice<
-    'photography',
-    PhotographySliceVariation
->
 
 /**
  * Primary content in *SimpleContent → Default → Primary*
@@ -1229,6 +1277,11 @@ declare module '@prismicio/client' {
             CrossNavSliceDefaultPrimary,
             CrossNavSliceVariation,
             CrossNavSliceDefault,
+            GalleryGridSlice,
+            GalleryGridSliceDefaultPrimaryItemItem,
+            GalleryGridSliceDefaultPrimary,
+            GalleryGridSliceVariation,
+            GalleryGridSliceDefault,
             MasonryMediasSlice,
             MasonryMediasSliceDefaultPrimaryListItem,
             MasonryMediasSliceDefaultPrimary,
@@ -1240,10 +1293,6 @@ declare module '@prismicio/client' {
             MediaSliceVariation,
             MediaSliceDefault,
             MediaSliceDuoMedia,
-            PhotographySlice,
-            PhotographySliceDefaultPrimary,
-            PhotographySliceVariation,
-            PhotographySliceDefault,
             SimpleContentSlice,
             SimpleContentSliceDefaultPrimary,
             SimpleContentSliceVariation,

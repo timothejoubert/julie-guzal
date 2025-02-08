@@ -18,10 +18,10 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
-            "cross_nav": {
+            "gallery_grid": {
               "type": "SharedSlice"
             },
-            "photography": {
+            "cross_nav": {
               "type": "SharedSlice"
             }
           }

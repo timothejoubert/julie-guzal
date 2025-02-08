@@ -35,6 +35,15 @@
             "select": "media",
             "allowText": false
           }
+        },
+        "video_autoplay": {
+          "type": "Boolean",
+          "config": {
+            "label": "Video autoplay",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
+          }
         }
       },
       "items": {}
@@ -71,6 +80,15 @@
             "allowText": false
           }
         },
+        "main_video_autoplay": {
+          "type": "Boolean",
+          "config": {
+            "label": "Main video autoplay",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
+          }
+        },
         "secondary_image": {
           "type": "Image",
           "config": {
@@ -93,6 +111,15 @@
             "placeholder": "",
             "select": "media",
             "allowText": false
+          }
+        },
+        "secondary_video_autoplay": {
+          "type": "Boolean",
+          "config": {
+            "label": "Secondary video autoplay",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
           }
         }
       },

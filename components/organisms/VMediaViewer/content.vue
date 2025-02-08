@@ -71,7 +71,7 @@ const rootClasses = computed(() => {
                         :class="$style.image"
                     />
                     <VText
-                        v-if="document.copyright"
+                        v-if="document?.copyright"
                         :content="document.copyright"
                         :class="$style.figcaption"
                     />
