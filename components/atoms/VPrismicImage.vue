@@ -29,7 +29,7 @@ export default defineComponent({
             )
         })
 
-        const cropDimensions = computed(() => modifiers.value?.crop?.split('x') || [])
+        const cropDimensions = computed(() => modifiers.value?.crop?.split('x') || props.ar?.split(':') || [])
         const width = computed(() => cropDimensions.value[0] || props?.width || document.value?.dimensions?.width)
         const height = computed(() => cropDimensions.value[1] || props?.height || document.value?.dimensions?.height)
 
