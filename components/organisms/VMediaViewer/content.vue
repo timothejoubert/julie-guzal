@@ -101,7 +101,6 @@ const rootClasses = computed(() => {
     border: initial;
     margin: initial;
     inset: 0;
-    background: initial;
     overflow: hidden;
 
     color: var(--theme-color-on-background);
