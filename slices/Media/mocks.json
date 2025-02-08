@@ -66,6 +66,10 @@
 			"video_autoplay": {
 				"__TYPE__": "BooleanContent",
 				"value": false
+			},
+			"spacing_block": {
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": []
@@ -201,6 +205,10 @@
 			"secondary_video_autoplay": {
 				"__TYPE__": "BooleanContent",
 				"value": false
+			},
+			"spacing_block": {
+				"__TYPE__": "BooleanContent",
+				"value": true
 			}
 		},
 		"items": [

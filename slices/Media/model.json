@@ -12,6 +12,15 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "spacing_block": {
+          "type": "Boolean",
+          "config": {
+            "label": "Spacing block",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
+          }
+        },
         "image": {
           "type": "Image",
           "config": {
@@ -56,6 +65,15 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
+        "spacing_block": {
+          "type": "Boolean",
+          "config": {
+            "label": "Spacing block",
+            "placeholder_false": "false",
+            "placeholder_true": "true",
+            "default_value": false
+          }
+        },
         "main_image": {
           "type": "Image",
           "config": {
