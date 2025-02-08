@@ -42,17 +42,18 @@ function onClick(index: number) {
         :class="$style.root"
     >
         <template v-if="imageList.length">
-            <div
+            i18n/locales/nuxt.en.json            <button
                 v-for="(media, index) in imageList"
                 :key="index"
                 :class="$style.item"
+                :aria-label="$t('media_viewer.open')"
+                @click="onClick"
             >
                 <VPrismicImage
                     v-bind="media"
                     :class="$style.img"
-                    @click="onClick"
                 />
-            </div>
+            </button>
         </template>
     </VSlice>
 </template>
@@ -74,6 +75,10 @@ function onClick(index: number) {
 
 .item {
     grid-column: 1 / -1;
+    overflow: hidden;
+    background: initial;
+    border: initial;
+    padding: initial;
 
     @include media('>=md') {
         &:nth-child(9n + 1) {
