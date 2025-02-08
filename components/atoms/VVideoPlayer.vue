@@ -19,6 +19,27 @@ export default defineComponent({
     setup(props) {
         const isEmbed = computed(() => !!props.embedPlatform && !!props.embedId)
 
+        // Attributes
+        const videoAttrsValue = computed(() => getVideoAttrsValues(props, props.background))
+
+        const playsinline = computed(() => videoAttrsValue.value.playsinline)
+        const muted = computed(() => videoAttrsValue.value.muted)
+        const loop = computed(() => videoAttrsValue.value.loop)
+        const autoplay = computed(() => videoAttrsValue.value.autoplay)
+        const controls = computed(() => videoAttrsValue.value.controls)
+
+        const videoAttrs = computed(() => {
+            return {
+                width: props.width,
+                height: props.height,
+                playsinline: playsinline.value ? '' : undefined,
+                muted: muted.value ? '' : undefined,
+                loop: loop.value ? '' : undefined,
+                autoplay: autoplay.value ? '' : undefined,
+                controls: controls.value ? '' : undefined,
+            }
+        })
+
         const src = computed(() => {
             if (isEmbed.value && props.embedPlatform) {
                 let params: Record<string, string> = {}
@@ -32,18 +53,23 @@ export default defineComponent({
                         showinfo: '0',
                         rel: '0',
                         enablejsapi: '1',
+                        muted: muted.value ? '1' : '0',
                         autoplay: autoplay.value ? '1' : '',
+                        loop: loop.value ? '1' : '0',
                     }
                 }
                 else if (platform === 'vimeo') {
                     params = {
-                        loop: 'false',
                         byline: 'false',
                         portrait: 'false',
-                        title: 'false',
-                        speed: 'true',
+                        title: 'true',
+                        speed: 'false',
                         transparent: '0',
                         gesture: 'media',
+                        autopause: '0',
+                        muted: muted.value ? '1' : '0',
+                        autoplay: autoplay.value ? '1' : '0',
+                        loop: loop.value ? '1' : '0',
                     }
                 }
 
@@ -67,27 +93,6 @@ export default defineComponent({
                     }
                 })
             return [{ src: src.value, type: props.mimeType || 'video/mp4' }, ...altSources]
-        })
-
-        // Attributes
-        const videoAttrsValue = computed(() => getVideoAttrsValues(props, props.background))
-
-        const playsinline = computed(() => videoAttrsValue.value.playsinline)
-        const muted = computed(() => videoAttrsValue.value.muted)
-        const loop = computed(() => videoAttrsValue.value.loop)
-        const autoplay = computed(() => videoAttrsValue.value.autoplay)
-        const controls = computed(() => videoAttrsValue.value.controls)
-
-        const videoAttrs = computed(() => {
-            return {
-                width: props.width,
-                height: props.height,
-                playsinline: playsinline.value ? '' : undefined,
-                muted: muted.value ? '' : undefined,
-                loop: loop.value ? '' : undefined,
-                autoplay: autoplay.value ? '' : undefined,
-                controls: controls.value ? '' : undefined,
-            }
         })
 
         // STYLE

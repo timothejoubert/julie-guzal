@@ -42,7 +42,7 @@ function onClick(index: number) {
         :class="$style.root"
     >
         <template v-if="imageList.length">
-            i18n/locales/nuxt.en.json            <button
+            <button
                 v-for="(media, index) in imageList"
                 :key="index"
                 :class="$style.item"

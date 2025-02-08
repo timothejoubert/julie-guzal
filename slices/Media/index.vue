@@ -4,6 +4,7 @@ import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
 
 const props = defineProps(getSliceComponentProps<Content.MediaSlice>())
 
+const primary = computed(() => props.slice.primary)
 const isDuoMedia = computed(() => props.slice.variation === 'duoMedia')
 
 function getFilledDocument({ image, embed, linkToMedia }: { image?: ImageField, embed?: EmbedField, linkToMedia?: LinkToMediaField }) {
@@ -28,6 +29,7 @@ const mediaGroup = computed(() => {
                 },
                 video: {
                     thumbnail: getFilledDocument({ image: props.slice.primary.main_image }),
+                    autoplay: props.slice.primary.main_video_autoplay,
                 },
             },
             {
@@ -37,10 +39,11 @@ const mediaGroup = computed(() => {
                     linkToMedia: props.slice.primary.secondary_video,
                 }),
                 image: {
-                    sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw',
+                    sizes: 'xs:100vw md:100vw lg:50vw xxl:50vw hq:50vw qhd:50vw',
                 },
                 video: {
                     thumbnail: getFilledDocument({ image: props.slice.primary.secondary_image }),
+                    autoplay: props.slice.primary.secondary_video_autoplay,
                 },
             },
         ]
@@ -54,11 +57,23 @@ const mediaGroup = computed(() => {
                 linkToMedia: props.slice.primary.video,
             }),
             image: {
-                sizes: 'xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw hq:100vw qhd:100vw',
+                sizes: 'xs:100vw md:100vw lg:100vw xxl:100vw hq:100vw qhd:100vw',
             },
             video: {
-                thumbnail: getFilledDocument({ image: props.slice.primary.image }) },
+                thumbnail: getFilledDocument({ image: props.slice.primary.image }),
+                autoplay: props.slice.primary.video_autoplay,
+            },
         },
+    ]
+})
+
+const $style = useCssModule()
+const rootClasses = computed(() => {
+    return [
+        $style.root,
+        primary.value.spacing_block && $style['root--margin-block'],
+        isDuoMedia.value && $style['root--duo-media'],
+
     ]
 })
 </script>
@@ -66,7 +81,7 @@ const mediaGroup = computed(() => {
 <template>
     <VSlice
         :slice="slice"
-        :class="[$style.root, isDuoMedia && $style['root--duo-media']]"
+        :class="rootClasses"
         class="grid"
     >
         <template
@@ -88,7 +103,7 @@ const mediaGroup = computed(() => {
 @use 'assets/scss/functions/rem' as *;
 
 .root {
-    &--duo-media {
+    &--margin-block {
         margin-block: rem(24);
     }
 }
