@@ -3,6 +3,7 @@
 html {
     background-color: var(--theme-color-background);
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
 
     --spacing-over-title-padding-block: #{rem(16)};
 }
