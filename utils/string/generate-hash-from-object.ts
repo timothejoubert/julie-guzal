@@ -1,7 +1,6 @@
 // Example usage
 // const obj = { key1: 'value1', key2: 'value2' }
 // const hash = generateHashFromObject(obj)
-// console.log(hash)
 
 // generate simple hash from object
 export function generateHashFromObject(obj: Record<string, unknown>): string {
