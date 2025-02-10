@@ -89,6 +89,7 @@ const rootClasses = computed(() => {
                     <VPrismicMedia
                         :document="document"
                         :class="$style.image"
+                        sizes="xs:95vw md:95vw lg:40vw xl:40vw hd:40vw qhd:40vw"
                     />
                     <VText
                         v-if="document?.copyright"
