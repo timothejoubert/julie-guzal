@@ -30,7 +30,6 @@ const mediaViewerDocument = computed(() => {
 })
 
 function onClick(index: number) {
-    console.log('onClick', index)
     documents.value = mediaViewerDocument.value
     mediaViewerIndex.value = index
 }
