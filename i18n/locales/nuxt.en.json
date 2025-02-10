@@ -9,5 +9,6 @@
     "error_code": "Error {code}",
     "error_page.not_found.body": "Page not found...",
     "carousel.prev": "Previous slide",
-    "carousel.next": "Next slide"
+    "carousel.next": "Next slide",
+    "project_page.external_link_label": "See the project"
 }

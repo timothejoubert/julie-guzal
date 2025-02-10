@@ -80,7 +80,7 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
                 <VPrismicLink
                     v-if="externalUrl"
                     :to="externalUrl"
-                    :label="externalUrl"
+                    :label="$t('project_page.external_link_label')"
                     :class="$style['external-link']"
                 />
             </section>
