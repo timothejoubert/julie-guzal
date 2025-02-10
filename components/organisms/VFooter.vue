@@ -15,8 +15,6 @@ const developerCopyright = computed(() => {
         url: 'https://timothejoubert.com',
     }
 })
-
-// TODO: add footer menu
 </script>
 
 <template>
