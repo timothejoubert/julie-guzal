@@ -93,7 +93,7 @@ const rootClasses = computed(() => {
                 :document="media.document"
                 :image="media.image"
                 :video="media.video"
-                :class="$style.image"
+                :class="[$style.image, index === 1 && $style['image--second']]"
             />
         </template>
     </VSlice>
@@ -114,7 +114,11 @@ const rootClasses = computed(() => {
 
     @include media('>=md') {
         .root--duo-media & {
-            grid-column:  span 6;
+            grid-column: span 6;
+        }
+
+        .root--duo-media &--second {
+            grid-column: 7 / -1;
         }
     }
 }
