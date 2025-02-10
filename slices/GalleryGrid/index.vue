@@ -15,10 +15,10 @@ const imageList = computed(() => {
                 ...groupField.image,
                 copyright: groupField.image?.alt || groupField.description,
             },
-            // crop: 'top,left',
             fit: 'crop',
             ar: isLandscape ? '566:342' : '330:432',
             sizes: isLandscape ? 'xs:95vw sm:95vw md:40vw lg:40vw xl:40vw qhd:40vw' : 'xs:95vw sm:95vw md:25vw lg:25vw xl:25vw qhd:25vw',
+            // crop: 'top,left',
         }
     })
 })
@@ -30,6 +30,7 @@ const mediaViewerDocument = computed(() => {
 })
 
 function onClick(index: number) {
+    console.log('onClick', index)
     documents.value = mediaViewerDocument.value
     mediaViewerIndex.value = index
 }
@@ -47,7 +48,7 @@ function onClick(index: number) {
                 :key="index"
                 :class="$style.item"
                 :aria-label="$t('media_viewer.open')"
-                @click="onClick"
+                @click="onClick(index)"
             >
                 <VPrismicImage
                     v-bind="media"

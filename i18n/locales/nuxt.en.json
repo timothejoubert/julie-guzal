@@ -7,5 +7,7 @@
     "media_viewer.close": "Close media viewer",
     "close": "Close",
     "error_code": "Error {code}",
-    "error_page.not_found.body": "Page not found..."
+    "error_page.not_found.body": "Page not found...",
+    "carousel.prev": "Previous slide",
+    "carousel.next": "Next slide"
 }

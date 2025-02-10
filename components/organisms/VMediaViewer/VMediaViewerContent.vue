@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type Plyr from 'plyr'
+import VDraggableScroll from '~/components/organisms/VDraggableScroll/VDraggableScroll.vue'
 
 const id = useId()
 
@@ -58,7 +59,24 @@ const rootClasses = computed(() => {
             >
                 {{ $t('close') }}
             </button>
-            <div
+            <div :class="$style.controls">
+                <button
+                    :class="[$style.control, $style['control--prev']]"
+                    :aria-label="$t('carousel.prev')"
+                    @click="previousSlide"
+                >
+                    <VIcon name="arrow-left" />
+                </button>
+                <button
+                    :class="[$style.control, $style['control--next']]"
+                    :aria-label="$t('carousel.next')"
+                    @click="nextSlide"
+                >
+                    <VIcon name="arrow-right" />
+                </button>
+            </div>
+            <VDraggableScroll
+                v-model="slideIndex"
                 :class="$style.medias"
             >
                 <div
@@ -70,13 +88,14 @@ const rootClasses = computed(() => {
                         :document="document"
                         :class="$style.image"
                     />
+                    <div>{{ slideIndex }}</div>
                     <VText
                         v-if="document?.copyright"
                         :content="document.copyright"
                         :class="$style.figcaption"
                     />
                 </div>
-            </div>
+            </VDraggableScroll>
         </div>
     </dialog>
 </template>
@@ -132,6 +151,21 @@ const rootClasses = computed(() => {
     }
 }
 
+.controls {
+    position: fixed;
+    bottom: rem(24);
+    right: rem(24);
+}
+
+.control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: initial;
+    background-color: initial;
+    cursor: pointer;
+}
+
 .medias {
     width: 100%;
     height: 100%;
@@ -151,6 +185,11 @@ const rootClasses = computed(() => {
 
 .image {
     width: flex-grid(5, 12);
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
     //width: calc(#{flex-grid-value(5, 12, '%', true)});
 
     @include media('>=lg') {

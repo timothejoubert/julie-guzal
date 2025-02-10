@@ -10,7 +10,10 @@ export function useMediaViewer() {
         documents.value = medias
         updateIndex(index || 0)
     }
-    const close = () => (documents.value = null)
+    const close = () => {
+        documents.value = null
+        index.value = 0
+    }
 
     const updateIndex = (value: number) => (index.value = value)
     const previousSlide = () => updateIndex(Math.max(index.value - 1, 0))

@@ -1,4 +1,4 @@
-import type { EmbedField, FilledLinkToMediaField, ImageField, LinkToMediaField } from '@prismicio/types'
+import type { EmbedField, FilledLinkToMediaField, ImageField, LinkToMediaField, RichTextField } from '@prismicio/types'
 import type { MaybeRef } from 'vue'
 import { isFilledImageField, isFilledLinkToMediaField, isVideoEmbedField } from '~/utils/prismic/guard'
 
@@ -7,6 +7,7 @@ export type staticMedia = {
     width?: string | number
     height?: string | number
     type: 'image' | 'public_image' | 'video' | 'public_video' | 'embed_video' | 'audio'
+    copyright?: string | RichTextField
 }
 
 export type PossibleMedia = LinkToMediaField | EmbedField | ImageField | staticMedia
