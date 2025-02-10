@@ -221,6 +221,7 @@ export default defineNuxtConfig({
         ],
     },
     // https://github.com/nuxt-modules/svg-sprite#options
+    // ".DS_Store" file could create an error sometime during parsing svg
     svgSprite: {
         input: '~/assets/images/icons',
         output: '~/assets/images/sprites',

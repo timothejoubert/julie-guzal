@@ -17,7 +17,9 @@ export function useMediaViewer() {
 
     const updateIndex = (value: number) => (index.value = value)
     const previousSlide = () => updateIndex(Math.max(index.value - 1, 0))
+    const onStart = computed(() => index.value === 0)
     const nextSlide = () => updateIndex(Math.min(index.value + 1, (documents.value?.length || 1) - 1))
+    const onEnd = computed(() => index.value === (documents.value?.length || 1) - 1)
 
-    return { documents, index, isOpen, open, close, nextSlide, previousSlide }
+    return { documents, index, isOpen, open, close, nextSlide, previousSlide, onStart, onEnd }
 }

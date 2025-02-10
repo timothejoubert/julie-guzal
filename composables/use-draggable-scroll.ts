@@ -86,7 +86,6 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         const element = toValue(options.element)
 
         if (!element) return
-        console.log('createResizeObserver')
 
         resizeObserver = new ResizeObserver(function () {
             hasOverflow.value = checkAvailability('x') || checkAvailability('y')

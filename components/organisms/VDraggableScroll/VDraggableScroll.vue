@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useDraggableScroll } from '~/composables/use-draggable-scroll'
-
 defineProps({
     tag: { type: String, default: 'div' },
 })
@@ -9,76 +7,95 @@ const index = defineModel<number>({ default: 0 })
 
 const root = ref<HTMLElement | null>(null)
 
-const rootPos = ref({ x: 0, y: 0 })
-function onMouseMove(point: Point) {
-    rootPos.value = point
+const { hasOverflow, isDragging } = useDraggableScroll({ element: root })
+
+// Update scrollSnapType property
+const isScrolling = ref(false)
+
+const onScrollEvent = (event: Event) => {
+    const isScrollEnd = event.type === 'scrollend'
+    isScrolling.value = event.type === 'scroll' && !isScrollEnd
+
+    if (isScrollEnd) onScrollEnd()
 }
 
-const { hasOverflow } = useDraggableScroll({ element: root, onMouseMove })
+function initOnScrollStartEvent() {
+    if (!root.value) return
+    root.value.addEventListener('scroll', onScrollEvent)
+    root.value.addEventListener('scrollend', onScrollEvent)
+}
+
+function disposeOnScrollStartEvent() {
+    if (!root.value) return
+    root.value.removeEventListener('scroll', onScrollEvent)
+    root.value.removeEventListener('scrollend', onScrollEvent)
+}
+
+onMounted(initOnScrollStartEvent)
+onBeforeUnmount(disposeOnScrollStartEvent)
+
+// Slides and root data
+const rootScrollLeft = ref(0)
+const updateRootScrollLeft = () => (rootScrollLeft.value = root.value?.scrollLeft || 0)
+watch(isDragging, updateRootScrollLeft)
+watch(isScrolling, updateRootScrollLeft)
 
 const childrenData = computed(() => {
-    if (!root.value) return []
+    if (!root.value) {
+        return []
+    }
+
     const children = [...root.value.children] as HTMLElement[]
 
     return children.map((el, index) => {
+        const start = el.offsetLeft
+        const width = el.offsetWidth
         return {
             el,
             index,
-            offsetLeft: el.offsetLeft,
+            snapStart: start,
+            snapCenter: el.offsetLeft + width / 2,
+            snapEnd: el.offsetLeft + width,
         }
     })
 })
 
 const activeSlide = computed(() => {
     return childrenData.value.findIndex((childData) => {
-        return (childData?.offsetLeft || 0) >= rootPos.value.x
+        return (childData?.snapCenter || 0) >= rootScrollLeft.value
     })
 })
 
-watch(activeSlide, (v) => {
-    console.log('activeSlide', v)
-    if (activeSlide.value !== -1) index.value = v
+function onScrollEnd() {
+    const onSnapInline = !!childrenData.value.find(slide => slide.snapStart === rootScrollLeft.value || slide.snapEnd === rootScrollLeft.value)
+    if (activeSlide.value === index.value && !onSnapInline) {
+        updateScrollPosition(activeSlide.value)
+    }
+}
+
+watch(activeSlide, (value) => {
+    if (value !== index.value) updateScrollPosition(value)
 })
 
-const getActiveSlide = () => activeSlide.value
+watchEffect(() => {
+    if (!hasOverflow.value) return
+    if (activeSlide.value !== index.value) updateScrollPosition(index.value)
+}, { flush: 'post' })
 
-function updateScrollPosition(newIndex: number | undefined) {
-    const activeIndex = getActiveSlide()
-    console.log('updateScrollPosition')
-    console.log('activeIndex', activeIndex)
-
-    if (!root.value || !newIndex || newIndex === -1 || activeIndex === newIndex || !hasOverflow.value) {
-        console.log('prevent updateScrollPosition')
+// Update slide Index
+function updateScrollPosition(newIndex: number) {
+    if (!root.value || newIndex < 0 || !hasOverflow.value) {
         return
     }
 
     const children = [...root.value.children] as HTMLElement[]
     const offsetLeft = children[newIndex]?.offsetLeft - root.value.offsetLeft
 
-    if (offsetLeft) {
-        root.value.addEventListener('scrollend', () => {
-            const newIndex = getActiveSlide()
-            console.log('onScrollEnd', newIndex)
-            index.value = newIndex
-        }, { once: true })
-
+    if (typeof offsetLeft === 'number') {
         root.value.scrollTo({ behavior: 'smooth', left: offsetLeft })
         index.value = newIndex
     }
 }
-
-// watch(index, (value) => {
-//     console.log('watch index', value)
-//     if (value) updateScrollPosition(index.value)
-// })
-//
-// watch(hasOverflow, (value) => {
-//     if (value) updateScrollPosition(index.value)
-// })
-
-onMounted(() => {
-    updateScrollPosition(index.value)
-})
 </script>
 
 <template>
@@ -98,9 +115,8 @@ onMounted(() => {
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
-    overflow-x: auto;
     scrollbar-width: none;
+    overflow-x: scroll;
     max-width: 100vw;
-    //scroll-snap-type: x mandatory;
 }
 </style>

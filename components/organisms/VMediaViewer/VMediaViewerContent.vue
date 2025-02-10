@@ -4,7 +4,7 @@ import VDraggableScroll from '~/components/organisms/VDraggableScroll/VDraggable
 
 const id = useId()
 
-const { documents, index: slideIndex, close, nextSlide, previousSlide } = useMediaViewer()
+const { documents, index: slideIndex, close, nextSlide, previousSlide, onStart, onEnd } = useMediaViewer()
 
 useEventListener('keyup', onKeyPressed)
 
@@ -63,6 +63,7 @@ const rootClasses = computed(() => {
                 <button
                     :class="[$style.control, $style['control--prev']]"
                     :aria-label="$t('carousel.prev')"
+                    :disabled="onStart"
                     @click="previousSlide"
                 >
                     <VIcon name="arrow-left" />
@@ -70,6 +71,7 @@ const rootClasses = computed(() => {
                 <button
                     :class="[$style.control, $style['control--next']]"
                     :aria-label="$t('carousel.next')"
+                    :disabled="onEnd"
                     @click="nextSlide"
                 >
                     <VIcon name="arrow-right" />
@@ -88,7 +90,6 @@ const rootClasses = computed(() => {
                         :document="document"
                         :class="$style.image"
                     />
-                    <div>{{ slideIndex }}</div>
                     <VText
                         v-if="document?.copyright"
                         :content="document.copyright"
@@ -164,6 +165,10 @@ const rootClasses = computed(() => {
     border: initial;
     background-color: initial;
     cursor: pointer;
+
+    &[disabled="true"] {
+        color: var(--color-brand-inactive);
+    }
 }
 
 .medias {
@@ -181,6 +186,7 @@ const rootClasses = computed(() => {
     column-gap: var(--gutter);
     width: 100%;
     flex-shrink: 0;
+    scroll-snap-align: start;
 }
 
 .image {
