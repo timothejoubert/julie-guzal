@@ -31,7 +31,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
             </div>
             <div
                 v-if="rightColumn"
-                :class="$style.right_column"
+                :class="$style.right__column"
             >
                 <VPrismicImage
                     v-if="rightColumn.image"
@@ -40,13 +40,13 @@ const rightColumn = computed(() => data.value.right_column?.[0])
                     ar="684:414"
                     width="684"
                     height="414"
-                    :class="$style.right_column__image"
+                    :class="$style.right__column__image"
                     sizes="xs:90vw md:90vw lg:25vw xxl:25vw qhd:25vw"
                 />
                 <VText
                     v-else-if="rightColumn.content"
                     :content="rightColumn.content"
-                    :class="$style.right_column__text"
+                    :class="$style.right__column__text"
                 />
             </div>
             <VText
@@ -66,11 +66,11 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 .root {
     @include theme(yellow);
 
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     background-color: var(--theme-color-background);
     color: var(--theme-color-on-background);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
 }
 
 .top-bar {
@@ -87,18 +87,18 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 
 .main {
     position: relative;
-    margin-top: auto; //rem(146);
-    padding-top: rem(32);
     min-height: 45vh;
+    padding-top: rem(32);
+    margin-top: auto; // rem(146);
 
     &::before {
         position: absolute;
-        content: '';
         top: 0;
-        left: calc(var(--gutter) * -1);
         right: calc(var(--gutter) * -1);
+        left: calc(var(--gutter) * -1);
         height: 1px;
-        background-color: currentColor;
+        background-color: currentcolor;
+        content: '';
     }
 
     @include media('>=lg') {
@@ -127,11 +127,11 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 }
 
 .title {
+    max-width: 30ch;
     font-family: $font-suisse-family;
     font-size: rem(16);
-    line-height: 1.25;
     font-weight: 400;
-    max-width: 30ch;
+    line-height: 1.25;
 
     @include media('>=lg') {
         max-width: flex-grid(2, 3);
@@ -141,14 +141,15 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 @mixin font-body {
     font-family: $font-suisse-family;
     font-size: rem(12);
-    line-height: 1.35;
     font-weight: 400;
+    line-height: 1.35;
 }
 
 .text,
 .text a,
 .text p {
     @include font-body;
+
     margin-top: rem(25);
 }
 
@@ -157,7 +158,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
     text-decoration: none;
 }
 
-.right_column {
+.right__column {
     display: flex;
     align-items: flex-end;
     margin-top: rem(48);
@@ -168,16 +169,16 @@ const rightColumn = computed(() => data.value.right_column?.[0])
     }
 
     @include media('>=lg') {
-        grid-column: span 3;
         margin-top: 0;
+        grid-column: span 3;
     }
 }
 
-.right_column__text {
+.right__column__text {
     font-family: $font-lecturis-family;
     font-size: rem(28);
-    line-height: 1.4;
     font-weight: 400;
+    line-height: 1.4;
 
     > * {
         margin-bottom: 0;
@@ -186,8 +187,9 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 
 .credits {
     @include font-body;
-    grid-column: 1 /-1;
+
     margin-top: rem(24);
+    grid-column: 1 /-1;
 
     @include media('>=md') {
         margin-top: 0;

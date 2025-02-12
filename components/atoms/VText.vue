@@ -57,10 +57,10 @@ const flatRichTextContent = computed(() => {
     }
 
     a {
+        color: inherit;
         text-decoration: underline;
         text-decoration-thickness: 0.5px;
         text-underline-offset: 2px;
-        color: inherit;
     }
 }
 </style>

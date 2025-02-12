@@ -49,26 +49,26 @@ const rootClasses = computed(() => {
 
 @mixin font() {
     font-family: $font-lecturis-family;
+    font-size: rem(100);
     font-weight: 300;
     line-height: 1;
-    font-size: rem(100);
     text-transform: uppercase;
 }
 
 .root {
-    isolation: isolate;
     position: relative;
-    padding-block: rem(12);
     color: var(--theme-color-on-background);
+    isolation: isolate;
+    padding-block: rem(12);
 
     @include theme-variants;
 
     &::before {
         position: absolute;
+        z-index: -1;
+        background-color: var(--theme-color-background);
         content: '';
         inset: 0 calc(var(--gutter) * -1);
-        background-color: var(--theme-color-background);
-        z-index: -1;
     }
 
     @include media('>=lg') {
@@ -79,9 +79,9 @@ const rootClasses = computed(() => {
 .title {
     @include font;
 
-    margin-block: 0;
-    grid-column: 1 / -1;
     color: var(--theme-color-on-background);
+    grid-column: 1 / -1;
+    margin-block: 0;
 
     @include media('>=lg') {
         grid-column: 1 / span 6;
@@ -92,13 +92,13 @@ const rootClasses = computed(() => {
     @include font;
 
     display: flex;
-    justify-content: flex-end;
-    column-gap: rem(18);
-    text-align: right;
-    grid-column: 1 / -1;
-    text-decoration: none;
-    color: var(--theme-color-on-background);
     overflow: hidden;
+    justify-content: flex-end;
+    color: var(--theme-color-on-background);
+    column-gap: rem(18);
+    grid-column: 1 / -1;
+    text-align: right;
+    text-decoration: none;
 
     @include media('>=lg') {
         grid-column: 6 / -1;
@@ -109,18 +109,18 @@ const rootClasses = computed(() => {
     width: fluid((xs: 21, xl: 64));
     height: auto;
     opacity: 0;
-    translate: rem(-10) rem(30);
-    transform-origin: right bottom;
     rotate: 20deg;
-    transition-property: opacity, translate, rotate;
+    transform-origin: right bottom;
     transition-duration: 0.2s;
+    transition-property: opacity, translate, rotate;
     transition-timing-function: ease(out-quad);
+    translate: rem(-10) rem(30);
 
     @media (hover: hover) {
         .link:hover & {
-            translate: 0 0;
-            rotate: 0deg;
             opacity: 1;
+            rotate: 0deg;
+            translate: 0 0;
         }
     }
 }

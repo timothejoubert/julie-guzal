@@ -50,12 +50,12 @@ const rootClasses = computed(() => {
 @use "assets/scss/functions/ease" as *;
 
 .root {
-    grid-column: 1 / -1;
-    width: 100%;
     position: fixed;
+    z-index: 11;
     bottom: rem(24);
     left: 0;
-    z-index: 11;
+    width: 100%;
+    grid-column: 1 / -1;
 
     @include theme-variants;
 
@@ -67,7 +67,6 @@ const rootClasses = computed(() => {
     }
 
     @include media('>=lg') {
-
         grid-column: 7 / span 1;
     }
 }
@@ -79,11 +78,11 @@ const rootClasses = computed(() => {
     margin-block: initial;
 
     @include media('<md') {
-        background-color: var(--theme-color-background);
+        width: fit-content;
         flex-direction: row;
         justify-content: center;
         border-radius: rem(12);
-        width: fit-content;
+        background-color: var(--theme-color-background);
         margin-inline: auto;
     }
 }
@@ -95,12 +94,12 @@ const rootClasses = computed(() => {
 .link {
     display: flex;
     padding: initial;
+    color: var(--theme-color-brand-inactive);
+    font-family: $font-lecturis-family;
     padding-inline: initial;
     text-decoration: none;
-    color: var(--theme-color-brand-inactive);
-    transition: color 0.3s;
-    font-family: $font-lecturis-family;
     text-transform: uppercase;
+    transition: color 0.3s;
 
     &[aria-current="page"] {
       color: var(--theme-color-brand-text);
@@ -126,9 +125,9 @@ const rootClasses = computed(() => {
     }
 
   @include media('>=lg') {
+        font-size: rem(16);
         font-weight: 400;
         line-height: 1.4;
-        font-size: rem(16);
         text-transform: initial;
   }
 }

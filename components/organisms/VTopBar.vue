@@ -67,12 +67,13 @@ const rootClasses = computed(() => {
 }
 
 .title {
-  grid-column: 1 / -1;
   font-family: $font-lecturis-family;
-  font-weight: 300;
-   line-height: 1;
-  //line-height: 0.69; // Compensate font box sizing
+
+  // line-height: 0.69; // Compensate font box sizing
   font-size: fluid((xs: 100, xl: 100));
+  font-weight: 300;
+  grid-column: 1 / -1;
+   line-height: 1;
   margin-block: initial;
   text-transform: uppercase;
   translate: 0 -0.14lh;
@@ -129,29 +130,29 @@ const rootClasses = computed(() => {
 }
 
 .content {
-    grid-column: 1 / -1;
-    font-family: $font-suisse-family;
-    font-size: rem(14);
-    line-height: 1.42;
-    font-weight: 400;
-    margin-block: initial;
     max-width: flex-grid(9, 12);
     margin-top: rem(68);
+    font-family: $font-suisse-family;
+    font-size: rem(14);
+    font-weight: 400;
+    grid-column: 1 / -1;
+    line-height: 1.42;
+    margin-block: initial;
 
     @include media('>=md') {
         grid-column: 1 / span 5;
         transition: translate 0.5s ease(out-quad), opacity 0.3s ease(out-quad);
 
         .root:not(.root--on-page-top) & {
-            translate: 0 calc(-100% - #{rem(24)});
             opacity: 0;
             pointer-events: none;
+            translate: 0 calc(-100% - #{rem(24)});
         }
     }
 
     @include media('>=lg') {
-        grid-column: 10 / span 2;
         margin-top: initial;
+        grid-column: 10 / span 2;
     }
 }
 </style>

@@ -155,20 +155,20 @@ const onVideoEnded = () => (hadInteraction.value = false)
     --v-button-position: absolute;
 
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     z-index: 1;
     top: 50%;
     left: 50%;
+    display: flex;
     width: rem(32);
     height: rem(32);
+    align-items: center;
+    justify-content: center;
+    padding: initial;
     border: none;
     border-radius: 100%;
     background-color: white;
     cursor: pointer;
     transform: translate(-50%, -50%);
-    padding: initial;
 
     .root--had-interaction & {
         pointer-events: none;

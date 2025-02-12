@@ -112,6 +112,7 @@ const rootClasses = computed(() => {
 .root {
     position: fixed;
     z-index: 101;
+    overflow: hidden;
     width: 100%;
     max-width: initial;
     height: 100%;
@@ -121,18 +122,16 @@ const rootClasses = computed(() => {
     padding: initial;
     border: initial;
     margin: initial;
-    inset: 0;
-    overflow: hidden;
-
-    color: var(--theme-color-on-background);
     background-color: var(--theme-color-background);
+    color: var(--theme-color-on-background);
+    inset: 0;
 
     @include theme('light');
 }
 
 .wrapper {
-    padding-block: rem(24);
     height: 100%;
+    padding-block: rem(24);
 }
 
 .close {
@@ -155,8 +154,8 @@ const rootClasses = computed(() => {
 
 .controls {
     position: fixed;
-    bottom: rem(24);
     right: rem(24);
+    bottom: rem(24);
 }
 
 .control {
@@ -173,20 +172,19 @@ const rootClasses = computed(() => {
 }
 
 .medias {
+    display: flex;
     width: 100%;
     height: 100%;
-
-    display: flex;
     align-items: flex-end;
 }
 
 .slide {
     display: flex;
-    align-items: flex-end;
-    padding-inline: var(--gutter);
-    column-gap: var(--gutter);
     width: 100%;
     flex-shrink: 0;
+    align-items: flex-end;
+    column-gap: var(--gutter);
+    padding-inline: var(--gutter);
     scroll-snap-align: start;
 }
 
@@ -197,18 +195,20 @@ const rootClasses = computed(() => {
     -moz-user-drag: none;
     -o-user-drag: none;
     user-drag: none;
-    //width: calc(#{flex-grid-value(5, 12, '%', true)});
+
+    // width: calc(#{flex-grid-value(5, 12, '%', true)});
 
     @include media('>=lg') {
     }
 }
 
 .figcaption {
+    width: flex-grid(2, 12);
     font-family: $font-suisse-family;
     font-size: rem(14);
-    line-height: 1.42;
     font-weight: 400;
-    width: flex-grid(2, 12);
-    //width: calc(#{flex-grid-value(2, 12, '%', true)});
+    line-height: 1.42;
+
+    // width: calc(#{flex-grid-value(2, 12, '%', true)});
 }
 </style>

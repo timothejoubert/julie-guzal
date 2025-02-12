@@ -18,13 +18,23 @@ const primary = computed(() => props.slice.primary)
         :slice="slice"
         :class="$style.root"
     >
-        <h1 :class="$style.title" v-if="primary.title">
+        <h1
+            v-if="primary.title"
+            :class="$style.title"
+        >
             {{ primary.title }}
         </h1>
-        <h2 :class="$style['secondary-title']" v-if="primary.secondary_title">
+        <h2
+            v-if="primary.secondary_title"
+            :class="$style['secondary-title']"
+        >
             {{ primary.secondary_title }}
         </h2>
-        <VText :class="$style.content" v-if="primary.content" :content="primary.content" />
+        <VText
+            v-if="primary.content"
+            :class="$style.content"
+            :content="primary.content"
+        />
     </VSlice>
 </template>
 
@@ -40,12 +50,12 @@ const primary = computed(() => props.slice.primary)
 }
 
 .title {
-    grid-column: 1 / -1;
     max-width: 28ch;
     font-family: $font-suisse-family;
     font-size: rem(20);
-    line-height: 1.3;
     font-weight: 400;
+    grid-column: 1 / -1;
+    line-height: 1.3;
     margin-block: 0;
 
     @include media('>=lg') {
@@ -56,24 +66,26 @@ const primary = computed(() => props.slice.primary)
 @mixin font-body($weight: 300) {
     font-family: $font-suisse-family;
     font-size: rem(18);
-    line-height: 1.3;
     font-weight: $weight;
+    line-height: 1.3;
 }
 
 .secondary-title {
     grid-column: 1 / -2;
     margin-block: rem(42) 0;
+
     @include font-body(500);
 
     @include media('>=lg') {
-        margin-block: 0;
         margin-top: initial;
         grid-column: 8 / -1;
+        margin-block: 0;
     }
 }
 
 .content {
     grid-column: 1 / -2;
+
     @include font-body;
 
     .secondary-title + & {

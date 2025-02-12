@@ -3,8 +3,8 @@
 @use 'sass:meta';
 
  :root {
-     color: var(--theme-color-on-background);
      background-color: var(--theme-color-background);
+     color: var(--theme-color-on-background);
 
      @include theme(dark);
  }

@@ -90,14 +90,14 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 
 .title {
     display: block;
+    width: 100%;
     color: inherit;
-    font-weight: 300;
     font-family: $font-lecturis-family;
-    text-decoration: none;
+    font-size: fluid((xs: 24, xl: 30));
+    font-weight: 300;
     line-height: 1.4;
     margin-block: rem(14) rem(25);
-    font-size: fluid((xs: 24, xl: 30));
-    width: 100%;
+    text-decoration: none;
 
     @include media('>=lg') {
       margin-block: rem(48) rem(60);
@@ -105,20 +105,20 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 }
 
 .tags {
-  font-weight: 300;
-  font-family: $font-suisse-family;
-  line-height: 1.3;
-  font-size: rem(14);
   width: 50%;
+  font-family: $font-suisse-family;
+  font-size: rem(14);
+  font-weight: 300;
+  line-height: 1.3;
 }
 
 .date {
-  font-weight: 300;
-  font-family: $font-suisse-family;
-  line-height: 1.3;
-  font-size: rem(14);
   width: 50%;
-  text-align: right;
     margin-left: auto;
+  font-family: $font-suisse-family;
+  font-size: rem(14);
+  font-weight: 300;
+  line-height: 1.3;
+  text-align: right;
 }
 </style>

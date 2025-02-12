@@ -41,20 +41,20 @@ const lastTopColumnedElementIndex = computed(() => lastTopColumnedElement.value.
 
 <style lang="scss" module>
 .root {
-    margin-block: rem(242) rem(120);
     column-count: 1;
+    margin-block: rem(242) rem(120);
     padding-inline: var(--gutter);
 
     @include media('>=lg') {
-        margin-block: rem(235) rem(180);
         column-count: 2;
         column-gap: rem(24);
+        margin-block: rem(235) rem(180);
     }
 }
 
 .image {
-    grid: 1 / -1;
     margin-bottom: rem(10);
+    grid: 1 / -1;
 
     @include media('>=lg') {
         margin-bottom: rem(24);

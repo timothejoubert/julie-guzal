@@ -74,11 +74,11 @@ function onClick(index: number) {
 }
 
 .item {
-    grid-column: 1 / -1;
     overflow: hidden;
-    background: initial;
-    border: initial;
     padding: initial;
+    border: initial;
+    background: initial;
+    grid-column: 1 / -1;
 
     @include media('>=md') {
         &:nth-child(9n + 1) {
@@ -87,8 +87,8 @@ function onClick(index: number) {
 
         &:nth-child(9n + 2) {
             display: grid;
-            grid-template-columns: subgrid;
             grid-column: 1 / -1;
+            grid-template-columns: subgrid;
 
             & > * {
                 grid-column: 1 / span 5;
@@ -117,8 +117,8 @@ function onClick(index: number) {
 
         &:nth-child(9n + 8) {
             display: grid;
-            grid-template-columns: subgrid;
             grid-column: 1 / -1;
+            grid-template-columns: subgrid;
 
             & > * {
                 grid-column: 10 / -1;
@@ -127,8 +127,8 @@ function onClick(index: number) {
 
         &:nth-child(9n + 9) {
             display: grid;
-            grid-template-columns: subgrid;
             grid-column: 1 / -1;
+            grid-template-columns: subgrid;
 
             & > * {
                 grid-column: 1 / span 3;

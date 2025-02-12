@@ -112,11 +112,11 @@ function updateScrollPosition(newIndex: number) {
 <style lang="scss" module>
 .root {
     display: flex;
+    max-width: 100vw;
     flex-wrap: nowrap;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none;
-    scrollbar-width: none;
     overflow-x: scroll;
-    max-width: 100vw;
+    scrollbar-width: none;
 }
 </style>

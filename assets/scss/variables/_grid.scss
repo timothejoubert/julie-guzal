@@ -3,15 +3,12 @@
 $gutters: (
      0: rem(24),
 ) !default;
-
 $grid-widths: (
     0: calc(100% - 2 * var(--gutter)),
 ) !default;
-
 $grid-max-widths: (
-     //0: rem(1600),
+     // 0: rem(1600),
 ) !default;
-
 $grid-columns: (
     0: 12,
 ) !default;

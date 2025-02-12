@@ -70,8 +70,8 @@ const slices = computed(() => props.document.data.slices)
 
 .item {
     display: grid;
-    grid-template-columns: subgrid;
     grid-column: 1 / -1;
+    grid-template-columns: subgrid;
 }
 
 .project {

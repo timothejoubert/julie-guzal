@@ -79,22 +79,22 @@ const nextProject = computed(() => {
 
     &::before {
         position: absolute;
-        content: '';
         top: 0;
-        left: calc(var(--gutter) * -1);
         right: calc(var(--gutter) * -1);
-        background-color: var(--theme-color-on-background);
+        left: calc(var(--gutter) * -1);
         height: 1px;
+        background-color: var(--theme-color-on-background);
+        content: '';
     }
 }
 
 .title {
-    margin-block: rem(46) 0;
-    grid-column: 1 / -1;
     font-family: $font-lecturis-family;
-    line-height: 1;
     font-size: rem(100);
     font-weight: 300;
+    grid-column: 1 / -1;
+    line-height: 1;
+    margin-block: rem(46) 0;
     text-transform: uppercase;
 
     @include media('>=lg') {
@@ -110,9 +110,9 @@ const nextProject = computed(() => {
     grid-column: 1 / -1;
 
     @include media('>=lg') {
-        grid-column: 1 / 7;
-        margin-top: initial;
         align-self: end;
+        margin-top: initial;
+        grid-column: 1 / 7;
     }
 }
 
@@ -121,14 +121,14 @@ const nextProject = computed(() => {
 }
 
 .link {
+    color: var(--theme-color-on-background);
     font-family: $font-lecturis-family;
-    line-height: 1.3;
     font-size: rem(24);
     font-weight: 300;
+    line-height: 1.3;
     text-decoration: none;
-    color: var(--theme-color-on-background);
-    white-space: break-spaces;
     transition: opacity 0.3s, color 0.3s;
+    white-space: break-spaces;
 
     @media (hover: hover) {
         .list:has(&:hover) & {
@@ -140,12 +140,13 @@ const nextProject = computed(() => {
             opacity: 1 !important;
         }
     }
-    &:after {
+
+    &::after {
         position: relative;
         content: ', ';
     }
 
-    .item:last-child &:after {
+    .item:last-child &::after {
         content: '.';
     }
 }
@@ -156,25 +157,25 @@ const nextProject = computed(() => {
     text-decoration: none;
 
     @include media('>=lg') {
-        grid-column: 7 / -1;
         margin-top: initial;
+        grid-column: 7 / -1;
     }
 }
 
 .next__title {
+    color: var(--theme-color-on-background);
     font-family: $font-lecturis-family;
-    line-height: 1.3;
     font-size: rem(40);
     font-weight: 300;
-    color: var(--theme-color-on-background);
+    line-height: 1.3;
 }
 
 .next__image {
     --v-img-max-width: none;
 
     width: calc(100% + var(--gutter) * 2);
-    margin-left: calc(var(--gutter) * -1);
     margin-top: rem(24);
+    margin-left: calc(var(--gutter) * -1);
 
     @include media('>=lg') {
         width: 100%;
@@ -185,18 +186,18 @@ const nextProject = computed(() => {
 .arrow {
     height: auto;
     opacity: 0;
-    translate: rem(10) rem(10);
-    transform-origin: right bottom;
     rotate: 20deg;
-    transition-property: opacity, translate, rotate;
+    transform-origin: right bottom;
     transition-duration: 0.2s;
+    transition-property: opacity, translate, rotate;
     transition-timing-function: ease(out-quad);
+    translate: rem(10) rem(10);
 
     @media (hover: hover) {
         .next:hover & {
-            translate: 0 0;
-            rotate: 0deg;
             opacity: 1;
+            rotate: 0deg;
+            translate: 0 0;
         }
     }
 }

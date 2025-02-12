@@ -103,43 +103,40 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
 
 $item-margin-top: rem(289);
 
-.root {
-}
-
 .header {
     position: relative;
 }
 
 .back {
     position: absolute;
-    left: 0;
+    z-index: 1;
     top: rem(24);
+    left: 0;
     display: flex;
     align-items: center;
-    gap: rem(14);
+    color: var(--theme-color-on-background);
     font-family: $font-lecturis-family;
     font-size: rem(20);
+    gap: rem(14);
     line-height: 1.4;
     text-decoration: none;
-    z-index: 1;
-    color: var(--theme-color-on-background);
 }
 
 .image {
     --v-img-max-width: none;
 
-    grid-column: 1 / -1;
     width: calc(100% + var(--gutter) * 2);
     margin-left: calc(var(--gutter) * -1);
+    grid-column: 1 / -1;
 }
 
 .title {
-    grid-column: 1 / -1;
     font-family: $font-lecturis-family;
-    line-height: 1.4;
     font-size: fluid((xs: 50, xl: 100));
-    margin-block: rem(32) 0;
     font-weight: 300;
+    grid-column: 1 / -1;
+    line-height: 1.4;
+    margin-block: rem(32) 0;
 
     @include media('>=lg') {
         margin-top: rem(42);
@@ -147,44 +144,43 @@ $item-margin-top: rem(289);
 }
 
 .tags {
-    grid-column: 1 / -1;
-    font-family: $font-suisse-family;
-    line-height: 1.3;
-    font-size: rem(20);
     margin-top: rem(48);
+    font-family: $font-suisse-family;
+    font-size: rem(20);
     font-weight: 400;
+    grid-column: 1 / -1;
+    line-height: 1.3;
 
     @include media('>=lg') {
-        grid-column: 1 / 7;
         margin-top: $item-margin-top;
+        grid-column: 1 / 7;
     }
-
 }
 
 .date {
     position: relative;
-    grid-column: 1 / -1;
+    padding-top: rem(24);
+    margin-top: rem(52);
     font-family: $font-suisse-family;
-    line-height: 1.3;
     font-size: rem(20);
     font-weight: 400;
-    margin-top: rem(52);
-    padding-top: rem(24);
+    grid-column: 1 / -1;
+    line-height: 1.3;
 
     &::before {
         position: absolute;
-        content: '';
         top: 0;
-        left: calc(var(--gutter) * -1);
         right: calc(var(--gutter) * -1);
+        left: calc(var(--gutter) * -1);
         height: 1px;
         background-color: var(--theme-color-on-background);
+        content: '';
     }
 
     @include media('>=lg') {
+        padding-top: initial;
         margin-top: $item-margin-top;
         grid-column: 7;
-        padding-top: initial;
 
         &::before {
             display: none;
@@ -193,12 +189,12 @@ $item-margin-top: rem(289);
 }
 
 .content {
-    grid-column: 1 / -1;
+    margin-top: rem(24);
     font-family: $font-suisse-family;
-    line-height: 1.27;
     font-size: rem(18);
     font-weight: 300;
-    margin-top: rem(24);
+    grid-column: 1 / -1;
+    line-height: 1.27;
 
     & > h4:first-child {
         font-size: rem(20);
@@ -219,11 +215,11 @@ $item-margin-top: rem(289);
 }
 
 .credits__title {
-    grid-column: 1 / -1;
     font-family: $font-suisse-family;
-    line-height: 1.3;
     font-size: rem(24);
     font-weight: 400;
+    grid-column: 1 / -1;
+    line-height: 1.3;
 
     @include media('>=lg') {
         grid-column: 1 / 7;
@@ -231,12 +227,12 @@ $item-margin-top: rem(289);
 }
 
 .credits__content {
-    grid-column: 1 / -1;
+    margin-top: rem(34);
     font-family: $font-suisse-family;
-    line-height: 1.42;
     font-size: rem(14);
     font-weight: 300;
-    margin-top: rem(34);
+    grid-column: 1 / -1;
+    line-height: 1.42;
 
     @include media('>=lg') {
         margin-top: initial;
@@ -245,14 +241,14 @@ $item-margin-top: rem(289);
 }
 
 .external-link {
-    grid-column: 1 / -1;
+    margin-top: rem(34);
+    color: var(--theme-color-on-background);
     font-family: $font-suisse-family;
-    line-height: 1.3;
     font-size: rem(24);
     font-weight: 400;
-    margin-top: rem(34);
+    grid-column: 1 / -1;
+    line-height: 1.3;
     text-decoration: none;
-    color: var(--theme-color-on-background);
 
     @include media('>=lg') {
         margin-top: rem(44);
