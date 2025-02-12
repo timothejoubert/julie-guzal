@@ -4,20 +4,16 @@ interface UseCounterParams {
 }
 
 interface UseCounterOptions {
-    startValue: number
-    endValue: number
-    startDelay: number
-    counterDuration: number
-    leaveDuration: number
+    startValue?: number
+    endValue?: number
+    duration?: number
 }
-export function useCounter(params: Partial<UseCounterParams>) {
+export function useCounter(params: UseCounterParams) {
     const options = {
         startValue: params?.options?.startValue || 0,
         endValue: params?.options?.endValue || 100,
-        startDelay: params?.options?.startDelay || 0.2,
-        counterDuration: params?.options?.counterDuration || 1.2,
-        leaveDuration: params?.options?.leaveDuration || 0.6,
-    } as UseCounterOptions
+        duration: params?.options?.duration || 1200,
+    }
 
     const counterOutput = ref(0)
 
@@ -28,7 +24,7 @@ export function useCounter(params: Partial<UseCounterParams>) {
         const increaseCounter = (timestamp: number) => {
             if (!startTimestamp) startTimestamp = timestamp
 
-            const progress = Math.min((timestamp - startTimestamp) / options.counterDuration, 1)
+            const progress = Math.min((timestamp - startTimestamp) / options.duration, 1)
 
             counterOutput.value = Math.floor(progress * (options.endValue - options.startValue) + options.startValue)
 

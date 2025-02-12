@@ -1,18 +1,37 @@
 <script lang="ts" setup>
-const settingsDocument = await usePrismicSettingsDocument()
-const siteName = settingsDocument?.data.site_name
+import LogoSvg from '~/assets/images/logo.svg?component'
 
-const state = useSplashScreen()
+const state = useSplashScreenState()
+const root = ref<HTMLElement | null>(null)
 
-const reveal = ref(false)
+const onCounterFinish = () => {
+    if (root.value) {
+        root.value.addEventListener('transitionend', () => {
+            state.value = 'done'
+        }, { once: true })
+    }
+    else {
+        window.setTimeout(() => {
+            state.value = 'done'
+        }, 600)
+    }
+    state.value = 'leave'
+}
+
+const { startCounter, counterOutput } = useCounter({ options: { duration: 1200 }, onFinish: onCounterFinish })
+
+onMounted(() => {
+    state.value = 'enter'
+    startCounter()
+})
 
 // Style
 const $style = useCssModule()
 const rootClasses = computed(() => {
     return [
         $style.root,
-        reveal.value && $style['root--reveal'],
         state.value !== 'pending' && $style['root--started'],
+        state.value === 'enter' && $style['root--enter'],
         state.value === 'leave' && $style['root--leave'],
     ]
 })
@@ -20,25 +39,19 @@ const rootClasses = computed(() => {
 
 <template>
     <div
+        ref="root"
         :class="rootClasses"
     >
-        <button @click="() => reveal = !reveal">
-            Reveal : {{ reveal }}
-        </button>
-        <br>
-        <br>
-        <br>
-        <br>
-        <VRevealText
-            v-model="reveal"
-            :content="siteName"
-            class="text-h1"
-            :class="$style.text"
-        />
+        <LogoSvg :class="$style.logo" />
+        <div :class="$style.counter">
+            {{ counterOutput }} %
+        </div>
     </div>
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/variables/fonts' as *;
+
 .root {
     position: fixed;
     z-index: 1001;
@@ -47,30 +60,28 @@ const rootClasses = computed(() => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: var(--theme-color-background);
+    background-color: var(--theme-color-primary);
+    color: var(--theme-color-on-primary);
     inset: 0;
+    transition: opacity 0.6s ease(out-quad);
+
+    &--leave {
+        opacity: 0;
+    }
 }
 
-.text {
-    > *[data-char-content] {
-        position: relative;
-        display: inline-block;
-        overflow: hidden;
-        color: transparent;
-        opacity: 1;
-    }
+.logo {
+    width: 78px;
+    height: auto;
+}
 
-    > *[data-char-content]::after {
-        position: absolute;
-        color: var(--color-main-darker-80);
-        content: attr(data-char-content);
-        inset: 0;
-        transition: translate 0.3s calc(var(--data-char-index, 1) * 50ms) ease(out-quart);
-        translate: 0 110%;
-    }
-
-    .root--reveal & *[data-char-content]::after {
-        translate: 0 10%;
-    }
+.counter {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    margin-top: rem(16);
+    font-family: $font-suisse-family;
+    font-size: rem(16);
+    font-weight: 400;
 }
 </style>
