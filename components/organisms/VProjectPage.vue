@@ -1,4 +1,5 @@
 <script  lang="ts" setup>
+import { asText } from '@prismicio/helpers'
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
@@ -9,10 +10,14 @@ const props = defineProps<{
     document: ProjectPageDocument
 }>()
 
-const { image, title, tags, date, content, credits, externalUrl } = useProjectUtils(props.document)
+const { image, title, tags, date, content, credits, externalUrl, externalUrlLabel } = useProjectUtils(props.document)
 
 const tagsText = computed(() => tags.value.join(', '))
 const slices = computed(() => props.document.data.slices)
+
+const hasCredits = computed(() => {
+    return !!(asText(credits.value) || externalUrl.value || externalUrlLabel.value)
+})
 
 const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_page)
 </script>
@@ -66,6 +71,7 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
                 :components="components"
             />
             <section
+                v-if="hasCredits"
                 :class="$style.credits"
                 class="grid"
             >
@@ -80,7 +86,7 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
                 <VPrismicLink
                     v-if="externalUrl"
                     :to="externalUrl"
-                    :label="$t('project_page.external_link_label')"
+                    :label="externalUrlLabel || $t('project_page.external_link_label')"
                     :class="$style['external-link']"
                 />
             </section>
@@ -193,6 +199,10 @@ $item-margin-top: rem(289);
     font-size: rem(18);
     font-weight: 300;
     margin-top: rem(24);
+
+    & > h4:first-child {
+        font-size: rem(20);
+    }
 
     @include media('>=lg') {
         margin-top: $item-margin-top;

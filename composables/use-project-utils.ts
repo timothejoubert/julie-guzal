@@ -20,6 +20,7 @@ export function useProjectUtils(project: PossibleProjectPageDocument | undefined
     const content = computed(() => data.value?.content)
     const credits = computed(() => data.value?.credits)
     const externalUrl = computed(() => data.value?.external_url)
+    const externalUrlLabel = computed(() => data.value?.external_url_label)
 
     return {
         image,
@@ -29,5 +30,6 @@ export function useProjectUtils(project: PossibleProjectPageDocument | undefined
         content,
         credits,
         externalUrl,
+        externalUrlLabel,
     }
 }
