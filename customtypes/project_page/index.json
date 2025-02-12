@@ -52,13 +52,6 @@
           "placeholder": ""
         }
       },
-      "external_url": {
-        "type": "Text",
-        "config": {
-          "label": "External url",
-          "placeholder": ""
-        }
-      },
       "credits": {
         "type": "StructuredText",
         "config": {
@@ -66,6 +59,20 @@
           "placeholder": "",
           "allowTargetBlank": true,
           "multi": "paragraph,strong,em,hyperlink"
+        }
+      },
+      "external_url": {
+        "type": "Text",
+        "config": {
+          "label": "External url",
+          "placeholder": ""
+        }
+      },
+      "external_url_label": {
+        "type": "Text",
+        "config": {
+          "label": "External url label",
+          "placeholder": ""
         }
       },
       "slices": {
