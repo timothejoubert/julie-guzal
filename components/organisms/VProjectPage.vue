@@ -229,7 +229,7 @@ $item-margin-top: rem(289);
 .credits__content {
     margin-top: rem(34);
     font-family: $font-suisse-family;
-    font-size: rem(14);
+    font-size: rem(16);
     font-weight: 300;
     grid-column: 1 / -1;
     line-height: 1.42;
