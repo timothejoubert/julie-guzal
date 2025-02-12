@@ -2,6 +2,7 @@
 import Lenis from 'lenis'
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
+import VLoadingIndicator from '~/components/atoms/VLoadingIndicator.vue'
 
 if (import.meta.client) {
     callOnce(() => {
@@ -34,6 +35,6 @@ if (typeof route.name !== 'string' || route.name?.includes('uid__') || isPreview
         <VMediaViewer />
     </ClientOnly>
 
-    <NuxtLoadingIndicator color="white" />
+    <VLoadingIndicator />
     <NuxtPage />
 </template>
