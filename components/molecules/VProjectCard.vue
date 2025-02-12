@@ -74,8 +74,9 @@ const { image, title, date, tags } = useProjectUtils(props.project)
     flex-wrap: wrap;
 }
 
-.image-wrapper {
-  width: 100%;
+.media-wrapper {
+    display: block;
+    width: 100%;
 }
 
 .image {
