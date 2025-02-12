@@ -119,5 +119,6 @@ const { image, title, date, tags } = useProjectUtils(props.project)
   font-size: rem(14);
   width: 50%;
   text-align: right;
+    margin-left: auto;
 }
 </style>
