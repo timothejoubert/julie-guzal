@@ -1,6 +1,20 @@
 <script  lang="ts" setup>
+import Lenis from 'lenis'
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
+
+if (import.meta.client) {
+    callOnce(() => {
+        const lenis = new Lenis()
+
+        function raf(time: DOMHighResTimeStamp) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+        }
+
+        requestAnimationFrame(raf)
+    })
+}
 
 const route = useRoute()
 const { isPreview } = usePrismicPreviewRoute()
