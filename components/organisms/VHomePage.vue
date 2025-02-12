@@ -19,13 +19,17 @@ const slices = computed(() => props.document.data.slices)
                 :class="$style.list"
                 class="grid"
             >
-                <VProjectCard
+                <li
                     v-for="(project, i) in projects"
                     :key="project?.id || i"
-                    :project="project"
-                    root-tag="li"
-                    :class="$style.project"
-                />
+                    :class="$style.item"
+                >
+                    <VProjectCard
+                        :project="project"
+                        root-tag="div"
+                        :class="$style.project"
+                    />
+                </li>
             </ul>
             <LazySliceZone
                 v-if="slices?.length"
@@ -64,6 +68,12 @@ const slices = computed(() => props.document.data.slices)
     }
 }
 
+.item {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / -1;
+}
+
 .project {
     grid-column: 1 / -1;
     list-style: none;
@@ -71,11 +81,11 @@ const slices = computed(() => props.document.data.slices)
     @include media('>=lg') {
         grid-column: span 6;
 
-        &:nth-child(odd) {
+        .item:nth-child(odd) & {
             grid-column: 7 / -1;
         }
 
-        &:nth-child(even) {
+        .item:nth-child(even) & {
             grid-column: 1 / 7;
         }
     }
