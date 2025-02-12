@@ -68,11 +68,18 @@ const mediaGroup = computed(() => {
     ]
 })
 
+const spacing = computed(() => {
+    const value = primary.value.spacing
+    if (!value || value === 'none') return undefined
+
+    return value
+})
+
 const $style = useCssModule()
 const rootClasses = computed(() => {
     return [
         $style.root,
-        primary.value.spacing && $style[`root--margin-block-${primary.value.spacing}`],
+        spacing.value && $style[`root--margin-block-${spacing.value}`],
         isDuoMedia.value && $style['root--duo-media'],
 
     ]

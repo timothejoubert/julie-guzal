@@ -15,14 +15,16 @@
         "spacing": {
           "type": "Select",
           "config": {
-            "label": "spacing",
+            "label": "Spacing",
             "placeholder": "",
             "options": [
+              "none",
               "xs",
               "sm",
               "md",
               "lg"
-            ]
+            ],
+            "default_value": "none"
           }
         },
         "image": {
@@ -75,11 +77,13 @@
             "label": "Spacing",
             "placeholder": "",
             "options": [
+              "none",
               "xs",
               "sm",
               "md",
               "lg"
-            ]
+            ],
+            "default_value": "none"
           }
         },
         "main_image": {
