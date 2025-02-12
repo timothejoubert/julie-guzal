@@ -12,13 +12,17 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "spacing_block": {
-          "type": "Boolean",
+        "spacing": {
+          "type": "Select",
           "config": {
-            "label": "Spacing block",
-            "placeholder_false": "false",
-            "placeholder_true": "true",
-            "default_value": false
+            "label": "spacing",
+            "placeholder": "",
+            "options": [
+              "xs",
+              "sm",
+              "md",
+              "lg"
+            ]
           }
         },
         "image": {
@@ -65,13 +69,17 @@
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "spacing_block": {
-          "type": "Boolean",
+        "spacing": {
+          "type": "Select",
           "config": {
-            "label": "Spacing block",
-            "placeholder_false": "false",
-            "placeholder_true": "true",
-            "default_value": false
+            "label": "Spacing",
+            "placeholder": "",
+            "options": [
+              "xs",
+              "sm",
+              "md",
+              "lg"
+            ]
           }
         },
         "main_image": {

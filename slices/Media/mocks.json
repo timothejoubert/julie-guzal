@@ -67,9 +67,10 @@
 				"__TYPE__": "BooleanContent",
 				"value": false
 			},
-			"spacing_block": {
-				"__TYPE__": "BooleanContent",
-				"value": true
+			"spacing": {
+				"__TYPE__": "FieldContent",
+				"value": "xs",
+				"type": "Select"
 			}
 		},
 		"items": []
@@ -206,9 +207,10 @@
 				"__TYPE__": "BooleanContent",
 				"value": false
 			},
-			"spacing_block": {
-				"__TYPE__": "BooleanContent",
-				"value": true
+			"spacing": {
+				"__TYPE__": "FieldContent",
+				"value": "xs",
+				"type": "Select"
 			}
 		},
 		"items": [

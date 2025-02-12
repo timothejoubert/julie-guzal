@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { Content } from '@prismicio/client'
 import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
+import type { SliceComponentProps } from '@prismicio/vue'
+import type { MediaSlice } from '~/prismicio-types'
 
-const props = defineProps(getSliceComponentProps<Content.MediaSlice>())
+const props = defineProps<SliceComponentProps<MediaSlice>>()
 
 const primary = computed(() => props.slice.primary)
 const isDuoMedia = computed(() => props.slice.variation === 'duoMedia')
@@ -71,7 +72,7 @@ const $style = useCssModule()
 const rootClasses = computed(() => {
     return [
         $style.root,
-        primary.value.spacing_block && $style['root--margin-block'],
+        primary.value.spacing && $style[`root--margin-block-${primary.value.spacing}`],
         isDuoMedia.value && $style['root--duo-media'],
 
     ]
@@ -103,9 +104,40 @@ const rootClasses = computed(() => {
 @use 'assets/scss/functions/rem' as *;
 
 .root {
-    &--margin-block {
+    &--margin-block-xs {
+        margin-block: rem(10);
+    }
+
+    &--margin-block-sm {
         margin-block: rem(24);
     }
+
+    &--margin-block-md {
+        margin-block: rem(48);
+    }
+
+    &--margin-block-lg {
+        margin-block: rem(96);
+    }
+
+    @include media('>=lg') {
+        &--margin-block-xs {
+            margin-block: rem(24);
+        }
+
+        &--margin-block-sm {
+            margin-block: rem(48);
+        }
+
+        &--margin-block-md {
+            margin-block: rem(96);
+        }
+
+        &--margin-block-lg {
+            margin-block: rem(144);
+        }
+    }
+
 }
 
 .image {
