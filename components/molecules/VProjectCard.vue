@@ -41,8 +41,9 @@ const { image, title, date, tags } = useProjectUtils(props.project)
         <VPrismicLink
             :to="project"
             :class="$style.title"
-            :label="title"
-        />
+        >
+            {{ title }}
+        </VPrismicLink>
         <div
             v-if="tags.length"
             :class="$style.tags"

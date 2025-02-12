@@ -1,0 +1,39 @@
+{
+  "id": "project_feed",
+  "type": "SharedSlice",
+  "name": "ProjectFeed",
+  "description": "ProjectFeed",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "project": {
+          "type": "Group",
+          "config": {
+            "label": "Project",
+            "repeat": true,
+            "fields": {
+              "project_document": {
+                "type": "Link",
+                "config": {
+                  "label": "Project document",
+                  "select": "document",
+                  "repeat": false,
+                  "customtypes": [
+                    "project_page"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

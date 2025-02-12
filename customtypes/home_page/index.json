@@ -18,6 +18,9 @@
         "fieldset": "Slice Zone",
         "config": {
           "choices": {
+            "project_feed": {
+              "type": "SharedSlice"
+            },
             "cross_nav": {
               "type": "SharedSlice"
             }
