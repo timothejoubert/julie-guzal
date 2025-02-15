@@ -1,59 +1,54 @@
 import type { TransitionProps } from 'vue'
 import EventType from '~/constants/event-type'
 
-function foregroundElement() {
-    const foreground = document.createElement('div')
-    foreground.style.position = 'fixed'
-    foreground.style.inset = '0'
-    foreground.style.zIndex = '5'
-    // foreground.style.background = '#fff'
+export const HOME_CARD_TO_PROJECT_TRANSITION = 'home-card-to-project-page-transition'
+export const DEFAULT_TRANSITION = 'default-transition'
 
-    return foreground
+export type PageTransitionEventData = {
+    pageEl: HTMLElement
+    linkClicked: HTMLElement | undefined
+    done: () => void
 }
 
-const defaultPageTransition: TransitionProps = {
-    css: false,
-    mode: 'out-in',
-    onLeave(_element, done) {
-        eventBus.emit(EventType.PAGE_TRANSITION_LEAVE)
+export const defaultPageTransition: TransitionProps = {
+    name: DEFAULT_TRANSITION,
+    type: 'transition',
+    mode: 'default',
+    onBeforeLeave(el) {
+        // console.log('onBeforeLeave', el)
+    },
+    onLeave(el, done) {
+        console.log('emit', EventType.PAGE_TRANSITION_LEAVE)
 
-        const foreground = foregroundElement()
-        document.body.appendChild(foreground)
+        const linkClicked = getProjectHomeCardClicked(el)
+        eventBus.emit(EventType.PAGE_TRANSITION_LEAVE, { pageEl: el, linkClicked, done })
 
-        // TODO: use native css overflow hidden on body
-        // disableBodyScroll(document.body, { reserveScrollBarGap: true })
-
-        const animation = foreground.animate([{ opacity: '0' }, { opacity: '1' }], {
-            duration: 200,
-        })
-
-        animation.onfinish = () => {
-            foreground.remove()
-            done()
-        }
+        // if (!linkClicked) {
+        done()
+        // }
     },
     onAfterLeave() {
         eventBus.emit(EventType.PAGE_TRANSITION_AFTER_LEAVE)
     },
-    onEnter(element, done) {
-        eventBus.emit(EventType.PAGE_TRANSITION_ENTER)
+    onEnter(el, done) {
+        console.log('emit onEnter', el)
 
-        const foreground = foregroundElement()
-        element.appendChild(foreground)
+        const linkClicked = getProjectHomeCardClicked(el)
+        eventBus.emit(EventType.PAGE_TRANSITION_ENTER, { pageEl: el, linkClicked, done })
 
-        const animation = foreground.animate([{ opacity: '1' }, { opacity: '0' }], {
-            duration: 400,
-        })
-
-        animation.onfinish = () => {
-            // enableBodyScroll(document.body)
-            foreground.remove()
-            done()
-        }
+        // if (!linkClicked) {
+        done()
+        // }
     },
     onAfterEnter() {
+        // console.log('onAfterEnter')
         eventBus.emit(EventType.PAGE_TRANSITION_AFTER_ENTER)
     },
 }
 
-export { defaultPageTransition }
+function getProjectHomeCardClicked(el: Element) {
+    const isHomeToProjectTransition = el.classList.contains(HOME_CARD_TO_PROJECT_TRANSITION + '-leave-active')
+    if (!isHomeToProjectTransition) return undefined
+
+    return el.querySelector('a[aria-current="page"]') || undefined
+}

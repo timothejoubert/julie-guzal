@@ -77,6 +77,7 @@ const rootClasses = computed(() => {
   margin-block: initial;
   text-transform: uppercase;
   translate: 0 -0.14lh;
+    max-width: var(--v-top-bar-title-max-width);
 
     @include media('>=md') {
         grid-column: 1 / span 9;

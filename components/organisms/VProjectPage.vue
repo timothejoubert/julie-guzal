@@ -5,11 +5,24 @@ import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
 import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
+import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
+import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
 
 const props = defineProps<{
     document: ProjectPageDocument
 }>()
 
+const headerImg = ref<TemplateElement>(null)
+const headerImgElement = computed(() => getHtmlElement(headerImg))
+
+const imgRef = useProjectNextPageHeaderImg()
+
+const unwatch = watch(headerImgElement, (element) => {
+    if (element) {
+        imgRef.value = element
+        unwatch()
+    }
+})
 const { image, title, tags, date, content, credits, externalUrl, externalUrlLabel } = useProjectUtils(props.document)
 
 const tagsText = computed(() => tags.value.join(', '))
@@ -40,6 +53,7 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
             </VPrismicLink>
             <VPrismicImage
                 v-if="image"
+                ref="headerImg"
                 :document="image"
                 fit="crop"
                 ar="1440:610"

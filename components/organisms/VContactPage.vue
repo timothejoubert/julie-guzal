@@ -37,9 +37,6 @@ const rightColumn = computed(() => data.value.right_column?.[0])
                     v-if="rightColumn.image"
                     :document="rightColumn.image"
                     fit="crop"
-                    ar="684:414"
-                    width="684"
-                    height="414"
                     :class="$style.right__column__image"
                     sizes="xs:90vw md:90vw lg:25vw xxl:25vw qhd:25vw"
                 />
@@ -74,6 +71,8 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 }
 
 .top-bar {
+    --v-top-bar-title-max-width: 9ch;
+
     & :global(.v-nav) {
         @include theme('dark')
     }
@@ -87,9 +86,9 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 
 .main {
     position: relative;
-    min-height: 45vh;
+    min-height: 50vh;
     padding-top: rem(32);
-    margin-top: auto; // rem(146);
+    margin-top: auto;
 
     &::before {
         position: absolute;

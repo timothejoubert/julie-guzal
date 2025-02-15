@@ -2,6 +2,7 @@ import type { FilledContentRelationshipField } from '@prismicio/types'
 import type { PossibleProjectPageDocument } from '~/types/app'
 import { isContentRelationshipField, isPrismicDocument } from '~/utils/prismic/guard'
 import type { ProjectPageDocument } from '~/prismicio-types'
+import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
 
 export function useProjectUtils(project: PossibleProjectPageDocument | undefined | null) {
     const projectFilled = computed(() => {
@@ -21,6 +22,19 @@ export function useProjectUtils(project: PossibleProjectPageDocument | undefined
     const credits = computed(() => data.value?.credits)
     const externalUrl = computed(() => data.value?.external_url)
     const externalUrlLabel = computed(() => data.value?.external_url_label)
+    const url = computed(() => {
+        if (projectFilled.value?.url) {
+            return projectFilled.value?.url
+        }
+        else if (projectFilled.value?.uid) {
+            const path = prismicDocumentRoute.project_page.path // '/:lang?/project/:uid',
+            const folderPath = path.replace('/:lang?', '').replace('/:uid', '')
+            const lang = ''
+            return `${lang}/${folderPath}/${projectFilled.value?.uid}`
+        }
+
+        return undefined
+    })
 
     return {
         image,
@@ -31,5 +45,6 @@ export function useProjectUtils(project: PossibleProjectPageDocument | undefined
         credits,
         externalUrl,
         externalUrlLabel,
+        url,
     }
 }

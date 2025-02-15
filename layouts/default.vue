@@ -31,7 +31,7 @@ if (import.meta.client) {
 }
 
 // SplashScreen
-const state = useSplashScreenState()
+// const state = useSplashScreenState()
 </script>
 
 <template>
@@ -40,9 +40,7 @@ const state = useSplashScreenState()
         <VMediaViewer />
     </ClientOnly>
 
-    <DevOnly>
-        <VSplashScreen v-if="state !== 'done'" />
-    </DevOnly>
+    <!--    <VSplashScreen v-if="state !== 'done'" /> -->
     <VLoadingIndicator />
     <NuxtPage />
 </template>

@@ -1,5 +1,8 @@
 <script  lang="ts" setup>
 import type { PossibleProjectPageDocument } from '~/types/app'
+// import EventType from '~/constants/event-type'
+// import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
+// import type { PageTransitionEventData } from '~/transitions/default-page-transition'
 
 interface VProjectCardProps {
     project: PossibleProjectPageDocument | null
@@ -10,6 +13,40 @@ interface VProjectCardProps {
 const props = defineProps<VProjectCardProps>()
 
 const { image, title, date, tags } = useProjectUtils(props.project)
+
+// const { $gsap } = useNuxtApp()
+// function onPageLeave({ pageEl, linkClicked, done }: PageTransitionEventData) {
+//     console.log('VProjectCard onPageLeave')
+//     const isActiveLink = url.value === (linkClicked?.getAttribute('href') || document.querySelector('a[aria-current="page"]'))
+//
+//     if (!isActiveLink || !linkClicked) return
+//
+//     console.log('VProjectCard onPageLeave', linkClicked, isActiveLink)
+//
+//     window.addEventListener('scrollend', () => {
+//         console.log('on Scroll end')
+//         done()
+//     }, { once: true })
+//
+//     linkClicked.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
+// }
+//
+// function onPageEnter({ pageEl, linkClicked, done }: PageTransitionEventData) {
+//     console.log('onPageEnter', pageEl, linkClicked)
+//
+//     window.setTimeout(() => {
+//         console.log('onPageEnter done')
+//         done()
+//     }, 1000)
+// }
+
+// const { elementFlipState } = useProjectNextPageHeaderImg()
+// watch(elementFlipState, () => {
+//
+// })
+
+// usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, onPageLeave)
+// usePageTransitionEvent(EventType.PAGE_TRANSITION_ENTER, onPageEnter)
 </script>
 
 <template>

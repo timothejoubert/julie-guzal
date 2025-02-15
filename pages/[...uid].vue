@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
-import { defaultPageTransition } from '~/transitions/default-page-transition'
+import { defaultPageTransition, HOME_CARD_TO_PROJECT_TRANSITION, DEFAULT_TRANSITION } from '~/transitions/default-page-transition'
 import type {
     ContactPageDocument,
     GalleryPageDocument,
@@ -10,6 +10,15 @@ import type {
 } from '~/prismicio-types'
 
 definePageMeta({
+    middleware(to, from) {
+        const isFromHome = getDocumentTypeByUrl(from.path) === 'home_page'
+        const isToProject = getDocumentTypeByUrl(to.path) === 'project_page'
+
+        if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
+            to.meta.pageTransition.name = isFromHome && isToProject ? HOME_CARD_TO_PROJECT_TRANSITION : DEFAULT_TRANSITION
+            console.log('set page transition', to.meta.pageTransition.name)
+        }
+    },
     pageTransition: defaultPageTransition,
 })
 
@@ -61,24 +70,26 @@ const galleryDocument = computed(() => pageType === 'gallery_page' && webRespons
 </script>
 
 <template>
-    <LazyVHomePage
-        v-if="homeDocument"
-        :document="homeDocument"
-    />
-    <LazyVContactPage
-        v-else-if="contactDocument"
-        :document="contactDocument"
-    />
-    <LazyVProjectPage
-        v-else-if="projectDocument"
-        :document="projectDocument"
-    />
-    <LazyVLabPage
-        v-else-if="labDocument"
-        :document="labDocument"
-    />
-    <LazyVGalleryPage
-        v-else-if="galleryDocument"
-        :document="galleryDocument"
-    />
+    <div>
+        <LazyVHomePage
+            v-if="homeDocument"
+            :document="homeDocument"
+        />
+        <LazyVContactPage
+            v-else-if="contactDocument"
+            :document="contactDocument"
+        />
+        <LazyVProjectPage
+            v-else-if="projectDocument"
+            :document="projectDocument"
+        />
+        <LazyVLabPage
+            v-else-if="labDocument"
+            :document="labDocument"
+        />
+        <LazyVGalleryPage
+            v-else-if="galleryDocument"
+            :document="galleryDocument"
+        />
+    </div>
 </template>
