@@ -61,8 +61,8 @@ const projects = computed(() => {
 }
 
 .list {
-    row-gap: rem(54);
     margin-block: initial;
+    row-gap: rem(54);
 
     @include media('>=lg') {
         row-gap: rem(180);

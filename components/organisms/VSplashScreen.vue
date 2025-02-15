@@ -77,8 +77,8 @@ const rootClasses = computed(() => {
 
 .counter {
     position: absolute;
-    bottom: 24px;
     right: 24px;
+    bottom: 24px;
     margin-top: rem(16);
     font-family: $font-suisse-family;
     font-size: rem(16);

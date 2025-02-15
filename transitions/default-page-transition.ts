@@ -14,7 +14,7 @@ export const defaultPageTransition: TransitionProps = {
     name: DEFAULT_TRANSITION,
     type: 'transition',
     mode: 'default',
-    onBeforeLeave(el) {
+    onBeforeLeave(_el) {
         // console.log('onBeforeLeave', el)
     },
     onLeave(el, done) {
