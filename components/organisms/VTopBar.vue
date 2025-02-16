@@ -131,13 +131,13 @@ const rootClasses = computed(() => {
 }
 
 .content {
-    max-width: flex-grid(9, 12);
+    max-width: 20ch;
     margin-top: rem(68);
     font-family: $font-suisse-family;
     font-size: rem(14);
     font-weight: 400;
     grid-column: 1 / -1;
-    line-height: 1.42;
+    line-height: 1.3;
     margin-block: initial;
 
     @include media('>=md') {

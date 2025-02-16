@@ -39,21 +39,22 @@
 - hover des liens externes
 
 - qualite photo mediaViewer 
-
+- Media Viewer, le curseur devient les fleches
+- 
 - verifier si l'import des svg functionne
 
-- lien custom dans prismic
+- ContatcPage: lien custom dans prismic
 
 - Update typo (menu item nav , credit)
 - Taille des fleches dans le footer + animation du texte
 
 - Paralax 
 
-- crop horizontal d'img dans la gallery
-- Media Viewer, le curseur devient les fleches
+
 
 ## Done
-
+- GelleryGrid: crop horizontal d'img dans la gallery
+- 
 - ProjectPage: button back projet couleur
 - 
 - enlever crop sur img contact
