@@ -6,7 +6,7 @@ import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
 import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
 import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
-import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
+// import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
 
 const props = defineProps<{
     document: ProjectPageDocument
@@ -15,7 +15,7 @@ const props = defineProps<{
 const headerImg = ref<TemplateElement>(null)
 const headerImgElement = computed(() => getHtmlElement(headerImg))
 
-const imgRef = useProjectNextPageHeaderImg()
+const imgRef = ref() // useProjectNextPageHeaderImg()
 
 const unwatch = watch(headerImgElement, (element) => {
     if (element) {
