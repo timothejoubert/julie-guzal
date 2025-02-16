@@ -12,6 +12,15 @@
           "label": "UID"
         }
       },
+      "back_button_theme": {
+        "type": "Select",
+        "config": {
+          "label": "Back button theme",
+          "placeholder": "",
+          "options": ["dark", "light"],
+          "default_value": "dark"
+        }
+      },
       "title": {
         "type": "Text",
         "config": {

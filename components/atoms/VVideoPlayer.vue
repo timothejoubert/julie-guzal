@@ -1,7 +1,7 @@
 <script lang="ts">
 import type Plyr from 'plyr'
 import type { PropType } from 'vue'
-import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
+import type { TemplateElement } from '~/utils/ref/get-html-element'
 import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/embed'
@@ -54,8 +54,10 @@ export default defineComponent({
                         rel: '0',
                         enablejsapi: '1',
                         muted: muted.value ? '1' : '0',
+                        controls: controls.value ? '1' : '0',
                         autoplay: autoplay.value ? '1' : '',
                         loop: loop.value ? '1' : '0',
+
                     }
                 }
                 else if (platform === 'vimeo') {
@@ -69,7 +71,10 @@ export default defineComponent({
                         autopause: '0',
                         muted: muted.value ? '1' : '0',
                         autoplay: autoplay.value ? '1' : '0',
+                        controls: controls.value ? '1' : '0',
                         loop: loop.value ? '1' : '0',
+                        sidedock: '0',
+                        title: '0',
                     }
                 }
 
@@ -96,7 +101,6 @@ export default defineComponent({
         })
 
         // STYLE
-        const $style = useCssModule()
         const ratio = computed(() => {
             const validRatio = props.width && props.height && Number(props.width) / Number(props.height)
             if (validRatio) return validRatio
@@ -120,96 +124,98 @@ export default defineComponent({
 
         // PLAYER
         const playerComponent = ref<TemplateElement>(null)
-        const playerElement = computed(() => getHtmlElement(playerComponent.value))
-        let player: Plyr | null = null
-        async function createPlayer() {
-            if (player || !playerElement.value) return
+        // const playerElement = computed(() => getHtmlElement(playerComponent.value))
 
-            const options: Plyr.Options = {
-                disableContextMenu: false,
-                controls: ['play', 'progress', 'current-time', 'mute', 'fullscreen'],
-                autoplay: autoplay.value,
-                muted: muted.value,
-                loop: { active: loop.value },
-                ...props.plyr,
-                iconUrl: '/images/plyr-icons.svg', // Stored in public folder for now.
-                iconPrefix: 'plyr-icon',
-            }
-            const PlyrClass = await import('plyr').then(module => module.default)
+        // let player: Plyr | null = null
+        // const $style = useCssModule()
+        // async function createPlayer() {
+        //     if (player || !playerElement.value) return
+        //
+        //     const options: Plyr.Options = {
+        //         disableContextMenu: false,
+        //         controls: ['play', 'progress', 'current-time', 'mute', 'fullscreen'],
+        //         autoplay: autoplay.value,
+        //         muted: muted.value,
+        //         loop: { active: loop.value },
+        //         ...props.plyr,
+        //         iconUrl: '/images/plyr-icons.svg', // Stored in public folder for now.
+        //         iconPrefix: 'plyr-icon',
+        //     }
+        //     const PlyrClass = await import('plyr').then(module => module.default)
+        //
+        //     // I don't know why but listeners property is not used by Plyr.
+        //     // As a workaround I will define the listeners later with on().
+        //     // Remove the listeners property to be sure that the callbacks are not called twice.
+        //     delete options.listeners
+        //
+        //     if (!controls.value) options.controls = []
+        //     if (props.background) {
+        //         options.clickToPlay = false
+        //         options.fullscreen = { enabled: false }
+        //     }
+        //     if (props.vimeo) options.vimeo = props.vimeo
+        //     if (props.youtube) options.youtube = props.youtube
+        //
+        //     player = new PlyrClass(playerElement.value as HTMLElement, options)
+        //
+        //     // Add style to new generated plyr DOM
+        //     player?.elements.container?.classList.add($style['root-initialized'])
+        //
+        //     player.on('ready', onPlayerReady)
+        //
+        //     // Fix listeners into Plyr options because the callbacks are never called.
+        //     if (props.plyr?.listeners) {
+        //         Object.keys(props.plyr.listeners).forEach(value =>
+        //             player!.on(value as keyof Plyr.PlyrEventMap, props.plyr!.listeners![value]),
+        //         )
+        //     }
+        //
+        //     if (props.fit === 'cover') {
+        //         // useEventListener('resize', updatePlayerSize, { passive: true })
+        //         updatePlayerSize()
+        //     }
+        // }
+        // const videoReady = ref(false)
+        // // const emits = defineEmits(['ready'])
+        // function onPlayerReady() {
+        //     if (player && (props.autoplay || props.background)) {
+        //         // the player is initialized with muted property as true but sometimes Plyr kept a wrong muted value into localStorage (i.e. muted = false)
+        //         // @see https://github.com/sampotts/plyr/issues/838#issuecomment-962596150
+        //         player.muted = muted.value
+        //         player.play()
+        //     }
+        //
+        //     // emits('ready', player)
+        //
+        //     videoReady.value = true
+        // }
+        //
+        // function updatePlayerSize() {
+        //     // for now, it handles cover size only
+        //     const videoRatio = ratio.value || 16 / 9
+        //
+        //     const wrapperElement = playerElement.value
+        //     const width = (wrapperElement?.clientWidth || 0) + 2 // + 2 for hiding a potential antialiasing issue
+        //     const height = (wrapperElement?.clientHeight || 0) + 2
+        //     const boundsRatio = width / height
+        //
+        //     if (boundsRatio < videoRatio) {
+        //         playerSize.value = [height * videoRatio, height]
+        //     }
+        //     else {
+        //         playerSize.value = [width, width * videoRatio]
+        //     }
+        // }
+        //
+        // function disposePlayer() {
+        //     player?.destroy()
+        //     player = null
+        // }
+        //
+        // onMounted(createPlayer)
+        // onBeforeUnmount(disposePlayer)
 
-            // I don't know why but listeners property is not used by Plyr.
-            // As a workaround I will define the listeners later with on().
-            // Remove the listeners property to be sure that the callbacks are not called twice.
-            delete options.listeners
-
-            if (!controls.value) options.controls = []
-            if (props.background) {
-                options.clickToPlay = false
-                options.fullscreen = { enabled: false }
-            }
-            if (props.vimeo) options.vimeo = props.vimeo
-            if (props.youtube) options.youtube = props.youtube
-
-            player = new PlyrClass(playerElement.value as HTMLElement, options)
-
-            // Add style to new generated plyr DOM
-            player?.elements.container?.classList.add($style['root-initialized'])
-
-            player.on('ready', onPlayerReady)
-
-            // Fix listeners into Plyr options because the callbacks are never called.
-            if (props.plyr?.listeners) {
-                Object.keys(props.plyr.listeners).forEach(value =>
-                    player!.on(value as keyof Plyr.PlyrEventMap, props.plyr!.listeners![value]),
-                )
-            }
-
-            if (props.fit === 'cover') {
-                // useEventListener('resize', updatePlayerSize, { passive: true })
-                updatePlayerSize()
-            }
-        }
-        const videoReady = ref(false)
-        // const emits = defineEmits(['ready'])
-        function onPlayerReady() {
-            if (player && (props.autoplay || props.background)) {
-                // the player is initialized with muted property as true but sometimes Plyr kept a wrong muted value into localStorage (i.e. muted = false)
-                // @see https://github.com/sampotts/plyr/issues/838#issuecomment-962596150
-                player.muted = muted.value
-                player.play()
-            }
-
-            // emits('ready', player)
-
-            videoReady.value = true
-        }
-
-        function updatePlayerSize() {
-            // for now, it handles cover size only
-            const videoRatio = ratio.value || 16 / 9
-
-            const wrapperElement = playerElement.value
-            const width = (wrapperElement?.clientWidth || 0) + 2 // + 2 for hiding a potential antialiasing issue
-            const height = (wrapperElement?.clientHeight || 0) + 2
-            const boundsRatio = width / height
-
-            if (boundsRatio < videoRatio) {
-                playerSize.value = [height * videoRatio, height]
-            }
-            else {
-                playerSize.value = [width, width * videoRatio]
-            }
-        }
-
-        function disposePlayer() {
-            player?.destroy()
-            player = null
-        }
-
-        onMounted(createPlayer)
-        onBeforeUnmount(disposePlayer)
-
-        return { isEmbed, playerStyle, videoAttrs, videoSources, src }
+        return { isEmbed, playerStyle, videoAttrs, videoSources, src, playerComponent }
     },
 })
 </script>

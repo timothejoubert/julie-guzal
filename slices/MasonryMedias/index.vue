@@ -32,8 +32,12 @@ const lastTopColumnedElementIndex = computed(() => lastTopColumnedElement.value.
                 :key="index"
                 ref="mediaInstances"
                 :class="[$style.image, index === lastTopColumnedElementIndex && $style['image--offset-top']]"
-                :document="field.image"
-                :image="{ sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw' }"
+                :document="field.image?.url ? field.image : field.embed"
+                :image="{ sizes: 'xs:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw' }"
+                :video="{
+                    autoplay: field.video_autoplay,
+                    controls: !field.video_autoplay,
+                }"
             />
         </template>
     </VSlice>

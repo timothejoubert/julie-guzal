@@ -25,6 +25,22 @@
                   "constraint": {},
                   "thumbnails": []
                 }
+              },
+              "embed": {
+                "type": "Embed",
+                "config": {
+                  "label": "Embed",
+                  "placeholder": ""
+                }
+              },
+              "video_autoplay": {
+                "type": "Boolean",
+                "config": {
+                  "label": "Video autoplay",
+                  "placeholder_false": "false",
+                  "placeholder_true": "true",
+                  "default_value": true
+                }
               }
             }
           }
