@@ -9,15 +9,15 @@ const imageList = computed(() => {
     return primary.value.item?.filter((groupField) => {
         return groupField.image?.url
     }).map((groupField, index) => {
-        const isLandscape = index === 0 || index === 1
+        const forceLandscapeRatio = index % 9 === 0 || index % 9 === 1
         return {
             document: {
                 ...groupField.image,
                 copyright: groupField.image?.alt || groupField.description,
             },
             fit: 'crop',
-            ar: isLandscape ? '566:342' : '330:432',
-            sizes: isLandscape ? 'xs:95vw sm:95vw md:40vw lg:40vw xl:40vw qhd:40vw' : 'xs:95vw sm:95vw md:25vw lg:25vw xl:25vw qhd:25vw',
+            ar: forceLandscapeRatio ? '566:342' : '330:432',
+            sizes: forceLandscapeRatio ? 'xs:95vw sm:95vw md:40vw lg:40vw xl:40vw qhd:40vw' : 'xs:95vw sm:95vw md:25vw lg:25vw xl:25vw qhd:25vw',
             // crop: 'top,left',
         }
     })
