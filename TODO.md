@@ -38,10 +38,7 @@
 # RECETTE
 - hover des liens externes
 
-- qualite photo mediaViewer 
 - Media Viewer, le curseur devient les fleches
-- 
-- verifier si l'import des svg functionne
 
 - ContatcPage: lien custom dans prismic
 
@@ -53,6 +50,9 @@
 
 
 ## Done
+- verifier si l'import des svg functionne
+- 
+- qualite photo mediaViewer (mauvaise dimension dans prismic)
 - GelleryGrid: crop horizontal d'img dans la gallery
 - 
 - ProjectPage: button back projet couleur

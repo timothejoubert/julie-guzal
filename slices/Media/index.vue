@@ -31,6 +31,7 @@ const mediaGroup = computed(() => {
                 video: {
                     thumbnail: getFilledDocument({ image: props.slice.primary.main_image }),
                     autoplay: props.slice.primary.main_video_autoplay,
+                    controls: !props.slice.primary.main_video_autoplay,
                 },
             },
             {
@@ -45,6 +46,7 @@ const mediaGroup = computed(() => {
                 video: {
                     thumbnail: getFilledDocument({ image: props.slice.primary.secondary_image }),
                     autoplay: props.slice.primary.secondary_video_autoplay,
+                    controls: !props.slice.primary.secondary_video_autoplay,
                 },
             },
         ]
@@ -63,6 +65,7 @@ const mediaGroup = computed(() => {
             video: {
                 thumbnail: getFilledDocument({ image: props.slice.primary.image }),
                 autoplay: props.slice.primary.video_autoplay,
+                controls: !props.slice.primary.video_autoplay,
             },
         },
     ]
