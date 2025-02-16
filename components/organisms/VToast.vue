@@ -63,8 +63,8 @@ watch(toasts, (list) => {
     bottom: var(--gutter);
     display: flex;
     flex-direction: column;
-    gap: rem(8);
     margin: 0;
+    gap: rem(8);
 }
 
 .toast {
@@ -75,12 +75,13 @@ watch(toasts, (list) => {
     border-radius: rem(4);
     background-color: var(--theme-color-background);
     color: var(--theme-color-on-background);
-    gap: rem(20);
-    transform-origin: center;
     font-family: $font-suisse-family;
     font-size: rem(14);
     font-weight: 400;
+    gap: rem(20);
     line-height: 1.4;
+    transform-origin: center;
+
     // box-shadow: 0 0 20px var(--theme-color-primary);
 
     &:first-child {

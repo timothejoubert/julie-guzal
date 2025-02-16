@@ -52,8 +52,8 @@ function copyToClipBoard(_event: MouseEvent) {
 <style lang="scss" module>
 .mail-to {
     padding: 0;
-    margin: 0;
     border: none;
+    margin: 0;
     background-color: initial;
     cursor: pointer;
 }

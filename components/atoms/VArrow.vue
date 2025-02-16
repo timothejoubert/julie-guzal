@@ -5,11 +5,11 @@ import { NuxtLink, VIcon } from '#components'
 export const vArrowProps = {
     tag: String,
     size: {
-        type: String as PropType<'sm' | 'md' | 'lg' >,
+        type: String as PropType<'sm' | 'md' | 'lg'>,
         default: 'md',
     },
     direction: {
-        type: String as PropType<'up' | 'down' | 'left' | 'right' >,
+        type: String as PropType<'up' | 'down' | 'left' | 'right'>,
         default: 'right',
     },
     href: String,

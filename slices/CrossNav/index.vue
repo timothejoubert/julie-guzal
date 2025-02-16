@@ -87,11 +87,11 @@ const rootClasses = computed(() => {
     @include font;
 
     display: flex;
-    column-gap: rem(20);
-    align-items: baseline;
-    flex-direction: row-reverse;
     overflow: hidden;
+    flex-direction: row-reverse;
+    align-items: baseline;
     color: var(--theme-color-on-background);
+    column-gap: rem(20);
     grid-column: 1 / -1;
     text-align: right;
     text-decoration: none;
