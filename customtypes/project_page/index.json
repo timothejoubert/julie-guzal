@@ -17,8 +17,8 @@
         "config": {
           "label": "Back button theme",
           "placeholder": "",
-          "options": ["dark", "light"],
-          "default_value": "dark"
+          "options": ["light", "dark"],
+          "default_value": "light"
         }
       },
       "title": {

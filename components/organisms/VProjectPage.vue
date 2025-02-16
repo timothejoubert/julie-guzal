@@ -33,6 +33,10 @@ const hasCredits = computed(() => {
 })
 
 const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_page)
+
+const backLinkTheme = computed(() => {
+    return props.document.data.back_button_theme
+})
 </script>
 
 <template>
@@ -43,7 +47,7 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
         >
             <VPrismicLink
                 :to="projectListingUrl"
-                :class="$style.back"
+                :class="[$style.back, $style[`back--theme-${backLinkTheme}`]]"
             >
                 <VIcon
                     :class="$style.back__arrow"
@@ -134,6 +138,10 @@ $item-margin-top: rem(289);
     gap: rem(14);
     line-height: 1.4;
     text-decoration: none;
+
+    &--theme-dark {
+        color: var(--theme-color-background);
+    }
 }
 
 .image {
