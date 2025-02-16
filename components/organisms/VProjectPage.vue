@@ -101,11 +101,12 @@ const backLinkTheme = computed(() => {
                     :content="credits"
                     :class="$style.credits__content"
                 />
-                <VPrismicLink
+                <VPrismicLinkIcon
                     v-if="externalUrl"
                     :to="externalUrl"
                     :label="externalUrlLabel || $t('project_page.external_link_label')"
                     :class="$style['external-link']"
+                    icon-size="15"
                 />
             </section>
         </main>
@@ -254,7 +255,7 @@ $item-margin-top: rem(289);
     font-size: rem(16);
     font-weight: 300;
     grid-column: 1 / -1;
-    line-height: 1.42;
+    line-height: 1.5;
 
     @include media('>=lg') {
         margin-top: initial;

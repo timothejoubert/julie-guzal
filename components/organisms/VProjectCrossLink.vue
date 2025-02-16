@@ -46,15 +46,14 @@ const nextProject = computed(() => {
             :to="nextProject"
             :class="$style.next"
         >
-            <div :class="$style.next__title">
-                {{ nextProject.data.title }}
-                <VIcon
-                    :class="$style.arrow"
-                    name="arrow-right-bottom"
-                    width="20"
-                    height="20"
-                />
-            </div>
+            <VPrismicLinkIcon
+                v-if="nextProject"
+                :label="nextProject?.data.title"
+                :class="$style['next__title']"
+                icon-size="20"
+                fallback-tag="div"
+                icon-direction="bottom-right"
+            />
             <VPrismicImage
                 v-if="nextProject.data.image"
                 :document="nextProject.data.image"
@@ -168,13 +167,14 @@ const nextProject = computed(() => {
     font-size: rem(40);
     font-weight: 300;
     line-height: 1.3;
+    text-decoration: none;
 }
 
 .next__image {
     --v-img-max-width: none;
 
     width: calc(100% + var(--gutter) * 2);
-    margin-top: rem(24);
+    margin-top: rem(16);
     margin-left: calc(var(--gutter) * -1);
 
     @include media('>=lg') {

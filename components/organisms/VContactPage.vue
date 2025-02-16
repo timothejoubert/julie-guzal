@@ -60,13 +60,15 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 @use 'assets/scss/mixins/theme' as *;
 
 .root {
-    @include theme(yellow);
+    @include theme(light);
 
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background-color: var(--theme-color-background);
-    color: var(--theme-color-on-background);
+    background-color: var(--theme-color-primary);
+    color: var(--theme-color-on-primary);
+
+    --v-prismic-link-icon-secondary-color: var(--theme-color-on-primary);
 }
 
 .top-bar {

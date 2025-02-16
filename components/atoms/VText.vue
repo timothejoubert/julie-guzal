@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { KeyTextField, RichTextField, RTTextNodeBase } from '@prismicio/types'
+import type { VueRichTextSerializer } from '@prismicio/vue'
 import { isRichTextFilled } from '~/utils/prismic/guard'
+import { VPrismicRichTextLink } from '#components'
 
 export type VTextContent = string | RichTextField | KeyTextField | null
 
@@ -28,6 +30,10 @@ const flatRichTextContent = computed(() => {
 
     return (richText.value?.[0] as { text: string })?.text
 })
+
+const customRichTextComponents: VueRichTextSerializer = {
+    hyperlink: VPrismicRichTextLink,
+}
 </script>
 
 <template>
@@ -43,6 +49,7 @@ const flatRichTextContent = computed(() => {
         :class="[$style.root, $attrs.class]"
         :field="richText"
         wrapper="div"
+        :components="customRichTextComponents"
     />
 </template>
 

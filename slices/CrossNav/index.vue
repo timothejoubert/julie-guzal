@@ -24,20 +24,14 @@ const rootClasses = computed(() => {
             {{ title }}
         </h1>
         <template v-if="primary.links">
-            <VPrismicLink
+            <VPrismicLinkIcon
                 v-for="(linkGroup, index) in primary.links"
                 :key="index"
                 :to="linkGroup.internal_page"
                 :class="$style.link"
-            >
-                <VIcon
-                    name="arrow-right-top"
-                    :class="$style.arrow"
-                    width="53"
-                    height="53"
-                />
-                {{ linkGroup.label || linkGroup.internal_page.url }}
-            </VPrismicLink>
+                :label="linkGroup.label || linkGroup.internal_page.url"
+                icon-size="52"
+            />
         </template>
     </VSlice>
 </template>
@@ -81,9 +75,10 @@ const rootClasses = computed(() => {
 
     color: var(--theme-color-on-background);
     grid-column: 1 / -1;
-    margin-block: 0;
+    margin-block: 0 rem(104);
 
     @include media('>=lg') {
+        margin-bottom: 0;
         grid-column: 1 / span 6;
     }
 }
@@ -92,36 +87,26 @@ const rootClasses = computed(() => {
     @include font;
 
     display: flex;
+    column-gap: rem(20);
+    align-items: baseline;
+    flex-direction: row-reverse;
     overflow: hidden;
-    justify-content: flex-end;
     color: var(--theme-color-on-background);
-    column-gap: rem(18);
     grid-column: 1 / -1;
     text-align: right;
     text-decoration: none;
 
+    @include media('<md') {
+        column-gap: rem(10);
+
+        svg {
+            width: rem(20);
+            height: auto;
+        }
+    }
+
     @include media('>=lg') {
         grid-column: 6 / -1;
-    }
-}
-
-.arrow {
-    width: fluid((xs: 21, xl: 64));
-    height: auto;
-    opacity: 0;
-    rotate: 20deg;
-    transform-origin: right bottom;
-    transition-duration: 0.2s;
-    transition-property: opacity, translate, rotate;
-    transition-timing-function: ease(out-quad);
-    translate: rem(-10) rem(30);
-
-    @media (hover: hover) {
-        .link:hover & {
-            opacity: 1;
-            rotate: 0deg;
-            translate: 0 0;
-        }
     }
 }
 </style>

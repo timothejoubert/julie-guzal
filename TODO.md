@@ -1,9 +1,12 @@
 ## In progress
 - GalleryModal + slider
-
+- Media Viewer, le curseur devient les fleches
+- Taille des fleches dans le footer + animation du texte
+- 
 ## TODO
-- Reveal on intersectionObserver 
-
+- CrossNav: Text Reveal 
+- PhotoPage: Parallax 
+- setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 
 
 ## Need review
@@ -35,21 +38,12 @@
 - attrs and seo meta 
 
 
-# RECETTE
+## RECETTE: Done
 - hover des liens externes
-
-- Media Viewer, le curseur devient les fleches
-
 - ContatcPage: lien custom dans prismic
-
+- 
 - Update typo (menu item nav , credit)
-- Taille des fleches dans le footer + animation du texte
-
-- Paralax 
-
-
-
-## Done
+- 
 - verifier si l'import des svg functionne
 - 
 - qualite photo mediaViewer (mauvaise dimension dans prismic)

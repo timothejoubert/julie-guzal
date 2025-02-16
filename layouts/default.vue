@@ -38,6 +38,7 @@ if (import.meta.client) {
     <ClientOnly>
         <VGridVisualizer />
         <VMediaViewer />
+        <VToast />
     </ClientOnly>
 
     <!--    <VSplashScreen v-if="state !== 'done'" /> -->

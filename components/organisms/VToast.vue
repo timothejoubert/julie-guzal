@@ -46,7 +46,7 @@ watch(toasts, (list) => {
                     :class="$style.close"
                     @click="removeToast(toast)"
                 >
-                    <VIcon name="close-small" />
+                    <VIcon name="close" />
                 </button>
             </li>
         </template>
@@ -54,17 +54,17 @@ watch(toasts, (list) => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
-@use 'assets/scss/functions/ease' as *;
+@use 'assets/scss/variables/fonts' as *;
 
 .root {
     position: fixed;
     z-index: 999;
-    right: var(--gutter);
+    right: calc(var(--gutter) + 15px);
     bottom: var(--gutter);
     display: flex;
     flex-direction: column;
     gap: rem(8);
+    margin: 0;
 }
 
 .toast {
@@ -73,10 +73,19 @@ watch(toasts, (list) => {
     justify-content: space-between;
     padding: rem(16) rem(16) rem(16) rem(24);
     border-radius: rem(4);
-    background-color: var(--theme-color-primary);
-    color: var(--theme-color-background);
+    background-color: var(--theme-color-background);
+    color: var(--theme-color-on-background);
     gap: rem(20);
     transform-origin: center;
+    font-family: $font-suisse-family;
+    font-size: rem(14);
+    font-weight: 400;
+    line-height: 1.4;
+    // box-shadow: 0 0 20px var(--theme-color-primary);
+
+    &:first-child {
+        margin-block: 0;
+    }
 }
 
 .close {
