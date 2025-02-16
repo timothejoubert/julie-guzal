@@ -1,11 +1,13 @@
 ## In progress
-- GalleryModal + slider
 - Media Viewer, le curseur devient les fleches
-- Taille des fleches dans le footer + animation du texte
+- Taille des fleches dans le footer
 - 
 ## TODO
+- VSplashScreen
+- page transition
+- Fix mediaViewer carousel (resize & bug de snap)
 - CrossNav: Text Reveal 
-- PhotoPage: Parallax 
+- PhotoPage & LabPage: Parallax 
 - setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 
 

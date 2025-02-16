@@ -181,6 +181,7 @@ const rootClasses = computed(() => {
 .slide {
     display: flex;
     width: 100%;
+    max-height: 100%;
     flex-shrink: 0;
     align-items: flex-end;
     column-gap: var(--gutter);
@@ -189,7 +190,10 @@ const rootClasses = computed(() => {
 }
 
 .image {
-    width: flex-grid(5, 12);
+    width: 100%;
+    max-height: calc(100vh - var(--gutter) * 2);
+    object-fit: contain;
+    object-position: right;
     -webkit-user-drag: none;
     -khtml-user-drag: none;
     -moz-user-drag: none;
@@ -199,6 +203,7 @@ const rootClasses = computed(() => {
     // width: calc(#{flex-grid-value(5, 12, '%', true)});
 
     @include media('>=lg') {
+        width: flex-grid(6, 12);
     }
 }
 
