@@ -152,5 +152,6 @@ function onClick(index: number) {
 
 .img {
     cursor: pointer;
+    width: 100%;
 }
 </style>
