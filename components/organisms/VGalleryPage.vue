@@ -1,5 +1,6 @@
 <script  lang="ts" setup>
-import type { GalleryPageDocument } from '~/prismicio-types'
+import type { SliceComponentProps } from '@prismicio/vue/src/SliceZone/types'
+import type { GalleryGridSlice, GalleryPageDocument } from '~/prismicio-types'
 import { components } from '~/slices'
 
 const props = defineProps<{
@@ -7,17 +8,26 @@ const props = defineProps<{
 }>()
 
 const slices = computed(() => props.document.data.slices)
+
+const isGalleryGrid = (slice: SliceComponentProps) => (slice.slice_type === 'gallery_grid')
+const galleryGridSlices = computed(() => slices.value.filter(isGalleryGrid) as GalleryGridSlice[])
+const otherSlices = computed(() => slices.value.filter(s => !isGalleryGrid(s)))
 </script>
 
 <template>
     <div :class="$style.root">
         <VTopBar :class="$style['top-bar']" />
-        <LazySliceZone
-            v-if="slices?.length"
-            :slices="slices"
-            :components="components"
-            wrapper="main"
-        />
+        <main>
+            <LazyVMergedGallerySlice
+                v-if="galleryGridSlices.length"
+                :slices="galleryGridSlices"
+            />
+            <LazySliceZone
+                v-if="otherSlices"
+                :slices="otherSlices"
+                :components="components"
+            />
+        </main>
     </div>
 </template>
 

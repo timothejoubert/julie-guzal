@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import type { SliceComponentProps } from '@prismicio/vue'
 import type { GalleryGridSlice } from '~/prismicio-types'
 
-const props = defineProps<SliceComponentProps<GalleryGridSlice>>()
-const primary = computed(() => props.slice.primary)
+const props = defineProps<{
+    slices: GalleryGridSlice[]
+}>()
 
-const isLastSliceType = computed(() => {
-    const lastGallerySlice = props.slices.findLast((slice) => {
-        return slice.slice_type === 'gallery_grid'
-    })
-
-    return lastGallerySlice?.id === props.slice.id
+const slicesItems = computed(() => {
+    return props.slices.map((gallerySlice) => {
+        return gallerySlice.primary.item
+    }).flat()
 })
 
 const imageList = computed(() => {
-    return primary.value.item?.filter((groupField) => {
+    return slicesItems.value?.filter((groupField) => {
         return groupField.image?.url
     }).map((groupField, index) => {
         const forceLandscapeRatio = index % 9 === 0 || index % 9 === 1
@@ -44,10 +42,11 @@ function onClick(index: number) {
 </script>
 
 <template>
-    <VSlice
+    <section
         class="grid"
-        :slice="slice"
-        :class="[$style.root, isLastSliceType && $style['root--last-slice-type']]"
+        data-slice-type="gallery_grid"
+        data-slice-variation="default"
+        :class="$style.root"
     >
         <template v-if="imageList.length">
             <button
@@ -63,41 +62,27 @@ function onClick(index: number) {
                 />
             </button>
         </template>
-    </VSlice>
+    </section>
 </template>
 
 <style lang="scss" module>
 .root {
     --gallery-grid-slice-row-gap: #{rem(10)};
     --gallery-grid-slice-margin-top: #{rem(202)};
-    --gallery-grid-slice-margin-bottom: var(--gallery-grid-slice-row-gap);
+    --gallery-grid-slice-margin-bottom: #{rem(120)};
 
     margin-block: var(--gallery-grid-slice-margin-top) var(--gallery-grid-slice-margin-bottom);
     row-gap: var(--gallery-grid-slice-row-gap);
 
-    & + & {
-        margin-top: 0 !important;
-    }
-
-    &--last-slice-type {
-        --gallery-grid-slice-margin-bottom: #{rem(120)};
-    }
-
     @include media('>=md') {
         --gallery-grid-slice-row-gap: #{rem(24)};
         --gallery-grid-slice-margin-top: #{rem(48)};
-
-        &--last-slice-type {
-            --gallery-grid-slice-margin-bottom: #{rem(80)};
-        }
+        --gallery-grid-slice-margin-bottom: #{rem(80)};
     }
 
     @include media('>=lg') {
         --gallery-grid-slice-margin-top: #{rem(235)};
-
-        &--last-slice-type {
-            --gallery-grid-slice-margin-bottom: #{rem(180)};
-        }
+        --gallery-grid-slice-margin-bottom: #{rem(180)};
     }
 }
 

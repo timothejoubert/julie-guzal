@@ -21,7 +21,6 @@ export default defineComponent({
     setup(props) {
         const linkProps = computed(() => pick(props, Object.keys(vPrismicLinkProps)))
 
-        console.log('linkProps', linkProps.value)
         const iconProps = computed(() => {
             return {
                 name: props.iconName,
