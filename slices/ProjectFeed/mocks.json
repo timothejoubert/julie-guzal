@@ -2,6 +2,12 @@
 	{
 		"__TYPE__": "SharedSliceContent",
 		"variation": "default",
+		"primary": {},
+		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "manualChoice",
 		"primary": {
 			"project": {
 				"__TYPE__": "GroupContentType",
@@ -12,8 +18,8 @@
 							[
 								"project_document",
 								{
+									"key": "c838aff5-5d84-48c0-b993-f93f26b2b97a",
 									"__TYPE__": "LinkContent",
-									"key": "ece8f83c-5835-48f8-894c-61f8daf632cf",
 									"value": {
 										"__TYPE__": "DocumentLink",
 										"id": "mock_document_id"
@@ -25,6 +31,11 @@
 				]
 			}
 		},
-		"items": []
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
 	}
 ]

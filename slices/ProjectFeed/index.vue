@@ -3,7 +3,7 @@ import type { Content } from '@prismicio/client'
 import { getSliceComponentProps } from '@prismicio/vue'
 import type { FilledContentRelationshipField } from '@prismicio/types'
 import { isContentRelationshipField } from '~/utils/prismic/guard'
-import type { ProjectPageDocumentData } from '~/prismicio-types'
+import type { ProjectPageDocument, ProjectPageDocumentData } from '~/prismicio-types'
 
 const props = defineProps(getSliceComponentProps<Content.ProjectFeedSlice>())
 const primary = computed(() => props.slice.primary)
@@ -14,14 +14,21 @@ const projectDocumentList = computed(() => {
     }).map(project => project.project_document as FilledContentRelationshipField<'project_page', string, ProjectPageDocumentData>)
 })
 
-const documentIdList = computed(() => {
-    return projectDocumentList.value.map(project => project.id)
+const hasManualProjects = computed(() => {
+    return props.slice.variation === 'manualChoice' && !!projectDocumentList.value.length
 })
 
 const allProjects = await usePrismicMainProjects()
 
 const projects = computed(() => {
-    return allProjects.value.filter(project => project?.id && documentIdList.value.includes(project.id))
+    if (!hasManualProjects.value) return allProjects.value
+
+    // Keep same order as contentRelationField
+    return projectDocumentList.value.reduce((acc: ProjectPageDocument[], project) => {
+        const sameFilledProject = allProjects.value.find(p => p?.id === project.id)
+        if (sameFilledProject) acc.push(sameFilledProject)
+        return acc
+    }, [])
 })
 </script>
 

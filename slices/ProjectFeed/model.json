@@ -11,11 +11,21 @@
       "version": "initial",
       "description": "Default",
       "imageUrl": "",
+      "primary": {},
+      "items": {}
+    },
+    {
+      "id": "manualChoice",
+      "name": "Manual choice",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
       "primary": {
         "project": {
           "type": "Group",
           "config": {
-            "label": "Project",
+            "label": "Manual project",
             "repeat": true,
             "fields": {
               "project_document": {

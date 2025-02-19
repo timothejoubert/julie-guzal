@@ -1,8 +1,13 @@
 ## In progress
 - Media Viewer, le curseur devient les fleches
 - Taille des fleches dans le footer
-- 
+- Add project_date_order for 
+
 ## TODO
+- Use NuxtPage name with composable for common page setup 
+- VPrismicLink slot warning
+- Add cache on generated page
+- pageProject: back link sticky ? 
 - VSplashScreen
 - page transition
 - Fix mediaViewer carousel (resize & bug de snap)
@@ -13,15 +18,14 @@
 
 ## Need review
 - Prerender all page except Preview
-- Resolve prismic document url from type
-- Embed video
 - Preview (Preview page should be build on fly and others prerender)
-- VPrismicLink slot warning
 
 ## Abandoned 
 - Create VPageFactory ?
-- 
+
 ## Done
+- Resolve prismic document url from type
+- Embed video
 - Setup Github webhook on netlify
 - redesign nav
 - Nav on mobile

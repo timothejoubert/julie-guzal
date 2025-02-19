@@ -54,6 +54,13 @@
           "default_value": true
         }
       },
+      "order_date": {
+        "type": "Date",
+        "config": {
+          "label": "Order date",
+          "placeholder": "Use for ordered projects on the home page and in the project footer."
+        }
+      },
       "creation_date": {
         "type": "Date",
         "config": {

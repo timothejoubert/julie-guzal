@@ -6,10 +6,16 @@ export function usePrismicFetchProjects(options: PrismicFetchDocumentsOptions = 
     const prismicFilter = usePrismic().filter
 
     return usePrismicFetchDocuments<ProjectPageDocument>('project_page', {
-        orderings: {
-            field: 'my.project_page.creation_date',
-            direction: 'desc',
-        },
+        orderings: [
+            {
+                field: 'my.project_page.order_date',
+                direction: 'desc',
+            },
+            {
+                field: 'my.project_page.creation_date',
+                direction: 'desc',
+            },
+        ],
         pageSize: options.pageSize || 20,
         filters: [prismicFilter.at('my.project_page.archived', isArchived)],
         ...options,
