@@ -34,7 +34,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
                 :class="$style.right__column"
             >
                 <VPrismicImage
-                    v-if="rightColumn.image"
+                    v-if="rightColumn.image?.url"
                     :document="rightColumn.image"
                     :class="$style.right__column__image"
                     sizes="xs:90vw md:90vw lg:25vw xxl:25vw qhd:25vw"
