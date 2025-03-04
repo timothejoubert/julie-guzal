@@ -30,8 +30,9 @@ const rootClasses = computed(() => {
                 :to="linkGroup.internal_page"
                 :class="$style.link"
                 :label="linkGroup.label || linkGroup.internal_page.url"
-                icon-size="52"
+                icon-size="53"
                 icon-name="arrow-right-top-xl"
+                :icon-class="$style.icons"
             />
         </template>
     </VSlice>
@@ -87,7 +88,6 @@ const rootClasses = computed(() => {
 .link {
     @include font;
 
-    --cross-nav-arrow-first-opacity: 0;
     --v-prismic-link-icon-secondary-color: var(--theme-color-on-background);
 
     display: flex;
@@ -110,7 +110,13 @@ const rootClasses = computed(() => {
     }
 
     @include media('>=lg') {
+        --cross-nav-arrow-first-opacity: 0;
         grid-column: 6 / -1;
     }
+}
+
+.icons {
+    align-self: flex-start;
+    top: 0.15lh;
 }
 </style>

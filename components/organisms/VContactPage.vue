@@ -49,6 +49,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
                 v-if="data.credits"
                 :content="data.credits"
                 :class="$style.credits"
+                :rich-text-serializer="null"
             />
         </main>
     </div>

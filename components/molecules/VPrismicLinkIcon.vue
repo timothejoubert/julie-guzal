@@ -9,11 +9,15 @@ export const vPrismicLinkIconProps = {
         type: String,
         default: 'arrow-right-top',
     },
-    iconSize: 'string',
+    iconSize: {
+        type: String,
+        default: '24',
+    },
     iconDirection: {
         type: String as PropType<'top-right' | 'bottom-right'>,
         default: 'top-right',
     },
+    iconClass: String,
 }
 
 export default defineComponent({
@@ -32,13 +36,15 @@ export default defineComponent({
         const $style = useCssModule()
         return () => {
             return h(VPrismicLink, { ...linkProps.value, class: $style.root },
-                [
-                    h('span', { class: $style.label }, props.label || ''),
-                    h('span', { class: [$style.icons, $style[`icons--direction-${props.iconDirection}`]] }, [
-                        h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--first']] }),
-                        h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--second']] }),
-                    ]),
-                ],
+                {
+                    default: () => [
+                        h('span', { class: $style.label }, props.label || ''),
+                        h('span', { class: [props.iconClass, $style.icons, $style[`icons--direction-${props.iconDirection}`]] }, [
+                            h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--first']] }),
+                            h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--second']] }),
+                        ]),
+                    ],
+                },
             )
         }
     },
@@ -53,7 +59,7 @@ export default defineComponent({
 }
 
 .label {
-    margin-right: rem(4);
+    margin-right: var(--v-prismic-link-icon-label-margin-right, rem(4));
 }
 
 $icons-spacing: 3px;

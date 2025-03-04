@@ -18,7 +18,6 @@ export default defineComponent({
     setup(props, { attrs, slots }) {
         const { isRelative, isExternal, url } = useLinkResolver(props.to)
 
-        // Define attributes
         const attributes = computed(() => {
             const result = { ...attrs, ...props.nuxtLinkProps }
 
@@ -36,23 +35,18 @@ export default defineComponent({
             return result
         })
 
-        // warning_bug(Vue): Seem to have wrong vue warning "Slot invoked outside of the render function"
-        // https://github.com/vuejs/core/issues/12194
         return () => {
-            // Custom VRoadizLink will pass all attributes to the default slot
-            // and render it (i.e. render-less component behavior)
             if (props.custom) {
-                return slots.default?.({ ...attributes.value, url: attributes.value.href || attributes.value.to }) || ''
-            }
-            else if (url.value) {
-                return h(NuxtLink, attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
+                return slots.default?.({ ...attributes.value, url: attributes.value.href || attributes.value.to })
             }
 
-            const child = (slots.default && slots.default()) || (typeof props.label === 'string' && h('span', attrs, props.label)) || ''
+            const child = slots.default || (() => (typeof props.label === 'string' && props.label))
 
-            return props.fallbackTag
-                ? h(props.fallbackTag, { class: attrs.class }, child)
-                : child
+            if (!url.value) {
+                return h(props.fallbackTag || 'div', { class: attrs.class }, child)
+            }
+
+            return h(NuxtLink, attributes.value, child)
         }
     },
 })

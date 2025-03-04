@@ -9,9 +9,14 @@ export type VTextContent = string | RichTextField | KeyTextField | null
 interface VTextProps {
     tag?: string
     content?: VTextContent
+    richTextSerializer?: VueRichTextSerializer | null
 }
 
-const props = defineProps<VTextProps>()
+const props = withDefaults(defineProps<VTextProps>(), {
+    richTextSerializer: {
+        hyperlink: VPrismicRichTextLink,
+    },
+})
 
 const slots = useSlots()
 const hasSlot = slots.default?.()
@@ -30,10 +35,6 @@ const flatRichTextContent = computed(() => {
 
     return (richText.value?.[0] as { text: string })?.text
 })
-
-const customRichTextComponents: VueRichTextSerializer = {
-    hyperlink: VPrismicRichTextLink,
-}
 </script>
 
 <template>
@@ -49,7 +50,7 @@ const customRichTextComponents: VueRichTextSerializer = {
         :class="[$style.root, $attrs.class]"
         :field="richText"
         wrapper="div"
-        :components="customRichTextComponents"
+        :components="richTextSerializer || undefined"
     />
 </template>
 

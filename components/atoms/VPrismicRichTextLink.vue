@@ -45,7 +45,9 @@ function copyToClipBoard(_event: MouseEvent) {
         v-else
         :to="linkData.url"
         :label="label"
-        icon-size="12"
+        icon-size="6"
+        icon-name="arrow-right-top-xs"
+        :class="$style.link"
     />
 </template>
 
@@ -56,5 +58,11 @@ function copyToClipBoard(_event: MouseEvent) {
     margin: 0;
     background-color: initial;
     cursor: pointer;
+}
+
+.link {
+    @include media('>lg') {
+        --cross-nav-arrow-first-opacity: 0;
+    }
 }
 </style>
