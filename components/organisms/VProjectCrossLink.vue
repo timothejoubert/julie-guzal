@@ -162,6 +162,9 @@ const nextProject = computed(() => {
 }
 
 .next__title {
+    --cross-nav-arrow-first-opacity: 0;
+    --v-prismic-link-icon-secondary-color: var(--theme-color-on-background);
+
     color: var(--theme-color-on-background);
     font-family: $font-lecturis-family;
     font-size: rem(40);
