@@ -31,6 +31,7 @@ const rootClasses = computed(() => {
                 :class="$style.link"
                 :label="linkGroup.label || linkGroup.internal_page.url"
                 icon-size="52"
+                icon-name="arrow-right-top-xl"
             />
         </template>
     </VSlice>
@@ -85,6 +86,9 @@ const rootClasses = computed(() => {
 
 .link {
     @include font;
+
+    --cross-nav-arrow-first-opacity: 0;
+    --v-prismic-link-icon-secondary-color: var(--theme-color-on-background);
 
     display: flex;
     overflow: hidden;

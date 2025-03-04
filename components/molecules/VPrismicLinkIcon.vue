@@ -35,8 +35,8 @@ export default defineComponent({
                 [
                     h('span', { class: $style.label }, props.label || ''),
                     h('span', { class: [$style.icons, $style[`icons--direction-${props.iconDirection}`]] }, [
-                        h(VIcon, { ...iconProps.value, class: $style['icon'] }),
-                        h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--secondary']] }),
+                        h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--first']] }),
+                        h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--second']] }),
                     ]),
                 ],
             )
@@ -78,7 +78,11 @@ $icons-spacing: 3px;
     transition-property: translate, opacity;
     transition-timing-function: ease(out-quart);
 
-    &--secondary {
+    &--first {
+        opacity: var(--cross-nav-arrow-first-opacity);
+    }
+
+    &--second {
         position: absolute;
         top: calc(100% + $icons-spacing);
         left: calc(-100% + $icons-spacing);
@@ -88,7 +92,7 @@ $icons-spacing: 3px;
         .root:hover & {
             translate: calc(100% + $icons-spacing * 2) calc(-100% - $icons-spacing * 2);
 
-            &--secondary {
+            &--second {
                 color: var(--v-prismic-link-icon-secondary-color, var(--theme-color-primary));
             }
         }
