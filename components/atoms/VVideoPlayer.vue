@@ -215,7 +215,11 @@ export default defineComponent({
         // onMounted(createPlayer)
         // onBeforeUnmount(disposePlayer)
 
-        return { isEmbed, playerStyle, videoAttrs, videoSources, src, playerComponent }
+        function onScroll(event) {
+            console.log('onScroll', event)
+        }
+
+        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, playerComponent }
     },
 })
 </script>
@@ -225,7 +229,7 @@ export default defineComponent({
         v-if="isEmbed"
         ref="playerComponent"
         :style="playerStyle"
-        :class="$style['iframe-wrapper']"
+        :class="[$style['iframe-wrapper'], !controls && $style['iframe-wrapper--no-controls']]"
     >
         <iframe
             :src="src"
@@ -233,7 +237,7 @@ export default defineComponent({
             allow="autoplay"
             :class="$style.iframe"
         />
-    <!--    <VSpinner v-if="!videoReady" :class="$style.spinner" /> -->
+        <!--        <VSpinner v-if="!videoReady" :class="$style.spinner" /> -->
     </div>
     <video
         v-else
@@ -261,20 +265,14 @@ export default defineComponent({
     object-fit: var(--v-player-video-object-fit);
 }
 
-.root-initialized {
-    position: var(--v-player-position, relative);
-    width: var(--v-player-width, 100%);
-    height: var(--v-player-height);
-
-    .iframe,
-    .video {
-        @include video-properties;
-    }
-}
-
 .iframe-wrapper {
     width: 100%;
     height: 100%;
+
+    &--no-controls {
+        // Scroll on element make smooth scroll buggy
+        pointer-events: none;
+    }
 
     .video,
     .iframe {
