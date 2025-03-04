@@ -1,9 +1,10 @@
 ## In progress
 - Media Viewer, le curseur devient les fleches
 - Taille des fleches dans le footer
-- Add project_date_order for 
 
 ## TODO
+- Slice simulator preview not working correctly for some slices
+- Page error
 - Use NuxtPage name with composable for common page setup 
 - VPrismicLink slot warning
 - Add cache on generated page
@@ -24,6 +25,7 @@
 - Create VPageFactory ?
 
 ## Done
+- Add project_date_order for
 - Resolve prismic document url from type
 - Embed video
 - Setup Github webhook on netlify
