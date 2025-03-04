@@ -1,6 +1,5 @@
 ## In progress
 - Media Viewer, le curseur devient les fleches
-- Taille des fleches dans le footer
 
 ## TODO
 - Slice simulator preview not working correctly for some slices
@@ -25,6 +24,7 @@
 - Create VPageFactory ?
 
 ## Done
+- Taille des fleches dans le footer
 - Add project_date_order for
 - Resolve prismic document url from type
 - Embed video

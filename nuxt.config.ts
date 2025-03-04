@@ -57,7 +57,7 @@ export default defineNuxtConfig({
         public: {
             version,
             site: {
-                name: '',
+                name: 'Julie Guzal Preprod',
                 url: 'http://localhost:3000',
                 environment: 'development',
             },
