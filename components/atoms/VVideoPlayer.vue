@@ -1,7 +1,6 @@
 <script lang="ts">
 import type Plyr from 'plyr'
 import type { PropType } from 'vue'
-import type { TemplateElement } from '~/utils/ref/get-html-element'
 import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/embed'
@@ -45,6 +44,7 @@ export default defineComponent({
                 let params: Record<string, string> = {}
 
                 const platform = props.embedPlatform.toLowerCase()
+                // TODO: prefers use www.youtube-nocookie.com rather than www.youtube.com/
                 if (platform === 'youtube') {
                     params = {
                         iv_load_policy: '3',
@@ -75,6 +75,7 @@ export default defineComponent({
                         loop: loop.value ? '1' : '0',
                         sidedock: '0',
                         title: '0',
+                        dnt: '1', // remove cookie
                     }
                 }
 
@@ -122,104 +123,7 @@ export default defineComponent({
             return style
         })
 
-        // PLAYER
-        const playerComponent = ref<TemplateElement>(null)
-        // const playerElement = computed(() => getHtmlElement(playerComponent.value))
-
-        // let player: Plyr | null = null
-        // const $style = useCssModule()
-        // async function createPlayer() {
-        //     if (player || !playerElement.value) return
-        //
-        //     const options: Plyr.Options = {
-        //         disableContextMenu: false,
-        //         controls: ['play', 'progress', 'current-time', 'mute', 'fullscreen'],
-        //         autoplay: autoplay.value,
-        //         muted: muted.value,
-        //         loop: { active: loop.value },
-        //         ...props.plyr,
-        //         iconUrl: '/images/plyr-icons.svg', // Stored in public folder for now.
-        //         iconPrefix: 'plyr-icon',
-        //     }
-        //     const PlyrClass = await import('plyr').then(module => module.default)
-        //
-        //     // I don't know why but listeners property is not used by Plyr.
-        //     // As a workaround I will define the listeners later with on().
-        //     // Remove the listeners property to be sure that the callbacks are not called twice.
-        //     delete options.listeners
-        //
-        //     if (!controls.value) options.controls = []
-        //     if (props.background) {
-        //         options.clickToPlay = false
-        //         options.fullscreen = { enabled: false }
-        //     }
-        //     if (props.vimeo) options.vimeo = props.vimeo
-        //     if (props.youtube) options.youtube = props.youtube
-        //
-        //     player = new PlyrClass(playerElement.value as HTMLElement, options)
-        //
-        //     // Add style to new generated plyr DOM
-        //     player?.elements.container?.classList.add($style['root-initialized'])
-        //
-        //     player.on('ready', onPlayerReady)
-        //
-        //     // Fix listeners into Plyr options because the callbacks are never called.
-        //     if (props.plyr?.listeners) {
-        //         Object.keys(props.plyr.listeners).forEach(value =>
-        //             player!.on(value as keyof Plyr.PlyrEventMap, props.plyr!.listeners![value]),
-        //         )
-        //     }
-        //
-        //     if (props.fit === 'cover') {
-        //         // useEventListener('resize', updatePlayerSize, { passive: true })
-        //         updatePlayerSize()
-        //     }
-        // }
-        // const videoReady = ref(false)
-        // // const emits = defineEmits(['ready'])
-        // function onPlayerReady() {
-        //     if (player && (props.autoplay || props.background)) {
-        //         // the player is initialized with muted property as true but sometimes Plyr kept a wrong muted value into localStorage (i.e. muted = false)
-        //         // @see https://github.com/sampotts/plyr/issues/838#issuecomment-962596150
-        //         player.muted = muted.value
-        //         player.play()
-        //     }
-        //
-        //     // emits('ready', player)
-        //
-        //     videoReady.value = true
-        // }
-        //
-        // function updatePlayerSize() {
-        //     // for now, it handles cover size only
-        //     const videoRatio = ratio.value || 16 / 9
-        //
-        //     const wrapperElement = playerElement.value
-        //     const width = (wrapperElement?.clientWidth || 0) + 2 // + 2 for hiding a potential antialiasing issue
-        //     const height = (wrapperElement?.clientHeight || 0) + 2
-        //     const boundsRatio = width / height
-        //
-        //     if (boundsRatio < videoRatio) {
-        //         playerSize.value = [height * videoRatio, height]
-        //     }
-        //     else {
-        //         playerSize.value = [width, width * videoRatio]
-        //     }
-        // }
-        //
-        // function disposePlayer() {
-        //     player?.destroy()
-        //     player = null
-        // }
-        //
-        // onMounted(createPlayer)
-        // onBeforeUnmount(disposePlayer)
-
-        function onScroll(event) {
-            console.log('onScroll', event)
-        }
-
-        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, playerComponent }
+        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src }
     },
 })
 </script>
@@ -227,14 +131,13 @@ export default defineComponent({
 <template>
     <div
         v-if="isEmbed"
-        ref="playerComponent"
         :style="playerStyle"
         :class="[$style['iframe-wrapper'], !controls && $style['iframe-wrapper--no-controls']]"
     >
         <iframe
             :src="src"
             frameborder="0"
-            allow="autoplay"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             :class="$style.iframe"
         />
         <!--        <VSpinner v-if="!videoReady" :class="$style.spinner" /> -->
