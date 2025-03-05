@@ -89,9 +89,9 @@ console.error('Error page:', props.error)
 
 .root {
     display: flex;
-    flex-direction: column;
-    min-height: 100vh;
     overflow: hidden;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 .header {
@@ -103,8 +103,8 @@ console.error('Error page:', props.error)
     font-family: $font-lecturis-family;
     font-size: rem(16);
     font-weight: 300;
-    line-height: 1.4;
     grid-column: 1 /-1;
+    line-height: 1.4;
     text-transform: uppercase;
 
     @include media('>=md') {
@@ -115,14 +115,14 @@ console.error('Error page:', props.error)
 .link {
     display: flex;
     justify-content: flex-end;
-    grid-column: 1 / -1;
     color: var(--theme-color-on-background);
-    text-decoration: initial;
     font-family: $font-lecturis-family;
     font-size: fluid((xs: 70, xl: 100));
-    text-transform: uppercase;
     font-weight: 300;
+    grid-column: 1 / -1;
     line-height: 0.96;
+    text-decoration: initial;
+    text-transform: uppercase;
 
     @include media('>=md') {
         grid-column: 5 / -1
@@ -130,9 +130,9 @@ console.error('Error page:', props.error)
 }
 
 .icon {
-    margin-right: rem(14);
     flex-shrink: 0;
     margin-top: 0.16lh;
+    margin-right: rem(14);
     transition: color 0.3s;
 
     @media (hover: hover) {
@@ -154,9 +154,9 @@ console.error('Error page:', props.error)
     font-family: $font-lecturis-family;
     font-size: fluid((xs: 200, xl: 491));
     font-weight: 300;
+    grid-column: 1 /-1;
     line-height: 1;
     margin-block: initial;
-    grid-column: 1 /-1;
     text-transform: uppercase;
 }
 

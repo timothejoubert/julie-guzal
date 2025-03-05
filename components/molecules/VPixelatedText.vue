@@ -86,20 +86,20 @@ function onClick() {
 .root {
     --v-pixelated-text-width-final: var(--v-pixelated-text-width, 10px);
 
-    display: inline;
     position: relative;
+    display: inline;
 }
 
 .shapes {
+    position: absolute;
+    z-index: 1;
     //display: grid;
     display: none;
     overflow: hidden;
-    position: absolute;
+    gap: calc(var(--v-pixelated-text-width-final) * 2);
     grid-template-columns: repeat(auto-fit, minmax(0, var(--v-pixelated-text-width-final)));
     grid-template-rows: repeat(auto-fill, var(--v-pixelated-text-width-final));
-    gap: calc(var(--v-pixelated-text-width-final) * 2);
-    inset: 20% 0 20% 0;
-    z-index: 1;
+    inset: 20% 0;
 }
 
 .shape {

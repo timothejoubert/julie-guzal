@@ -111,12 +111,13 @@ const rootClasses = computed(() => {
 
     @include media('>=lg') {
         --cross-nav-arrow-first-opacity: 0;
+
         grid-column: 6 / -1;
     }
 }
 
 .icons {
-    align-self: flex-start;
     top: 0.15lh;
+    align-self: flex-start;
 }
 </style>
