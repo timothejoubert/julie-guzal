@@ -32,13 +32,13 @@ const nextProject = computed(() => {
         >
             <li
                 v-for="project in projects"
-                :key="project.id"
+                :key="project?.id"
                 :class="$style.item"
             >
                 <VPrismicLink
                     :to="project"
                     :class="$style.link"
-                    :label="project.data.title"
+                    :label="project?.data.title"
                 />
             </li>
         </ul>
@@ -55,8 +55,8 @@ const nextProject = computed(() => {
                 icon-direction="bottom-right"
             />
             <VPrismicImage
-                v-if="nextProject.data.image"
-                :document="nextProject.data.image"
+                v-if="nextProject?.data.image"
+                :document="nextProject?.data.image"
                 fit="crop"
                 ar="708:360"
                 width="708"

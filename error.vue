@@ -8,18 +8,16 @@ const props = defineProps<{
     error: NuxtError
 }>()
 
-const { t } = useI18n()
-
 const statusCode = computed(() => props.error?.statusCode)
 
-const title = computed(() => {
-    return t('error_code', { code: statusCode.value })
-})
-
-const message = computed(() => {
-    if (statusCode.value === 404) return t('error_page.not_found.body')
-    return t('error_page.body')
-})
+// const { t } = useI18n()
+// const title = computed(() => {
+//     return t('error_code', { code: statusCode.value })
+// })
+// const message = computed(() => {
+//     if (statusCode.value === 404) return t('error_page.not_found.body')
+//     return t('error_page.body')
+// })
 
 onMounted(() => {
     // force reload if navigation occurs
@@ -35,8 +33,6 @@ onMounted(() => {
 const runtimeConfig = useRuntimeConfig()
 const siteUrl = runtimeConfig.public.site.url
 
-// Log the error for debugging purposes
-console.error('Error page:', props.error)
 const dateTime = computed(() => {
     const date = new Date()
     const localizedDate = date.toLocaleDateString(I18N_DEFAULT_LOCALE, {
@@ -46,6 +42,9 @@ const dateTime = computed(() => {
     })
     return localizedDate.split(',')?.[1].trim()
 })
+
+// Log the error for debugging purposes
+console.error('Error page:', props.error)
 </script>
 
 <template>

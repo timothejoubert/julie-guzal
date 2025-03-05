@@ -40,7 +40,7 @@ export default defineComponent({
                 return slots.default?.({ ...attributes.value, url: attributes.value.href || attributes.value.to })
             }
 
-            const child = slots.default || (() => (typeof props.label === 'string' && props.label))
+            const child = (slots.default?.() && slots) || (() => (typeof props.label === 'string' ? props.label : null))
 
             if (!url.value) {
                 return h(props.fallbackTag || 'div', { class: attrs.class }, child)
