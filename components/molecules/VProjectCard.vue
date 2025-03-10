@@ -1,7 +1,7 @@
 <script  lang="ts" setup>
 import type { PossibleProjectPageDocument } from '~/types/app'
-import type { PageTransitionEventData } from '~/transitions/default-page-transition'
-import EventType from '~/constants/event-type'
+// import type { PageTransitionEventData } from '~/transitions/default-page-transition'
+// import EventType from '~/constants/event-type'
 // import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
 
 interface VProjectCardProps {

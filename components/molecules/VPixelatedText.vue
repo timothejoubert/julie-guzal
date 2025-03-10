@@ -93,6 +93,7 @@ function onClick() {
 .shapes {
     position: absolute;
     z-index: 1;
+
     //display: grid;
     display: none;
     overflow: hidden;

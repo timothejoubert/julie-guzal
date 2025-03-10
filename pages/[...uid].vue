@@ -97,6 +97,7 @@ const rootClasses = computed(() => {
 
 <style lang="scss" module>
 @use 'assets/scss/mixins/theme' as *;
+
 .root {
     background-color: var(--theme-color-background);
     color: var(--theme-color-on-background);
