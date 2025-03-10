@@ -8,7 +8,7 @@ interface UseCounterOptions {
     endValue?: number
     duration?: number
 }
-export function useCounter(params: UseCounterParams) {
+export function useCounter(params?: UseCounterParams) {
     const options = {
         startValue: params?.options?.startValue || 0,
         endValue: params?.options?.endValue || 100,

@@ -16,7 +16,10 @@ const otherSlices = computed(() => slices.value.filter(s => !isGalleryGrid(s)))
 
 <template>
     <div :class="$style.root">
-        <VTopBar :class="$style['top-bar']" />
+        <VTopBar
+            :document="document"
+            :class="$style['top-bar']"
+        />
         <main>
             <LazyVMergedGallerySlice
                 v-if="galleryGridSlices.length"
@@ -35,13 +38,12 @@ const otherSlices = computed(() => slices.value.filter(s => !isGalleryGrid(s)))
 @use 'assets/scss/mixins/theme' as *;
 
 .root {
-    @include theme('light');
-
     background-color: var(--theme-color-background);
     color: var(--theme-color-on-background);
 }
 
 .top-bar {
+    //TODO: add new v-nav color variable depending on theme
     & :global(.v-nav) {
         @include theme('dark')
     }

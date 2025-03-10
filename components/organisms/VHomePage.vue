@@ -11,7 +11,10 @@ const slices = computed(() => props.document.data.slices)
 
 <template>
     <div>
-        <VTopBar :class="$style['top-bar']" />
+        <VTopBar
+            :document="document"
+            :class="$style['top-bar']"
+        />
         <LazySliceZone
             v-if="slices?.length"
             :slices="slices"

@@ -11,7 +11,10 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 
 <template>
     <div :class="$style.root">
-        <VTopBar :class="$style['top-bar']" />
+        <VTopBar
+            :document="document"
+            :class="$style['top-bar']"
+        />
         <main
             class="grid"
             :class="$style.main"
@@ -61,8 +64,6 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 @use 'assets/scss/mixins/theme' as *;
 
 .root {
-    @include theme(light);
-
     display: flex;
     min-height: 100vh;
     flex-direction: column;

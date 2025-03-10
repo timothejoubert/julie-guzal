@@ -12,7 +12,9 @@ const slices = computed(() => data.value.slices)
 
 <template>
     <div>
-        <VTopBar />
+        <VTopBar
+            :document="document"
+        />
         <main>
             <LazySliceZone
                 v-if="slices?.length"

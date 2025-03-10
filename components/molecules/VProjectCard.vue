@@ -1,8 +1,8 @@
 <script  lang="ts" setup>
 import type { PossibleProjectPageDocument } from '~/types/app'
-// import EventType from '~/constants/event-type'
+import type { PageTransitionEventData } from '~/transitions/default-page-transition'
+import EventType from '~/constants/event-type'
 // import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
-// import type { PageTransitionEventData } from '~/transitions/default-page-transition'
 
 interface VProjectCardProps {
     project: PossibleProjectPageDocument | null
@@ -16,8 +16,8 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 
 // const { $gsap } = useNuxtApp()
 // function onPageLeave({ pageEl, linkClicked, done }: PageTransitionEventData) {
-//     console.log('VProjectCard onPageLeave')
 //     const isActiveLink = url.value === (linkClicked?.getAttribute('href') || document.querySelector('a[aria-current="page"]'))
+//     console.log('VProjectCard onPageLeave', isActiveLink, linkClicked)
 //
 //     if (!isActiveLink || !linkClicked) return
 //
@@ -52,6 +52,7 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 <template>
     <component
         :is="rootTag || 'div'"
+        :id="project?.url?.replaceAll('/', '-')"
         :class="[$style.root, skeleton && $style['root--skeleton']]"
     >
         <VPrismicLink

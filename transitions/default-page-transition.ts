@@ -1,8 +1,7 @@
+import gsap from 'gsap'
 import type { TransitionProps } from 'vue'
-import EventType from '~/constants/event-type'
-
-export const HOME_CARD_TO_PROJECT_TRANSITION = 'home-card-to-project-page-transition'
-export const DEFAULT_TRANSITION = 'default-transition'
+import { usePageTransitionState } from '~/composables/use-page-transition-state'
+// import { useActiveProjectCardElement } from '~/composables/use-active-project-card-element'
 
 export type PageTransitionEventData = {
     pageEl: HTMLElement
@@ -11,44 +10,67 @@ export type PageTransitionEventData = {
 }
 
 export const defaultPageTransition: TransitionProps = {
-    name: DEFAULT_TRANSITION,
-    type: 'transition',
-    mode: 'default',
-    onBeforeLeave(_el) {
-        // console.log('onBeforeLeave', el)
-    },
-    onLeave(el, done) {
-        console.log('emit', EventType.PAGE_TRANSITION_LEAVE)
+    name: 'master-transition',
+    // mode: 'default',
+    onLeave: (el, done) => {
+        const { animationComplete, name } = usePageTransitionState()
+        animationComplete.value = false
 
-        const linkClicked = getProjectHomeCardClicked(el)
-        eventBus.emit(EventType.PAGE_TRANSITION_LEAVE, { pageEl: el, linkClicked, done })
+        // const { cardElement, id } = useActiveProjectCardElement(el)
+        // if (cardElement) {
+        //     gsap
+        //         .timeline({ paused: true, onComplete: done })
+        //         .to(window, {
+        //             duration: 0.6,
+        //             scrollTo: {
+        //                 y: '#' + id,
+        //                 offsetY: window.innerHeight / 2 - cardElement.offsetHeight / 2,
+        //             },
+        //             ease: 'power2.out',
+        //         })
+        //         .to(cardElement, { scale: 1.2, duration: 1 })
+        //         .play()
+        // }
+        // else {
+        const tl = gsap.timeline({ paused: true, onComplete: done })
 
-        // if (!linkClicked) {
-        done()
+        const isSlide = name.value === 'slide-left' || name.value === 'slide-right'
+        if (isSlide) {
+            tl.to(el, { xPercent: name.value === 'slide-right' ? 100 : -100, duration: 1, ease: 'power2.out' })
+        }
+        else {
+            tl.to(el, { scale: 0.98, duration: 1, ease: 'power2.out' })
+        }
+
+        tl.play()
         // }
     },
-    onAfterLeave() {
-        eventBus.emit(EventType.PAGE_TRANSITION_AFTER_LEAVE)
+    onEnter: (el, done) => {
+        const { animationComplete, name } = usePageTransitionState()
+
+        gsap.set(el, {
+            position: 'absolute',
+            top: 0,
+            zIndex: 1000,
+            autoAlpha: 0,
+            scale: name.value === 'default' ? 0.98 : 1,
+            xPercent: name.value === 'slide-left'
+                ? 100
+                : name.value === 'slide-right'
+                    ? -100
+                    : 0,
+        })
+
+        gsap
+            .timeline({
+                delay: name.value === 'default' ? 1 : 0,
+                paused: true,
+                onComplete() {
+                    animationComplete.value = true
+                    done()
+                },
+            })
+            .to(el, { autoAlpha: 1, scale: 1, xPercent: 0, duration: 1, ease: 'power2.out' })
+            .play()
     },
-    onEnter(el, done) {
-        console.log('emit onEnter', el)
-
-        const linkClicked = getProjectHomeCardClicked(el)
-        eventBus.emit(EventType.PAGE_TRANSITION_ENTER, { pageEl: el, linkClicked, done })
-
-        // if (!linkClicked) {
-        done()
-        // }
-    },
-    onAfterEnter() {
-        // console.log('onAfterEnter')
-        eventBus.emit(EventType.PAGE_TRANSITION_AFTER_ENTER)
-    },
-}
-
-function getProjectHomeCardClicked(el: Element) {
-    const isHomeToProjectTransition = el.classList.contains(HOME_CARD_TO_PROJECT_TRANSITION + '-leave-active')
-    if (!isHomeToProjectTransition) return undefined
-
-    return el.querySelector('a[aria-current="page"]') || undefined
 }

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
-import { defaultPageTransition, HOME_CARD_TO_PROJECT_TRANSITION, DEFAULT_TRANSITION } from '~/transitions/default-page-transition'
+import { defaultPageTransition } from '~/transitions/default-page-transition'
 import type {
     ContactPageDocument,
     GalleryPageDocument,
@@ -10,15 +10,6 @@ import type {
 } from '~/prismicio-types'
 
 definePageMeta({
-    middleware(to, from) {
-        const isFromHome = getDocumentTypeByUrl(from.path) === 'home_page'
-        const isToProject = getDocumentTypeByUrl(to.path) === 'project_page'
-
-        if (to.meta.pageTransition && typeof to.meta.pageTransition !== 'boolean') {
-            to.meta.pageTransition.name = isFromHome && isToProject ? HOME_CARD_TO_PROJECT_TRANSITION : DEFAULT_TRANSITION
-            console.log('set page transition', to.meta.pageTransition.name)
-        }
-    },
     pageTransition: defaultPageTransition,
 })
 
@@ -67,10 +58,20 @@ const contactDocument = computed(() => pageType === 'contact_page' && webRespons
 const projectDocument = computed(() => pageType === 'project_page' && webResponse as ProjectPageDocument)
 const labDocument = computed(() => pageType === 'lab_page' && webResponse as LabPageDocument)
 const galleryDocument = computed(() => pageType === 'gallery_page' && webResponse as GalleryPageDocument)
+
+const $style = useCssModule()
+const theme = computed(() => {
+    if (contactDocument.value || galleryDocument.value) return 'light'
+    else return 'dark'
+})
+
+const rootClasses = computed(() => {
+    return [$style.root, theme.value && $style[`root--theme-${theme.value}`]]
+})
 </script>
 
 <template>
-    <div>
+    <div :class="rootClasses">
         <LazyVHomePage
             v-if="homeDocument"
             :document="homeDocument"
@@ -93,3 +94,13 @@ const galleryDocument = computed(() => pageType === 'gallery_page' && webRespons
         />
     </div>
 </template>
+
+<style lang="scss" module>
+@use 'assets/scss/mixins/theme' as *;
+.root {
+    background-color: var(--theme-color-background);
+    color: var(--theme-color-on-background);
+
+    @include theme-variants;
+}
+</style>

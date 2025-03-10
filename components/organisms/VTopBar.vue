@@ -1,14 +1,20 @@
 <script  lang="ts" setup>
 import { useTopBarScroll } from '~/composables/use-top-bar-scroll'
+import type { ReachableDocument } from '~/types/api'
+
+const props = defineProps<{
+    document?: ReachableDocument
+}>()
 
 const settings = await usePrismicSettingsDocument()
 const description = settings?.data?.site_description
 
 const currentPage = useCurrentPage()
-const pageTitle = computed(() => currentPage.value.webResponse?.data?.title)
-const pageTitleMobile = computed(() => currentPage.value.webResponse?.data?.title_mobile)
+const _document = computed(() => props.document || currentPage.value.webResponse)
+const pageTitle = computed(() => _document.value?.data?.title)
+const pageTitleMobile = computed(() => (_document.value?.data as { title_mobile?: string | null })?.title_mobile)
 
-const isProject = computed(() => currentPage.value.webResponse?.type === 'project_page')
+const isProject = computed(() => _document.value?.type === 'project_page')
 
 const { isHidden, isOnPageTop } = useTopBarScroll()
 
