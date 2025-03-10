@@ -74,16 +74,16 @@ const rootClasses = computed(() => {
 
 .title {
     max-width: var(--v-top-bar-title-max-width);
-  font-family: $font-lecturis-family;
+    font-family: $font-lecturis-family;
 
-  // line-height: 0.69; // Compensate font box sizing
-  font-size: fluid((xs: 100, xl: 100));
-  font-weight: 300;
-  grid-column: 1 / -1;
-   line-height: 1;
-  margin-block: initial;
-  text-transform: uppercase;
-  translate: 0 -0.14lh;
+    // line-height: 0.69; // Compensate font box sizing
+    font-size: fluid((xs: 100, xl: 100));
+    font-weight: 300;
+    grid-column: 1 / -1;
+    line-height: 1;
+    margin-block: initial;
+    text-transform: uppercase;
+    translate: 0 -0.14lh;
 
     @include media('>=md') {
         grid-column: 1 / span 9;

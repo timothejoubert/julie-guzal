@@ -1,4 +1,6 @@
 ## In progress
+- Page Transition
+- Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Media Viewer, le curseur devient les fleches
 
 ## TODO
