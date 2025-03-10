@@ -2,7 +2,7 @@
 import { useBodyScrollLock } from '~/composables/use-body-scroll-lock'
 
 const $style = useCssModule()
-const { isLoading } = useLoadingIndicator()
+const { isLoading, finish } = useLoadingIndicator()
 const { disableScroll, enabledScroll } = useBodyScrollLock()
 
 watch(isLoading, () => {
@@ -15,6 +15,12 @@ watch(isLoading, () => {
         document.body.classList.remove($style.loading)
     }
 })
+
+// Sometimes (mainly in the event page), the loader get stucks and never ends.
+// @see https://github.com/nuxt/nuxt/issues/25840#issuecomment-2604644426
+const nuxtApp = useNuxtApp()
+
+nuxtApp.hook('page:finish', () => finish())
 </script>
 
 <template>
