@@ -1,7 +1,7 @@
 import gsap from 'gsap'
 import type { TransitionProps } from 'vue'
 import { usePageTransitionState } from '~/composables/use-page-transition-state'
-// import { useActiveProjectCardElement } from '~/composables/use-active-project-card-element'
+import { getScrollBarWidth } from '~/utils/scroll-bar'
 
 export type PageTransitionEventData = {
     pageEl: HTMLElement
@@ -12,6 +12,17 @@ export type PageTransitionEventData = {
 export const defaultPageTransition: TransitionProps = {
     name: 'master-transition',
     // mode: 'default',
+    onBeforeLeave: () => {
+        document.body.style.overflowX = 'hidden'
+        // document.body.style.paddingRight = getScrollBarWidth()
+
+        // useScrollLock create scroll bar shift when set overflow: hidden
+        // const isLocked = useScrollLock(document.body)
+        // isLocked.value = true
+
+        const nuxtApp = useNuxtApp()
+        nuxtApp.$lenis.stop()
+    },
     onLeave: (el, done) => {
         const { animationComplete, name } = usePageTransitionState()
         animationComplete.value = false
@@ -32,14 +43,32 @@ export const defaultPageTransition: TransitionProps = {
         //         .play()
         // }
         // else {
-        const tl = gsap.timeline({ paused: true, onComplete: done })
+
+        const tl = gsap.timeline({
+            paused: true,
+            onComplete() {
+                gsap.set(el, { clearProps: true })
+                done()
+            },
+        })
 
         const isSlide = name.value === 'slide-left' || name.value === 'slide-right'
         if (isSlide) {
-            tl.to(el, { xPercent: name.value === 'slide-right' ? 100 : -100, duration: 1, ease: 'power2.out' })
+            tl.to(el, {
+                xPercent: name.value === 'slide-right' ? 100 : -100,
+                duration: 1,
+                ease: 'power2.out',
+            })
         }
         else {
-            tl.to(el, { scale: 0.98, duration: 1, ease: 'power2.out' })
+            tl.to(el, {
+                y: 60,
+                opacity: 0.3,
+                scale: 0.9,
+                transformOrigin: 'top center',
+                duration: 1,
+                ease: 'power1.out',
+            })
         }
 
         tl.play()
@@ -48,29 +77,68 @@ export const defaultPageTransition: TransitionProps = {
     onEnter: (el, done) => {
         const { animationComplete, name } = usePageTransitionState()
 
-        gsap.set(el, {
-            position: 'absolute',
-            top: 0,
-            zIndex: 1000,
-            autoAlpha: 0,
-            scale: name.value === 'default' ? 0.98 : 1,
-            xPercent: name.value === 'slide-left'
-                ? 100
-                : name.value === 'slide-right'
-                    ? -100
-                    : 0,
+        const scrollWidth = getScrollBarWidth()
+        console.log('enEnter', scrollWidth)
+
+        const isSlide = name.value === 'slide-left' || name.value === 'slide-right'
+
+        const tl = gsap.timeline({
+            // delay: name.value === 'default' ? 1 : 0,
+            paused: true,
+            onComplete() {
+                console.log('enter done')
+                gsap.set(el, { clearProps: true })
+                animationComplete.value = true
+                done()
+            },
         })
 
-        gsap
-            .timeline({
-                delay: name.value === 'default' ? 1 : 0,
-                paused: true,
-                onComplete() {
-                    animationComplete.value = true
-                    done()
-                },
+        if (isSlide) {
+            gsap.set(el, {
+                position: 'fixed',
+                top: 0,
+                maxWidth: `calc(100% - var(--scroll-bar-width)})`,
+                zIndex: 1000,
+                transformOrigin: 'top center',
+                xPercent: name.value === 'slide-left'
+                    ? 100
+                    : name.value === 'slide-right'
+                        ? -100
+                        : 0,
             })
-            .to(el, { autoAlpha: 1, scale: 1, xPercent: 0, duration: 1, ease: 'power2.out' })
-            .play()
+            tl.to(el, {
+                xPercent: 0,
+                duration: 1,
+                ease: 'power2.out',
+            })
+        }
+        else {
+            gsap.set(el, {
+                position: 'fixed',
+                maxWidth: `calc(100% - var(--scroll-bar-width)})`,
+                zIndex: 1000,
+                top: '100vh',
+                scale: 1.1,
+                transformOrigin: 'top center',
+            })
+
+            tl.to(el, {
+                scale: 1,
+                top: 0,
+                duration: 1,
+                ease: 'power3.out',
+            })
+        }
+
+        tl.play()
+    },
+    onAfterEnter: () => {
+        console.log('onAfterLeave')
+        // const isLocked = useScrollLock(document.body)
+        // isLocked.value = false
+
+        document.body.style.paddingRight = '0px'
+        const nuxtApp = useNuxtApp()
+        nuxtApp.$lenis.start()
     },
 }

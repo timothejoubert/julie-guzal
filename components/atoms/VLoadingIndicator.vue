@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { useBodyScrollLock } from '~/composables/use-body-scroll-lock'
+// import { useBodyScrollLock } from '~/composables/use-body-scroll-lock'
 
 const $style = useCssModule()
 const { isLoading, finish } = useLoadingIndicator()
-const { disableScroll, enabledScroll } = useBodyScrollLock()
+
+// For now set scrollLock logic in page transition
+// const { disableScroll, enabledScroll } = useBodyScrollLock()
 
 watch(isLoading, () => {
     if (isLoading.value) {
-        disableScroll()
+        // disableScroll()
         document.body.classList.add($style.loading)
     }
     else {
-        enabledScroll()
+        // enabledScroll()
         document.body.classList.remove($style.loading)
     }
 })
