@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type Plyr from 'plyr'
 import VDraggableScroll from '~/components/organisms/VDraggableScroll/VDraggableScroll.vue'
+import VFollowCusor from '~/components/organisms/VFollowCusor.vue'
 
 const id = useId()
 
@@ -37,18 +38,25 @@ onBeforeUnmount(() => {
     root.value?.close()
 })
 
-const $style = useCssModule()
-const rootClasses = computed(() => {
-    return [$style.root]
-})
+// ROOT CLICK LISTENER
+const cursorDisplayed = ref(false)
+function onClick(event: MouseEvent) {
+    if (!cursorDisplayed.value) return
+
+    if (event.clientX > window.innerWidth / 2) nextSlide()
+    else previousSlide()
+}
 </script>
 
 <template>
     <dialog
         :id="id"
         ref="root"
-        :class="rootClasses"
+        :class="$style.root"
+        @click="onClick"
     >
+        <VFollowCusor v-model="cursorDisplayed" />
+        <div>{{ cursorDisplayed }}</div>
         <div
             :class="$style.wrapper"
         >

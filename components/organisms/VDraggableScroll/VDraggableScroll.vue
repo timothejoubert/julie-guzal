@@ -4,7 +4,6 @@ defineProps({
 })
 
 const index = defineModel<number>({ default: 0 })
-
 const root = ref<HTMLElement | null>(null)
 
 const { hasOverflow, isDragging } = useDraggableScroll({ element: root })
@@ -40,7 +39,10 @@ const updateRootScrollLeft = () => (rootScrollLeft.value = root.value?.scrollLef
 watch(isDragging, updateRootScrollLeft)
 watch(isScrolling, updateRootScrollLeft)
 
-const childrenData = computed(() => {
+// COMPUTE SLIDE DATA
+const childrenData = ref(getChildrenData())
+
+function getChildrenData() {
     if (!root.value) {
         return []
     }
@@ -58,8 +60,14 @@ const childrenData = computed(() => {
             snapEnd: el.offsetLeft + width,
         }
     })
+}
+const { width } = useWindowSize()
+watch(width, () => {
+    console.log('window width change')
+    childrenData.value = getChildrenData()
 })
 
+// ACTIVE SLIDE
 const activeSlide = computed(() => {
     return childrenData.value.findIndex((childData) => {
         return (childData?.snapCenter || 0) >= rootScrollLeft.value
