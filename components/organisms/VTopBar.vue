@@ -6,6 +6,10 @@ const props = defineProps<{
     document?: ReachableDocument
 }>()
 
+defineOptions({
+    inheritAttrs: false,
+})
+
 const settings = await usePrismicSettingsDocument()
 const description = settings?.data?.site_description
 
@@ -30,7 +34,7 @@ const rootClasses = computed(() => {
 <template>
     <div
         v-if="!isProject"
-        :class="rootClasses"
+        :class="[rootClasses, $attrs.class]"
         class="grid"
     >
         <h1 :class="$style.title">
@@ -48,13 +52,13 @@ const rootClasses = computed(() => {
         <VNav
             :class="$style.nav"
         />
-        <VText
-            v-if="description"
-            :content="description"
-            tag="h2"
-            :class="$style.content"
-        />
     </div>
+    <VText
+        v-if="description"
+        :content="description"
+        tag="h2"
+        :class="$style.content"
+    />
 </template>
 
 <style lang="scss" module>
@@ -62,9 +66,13 @@ const rootClasses = computed(() => {
 @use 'assets/scss/functions/fluid' as *;
 @use 'assets/scss/variables/fonts' as *;
 
+$padding-top: rem(24);
+$padding-bottom: rem(24);
+
 .root {
-    z-index: 9;
-    padding-block: rem(24);
+
+    padding-block: $padding-top $padding-bottom;
+    z-index: 99;
 
     @include media('>=md') {
         position: sticky;
@@ -73,10 +81,10 @@ const rootClasses = computed(() => {
 }
 
 .title {
+    // line-height: 0.69; // Compensate font box sizing
+
     max-width: var(--v-top-bar-title-max-width);
     font-family: $font-lecturis-family;
-
-    // line-height: 0.69; // Compensate font box sizing
     font-size: fluid((xs: 100, xl: 100));
     font-weight: 300;
     grid-column: 1 / -1;
@@ -95,7 +103,7 @@ const rootClasses = computed(() => {
     }
 
     @include media('>=lg') {
-        grid-column: 1 / span 5;
+        grid-column: 1 / span 6;
     }
 }
 
@@ -140,16 +148,16 @@ const rootClasses = computed(() => {
     max-width: 20ch;
     margin-top: rem(68);
     font-family: $font-suisse-family;
-    font-size: rem(14);
+    font-size: rem(20);
     font-weight: 400;
     grid-column: 1 / -1;
+    margin-left: var(--gutter);
     line-height: 1.3;
-    margin-block: initial;
+    margin-block: rem(68 - 24) 0;
 
     @include media('>=md') {
         grid-column: 1 / span 5;
         transition: translate 0.5s ease(out-quad), opacity 0.3s ease(out-quad);
-
         .root:not(.root--on-page-top) & {
             opacity: 0;
             pointer-events: none;
@@ -158,6 +166,11 @@ const rootClasses = computed(() => {
     }
 
     @include media('>=lg') {
+        font-size: rem(14);
+        position: absolute;
+        left: calc(#{flex-grid-value(8, 12)} + var(--gutter));
+        top: $padding-top;
+        width: flex-grid(2, 12, '%', true);
         margin-top: initial;
         grid-column: 10 / span 2;
     }
