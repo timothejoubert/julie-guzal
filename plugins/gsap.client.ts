@@ -12,9 +12,9 @@ export default defineNuxtPlugin((_nuxtApp) => {
     return {
         provide: {
             gsap,
-            flip: Flip,
             scrollTrigger: ScrollTrigger,
-            scrollToPlugin: ScrollToPlugin,
+            // flip: Flip,
+            // scrollToPlugin: ScrollToPlugin,
         },
     }
 })

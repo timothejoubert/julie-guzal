@@ -39,6 +39,59 @@ function onClick(index: number) {
     documents.value = mediaViewerDocument.value
     mediaViewerIndex.value = index
 }
+
+// TWEENS
+const { $gsap } = useNuxtApp()
+let tweenList: GSAPTween[] = []
+const elementList = useTemplateRefsList<HTMLDivElement>()
+
+function resetTweens() {
+    if (!tweenList.length) return
+    tweenList.forEach(tween => tween?.scrollTrigger?.refresh())
+}
+
+function initTweens() {
+    if (!elementList.value?.length) {
+        return
+    }
+
+    if (tweenList.length) {
+        resetTweens()
+        return
+    }
+
+    tweenList = []
+    elementList.value.forEach((el, index) => {
+        const tween = $gsap.to(el, {
+            scrollTrigger: {
+                trigger: el,
+                scrub: true,
+                start: 'clamp(top center)',
+                end: 'bottom top',
+                // markers: true,
+            },
+            yPercent: (index % 2) ? 20 : -20,
+            ease: 'none',
+        })
+
+        tweenList.push(tween)
+    })
+}
+
+function killTweens() {
+    if (!tweenList?.length) return
+
+    tweenList.forEach(tween => tween?.kill())
+    tweenList = []
+}
+
+const isLargeScreen = useMediaQuery('(min-width: 768px)', { ssrWidth: 767 })
+watch(isLargeScreen, (value) => {
+    if (value) initTweens()
+    else killTweens()
+})
+
+onBeforeUnmount(killTweens)
 </script>
 
 <template>
@@ -52,6 +105,7 @@ function onClick(index: number) {
             <button
                 v-for="(media, index) in imageList"
                 :key="index"
+                :ref="elementList.set"
                 :class="$style.item"
                 :aria-label="$t('media_viewer.open')"
                 @click="onClick(index)"
