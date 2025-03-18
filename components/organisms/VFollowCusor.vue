@@ -93,13 +93,13 @@ defineEmits<{
 .root {
     position: fixed;
     display: flex;
-    align-items: center;
-    justify-content: center;
     width: 40px;
     height: 40px;
+    align-items: center;
+    justify-content: center;
     border-radius: 100%;
-    pointer-events: none;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.2s;
 
     &--displayed {
@@ -109,8 +109,8 @@ defineEmits<{
 }
 
 .icon {
-    transition: rotate 0.4s ease(out-quad);
     transform-origin: center;
+    transition: rotate 0.4s ease(out-quad);
 
     .root--direction-right & {
         rotate: 180deg;

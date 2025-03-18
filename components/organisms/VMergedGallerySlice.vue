@@ -131,10 +131,10 @@ onBeforeUnmount(killTweens)
     row-gap: var(--gallery-grid-slice-row-gap);
 
     &::before {
-        content: '';
         position: absolute;
-        inset: 0 calc(var(--gutter) * -1);
         background-color: var(--theme-color-background);
+        content: '';
+        inset: 0 calc(var(--gutter) * -1);
     }
 
     @include media('>=md') {

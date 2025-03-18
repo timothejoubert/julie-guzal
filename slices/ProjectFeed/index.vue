@@ -59,9 +59,9 @@ const projects = computed(() => {
 <style lang="scss" module>
 .root {
     position: relative;
+    z-index: 1;
     padding-top: rem(208);
     padding-bottom: rem(76);
-    z-index: 1;
     background-color: var(--theme-color-background);
 
     @include media('>=lg') {

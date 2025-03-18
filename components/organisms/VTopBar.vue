@@ -70,9 +70,8 @@ $padding-top: rem(24);
 $padding-bottom: rem(24);
 
 .root {
-
-    padding-block: $padding-top $padding-bottom;
     z-index: 99;
+    padding-block: $padding-top $padding-bottom;
 
     @include media('>=md') {
         position: sticky;
@@ -147,17 +146,18 @@ $padding-bottom: rem(24);
 .content {
     max-width: 20ch;
     margin-top: rem(68);
+    margin-left: var(--gutter);
     font-family: $font-suisse-family;
     font-size: rem(20);
     font-weight: 400;
     grid-column: 1 / -1;
-    margin-left: var(--gutter);
     line-height: 1.3;
     margin-block: rem(68 - 24) 0;
 
     @include media('>=md') {
         grid-column: 1 / span 5;
         transition: translate 0.5s ease(out-quad), opacity 0.3s ease(out-quad);
+
         .root:not(.root--on-page-top) & {
             opacity: 0;
             pointer-events: none;
@@ -166,12 +166,12 @@ $padding-bottom: rem(24);
     }
 
     @include media('>=lg') {
-        font-size: rem(14);
         position: absolute;
-        left: calc(#{flex-grid-value(8, 12)} + var(--gutter));
         top: $padding-top;
+        left: calc(#{flex-grid-value(8, 12)} + var(--gutter));
         width: flex-grid(2, 12, '%', true);
         margin-top: initial;
+        font-size: rem(14);
         grid-column: 10 / span 2;
     }
 }

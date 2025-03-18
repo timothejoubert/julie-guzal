@@ -177,17 +177,17 @@ const customMouseHidden = ref(false)
 
 .controls {
     position: fixed;
-    display: flex;
-    justify-content: space-evenly;
-    left: 0;
     right: 0;
     bottom: min(#{rem(165)}, 12vh);
+    left: 0;
+    display: flex;
+    justify-content: space-evenly;
 
     @include media('>=md') {
-        flex-direction: column;
-        left: initial;
         right: rem(24);
         bottom: rem(24);
+        left: initial;
+        flex-direction: column;
     }
 
     @include media('>=lg') {
@@ -233,20 +233,20 @@ const customMouseHidden = ref(false)
     display: flex;
     width: 100%;
     max-height: 100%;
+    flex-direction: column;
     flex-shrink: 0;
     justify-content: space-between;
     column-gap: var(--gutter);
     padding-inline: var(--gutter);
     scroll-snap-align: start;
-    flex-direction: column;
 
     @include media('>=md') {
         height: 100%;
     }
 
     @include media('>=lg') {
-        align-items: flex-end;
         flex-direction: row;
+        align-items: flex-end;
         justify-content: initial;
     }
 
@@ -264,33 +264,33 @@ const customMouseHidden = ref(false)
     user-drag: none;
 
     @include media('>=md') {
-        object-position: left;
-        max-height: 80vh;
         width: flex-grid(10, 12);
+        max-height: 80vh;
+        object-position: left;
     }
 
     @include media('>=lg') {
+        width: flex-grid(6, 12);
         max-height: calc(100vh - var(--gutter) * 2);
         object-position: right;
-        width: flex-grid(6, 12);
     }
 }
 
 .figcaption {
     max-width: 26ch;
+    margin-top: min(#{rem(210)}, 15vh);
     font-family: $font-suisse-family;
     font-size: rem(14);
     font-weight: 400;
     line-height: 1.42;
-    margin-top: min(#{rem(210)}, 15vh);
 
     > * {
         margin-block: 0;
     }
 
     @include media('>=lg') {
-        margin-top: initial;
         width: flex-grid(2, 12);
+        margin-top: initial;
     }
 
 }
