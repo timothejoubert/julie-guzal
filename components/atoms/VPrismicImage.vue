@@ -88,10 +88,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-img.root {
-    display: block;
-}
-
 .root {
     &--copyright {
         position: relative;

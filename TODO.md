@@ -1,12 +1,10 @@
 ## In progress
-- text nav | comportement classique
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Media Viewer, le curseur devient les fleches
 
 ## TODO
 - Top bar | bug de disparition de la top bar au changement de page
 - nav | couleur lien inactif (page contact)
-- 
 - page photo | responsive
 - page photo | slide fade in/out
 - page photo | apparition img fullscreen sans défilement de toutes les slides 
@@ -28,6 +26,7 @@
 
 
 ## Need review
+- text nav | comportement classique
 - Footer | reveal
 - Prerender all page except Preview
 - Preview (Preview page should be build on fly and others prerender)

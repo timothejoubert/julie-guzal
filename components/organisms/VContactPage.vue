@@ -111,6 +111,14 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 .column {
     grid-column: span 11;
 
+    @include media('<md') {
+        &:nth-child(2),
+        &:nth-child(3) {
+            margin-top: rem(40);
+            grid-column: span 6;
+        }
+    }
+
     @include media('>=md') {
         grid-column: span 3;
 
@@ -184,6 +192,13 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 
     > * {
         margin-bottom: 0;
+    }
+}
+
+.right__column__image {
+    @include media('<lg') {
+        display: none;
+        --v-img-display: none;
     }
 }
 

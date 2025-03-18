@@ -147,6 +147,7 @@ export default defineComponent({
     max-width: var(--v-img-max-width, 100%); // responsive image
     height: var(--v-img-height, auto); // responsive image
     background: var(--v-img-background, var(--v-img-placeholder));
+    display: var(--v-img-display, block);
 
     &--loaded {
         // Remove background when image is loaded. This is useful for hiding antialiasing artifacts.

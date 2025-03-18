@@ -84,7 +84,7 @@ $padding-bottom: rem(24);
 
     max-width: var(--v-top-bar-title-max-width);
     font-family: $font-lecturis-family;
-    font-size: fluid((xs: 100, xl: 100));
+    font-size: fluid((xs: 70, xl: 100));
     font-weight: 300;
     grid-column: 1 / -1;
     line-height: 1;
@@ -152,7 +152,7 @@ $padding-bottom: rem(24);
     font-weight: 400;
     grid-column: 1 / -1;
     line-height: 1.3;
-    margin-block: rem(68 - 24) 0;
+    margin-block: rem(18) rem(40);
 
     @include media('>=md') {
         grid-column: 1 / span 5;
@@ -166,6 +166,7 @@ $padding-bottom: rem(24);
     }
 
     @include media('>=lg') {
+        margin-block: initial;
         position: absolute;
         top: $padding-top;
         left: calc(#{flex-grid-value(8, 12)} + var(--gutter));
