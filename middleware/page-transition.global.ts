@@ -6,7 +6,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
     const fromDocument = getDocumentTypeByUrl(from.path)
     const toDocument = getDocumentTypeByUrl(to.path)
 
-    if (fromDocument === toDocument) transitionName.value = 'first-reveal'
+    if (!to.meta.pageTransition) return
+    else if (fromDocument === toDocument) transitionName.value = 'first-reveal'
     else if (toDocument === 'gallery_page') {
         transitionName.value = 'slide-left'
     }
@@ -19,6 +20,4 @@ export default defineNuxtRouteMiddleware((to, from) => {
     else {
         transitionName.value = 'default'
     }
-
-    console.log('defineNuxtRouteMiddleware transition name:', fromDocument, toDocument, transitionName.value)
 })

@@ -20,9 +20,9 @@ export function usePage(options?: UsePageOptions) {
         alternateLinks: options?.alternateLinks,
     }
 
-    function updatePage() {
+    function updateCurrentPage() {
         currentPage.value = { ...nextPage.value }
     }
 
-    usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, updatePage)
+    usePageTransitionEvent(EventType.PAGE_TRANSITION_AFTER_LEAVE, updateCurrentPage)
 }
