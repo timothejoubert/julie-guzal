@@ -1,6 +1,5 @@
 ## In progress
-- text nav | comportement classique 
-- Footer | reveal
+- text nav | comportement classique
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Media Viewer, le curseur devient les fleches
 
@@ -28,6 +27,7 @@
 
 
 ## Need review
+- Footer | reveal
 - Prerender all page except Preview
 - Preview (Preview page should be build on fly and others prerender)
 

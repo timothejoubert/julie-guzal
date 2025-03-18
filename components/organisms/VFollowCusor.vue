@@ -97,15 +97,14 @@ defineEmits<{
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: #cdcdcd;
     border-radius: 100%;
     pointer-events: none;
     opacity: 0;
+    transition: opacity 0.2s;
 
     &--displayed {
-        opacity: 1;
+        opacity: var(--v-follow-cusor-opacity, 1);
         pointer-events: initial;
-        cursor: pointer;
     }
 }
 

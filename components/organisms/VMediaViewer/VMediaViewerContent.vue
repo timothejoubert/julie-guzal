@@ -46,17 +46,22 @@ function onClick(event: MouseEvent) {
     if (event.clientX > window.innerWidth / 2) nextSlide()
     else previousSlide()
 }
+
+const customMouseHidden = ref(false)
 </script>
 
 <template>
     <dialog
         :id="id"
         ref="root"
-        :class="$style.root"
+        :class="[
+            $style.root,
+            customMouseHidden && $style['root--custom-cursor-hidden'],
+            cursorDisplayed && $style['root--native-cursor-disabled'],
+        ]"
         @click="onClick"
     >
         <VFollowCusor v-model="cursorDisplayed" />
-        <div>{{ cursorDisplayed }}</div>
         <div
             :class="$style.wrapper"
         >
@@ -64,6 +69,8 @@ function onClick(event: MouseEvent) {
                 :class="$style.close"
                 :aria-label="$t('media_viewer.close')"
                 @click="close"
+                @mouseover="() => customMouseHidden = true"
+                @mouseleave="() => customMouseHidden = false"
             >
                 {{ $t('close') }}
             </button>
@@ -135,6 +142,14 @@ function onClick(event: MouseEvent) {
     inset: 0;
 
     @include theme('light');
+
+    &--custom-cursor-hidden {
+        --v-follow-cusor-opacity: 0;
+    }
+
+    &--native-cursor-disabled {
+      cursor: none;
+    }
 }
 
 .wrapper {
@@ -162,8 +177,23 @@ function onClick(event: MouseEvent) {
 
 .controls {
     position: fixed;
-    right: rem(24);
-    bottom: rem(24);
+    display: flex;
+    justify-content: space-evenly;
+    left: 0;
+    right: 0;
+    bottom: min(#{rem(165)}, 12vh);
+
+    @include media('>=md') {
+        flex-direction: column;
+        left: initial;
+        right: rem(24);
+        bottom: rem(24);
+    }
+
+    @include media('>=lg') {
+        display: none;
+    }
+
 }
 
 .control {
@@ -184,6 +214,19 @@ function onClick(event: MouseEvent) {
     width: 100%;
     height: 100%;
     align-items: flex-end;
+
+    .root--native-cursor-disabled & {
+        cursor: none !important;
+    }
+
+    @include media('>=md') {
+        align-items: flex-start;
+    }
+
+    @include media('>=lg') {
+        align-items: flex-end;
+    }
+
 }
 
 .slide {
@@ -191,37 +234,64 @@ function onClick(event: MouseEvent) {
     width: 100%;
     max-height: 100%;
     flex-shrink: 0;
-    align-items: flex-end;
+    justify-content: space-between;
     column-gap: var(--gutter);
     padding-inline: var(--gutter);
     scroll-snap-align: start;
+    flex-direction: column;
+
+    @include media('>=md') {
+        height: 100%;
+    }
+
+    @include media('>=lg') {
+        align-items: flex-end;
+        flex-direction: row;
+        justify-content: initial;
+    }
+
 }
 
 .image {
     width: 100%;
-    max-height: calc(100vh - var(--gutter) * 2);
+    max-height: 70vh;
     object-fit: contain;
-    object-position: right;
+    object-position: center;
     -webkit-user-drag: none;
     -khtml-user-drag: none;
     -moz-user-drag: none;
     -o-user-drag: none;
     user-drag: none;
 
-    // width: calc(#{flex-grid-value(5, 12, '%', true)});
+    @include media('>=md') {
+        object-position: left;
+        max-height: 80vh;
+        width: flex-grid(10, 12);
+    }
 
     @include media('>=lg') {
+        max-height: calc(100vh - var(--gutter) * 2);
+        object-position: right;
         width: flex-grid(6, 12);
     }
 }
 
 .figcaption {
-    width: flex-grid(2, 12);
+    max-width: 26ch;
     font-family: $font-suisse-family;
     font-size: rem(14);
     font-weight: 400;
     line-height: 1.42;
+    margin-top: min(#{rem(210)}, 15vh);
 
-    // width: calc(#{flex-grid-value(2, 12, '%', true)});
+    > * {
+        margin-block: 0;
+    }
+
+    @include media('>=lg') {
+        margin-top: initial;
+        width: flex-grid(2, 12);
+    }
+
 }
 </style>
