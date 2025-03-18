@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import type { MasonryMediasSlice } from '~/prismicio-types'
 import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
 
@@ -7,22 +8,83 @@ type StoredImage = { el: null | HTMLElement, top: null | number, index: number }
 const props = defineProps(getSliceComponentProps<MasonryMediasSlice>())
 const primary = computed(() => props.slice.primary)
 
-const mediaInstances = ref<TemplateElement[]>([])
-const imageElementList = computed(() => mediaInstances.value.map(instance => getHtmlElement(instance)))
+const mediaInstances = useTemplateRefsList<TemplateElement>()
+const imageElementList = computed(() => {
+    return mediaInstances.value.map((instance) => {
+        return getHtmlElement(instance) as HTMLElement
+    }).filter(el => !!el)
+})
 const lastTopColumnedElement = computed(() => {
     return imageElementList.value.reduce((acc, el, index) => {
-        const top = el?.getBoundingClientRect().top
+        const top = el?.getBoundingClientRect?.().top
 
         if (!acc.el || (top && acc?.top && top <= acc?.top)) acc = { el, top, index } as StoredImage
         return acc
     }, { el: null, top: null, index: -1 } as StoredImage)
 })
 
-const lastTopColumnedElementIndex = computed(() => lastTopColumnedElement.value.index)
+const lastTopColumnedElementIndex = computed(() => lastTopColumnedElement.value.index || 0)
+watch(lastTopColumnedElementIndex, (value) => {
+    if (value) initTweens()
+})
+// TWEENS
+const root = ref<TemplateElement>(null)
+const { $gsap } = useNuxtApp()
+let tweenList: GSAPTween[] = []
+
+function resetTweens() {
+    if (!tweenList.length) return
+    tweenList.forEach(tween => tween?.scrollTrigger?.refresh())
+}
+
+function initTweens() {
+    if (!imageElementList.value?.length) {
+        return
+    }
+
+    if (tweenList.length) {
+        resetTweens()
+        return
+    }
+
+    killTweens()
+    imageElementList.value
+        .forEach((el, index) => {
+            const tween = $gsap.to(el, {
+                scrollTrigger: {
+                    trigger: getHtmlElement(root.value) || el,
+                    scrub: true,
+                    start: 'top',
+                    end: 'bottom',
+                    // markers: true,
+                },
+                y: ScrollTrigger.maxScroll(window) * (index < lastTopColumnedElementIndex.value ? 0.01 : -0.02),
+                ease: 'none',
+            })
+
+            tweenList.push(tween)
+        })
+}
+
+function killTweens() {
+    if (!tweenList?.length) return
+
+    tweenList.forEach(tween => tween?.kill())
+    tweenList = []
+}
+
+const isLargeScreen = useMediaQuery('(min-width: 1024px)', { ssrWidth: 1023 })
+watch(isLargeScreen, (value) => {
+    if (value) initTweens()
+    else killTweens()
+})
+
+onBeforeUnmount(killTweens)
 </script>
 
 <template>
     <VSlice
+        ref="root"
         :slice="slice"
         :class="$style.root"
     >
