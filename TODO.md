@@ -6,6 +6,7 @@
 ## TODO
 - Top bar | bug de disparition de la top bar au changement de page
 - nav | couleur lien inactif (page contact)
+- 
 - page photo | responsive
 - page photo | slide fade in/out
 - page photo | apparition img fullscreen sans défilement de toutes les slides 

@@ -16,6 +16,7 @@ export default {
         // sass context: @use + @import
         // https://github.com/stylelint/stylelint/issues/5133
         'no-invalid-position-at-import-rule': null,
+        'declaration-property-value-no-unknown': null, // prevent collision with sass functions
         // BEM like selector
         'selector-class-pattern': '^[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)*(--[a-z0-9]([-]?[a-z0-9]+)*)?$',
         'scss/no-global-function-names': null, // use global functions / variables / functions
