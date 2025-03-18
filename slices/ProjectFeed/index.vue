@@ -58,12 +58,15 @@ const projects = computed(() => {
 
 <style lang="scss" module>
 .root {
-    margin-top: rem(208);
-    margin-bottom: rem(76);
+    position: relative;
+    padding-top: rem(208);
+    padding-bottom: rem(76);
+    z-index: 1;
+    background-color: var(--theme-color-background);
 
     @include media('>=lg') {
-        margin-top: rem(251);
-        margin-bottom: rem(120);
+        padding-top: rem(251);
+        padding-bottom: rem(120);
     }
 }
 

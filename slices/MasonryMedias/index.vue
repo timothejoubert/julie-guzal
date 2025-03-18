@@ -107,14 +107,17 @@ onBeforeUnmount(killTweens)
 
 <style lang="scss" module>
 .root {
+    position: relative;
+    z-index: 1;
+    background-color: var(--theme-color-background);
     column-count: 1;
-    margin-block: rem(242) rem(120);
+    padding-block: rem(242) rem(120);
     padding-inline: var(--gutter);
 
     @include media('>=lg') {
         column-count: 2;
         column-gap: rem(24);
-        margin-block: rem(235) rem(180);
+        padding-block: rem(235) rem(180);
     }
 }
 

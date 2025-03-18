@@ -125,8 +125,17 @@ onBeforeUnmount(killTweens)
     --gallery-grid-slice-margin-top: #{rem(202)};
     --gallery-grid-slice-margin-bottom: #{rem(120)};
 
+    position: relative;
+    z-index: 1;
     margin-block: var(--gallery-grid-slice-margin-top) var(--gallery-grid-slice-margin-bottom);
     row-gap: var(--gallery-grid-slice-row-gap);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0 calc(var(--gutter) * -1);
+        background-color: var(--theme-color-background);
+    }
 
     @include media('>=md') {
         --gallery-grid-slice-row-gap: #{rem(24)};

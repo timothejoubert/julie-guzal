@@ -72,7 +72,7 @@ function onClick(index: number) {
     --gallery-grid-slice-margin-top: #{rem(202)};
     --gallery-grid-slice-margin-bottom: var(--gallery-grid-slice-row-gap);
 
-    margin-block: var(--gallery-grid-slice-margin-top) var(--gallery-grid-slice-margin-bottom);
+    padding-block: var(--gallery-grid-slice-margin-top) var(--gallery-grid-slice-margin-bottom);
     row-gap: var(--gallery-grid-slice-row-gap);
 
     & + & {

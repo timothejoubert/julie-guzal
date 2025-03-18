@@ -1,9 +1,18 @@
 ## In progress
-- Page Transition
+- text nav | comportement classique 
+- Footer | reveal
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Media Viewer, le curseur devient les fleches
 
 ## TODO
+- Top bar | bug de disparition de la top bar
+- nav | couleur lien inactif (page contact)
+- page photo | responsive
+- page photo | slide fade in/out
+- page photo | apparition img fullscreen sans défilement de toutes les slides 
+- page photo | callage description par rapport a la photo
+- page photo | enlever cursor + enlever fond fleche
+
 - Slice simulator preview not working correctly for some slices
 - Page error
 - Use NuxtPage name with composable for common page setup 
