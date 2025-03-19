@@ -1,33 +1,28 @@
 ## In progress
-- Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- Media Viewer, le curseur devient les fleches
-
-## TODO
-- Top bar | bug de disparition de la top bar au changement de page
-- nav | couleur lien inactif (page contact)
 - page photo | responsive
 - page photo | slide fade in/out
-- page photo | apparition img fullscreen sans défilement de toutes les slides 
-- page photo | callage description par rapport a la photo
-- page photo | enlever cursor + enlever fond fleche
+- page photo | apparition img fullscreen sans défilement de toutes les slides
+- Fix mediaViewer carousel (resize & bug de snap)
+- 
+- VTopBar | text reveal
+- Footer | text reveal
 
+## TODO
+- Add v-nav theme color for mobile and desktop (with 'filled' style name)
+- CrossNav: Text Reveal 
+- Top bar | bug de disparition de la top bar au changement de page
 - Slice simulator preview not working correctly for some slices
 - Page error
 - Use NuxtPage name with composable for common page setup 
-- VPrismicLink slot warning
-- Add cache on generated page
+- Add cache on generated page (swr ?)
 - pageProject: back link sticky ? 
 - VSplashScreen
 - page transition
-- Fix mediaViewer carousel (resize & bug de snap)
-- CrossNav: Text Reveal 
-- PhotoPage & LabPage: Parallax 
+
 - setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 
 
 ## Need review
-- text nav | comportement classique
-- Footer | reveal
 - Prerender all page except Preview
 - Preview (Preview page should be build on fly and others prerender)
 
@@ -35,6 +30,13 @@
 - Create VPageFactory ?
 
 ## Done
+- PhotoPage & LabPage: Parallax
+- Media Viewer, le curseur devient les fleches
+- VPrismicLink slot warning
+- page photo | callage description par rapport a la photo
+- page photo | enlever cursor + enlever fond fleche
+- nav | couleur lien inactif (page contact)
+- text nav | comportement classique
 - Taille des fleches dans le footer
 - Add project_date_order for
 - Resolve prismic document url from type

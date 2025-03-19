@@ -1,6 +1,6 @@
-import type { ComponentPublicInstance, MaybeRefOrGetter } from 'vue'
+import type { Component, ComponentPublicInstance, MaybeRefOrGetter } from 'vue'
 
-export type TemplateElement = HTMLElement | ComponentPublicInstance | null
+export type TemplateElement = HTMLElement | SVGElement | ComponentPublicInstance | Component | null
 export type TemplateElementRef = MaybeRefOrGetter<TemplateElement>
 
 export function isComponentInstanceElement(el: TemplateElement) {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { NuxtError } from 'nuxt/app'
 import { I18N_DEFAULT_LOCALE } from '~/i18n/i18n.config'
+import VTextGlitched from '~/components/molecules/VTextGlitched.vue'
 
 useSeoMeta({ robots: 'noindex, nofollow' })
 
@@ -74,7 +75,7 @@ console.error('Error page:', props.error)
             </a>
         </header>
         <main :class="$style.main">
-            <VPixelatedText
+            <VTextGlitched
                 root-tag="h1"
                 :class="$style.title"
                 :label="statusCode.toString()"
