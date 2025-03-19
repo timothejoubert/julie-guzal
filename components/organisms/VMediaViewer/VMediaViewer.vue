@@ -55,7 +55,7 @@ function enabledScroll() {
 .root {
     &:global(#{'-enter-active'}),
     &:global(#{'-leave-active'}) {
-        transition-duration: 0.3s, 0.5s;
+        transition-duration: 0.5s;
         transition-property: opacity, scale;
         transition-timing-function: ease(out-quad), ease(out-quart);
     }
@@ -63,7 +63,7 @@ function enabledScroll() {
     &:global(#{'-enter-from'}),
     &:global(#{'-leave-to'}) {
         opacity: 0;
-        scale: 0.98;
+        scale: 0.9;
     }
 }
 </style>

@@ -102,19 +102,18 @@ onBeforeUnmount(killTweens)
         :class="$style.root"
     >
         <template v-if="imageList.length">
-            <button
+            <div
                 v-for="(media, index) in imageList"
                 :key="index"
                 :ref="elementList.set"
                 :class="$style.item"
-                :aria-label="$t('media_viewer.open')"
                 @click="onClick(index)"
             >
                 <VPrismicImage
                     v-bind="media"
                     :class="$style.img"
                 />
-            </button>
+            </div>
         </template>
     </section>
 </template>

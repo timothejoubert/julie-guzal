@@ -3,7 +3,7 @@ defineProps({
     tag: { type: String, default: 'div' },
 })
 
-const index = defineModel<number>({ default: 0 })
+const index = defineModel<number>({ default: -1 })
 const root = ref<HTMLElement | null>(null)
 
 const { hasOverflow, isDragging } = useDraggableScroll({ element: root })
@@ -75,7 +75,11 @@ const activeSlide = computed(() => {
 })
 
 function onScrollEnd() {
-    const onSnapInline = !!childrenData.value.find(slide => slide.snapStart === rootScrollLeft.value || slide.snapEnd === rootScrollLeft.value)
+    const onSnapInline = !!childrenData.value.find((slide) => {
+        const scrollLeft = Math.floor(rootScrollLeft.value)
+        return Math.floor(slide.snapStart) === scrollLeft || Math.floor(slide.snapEnd) === scrollLeft
+    })
+
     if (activeSlide.value === index.value && !onSnapInline) {
         updateScrollPosition(activeSlide.value)
     }
@@ -96,13 +100,20 @@ function updateScrollPosition(newIndex: number) {
         return
     }
 
+    const isFirstReveal = index.value >= 0 && activeSlide.value === -1
     const children = [...root.value.children] as HTMLElement[]
     const offsetLeft = children[newIndex]?.offsetLeft - root.value.offsetLeft
 
-    if (typeof offsetLeft === 'number') {
-        root.value.scrollTo({ behavior: 'smooth', left: offsetLeft })
-        index.value = newIndex
+    if (typeof offsetLeft !== 'number') return
+
+    root.value.scrollTo({ behavior: isFirstReveal ? 'instant' : 'smooth', left: offsetLeft })
+    // On first reveal, childrenData haven't correct data
+    if (isFirstReveal) {
+        if (!childrenData.value.length) childrenData.value = getChildrenData()
+        updateRootScrollLeft()
     }
+
+    index.value = newIndex
 }
 </script>
 
