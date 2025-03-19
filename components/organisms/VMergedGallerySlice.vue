@@ -133,7 +133,7 @@ onBeforeUnmount(killTweens)
         position: absolute;
         background-color: var(--theme-color-background);
         content: '';
-        inset: 0 calc(var(--gutter) * -1);
+        inset: -1px calc(var(--gutter) * -1);
         z-index: -1;
     }
 
