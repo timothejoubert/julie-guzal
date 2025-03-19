@@ -15,15 +15,15 @@ const imageList = computed(() => {
     return slicesItems.value?.filter((groupField) => {
         return groupField.image?.url
     }).map((groupField, index) => {
-        const forceLandscapeRatio = index % 9 === 0 || index % 9 === 1
+        const isLandscape = index % 9 === 0 || index % 9 === 1
         return {
             document: {
                 ...groupField.image,
                 copyright: groupField.image?.alt || groupField.description,
             },
             fit: 'crop',
-            ar: forceLandscapeRatio ? '566:342' : '330:432',
-            sizes: forceLandscapeRatio ? 'xs:95vw sm:95vw md:40vw lg:40vw xl:40vw qhd:40vw' : 'xs:95vw sm:95vw md:25vw lg:25vw xl:25vw qhd:25vw',
+            ar: isLandscape ? '566:342' : '330:432',
+            sizes: isLandscape ? 'xs:95vw sm:95vw md:40vw lg:40vw xl:40vw qhd:40vw' : 'xs:95vw sm:95vw md:25vw lg:25vw xl:25vw qhd:25vw',
             // crop: 'top,left',
         }
     })
@@ -135,6 +135,7 @@ onBeforeUnmount(killTweens)
         background-color: var(--theme-color-background);
         content: '';
         inset: 0 calc(var(--gutter) * -1);
+        z-index: -1;
     }
 
     @include media('>=md') {
