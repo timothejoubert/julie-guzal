@@ -2,7 +2,7 @@ import type { Component } from 'vue'
 import { customRef, getCurrentInstance, onUpdated } from 'vue'
 import { getHtmlElement } from '~/utils/ref/get-html-element'
 
-export function useTemplateRefElement<T extends HTMLElement | SVGElement | Component | null, Keys extends string = string>(
+export function useTemplateElement<T extends HTMLElement | SVGElement | Component | null, Keys extends string = string>(
     key: Keys,
     initialValue: T | null = null,
 ) {

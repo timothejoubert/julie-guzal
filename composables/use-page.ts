@@ -1,10 +1,10 @@
 import type { AlternateLanguage } from '@prismicio/types'
 import EventType from '~/constants/event-type'
-import type { AllDocumentTypes } from '~/prismicio-types'
+import type { ReachableDocument } from '~/types/api'
 
 export interface Page {
     title?: string
-    webResponse?: AllDocumentTypes
+    webResponse?: ReachableDocument
     alternateLinks?: AlternateLanguage[]
 }
 

@@ -1,0 +1,27 @@
+@use './functions/ease' as *;
+
+.element-translate--2-delay {
+    --element-translate-delay: 2s;
+}
+
+
+.element-translate--1-delay {
+    --element-translate-delay: 1s;
+}
+
+.element-translate--05-delay {
+    --element-translate-delay: 0.5s;
+}
+
+.element-translate {
+    opacity: 0;
+    transition:
+        opacity 0.5s var(--element-translate-delay, 0.3s) ease(out-quad),
+        translate 0.5s var(--element-translate-delay, 0.3s) ease(out-quad);
+    translate: 0 20px;
+
+    &--reveal {
+        opacity: 1;
+        translate: 0;
+    }
+}

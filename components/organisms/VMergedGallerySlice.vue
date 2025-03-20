@@ -92,14 +92,25 @@ watch(isLargeScreen, (value) => {
 })
 
 onBeforeUnmount(killTweens)
+
+// Reveal
+const rootElement = useTemplateElement('rootElement')
+const rootElementIsVisible = useElementVisibility(rootElement)
+const { firstReveal } = useWebsiteReveal()
+const reveal = computed(() => {
+    if (!firstReveal.value) return
+
+    return rootElementIsVisible.value
+})
 </script>
 
 <template>
     <section
-        class="grid"
-        data-slice-type="gallery_grid"
+        ref="rootElement"
+        data-slice-type="custom_gallery_grid"
         data-slice-variation="default"
-        :class="$style.root"
+        class="grid element-translate"
+        :class="[$style.root, reveal && 'element-translate--reveal']"
     >
         <template v-if="imageList.length">
             <div
@@ -131,10 +142,10 @@ onBeforeUnmount(killTweens)
 
     &::before {
         position: absolute;
+        z-index: -1;
         background-color: var(--theme-color-background);
         content: '';
         inset: -1px calc(var(--gutter) * -1);
-        z-index: -1;
     }
 
     @include media('>=md') {

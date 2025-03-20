@@ -1,4 +1,5 @@
 ## In progress
+- page photo | disable arrow if first or last slide 
 - page photo | responsive
 - page photo | slide fade in/out
 - page photo | apparition img fullscreen sans défilement de toutes les slides

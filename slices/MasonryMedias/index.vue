@@ -28,7 +28,7 @@ watch(lastTopColumnedElementIndex, (value) => {
     if (value) initTweens()
 })
 // TWEENS
-const root = ref<TemplateElement>(null)
+const rootElement = useTemplateElement('rootElement')
 const { $gsap } = useNuxtApp()
 let tweenList: GSAPTween[] = []
 
@@ -52,7 +52,7 @@ function initTweens() {
         .forEach((el, index) => {
             const tween = $gsap.to(el, {
                 scrollTrigger: {
-                    trigger: getHtmlElement(root.value) || el,
+                    trigger: rootElement.value || el,
                     scrub: true,
                     start: 'top',
                     end: 'bottom',
@@ -80,13 +80,23 @@ watch(isLargeScreen, (value) => {
 })
 
 onBeforeUnmount(killTweens)
+
+// Reveal
+const rootElementIsVisible = useElementVisibility(rootElement)
+const { firstReveal } = useWebsiteReveal()
+const reveal = computed(() => {
+    if (!firstReveal.value) return
+
+    return rootElementIsVisible.value
+})
 </script>
 
 <template>
     <VSlice
-        ref="root"
+        ref="rootElement"
         :slice="slice"
-        :class="$style.root"
+        class="element-translate element-translate--05-delay"
+        :class="[$style.root, reveal && 'element-translate--reveal']"
     >
         <template v-if="primary.list.length">
             <VPrismicMedia

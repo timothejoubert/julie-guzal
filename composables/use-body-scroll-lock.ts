@@ -1,17 +1,15 @@
-type BodyScrollLockTarget = HTMLElement | SVGElement | Document | null | undefined
+type BodyScrollLockElement = Parameters<typeof useScrollLock>[0]
 
-export function useBodyScrollLock(el?: MaybeRefOrGetter<BodyScrollLockTarget>) {
-    const target = ref<BodyScrollLockTarget>(toValue(el))
+export function useBodyScrollLock(el?: BodyScrollLockElement, initialState?: boolean) {
+    const target = ref<BodyScrollLockElement>(toValue(el))
 
-    function setFallbackTarget() {
+    tryOnMounted(() => {
         if (import.meta.client && !target.value) {
             target.value = document?.body
         }
-    }
-    setFallbackTarget()
-    onMounted(setFallbackTarget)
+    })
 
-    const isLocked = useScrollLock(target)
+    const isLocked = useScrollLock(target, initialState)
 
     function disableScroll() {
         if (target.value && 'style' in target.value) target.value.style.paddingRight = getScrollBarWidth()

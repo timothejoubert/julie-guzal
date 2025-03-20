@@ -1,5 +1,6 @@
 import Lenis from 'lenis'
 
+// TODO: disable if prefersReduceMotion is enable
 export default defineNuxtPlugin((_nuxtApp) => {
     const lenis = new Lenis()
 

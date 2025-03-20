@@ -28,7 +28,7 @@ nuxtApp.hook('page:finish', () => finish())
 <template>
     <NuxtLoadingIndicator
         :height="4"
-        color="#fff"
+        color="#CDFF3E"
     />
 </template>
 

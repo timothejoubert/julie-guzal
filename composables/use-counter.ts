@@ -1,18 +1,15 @@
-interface UseCounterParams {
-    options?: UseCounterOptions
-    onFinish?: () => void
-}
-
 interface UseCounterOptions {
     startValue?: number
     endValue?: number
     duration?: number
+    onFinish?: () => void
+    onStart?: () => void
 }
-export function useCounter(params?: UseCounterParams) {
+export function useCounter(params?: UseCounterOptions) {
     const options = {
-        startValue: params?.options?.startValue || 0,
-        endValue: params?.options?.endValue || 100,
-        duration: params?.options?.duration || 1200,
+        startValue: params?.startValue || 0,
+        endValue: params?.endValue || 100,
+        duration: params?.duration || 1200,
     }
 
     const counterOutput = ref(0)
@@ -20,6 +17,7 @@ export function useCounter(params?: UseCounterParams) {
     // Utils
     function startCounter() {
         let startTimestamp: null | number = null
+        params?.onStart?.()
 
         const increaseCounter = (timestamp: number) => {
             if (!startTimestamp) startTimestamp = timestamp

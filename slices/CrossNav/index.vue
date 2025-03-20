@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SliceComponentProps } from '@prismicio/vue'
 import type { CrossNavSlice } from '~/prismicio-types'
+import { useWebsiteReveal } from '~/composables/use-website-reveal'
 
 const props = defineProps<SliceComponentProps<CrossNavSlice>>()
 const primary = computed(() => props.slice.primary)
@@ -12,13 +13,24 @@ const $style = useCssModule()
 const rootClasses = computed(() => {
     return [$style.root, $style[`root--theme-${primary.value.theme}`]]
 })
+
+// Reveal
+const rootElement = useTemplateElement('rootElement')
+const rootElementIsVisible = useElementVisibility(rootElement)
+const { firstReveal } = useWebsiteReveal()
+const reveal = computed(() => {
+    if (!firstReveal.value) return
+
+    return rootElementIsVisible.value
+})
 </script>
 
 <template>
     <VSlice
-        class="grid"
+        ref="rootElement"
+        class="grid element-translate element-translate--1-delay"
         :slice="slice"
-        :class="rootClasses"
+        :class="[rootClasses, reveal && 'element-translate--reveal']"
     >
         <h1 :class="$style.title">
             {{ title }}

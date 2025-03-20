@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import { useTemplateRefElement } from '~/composables/use-template-element'
+import { useTemplateElement } from '~/composables/use-template-element'
 
 const props = defineProps<{
     label: string
@@ -9,7 +9,7 @@ const props = defineProps<{
 const ALPHABET = 'ABCDEFGHIKLMNOPQRSTVXYZ'
 // const PUNCTUATION = `( ) [ ] { } ⟨ ⟩ : , ‒ … ! ‹ › « » " " ? ; / & * @ \\ • # % + ‰ ¶ § ~ _ † ' `
 
-const innerTextElement = useTemplateRefElement('root')
+const innerTextElement = useTemplateElement('root')
 
 function getRandomCharacters(chars = ALPHABET) {
     let text = ''

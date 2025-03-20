@@ -1,16 +1,14 @@
 <script  lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
-import VLoadingIndicator from '~/components/atoms/VLoadingIndicator.vue'
 import { getScrollBarWidth } from '~/utils/scroll-bar'
 
-onMounted(() => {
-    document.body.style.setProperty('--scroll-bar-width', getScrollBarWidth())
-})
 const route = useRoute()
 const { isPreview } = usePrismicPreviewRoute()
 
-if (typeof route.name !== 'string' || route.name?.includes('uid__') || isPreview) {
+// Set current page for component data outside pages
+const isWildCardPage = route.matched?.find(match => match.path === '/:uid(.*)*')
+if (isWildCardPage || isPreview) {
     const pageType = isPreview ? 'preview' : getDocumentTypeByUrl(route.path)
 
     if (pageType) {
@@ -19,8 +17,12 @@ if (typeof route.name !== 'string' || route.name?.includes('uid__') || isPreview
     }
 }
 
-// SplashScreen
-// const state = useSplashScreenState()
+// Global data
+onMounted(() => {
+    document.body.style.setProperty('--scroll-bar-width', getScrollBarWidth())
+})
+
+// const appConfig = useAppConfig()
 </script>
 
 <template>
@@ -28,9 +30,10 @@ if (typeof route.name !== 'string' || route.name?.includes('uid__') || isPreview
         <VGridVisualizer />
         <VMediaViewer />
         <VToast />
+        <VLoadingIndicator />
     </ClientOnly>
 
-    <!--    <VSplashScreen v-if="state !== 'done'" /> -->
-    <VLoadingIndicator />
+    <LazyVSplashScreen />
+    <!--    <LazyVSplashScreen v-if="appConfig.featureFlags.splashScreen" /> -->
     <NuxtPage />
 </template>

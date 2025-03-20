@@ -4,6 +4,7 @@ import { getSliceComponentProps } from '@prismicio/vue'
 import type { FilledContentRelationshipField } from '@prismicio/types'
 import { isContentRelationshipField } from '~/utils/prismic/guard'
 import type { ProjectPageDocument, ProjectPageDocumentData } from '~/prismicio-types'
+import { useWebsiteReveal } from '~/composables/use-website-reveal'
 
 const props = defineProps(getSliceComponentProps<Content.ProjectFeedSlice>())
 const primary = computed(() => props.slice.primary)
@@ -30,12 +31,24 @@ const projects = computed(() => {
         return acc
     }, [])
 })
+
+// Reveal
+const rootElement = useTemplateElement('rootElement')
+const rootElementIsVisible = useElementVisibility(rootElement)
+const { firstReveal } = useWebsiteReveal()
+const reveal = computed(() => {
+    if (!firstReveal.value) return
+
+    return rootElementIsVisible.value
+})
 </script>
 
 <template>
     <VSlice
+        ref="rootElement"
         :slice="slice"
-        :class="$style.root"
+        class="element-translate"
+        :class="[$style.root, reveal && 'element-translate--reveal']"
     >
         <ul
             :class="$style.list"

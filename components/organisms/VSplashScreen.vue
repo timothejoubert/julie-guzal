@@ -1,87 +1,52 @@
 <script lang="ts" setup>
-import LogoSvg from '~/assets/images/logo.svg?component'
+import { useWebsiteReveal } from '~/composables/use-website-reveal'
 
 const state = useSplashScreenState()
-const root = ref<HTMLElement | null>(null)
+const { firstReveal } = useWebsiteReveal()
 
-const onCounterFinish = () => {
-    if (root.value) {
-        root.value.addEventListener('transitionend', () => {
-            state.value = 'done'
-        }, { once: true })
-    }
-    else {
-        window.setTimeout(() => {
-            state.value = 'done'
-        }, 600)
-    }
-    state.value = 'leave'
+const SCROLL_LOCK_CLASS = 'body--scroll-lock'
+useServerHead({
+    bodyAttrs: {
+        class: SCROLL_LOCK_CLASS,
+    },
+})
+
+function onAfterLeave() {
+    firstReveal.value = true
+    window.scrollTo({ top: 0 })
+    document.body.classList.remove(SCROLL_LOCK_CLASS)
 }
-
-const { startCounter, counterOutput } = useCounter({ options: { duration: 1200 }, onFinish: onCounterFinish })
-
-onMounted(() => {
-    state.value = 'enter'
-    startCounter()
-})
-
-// Style
-const $style = useCssModule()
-const rootClasses = computed(() => {
-    return [
-        $style.root,
-        state.value !== 'pending' && $style['root--started'],
-        state.value === 'enter' && $style['root--enter'],
-        state.value === 'leave' && $style['root--leave'],
-    ]
-})
 </script>
 
 <template>
-    <div
-        ref="root"
-        :class="rootClasses"
+    <Transition
+        :name="$style.root"
+        @after-leave="onAfterLeave"
     >
-        <LogoSvg :class="$style.logo" />
-        <div :class="$style.counter">
-            {{ counterOutput }} %
-        </div>
-    </div>
+        <LazyVSplashScreenContent v-if="state !== 'done'" />
+    </Transition>
 </template>
 
+ <style lang="scss">
+ body.body--scroll-lock {
+     overflow: hidden;
+     max-height: 100vh;
+ }
+ </style>
+
 <style lang="scss" module>
-@use 'assets/scss/variables/fonts' as *;
-
 .root {
-    position: fixed;
-    z-index: 1001;
-    display: flex;
-    height: 100svh;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--theme-color-primary);
-    color: var(--theme-color-on-primary);
-    inset: 0;
-    transition: opacity 0.6s ease(out-quad);
-
-    &--leave {
-        opacity: 0;
+    &:global(#{'-enter-active'}),
+    &:global(#{'-leave-active'}) {
+        transition-duration: 0.5s;
+        transition-property: opacity, scale;
+        transition-timing-function: ease(out-quad), ease(out-quart);
     }
-}
 
-.logo {
-    width: 78px;
-    height: auto;
-}
-
-.counter {
-    position: absolute;
-    right: 24px;
-    bottom: 24px;
-    margin-top: rem(16);
-    font-family: $font-suisse-family;
-    font-size: rem(16);
-    font-weight: 400;
+    &:global(#{'-enter-from'}),
+    &:global(#{'-leave-to'}) {
+        opacity: 0;
+        scale: 0.9;
+    }
 }
 </style>

@@ -198,6 +198,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 .right__column__image {
     @include media('<lg') {
         display: none;
+
         --v-img-display: none;
     }
 }

@@ -13,5 +13,6 @@
     "project_page.external_link_label": "See the project",
     "email.copied__success": "Email copied to clipboard",
     "back_to_earth": "Back to earth",
-    "lost_in_the_stars": "Lost in the stars •"
+    "lost_in_the_stars": "Lost in the stars •",
+    "splash_screen_loading": "Website loading"
 }

@@ -1,5 +1,3 @@
-import type { ReturnType } from 'birpc'
-
 export function splitText(text: string | null | undefined = '') {
     const lines = splitLines(text)
     const words = splitWords(text)
@@ -39,7 +37,6 @@ export function splitText(text: string | null | undefined = '') {
         characters,
     }
 }
-
 export type SplitText = ReturnType<typeof splitText>
 
 export function splitLines(text: string | null | undefined, maxChar = 20) {

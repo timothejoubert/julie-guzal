@@ -8,7 +8,7 @@ function foregroundElement() {
     foreground.style.position = 'fixed'
     foreground.style.inset = '0'
     foreground.style.zIndex = '5'
-    foreground.style.background = '#fff'
+    foreground.style.background = '#151515'
 
     return foreground
 }

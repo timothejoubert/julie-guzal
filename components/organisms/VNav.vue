@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useWebsiteReveal } from '~/composables/use-website-reveal'
+
 const menu = await usePrismicMenuDocument()
 
 const links = menu.value?.data.links || []
@@ -15,10 +17,15 @@ const rootClasses = computed(() => {
         'v-nav',
     ]
 })
+
+// Reveal
+const { firstReveal } = useWebsiteReveal()
+const rootElement = useTemplateElement('rootElement')
 </script>
 
 <template>
     <nav
+        ref="rootElement"
         aria-label="Main"
         :class="rootClasses"
     >
@@ -36,7 +43,11 @@ const rootClasses = computed(() => {
                     :url="link.external_url"
                     :class="$style.link"
                 >
-                    <span :class="$style.label">{{ link.label }}</span>
+                    <span
+                        class="element-translate"
+                        :style="{ '--element-translate-delay': `${i *100 + 400}ms` }"
+                        :class="[$style.label, firstReveal && 'element-translate--reveal']"
+                    >{{ link.label }}</span>
                 </VPrismicLink>
             </li>
         </ul>
@@ -93,6 +104,7 @@ const rootClasses = computed(() => {
 
 .link {
     display: flex;
+    overflow: hidden;
     padding: initial;
     color: var(--theme-color-brand-inactive);
     font-family: $font-suisse-family;

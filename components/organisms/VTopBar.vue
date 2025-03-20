@@ -1,6 +1,7 @@
 <script  lang="ts" setup>
 import { useTopBarScroll } from '~/composables/use-top-bar-scroll'
 import type { ReachableDocument } from '~/types/api'
+import { useWebsiteReveal } from '~/composables/use-website-reveal'
 
 const props = defineProps<{
     document?: ReachableDocument
@@ -29,6 +30,9 @@ const rootClasses = computed(() => {
         isOnPageTop.value && $style['root--on-page-top'],
     ]
 })
+
+// Reveal
+const { firstReveal } = useWebsiteReveal()
 </script>
 
 <template>
@@ -37,27 +41,31 @@ const rootClasses = computed(() => {
         :class="[rootClasses, $attrs.class]"
         class="grid"
     >
-        <h1 :class="$style.title">
-            <template v-if="pageTitleMobile">
-                <span :class="$style['title-desktop']">{{ pageTitle }}</span>
-                <span
-                    v-if="pageTitleMobile"
-                    :class="$style['title-mobile']"
-                >{{ pageTitleMobile }}</span>
-            </template>
-            <template v-else>
-                {{ pageTitle }}
-            </template>
-        </h1>
+        <VTextReveal
+            v-if="pageTitleMobile"
+            :reveal="firstReveal"
+            tag="div"
+            aria-hidden="true"
+            :class="[$style.title, $style['title-mobile']]"
+            :content="pageTitleMobile"
+        />
+        <VTextReveal
+            :reveal="firstReveal"
+            tag="h1"
+            :class="[$style.title, pageTitleMobile && $style['title-desktop']]"
+            :content="pageTitle"
+        />
         <VNav
             :class="$style.nav"
         />
     </div>
     <VText
         v-if="description"
+        ref="textElement"
         :content="description"
         tag="h2"
-        :class="$style.content"
+        class="element-translate"
+        :class="[$style.content, firstReveal && 'element-translate--reveal']"
     />
 </template>
 
@@ -93,7 +101,7 @@ $padding-bottom: rem(24);
     translate: 0 -0.14lh;
 
     @include media('>=md') {
-        grid-column: 1 / span 9;
+        grid-column: 1 / span 8;
         transition: translate 0.5s ease(out-quad);
 
         .root--hidden & {
@@ -107,7 +115,7 @@ $padding-bottom: rem(24);
 }
 
 .title-mobile {
-    display: block;
+    display: flex;
 
     @include media('>=md') {
         display: none;
@@ -118,7 +126,7 @@ $padding-bottom: rem(24);
     display: none;
 
     @include media('>=md') {
-        display: block;
+        display: flex;
     }
 }
 
@@ -156,17 +164,9 @@ $padding-bottom: rem(24);
 
     @include media('>=md') {
         grid-column: 1 / span 5;
-        transition: translate 0.5s ease(out-quad), opacity 0.3s ease(out-quad);
-
-        .root:not(.root--on-page-top) & {
-            opacity: 0;
-            pointer-events: none;
-            translate: 0 calc(-100% - #{rem(24)});
-        }
     }
 
     @include media('>=lg') {
-        margin-block: initial;
         position: absolute;
         top: $padding-top;
         left: calc(#{flex-grid-value(8, 12)} + var(--gutter));
@@ -174,6 +174,7 @@ $padding-bottom: rem(24);
         margin-top: initial;
         font-size: rem(14);
         grid-column: 10 / span 2;
+        margin-block: initial;
     }
 }
 </style>
