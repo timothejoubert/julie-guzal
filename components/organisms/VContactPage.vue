@@ -150,17 +150,25 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 
 @mixin font-body {
     font-family: $font-suisse-family;
-    font-size: rem(12);
+    font-size: rem(16);
     font-weight: 400;
     line-height: 1.35;
+
+    @include media('>=md') {
+        font-size: rem(12);
+    }
 }
 
 .text,
 .text a,
 .text p {
-    @include font-body;
-
     margin-top: rem(25);
+
+    @include font-body;
+}
+
+.text button {
+    @include font-body;
 }
 
 .text a {
@@ -204,10 +212,10 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 }
 
 .credits {
-    @include font-body;
-
     margin-top: rem(24);
     grid-column: 1 /-1;
+
+    @include font-body;
 
     @include media('>=md') {
         margin-top: 0;
