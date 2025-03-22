@@ -40,14 +40,15 @@ onBeforeUnmount(() => {
 
 // ROOT CLICK LISTENER
 const cursorDisplayed = ref(false)
-function onClick(event: MouseEvent) {
+const customMouseHidden = ref(false)
+const cursorDirection = ref<'right' | 'left'>('right')
+
+function onClick(_event: MouseEvent) {
     if (!cursorDisplayed.value) return
 
-    if (event.clientX > window.innerWidth / 2) nextSlide()
-    else previousSlide()
+    if (cursorDirection.value === 'left') previousSlide()
+    else if (cursorDirection.value === 'right') nextSlide()
 }
-
-const customMouseHidden = ref(false)
 </script>
 
 <template>
@@ -61,7 +62,12 @@ const customMouseHidden = ref(false)
         ]"
         @click="onClick"
     >
-        <VFollowCusor v-model="cursorDisplayed" />
+        <VFollowCusor
+            v-model:displayed="cursorDisplayed"
+            v-model:direction="cursorDirection"
+            :is-first="slideIndex === 0"
+            :is-last="!!documents?.length && slideIndex === documents.length - 1"
+        />
         <div
             :class="$style.wrapper"
         >
@@ -99,7 +105,7 @@ const customMouseHidden = ref(false)
                 <div
                     v-for="(document, index) in documents"
                     :key="index"
-                    :class="$style.slide"
+                    :class="[$style.slide, index === slideIndex && $style['slide--active']]"
                 >
                     <VPrismicMedia
                         :document="document"
@@ -239,6 +245,12 @@ const customMouseHidden = ref(false)
     column-gap: var(--gutter);
     padding-inline: var(--gutter);
     scroll-snap-align: start;
+    opacity: 0;
+    transition: opacity 0.4s ease(in-quad);
+
+    &--active {
+        opacity: 1;
+    }
 
     @include media('>=md') {
         height: 100%;

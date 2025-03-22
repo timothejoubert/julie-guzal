@@ -8,39 +8,41 @@ const root = ref<HTMLElement | null>(null)
 
 const { hasOverflow, isDragging } = useDraggableScroll({ element: root })
 
-// Update scrollSnapType property
+// INIT SCROLL LISTENERS
 const isScrolling = ref(false)
+let scrollTimeoutId: undefined | number = undefined
 
 const onScrollEvent = (event: Event) => {
-    const isScrollEnd = event.type === 'scrollend'
-    isScrolling.value = event.type === 'scroll' && !isScrollEnd
+    isScrolling.value = event.type === 'scroll'
 
-    if (isScrollEnd) onScrollEnd()
+    clearTimeout(scrollTimeoutId)
+    scrollTimeoutId = window.setTimeout(onScrollEnd, 150)
 }
 
 function initOnScrollStartEvent() {
     if (!root.value) return
     root.value.addEventListener('scroll', onScrollEvent)
-    root.value.addEventListener('scrollend', onScrollEvent)
 }
 
 function disposeOnScrollStartEvent() {
     if (!root.value) return
     root.value.removeEventListener('scroll', onScrollEvent)
-    root.value.removeEventListener('scrollend', onScrollEvent)
 }
 
 onMounted(initOnScrollStartEvent)
 onBeforeUnmount(disposeOnScrollStartEvent)
 
-// Slides and root data
+// SCROLL_LEFT CAROUSEL VALUE
 const rootScrollLeft = ref(0)
 const updateRootScrollLeft = () => (rootScrollLeft.value = root.value?.scrollLeft || 0)
+onMounted(updateRootScrollLeft)
 watch(isDragging, updateRootScrollLeft)
 watch(isScrolling, updateRootScrollLeft)
 
 // COMPUTE SLIDE DATA
+const { width } = useWindowSize()
 const childrenData = ref(getChildrenData())
+const updateChildrenData = () => (childrenData.value = getChildrenData())
 
 function getChildrenData() {
     if (!root.value) {
@@ -61,59 +63,64 @@ function getChildrenData() {
         }
     })
 }
-const { width } = useWindowSize()
 watch(width, () => {
-    console.log('window width change')
-    childrenData.value = getChildrenData()
+    updateChildrenData()
+    onScrollEnd()
 })
 
 // ACTIVE SLIDE
-const activeSlide = computed(() => {
+const currentSlideIndex = computed(() => {
     return childrenData.value.findIndex((childData) => {
         return (childData?.snapCenter || 0) >= rootScrollLeft.value
     })
 })
 
 function onScrollEnd() {
-    const onSnapInline = !!childrenData.value.find((slide) => {
+    isScrolling.value = false
+
+    const onSnapInline = childrenData.value.find((slide) => {
         const scrollLeft = Math.floor(rootScrollLeft.value)
         return Math.floor(slide.snapStart) === scrollLeft || Math.floor(slide.snapEnd) === scrollLeft
     })
 
-    if (activeSlide.value === index.value && !onSnapInline) {
-        updateScrollPosition(activeSlide.value)
+    if (currentSlideIndex.value !== index.value && !onSnapInline) {
+        scrollToIndex(currentSlideIndex.value)
     }
 }
 
-watch(activeSlide, (value) => {
-    if (value !== index.value) updateScrollPosition(value)
+// Update slide Index
+let resizeObserver: null | ResizeObserver = null
+function onRootResize() {
+    if (currentSlideIndex.value === -1) scrollToIndex(index.value, 'instant')
+}
+watch(root, () => {
+    if (!root.value) return
+    resizeObserver = new ResizeObserver(onRootResize)
+    resizeObserver.observe(root.value)
 })
 
-watchEffect(() => {
-    if (!hasOverflow.value) return
-    if (activeSlide.value !== index.value) updateScrollPosition(index.value)
-}, { flush: 'post' })
+onBeforeUnmount(() => {
+    if (!root.value) return
+    resizeObserver?.unobserve(root.value)
+    resizeObserver = null
+})
 
-// Update slide Index
-function updateScrollPosition(newIndex: number) {
-    if (!root.value || newIndex < 0 || !hasOverflow.value) {
+watch(index, () => {
+    scrollToIndex(index.value)
+})
+
+function scrollToIndex(newIndex: number, scrollBehavior?: ScrollBehavior) {
+    if (!root.value || newIndex < 0 || currentSlideIndex.value === newIndex) {
         return
     }
 
-    const isFirstReveal = index.value >= 0 && activeSlide.value === -1
+    // Sometimes childrenDate aren't set onMounted
+    if (!childrenData.value.length) updateChildrenData()
+
     const children = [...root.value.children] as HTMLElement[]
     const offsetLeft = children[newIndex]?.offsetLeft - root.value.offsetLeft
 
-    if (typeof offsetLeft !== 'number') return
-
-    root.value.scrollTo({ behavior: isFirstReveal ? 'instant' : 'smooth', left: offsetLeft })
-    // On first reveal, childrenData haven't correct data
-    if (isFirstReveal) {
-        if (!childrenData.value.length) childrenData.value = getChildrenData()
-        updateRootScrollLeft()
-    }
-
-    index.value = newIndex
+    root.value.scrollTo({ behavior: scrollBehavior || 'smooth', left: offsetLeft })
 }
 </script>
 
@@ -124,7 +131,9 @@ function updateScrollPosition(newIndex: number) {
         :class="$style.root"
         :data-has-overflow="hasOverflow"
     >
-        <slot />
+        <slot
+            :active-slide="index"
+        />
     </component>
 </template>
 

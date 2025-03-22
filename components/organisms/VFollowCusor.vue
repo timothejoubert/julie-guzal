@@ -1,9 +1,14 @@
 <script  lang="ts" setup>
 import gsap from 'gsap'
 
-const isDisplayed = defineModel<boolean>({ default: false })
+defineProps<{
+    isFirst?: boolean
+    isLast?: boolean
+}>()
+
+const isDisplayed = defineModel<boolean>('displayed', { default: false })
+const direction = defineModel<'left' | 'right'>('direction', { default: 'right' })
 const cursor = ref<HTMLElement | null>(null)
-const direction = ref<'left' | 'right'>('right')
 const isLargeScreen = useMediaQuery('(min-width: 1024px)', { ssrWidth: 768 })
 
 let xSetter: null | ReturnType<typeof gsap.quickTo> = null
@@ -69,18 +74,19 @@ onMounted(() => {
 })
 
 onBeforeUnmount(kill)
-
-// EMITS
-defineEmits<{
-    onClick: []
-}>()
 </script>
 
 <template>
     <div
         ref="cursor"
         aria-hidden="true"
-        :class="[$style.root, isDisplayed && $style['root--displayed'], $style[`root--direction-${direction}`]]"
+        :class="[
+            $style.root,
+            isFirst && $style['root--is-first'],
+            isLast && $style['root--is-last'],
+            isDisplayed && $style['root--displayed'],
+            $style[`root--direction-${direction}`],
+        ]"
     >
         <VIcon
             name="arrow-left"
@@ -101,6 +107,11 @@ defineEmits<{
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
+
+    &--direction-right#{&}--is-last,
+    &--direction-left#{&}--is-first {
+       color: #777777;
+    }
 
     &--displayed {
         opacity: var(--v-follow-cusor-opacity, 1);
