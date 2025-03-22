@@ -161,6 +161,9 @@ export default defineNuxtConfig({
     },
     // '@nuxtjs/sitemap',
     i18n: {
+        bundle: {
+            optimizeTranslationDirective: false,
+        },
         strategy: 'prefix_except_default',
         // I18n issue, disabled detectBrowserLanguage work only with empty obj
         // https://github.com/nuxt-modules/i18n/issues/3039
