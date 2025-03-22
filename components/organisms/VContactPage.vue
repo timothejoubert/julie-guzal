@@ -168,6 +168,7 @@ const rightColumn = computed(() => data.value.right_column?.[0])
 }
 
 .text button {
+    color: var(--theme-color-on-background);
     @include font-body;
 }
 
