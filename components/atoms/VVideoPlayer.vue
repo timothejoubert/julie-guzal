@@ -64,7 +64,6 @@ export default defineComponent({
                     params = {
                         byline: 'false',
                         portrait: 'false',
-                        title: 'true',
                         speed: 'false',
                         transparent: '0',
                         gesture: 'media',
