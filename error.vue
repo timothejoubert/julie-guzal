@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { NuxtError } from 'nuxt/app'
-import { I18N_DEFAULT_LOCALE } from '~/i18n/i18n.config'
+import { I18N_DEFAULT_LOCALE } from '~/constants/i18n'
 import VTextGlitched from '~/components/molecules/VTextGlitched.vue'
 
 useSeoMeta({ robots: 'noindex, nofollow' })

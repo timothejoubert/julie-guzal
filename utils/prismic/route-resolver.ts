@@ -1,7 +1,7 @@
 // https://prismic.io/docs/route-resolver#resolvers
 // https://prismic.io/docs/nuxt-3-define-routes
 import { extractValueBetweenOccurrence } from '#root/utils/string/extract'
-import { I18N_LOCALES } from '#root/i18n/i18n.config'
+import { I18N_LOCALES } from '#root/constants/i18n'
 import type { PrismicDocumentType } from '~/types/api'
 
 export interface PrismicDocumentRoute {

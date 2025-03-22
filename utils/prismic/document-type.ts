@@ -1,8 +1,6 @@
 import type { PrismicDocumentType } from '~/types/api'
 import { prismicDocumentRoutes, prismicDocumentName } from '~/utils/prismic/route-resolver'
 
-export function isPrismicDocument() {}
-
 export function isExistingDocumentType(type: string) {
     return !!prismicDocumentRoutes.find(route => route.type === type)
 }

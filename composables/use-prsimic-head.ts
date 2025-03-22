@@ -1,8 +1,8 @@
 import { joinURL } from 'ufo'
-import type { Link, Script } from '@unhead/schema'
+import type { Script, Link } from '@unhead/vue'
 import type { PrismicWebResponse } from '~/composables/use-prismic-fetch-page'
 import { getFormattedLocale } from '~/composables/use-locale'
-import { I18N_DEFAULT_LOCALE } from '~/i18n/i18n.config'
+import { I18N_DEFAULT_LOCALE } from '~/constants/i18n'
 
 export function usePrismicHead(webResponse?: PrismicWebResponse) {
     const nuxtApp = useNuxtApp()

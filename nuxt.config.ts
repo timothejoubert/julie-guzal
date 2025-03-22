@@ -4,7 +4,7 @@ import prismicData from './slicemachine.config.json'
 import { endpoint } from '#root/slicemachine.config.json'
 import { version } from '#root/package.json'
 import nuxtPage from '#root/constants/nuxt-page'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/i18n/i18n.config'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
 import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 
 const isDev = process.env.NODE_ENV === 'development'
