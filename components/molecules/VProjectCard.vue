@@ -1,8 +1,5 @@
 <script  lang="ts" setup>
 import type { PossibleProjectPageDocument } from '~/types/app'
-// import type { PageTransitionEventData } from '~/transitions/default-page-transition'
-// import EventType from '~/constants/event-type'
-// import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
 
 interface VProjectCardProps {
     project: PossibleProjectPageDocument | null
@@ -13,40 +10,6 @@ interface VProjectCardProps {
 const props = defineProps<VProjectCardProps>()
 
 const { image, title, date, tags } = useProjectUtils(props.project)
-
-// const { $gsap } = useNuxtApp()
-// function onPageLeave({ pageEl, linkClicked, done }: PageTransitionEventData) {
-//     const isActiveLink = url.value === (linkClicked?.getAttribute('href') || document.querySelector('a[aria-current="page"]'))
-//     console.log('VProjectCard onPageLeave', isActiveLink, linkClicked)
-//
-//     if (!isActiveLink || !linkClicked) return
-//
-//     console.log('VProjectCard onPageLeave', linkClicked, isActiveLink)
-//
-//     window.addEventListener('scrollend', () => {
-//         console.log('on Scroll end')
-//         done()
-//     }, { once: true })
-//
-//     linkClicked.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
-// }
-//
-// function onPageEnter({ pageEl, linkClicked, done }: PageTransitionEventData) {
-//     console.log('onPageEnter', pageEl, linkClicked)
-//
-//     window.setTimeout(() => {
-//         console.log('onPageEnter done')
-//         done()
-//     }, 1000)
-// }
-
-// const { elementFlipState } = useProjectNextPageHeaderImg()
-// watch(elementFlipState, () => {
-//
-// })
-
-// usePageTransitionEvent(EventType.PAGE_TRANSITION_LEAVE, onPageLeave)
-// usePageTransitionEvent(EventType.PAGE_TRANSITION_ENTER, onPageEnter)
 </script>
 
 <template>
@@ -68,8 +31,9 @@ const { image, title, date, tags } = useProjectUtils(props.project)
                 ar="684:414"
                 width="684"
                 height="414"
+                :alt="image.alt || $t('v_project_card.alt', { projectName: title })"
                 :class="$style.image"
-                sizes="xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw"
+                sizes="xs:100vw sm:100vw md:100vw lg:50vw xl:50vw hq:50vw qhd:50vw"
             />
             <div
                 v-else

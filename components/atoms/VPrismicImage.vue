@@ -64,7 +64,7 @@ export default defineComponent({
                 src: src.value,
                 width: width.value,
                 height: height.value,
-                alt: document.value?.alt || document.value?.name,
+                alt: props.alt || document.value?.alt || document.value?.name,
                 placeholder: document.value?.imageAverageColor || '#ddd',
                 sizes: sizes.value,
                 provider: provider.value,
