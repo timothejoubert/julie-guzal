@@ -11,7 +11,7 @@ export function usePrismicHead(webResponse?: PrismicWebResponse) {
 
     const { $i18n } = nuxtApp
 
-    const script: (Script<['script']> | string)[] = []
+    const script: (Script | string)[] = []
     const link: Link[] = [
         {
             rel: 'canonical',

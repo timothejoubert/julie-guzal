@@ -22,7 +22,7 @@ onMounted(() => {
     document.body.style.setProperty('--scroll-bar-width', getScrollBarWidth())
 })
 
-// const appConfig = useAppConfig()
+const appConfig = useAppConfig()
 </script>
 
 <template>
@@ -33,7 +33,6 @@ onMounted(() => {
         <VLoadingIndicator />
     </ClientOnly>
 
-    <LazyVSplashScreen />
-    <!--    <LazyVSplashScreen v-if="appConfig.featureFlags.splashScreen" /> -->
+    <LazyVSplashScreen v-if="appConfig.featureFlags.splashScreen" />
     <NuxtPage />
 </template>

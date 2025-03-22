@@ -10,7 +10,8 @@ type PageTransition = (typeof pageTransition)[keyof (typeof pageTransition)]
 
 export function usePageTransitionState() {
     const name = useState<PageTransition>('page-transition-name', () => 'first-reveal')
+    const pageDirection = useState<'forwards' | 'backwards'>('page-direction', () => 'backwards')
     const animationComplete = useState<boolean>('page-transition-complete', () => false)
 
-    return { name, animationComplete }
+    return { name, animationComplete, pageDirection }
 }

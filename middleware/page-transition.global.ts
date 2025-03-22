@@ -1,7 +1,7 @@
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 
-export default defineNuxtRouteMiddleware((to, from) => {
-    const { name: transitionName } = usePageTransitionState()
+export default defineNuxtRouteMiddleware(async (to, from) => {
+    const { name: transitionName, pageDirection } = usePageTransitionState()
 
     const fromDocument = getDocumentTypeByUrl(from.path)
     const toDocument = getDocumentTypeByUrl(to.path)
@@ -20,4 +20,17 @@ export default defineNuxtRouteMiddleware((to, from) => {
     else {
         transitionName.value = 'default'
     }
+
+    // Set page direction
+    const menu = await usePrismicMenuDocument()
+    const menuItems = menu.value?.data.links
+    const fromIndex = menuItems?.findIndex((item) => {
+        return (item.internal_page as { url?: string })?.url === from.path || item.external_url === from.fullPath
+    }) || -1
+    const toIndex = menuItems?.findIndex((item) => {
+        return (item.internal_page as { url?: string })?.url === to.path || item.external_url === to.fullPath
+    }) || -1
+
+    pageDirection.value = fromIndex > toIndex ? 'backwards' : 'forwards'
+    console.log('indexes', pageDirection.value)
 })

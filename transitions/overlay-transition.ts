@@ -14,6 +14,7 @@ function foregroundElement() {
 }
 
 export const overlayTransition: TransitionProps = {
+    name: 'overlay-transition',
     css: false,
     mode: 'out-in',
     onLeave(_element, done) {
@@ -21,8 +22,6 @@ export const overlayTransition: TransitionProps = {
 
         const foreground = foregroundElement()
         document.body.appendChild(foreground)
-
-        // disableBodyScroll(document.body, { reserveScrollBarGap: true })
 
         const animation = foreground.animate([{ opacity: '0' }, { opacity: '1' }], {
             duration: 200,

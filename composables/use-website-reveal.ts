@@ -1,9 +1,9 @@
 export function useWebsiteReveal() {
-    const pageReveal = useState<boolean>('pageReveal', () => false)
-    const firstReveal = useState<boolean>('firstReveal', () => false)
+    const appConfig = useAppConfig()
+    const hasSplashScreen = appConfig.featureFlags.splashScreen
 
-    // const appConfig = useAppConfig()
-    // if (!appConfig?.featureFlags?.splashScreen) firstReveal.value = true
+    const pageReveal = useState<boolean>('pageReveal', () => false)
+    const firstReveal = useState<boolean>('firstReveal', () => !hasSplashScreen)
 
     return { pageReveal, firstReveal }
 }

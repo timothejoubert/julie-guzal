@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
-// import { defaultPageTransition } from '~/transitions/default-page-transition'
-import { overlayTransition } from '~/transitions/overlay-transition'
-
+import { cardPageTransition } from '~/transitions/card-transition'
 import type {
     ContactPageDocument,
     GalleryPageDocument,
@@ -12,7 +10,7 @@ import type {
 } from '~/prismicio-types'
 
 definePageMeta({
-    pageTransition: overlayTransition, // defaultPageTransition,
+    pageTransition: cardPageTransition, // defaultPageTransition,
 })
 
 const route = useRoute()
