@@ -14,5 +14,6 @@
     "email.copied__success": "Email copied to clipboard",
     "back_to_earth": "Back to earth",
     "lost_in_the_stars": "Lost in the stars •",
-    "splash_screen_loading": "Website loading"
+    "splash_screen_loading": "Website loading",
+    "v_project_card.alt": "Project cover: {projectName}"
 }

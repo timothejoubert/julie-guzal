@@ -13,6 +13,11 @@ definePageMeta({
     pageTransition: cardPageTransition, // defaultPageTransition,
 })
 
+defineRouteRules({
+    prerender: true,
+    isr: 60 * 60, // 1 hour
+})
+
 const route = useRoute()
 const pageType = getDocumentTypeByUrl(route.path)
 

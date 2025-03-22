@@ -71,6 +71,7 @@ export default defineNuxtConfig({
         'assets/backup/**',
     ],
     experimental: {
+        inlineRouteRules: true,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
@@ -79,9 +80,9 @@ export default defineNuxtConfig({
         output: {
             publicDir: path.join(__dirname, '/app'),
         },
+        // https://nitro.build/config#routerules
         routeRules: {
             '/**': {
-                prerender: true,
                 headers: {
                     // 'Access-Control-Allow-Origin': 'Same-Origin \'self\' \'http://localhost:3000\' \'https://i.ytimg.com\'',
                     'Access-Control-Allow-Origin': '*',
@@ -107,10 +108,12 @@ export default defineNuxtConfig({
             },
             '/prismic-preview': {
                 swr: false,
-                prerender: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
+            },
+            '/slice-smulator': {
+                prerender: false,
             },
             '/_stories/**': {
                 headers: {
