@@ -153,10 +153,10 @@ $item-margin-top: rem(289);
     grid-column: 1 / -1;
 
     & img {
-        object-fit: cover;
         width: 100%;
         min-height: rem(300);
         max-height: 70vh;
+        object-fit: cover;
     }
 }
 

@@ -95,10 +95,10 @@ $padding-bottom: rem(24);
     font-family: $font-lecturis-family;
     font-size: rem(100);
     font-weight: 300;
-    text-align: center;
     grid-column: 1 / -1;
     line-height: 1;
     margin-block: initial;
+    text-align: center;
     text-transform: uppercase;
     translate: 0 -0.14lh;
 
@@ -113,8 +113,8 @@ $padding-bottom: rem(24);
     }
 
     @include media('>=md') {
-        text-align: initial;
         grid-column: 1 / span 8;
+        text-align: initial;
         transition: translate 0.5s ease(out-quad);
 
         .root--hidden & {

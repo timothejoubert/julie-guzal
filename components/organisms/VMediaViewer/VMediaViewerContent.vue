@@ -243,9 +243,9 @@ function onClick(_event: MouseEvent) {
     flex-shrink: 0;
     justify-content: space-between;
     column-gap: var(--gutter);
+    opacity: 0;
     padding-inline: var(--gutter);
     scroll-snap-align: start;
-    opacity: 0;
     transition: opacity 0.4s ease(in-quad);
 
     &--active {

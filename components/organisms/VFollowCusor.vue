@@ -110,7 +110,7 @@ onBeforeUnmount(kill)
 
     &--direction-right#{&}--is-last,
     &--direction-left#{&}--is-first {
-       color: #777777;
+       color: #777;
     }
 
     &--displayed {
