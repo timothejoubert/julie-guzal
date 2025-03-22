@@ -69,7 +69,7 @@ function onClick(index: number) {
 <style lang="scss" module>
 .root {
     --gallery-grid-slice-row-gap: #{rem(10)};
-    --gallery-grid-slice-margin-top: #{rem(202)};
+    --gallery-grid-slice-margin-top: #{rem(202 - 24 - 16)};
     --gallery-grid-slice-margin-bottom: var(--gallery-grid-slice-row-gap);
 
     padding-block: var(--gallery-grid-slice-margin-top) var(--gallery-grid-slice-margin-bottom);

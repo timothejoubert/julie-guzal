@@ -26,6 +26,7 @@ const { isHidden, isOnPageTop } = useTopBarScroll()
 const $style = useCssModule()
 const rootClasses = computed(() => {
     return [$style.root,
+        _document.value?.type === 'contact_page' && $style['root--contact-page'],
         isHidden.value && $style['root--hidden'],
         isOnPageTop.value && $style['root--on-page-top'],
     ]
@@ -92,15 +93,27 @@ $padding-bottom: rem(24);
 
     max-width: var(--v-top-bar-title-max-width);
     font-family: $font-lecturis-family;
-    font-size: fluid((xs: 70, xl: 100));
+    font-size: rem(100);
     font-weight: 300;
+    text-align: center;
     grid-column: 1 / -1;
     line-height: 1;
     margin-block: initial;
     text-transform: uppercase;
     translate: 0 -0.14lh;
 
+    .root--contact-page & {
+        font-size: fluid((xs: 70, xl: 100));
+    }
+
+    @include media('<md') {
+        .root:not(.root--contact-page) & {
+            justify-content: center;
+        }
+    }
+
     @include media('>=md') {
+        text-align: initial;
         grid-column: 1 / span 8;
         transition: translate 0.5s ease(out-quad);
 
@@ -161,6 +174,12 @@ $padding-bottom: rem(24);
     grid-column: 1 / -1;
     line-height: 1.3;
     margin-block: rem(18) rem(40);
+
+    @include media('<md') {
+        .root:not(.root--contact-page) + & {
+            display: none;
+        }
+    }
 
     @include media('>=md') {
         grid-column: 1 / span 5;

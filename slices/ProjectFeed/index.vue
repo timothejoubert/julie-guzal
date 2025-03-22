@@ -73,7 +73,7 @@ const reveal = computed(() => {
 .root {
     position: relative;
     z-index: 1;
-    padding-top: rem(208);
+    padding-top: rem(208 - 24 - 16);
     padding-bottom: rem(76);
     background-color: var(--theme-color-background);
 

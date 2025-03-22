@@ -132,7 +132,7 @@ const reveal = computed(() => {
 <style lang="scss" module>
 .root {
     --gallery-grid-slice-row-gap: #{rem(10)};
-    --gallery-grid-slice-margin-top: #{rem(202)};
+    --gallery-grid-slice-margin-top: #{rem(202 - 24 - 16)};
     --gallery-grid-slice-margin-bottom: #{rem(120)};
 
     position: relative;

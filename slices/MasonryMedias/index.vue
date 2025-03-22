@@ -121,7 +121,7 @@ const reveal = computed(() => {
     z-index: 1;
     background-color: var(--theme-color-background);
     column-count: 1;
-    padding-block: rem(242) rem(120);
+    padding-block: #{rem(242 - 24 - 16)} rem(120);
     padding-inline: var(--gutter);
 
     @include media('>=lg') {
