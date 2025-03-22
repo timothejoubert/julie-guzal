@@ -5,24 +5,11 @@ import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
 import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
-import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
-// import { useProjectNextPageHeaderImg } from '~/composables/use-project-next-page-header-img'
 
 const props = defineProps<{
     document: ProjectPageDocument
 }>()
 
-const headerImg = ref<TemplateElement>(null)
-const headerImgElement = computed(() => getHtmlElement(headerImg))
-
-const imgRef = ref() // useProjectNextPageHeaderImg()
-
-const unwatch = watch(headerImgElement, (element) => {
-    if (element) {
-        imgRef.value = element
-        unwatch()
-    }
-})
 const { image, title, tags, date, content, credits, externalUrl, externalUrlLabel } = useProjectUtils(props.document)
 
 const tagsText = computed(() => tags.value.join(', '))
@@ -59,13 +46,28 @@ const backLinkTheme = computed(() => {
                 v-if="image"
                 ref="headerImg"
                 :document="image"
-                fit="crop"
-                ar="1440:610"
-                width="1440"
-                height="610"
                 :class="$style.image"
-                sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:100vw xxl:100vw hq:100vw qhd:100vw"
-            />
+            >
+                <VPictureSource
+                    sizes="xs:100vw sm:100vw md:100vw"
+                    media="(max-width: 767px)"
+                    :modifiers="{
+                        fit: 'crop',
+                        ar: '375:448',
+                        width: '375',
+                        height: '448',
+                    }"
+                />
+                <VPictureSource
+                    sizes="lg:100vw xl:100vw xxl:100vw qhd:100vw"
+                    :modifiers="{
+                        fit: 'crop',
+                        ar: '1440:610',
+                        width: '1440',
+                        height: '610',
+                    }"
+                />
+            </VPrismicImage>
             <h1 :class="$style.title">
                 {{ title }}
             </h1>
@@ -146,11 +148,16 @@ $item-margin-top: rem(289);
 }
 
 .image {
-    --v-img-max-width: none;
-
     width: calc(100% + var(--gutter) * 2);
     margin-left: calc(var(--gutter) * -1);
     grid-column: 1 / -1;
+
+    & img {
+        object-fit: cover;
+        width: 100%;
+        min-height: rem(300);
+        max-height: 70vh;
+    }
 }
 
 .title {
@@ -158,7 +165,7 @@ $item-margin-top: rem(289);
     font-size: fluid((xs: 50, xl: 100));
     font-weight: 300;
     grid-column: 1 / -1;
-    line-height: 1.4;
+    line-height: 1;
     margin-block: rem(32) 0;
 
     @include media('>=lg') {
