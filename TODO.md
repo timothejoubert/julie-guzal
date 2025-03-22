@@ -1,24 +1,14 @@
 ## In progress
-- page photo | disable arrow if first or last slide 
-- page photo | responsive
-- page photo | slide fade in/out
-- page photo | apparition img fullscreen sans défilement de toutes les slides
-- Fix mediaViewer carousel (resize & bug de snap)
-- 
-- VTopBar | text reveal
-- Footer | text reveal
+- page transition
 
 ## TODO
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- CrossNav: Text Reveal 
 - Top bar | bug de disparition de la top bar au changement de page
-- Slice simulator preview not working correctly for some slices
-- Page error
 - Use NuxtPage name with composable for common page setup 
 - Add cache on generated page (swr ?)
-- pageProject: back link sticky ? 
 - VSplashScreen
-- page transition
+- Slice simulator preview not working correctly for some slices
+
 
 - setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 
@@ -26,11 +16,21 @@
 ## Need review
 - Prerender all page except Preview
 - Preview (Preview page should be build on fly and others prerender)
-
+- pageProject: back link sticky ?
+- 
 ## Abandoned 
 - Create VPageFactory ?
-
+- CrossNav: Text Reveal
+- 
 ## Done
+- Page error
+- VTopBar | text reveal
+- Footer | text reveal
+- page photo | apparition img fullscreen sans défilement de toutes les slides
+- Fix mediaViewer carousel (resize & bug de snap)
+- page photo | disable arrow if first or last slide
+- page photo | responsive
+- page photo | slide fade in/out
 - PhotoPage & LabPage: Parallax
 - Media Viewer, le curseur devient les fleches
 - VPrismicLink slot warning

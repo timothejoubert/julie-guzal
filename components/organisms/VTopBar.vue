@@ -169,9 +169,10 @@ $padding-bottom: rem(24);
     @include media('>=lg') {
         position: absolute;
         top: $padding-top;
-        left: calc(#{flex-grid-value(8, 12)} + var(--gutter));
+        left: calc(#{flex-grid-value(9, 12)} + var(--gutter) * 0.5);
         width: flex-grid(2, 12, '%', true);
         margin-top: initial;
+        margin-left: initial;
         font-size: rem(14);
         grid-column: 10 / span 2;
         margin-block: initial;
