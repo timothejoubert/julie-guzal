@@ -1,5 +1,6 @@
 <script  lang="ts" setup>
 import type { ContactPageDocument } from '~/prismicio-types'
+import themes from '~/assets/scss/export/_themes.module.scss'
 
 const props = defineProps<{
     document: ContactPageDocument
@@ -7,6 +8,13 @@ const props = defineProps<{
 
 const data = computed(() => props.document.data)
 const rightColumn = computed(() => data.value.right_column?.[0])
+
+useHead({
+    meta: [{
+        name: 'theme-color',
+        content: themes['light-color-primary'],
+    }],
+})
 </script>
 
 <template>

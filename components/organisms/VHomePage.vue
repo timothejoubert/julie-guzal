@@ -1,4 +1,5 @@
 <script  lang="ts" setup>
+import themes from 'assets/scss/export/_themes.module.scss'
 import type { HomePageDocument } from '~/prismicio-types'
 import { components } from '~/slices'
 
@@ -7,6 +8,13 @@ const props = defineProps<{
 }>()
 
 const slices = computed(() => props.document.data.slices)
+
+useHead({
+    meta: [{
+        name: 'theme-color',
+        content: themes['dark-color-background'],
+    }],
+})
 </script>
 
 <template>
