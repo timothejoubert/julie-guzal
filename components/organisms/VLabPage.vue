@@ -13,7 +13,7 @@ const slices = computed(() => data.value.slices)
 useHead({
     meta: [{
         name: 'theme-color',
-        content: themes['light-color-primary'],
+        content: themes['dark-color-background'],
     }],
 })
 </script>
