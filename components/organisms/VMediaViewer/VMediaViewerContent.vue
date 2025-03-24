@@ -2,6 +2,7 @@
 import type Plyr from 'plyr'
 import VDraggableScroll from '~/components/organisms/VDraggableScroll/VDraggableScroll.vue'
 import VFollowCusor from '~/components/organisms/VFollowCusor.vue'
+import type { PossibleMedia } from '~/composables/use-prismic-media'
 
 const id = useId()
 
@@ -48,6 +49,10 @@ function onClick(_event: MouseEvent) {
 
     if (cursorDirection.value === 'left') previousSlide()
     else if (cursorDirection.value === 'right') nextSlide()
+}
+
+function isLandscape(document: PossibleMedia) {
+    return (document?.width || document?.dimensions?.width) > (document?.height || document?.dimensions?.height)
 }
 </script>
 
@@ -105,7 +110,11 @@ function onClick(_event: MouseEvent) {
                 <div
                     v-for="(document, index) in documents"
                     :key="index"
-                    :class="[$style.slide, index === slideIndex && $style['slide--active']]"
+                    :class="[
+                        $style.slide,
+                        index === slideIndex && $style['slide--active'],
+                        $style[`slide--orientation-${isLandscape(document) ? 'landscape' : 'portrait'}`],
+                    ]"
                 >
                     <VPrismicMedia
                         :document="document"
@@ -184,16 +193,16 @@ function onClick(_event: MouseEvent) {
 .controls {
     position: fixed;
     right: 0;
-    bottom: min(#{rem(165)}, 12vh);
+    bottom: min(#{rem(165)}, 17vh);
     left: 0;
     display: flex;
     justify-content: space-evenly;
 
     @include media('>=md') {
-        right: rem(24);
-        bottom: rem(24);
         left: initial;
-        flex-direction: column;
+        column-gap: rem(111);
+        right: var(--gutter);
+        bottom: var(--gutter);
     }
 
     @include media('>=lg') {
@@ -240,6 +249,7 @@ function onClick(_event: MouseEvent) {
     display: flex;
     width: 100%;
     max-height: 100%;
+    height: 100%;
     flex-direction: column;
     flex-shrink: 0;
     justify-content: space-between;
@@ -247,14 +257,11 @@ function onClick(_event: MouseEvent) {
     opacity: 0;
     padding-inline: var(--gutter);
     scroll-snap-align: start;
+    overflow: hidden;
     transition: opacity 0.4s ease(in-quad);
 
     &--active {
         opacity: 1;
-    }
-
-    @include media('>=md') {
-        height: 100%;
     }
 
     @include media('>=lg') {
@@ -267,6 +274,7 @@ function onClick(_event: MouseEvent) {
 
 .image {
     width: 100%;
+    max-width: 100%;
     max-height: 70vh;
     object-fit: contain;
     object-position: center;
@@ -275,14 +283,25 @@ function onClick(_event: MouseEvent) {
     -moz-user-drag: none;
     -o-user-drag: none;
     user-drag: none;
+    flex-grow: 1;
 
     @include media('>=md') {
-        width: flex-grid(10, 12);
         max-height: 80vh;
-        object-position: left;
+        object-position: center;
+    }
+
+    @include media('>=md', '<lg') {
+        .slide--orientation-landscape & {
+            margin-top: rem(12);
+        }
+
+        .slide--orientation-portrait & {
+            object-position: left;
+        }
     }
 
     @include media('>=lg') {
+        flex-grow: initial;
         width: flex-grid(6, 12);
         max-height: calc(100vh - var(--gutter) * 2);
         object-position: right;
@@ -291,7 +310,6 @@ function onClick(_event: MouseEvent) {
 
 .figcaption {
     max-width: 26ch;
-    margin-top: min(#{rem(210)}, 15vh);
     font-family: $font-suisse-family;
     font-size: rem(14);
     font-weight: 400;
@@ -303,7 +321,6 @@ function onClick(_event: MouseEvent) {
 
     @include media('>=lg') {
         width: flex-grid(2, 12);
-        margin-top: initial;
     }
 
 }

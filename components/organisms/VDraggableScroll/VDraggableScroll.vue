@@ -6,7 +6,9 @@ defineProps({
 const index = defineModel<number>({ default: -1 })
 const root = ref<HTMLElement | null>(null)
 
-const { hasOverflow, isDragging } = useDraggableScroll({ element: root })
+// disabled dragging for now
+const { hasOverflow, isDragging } = useDraggableScroll({ element: ref(null) })
+// const { hasOverflow, isDragging } = useDraggableScroll({ element: root) })
 
 // INIT SCROLL LISTENERS
 const isScrolling = ref(false)
@@ -15,18 +17,25 @@ let scrollTimeoutId: undefined | number = undefined
 const onScrollEvent = (event: Event) => {
     isScrolling.value = event.type === 'scroll'
 
-    clearTimeout(scrollTimeoutId)
-    scrollTimeoutId = window.setTimeout(onScrollEnd, 150)
+    if (event.type === 'scrollend') {
+        onScrollEnd()
+    }
+    else {
+        clearTimeout(scrollTimeoutId)
+        scrollTimeoutId = window.setTimeout(onScrollEnd, 150)
+    }
 }
 
 function initOnScrollStartEvent() {
     if (!root.value) return
     root.value.addEventListener('scroll', onScrollEvent)
+    root.value.addEventListener('scrollend', onScrollEvent)
 }
 
 function disposeOnScrollStartEvent() {
     if (!root.value) return
     root.value.removeEventListener('scroll', onScrollEvent)
+    root.value.removeEventListener('scrollend', onScrollEvent)
 }
 
 onMounted(initOnScrollStartEvent)
@@ -78,12 +87,12 @@ const currentSlideIndex = computed(() => {
 function onScrollEnd() {
     isScrolling.value = false
 
-    const onSnapInline = childrenData.value.find((slide) => {
+    const isInlineSnapped = childrenData.value.find((slide) => {
         const scrollLeft = Math.floor(rootScrollLeft.value)
         return Math.floor(slide.snapStart) === scrollLeft || Math.floor(slide.snapEnd) === scrollLeft
     })
 
-    if (currentSlideIndex.value !== index.value && !onSnapInline) {
+    if (!isInlineSnapped) {
         scrollToIndex(currentSlideIndex.value)
     }
 }
@@ -109,6 +118,13 @@ watch(index, () => {
     scrollToIndex(index.value)
 })
 
+function getOffsetLeft(newIndex: number) {
+    if (!root.value) return
+
+    const children = [...root.value.children] as HTMLElement[]
+    return children[newIndex]?.offsetLeft - root.value.offsetLeft
+}
+
 function scrollToIndex(newIndex: number, scrollBehavior?: ScrollBehavior) {
     if (!root.value || newIndex < 0 || currentSlideIndex.value === newIndex) {
         return
@@ -116,11 +132,8 @@ function scrollToIndex(newIndex: number, scrollBehavior?: ScrollBehavior) {
 
     // Sometimes childrenDate aren't set onMounted
     if (!childrenData.value.length) updateChildrenData()
-
-    const children = [...root.value.children] as HTMLElement[]
-    const offsetLeft = children[newIndex]?.offsetLeft - root.value.offsetLeft
-
-    root.value.scrollTo({ behavior: scrollBehavior || 'smooth', left: offsetLeft })
+    const offsetLeft = getOffsetLeft(newIndex)
+    if (typeof offsetLeft === 'number') root.value.scrollTo({ behavior: scrollBehavior || 'smooth', left: offsetLeft })
 }
 </script>
 
