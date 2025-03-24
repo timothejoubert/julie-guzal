@@ -162,7 +162,6 @@ const nextProject = computed(() => {
 }
 
 .next__title {
-    --cross-nav-arrow-first-opacity: 0;
     --v-prismic-link-icon-secondary-color: var(--theme-color-on-background);
 
     color: var(--theme-color-on-background);
@@ -171,6 +170,10 @@ const nextProject = computed(() => {
     font-weight: 300;
     line-height: 1.3;
     text-decoration: none;
+
+    @include media('>=lg') {
+        --cross-nav-arrow-first-opacity: 0;
+    }
 }
 
 .next__image {
