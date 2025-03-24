@@ -132,11 +132,9 @@ const reveal = computed(() => {
 }
 
 .image {
-    margin-bottom: rem(10);
-    grid: 1 / -1;
+    margin-bottom: var(--gutter);
 
     @include media('>=lg') {
-        margin-bottom: rem(24);
         transition: padding-top 0.4s ease(out-quad);
 
         &--offset-top {
