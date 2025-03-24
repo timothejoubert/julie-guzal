@@ -1,24 +1,25 @@
 ## In progress
 - page transition
-
+- Remove page payload ? 
+- Add cache on generated page (swr, isr ?)
+-remove toolbar script ? [issue 1](https://github.com/prismicio/prismic-toolbar/issues/119) | [issue](https://community.prismic.io/t/disable-io-prismic-preview-cookie-for-visitors/12311/23)
+- 
 ## TODO
-- Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- Top bar | bug de disparition de la top bar au changement de page
-- Use NuxtPage name with composable for common page setup 
-- Add cache on generated page (swr ?)
 - VSplashScreen
+- setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
+- Prerender all page except Preview (static for all page and Client-Side Rendering for preview)
+
+## later
+- Use NuxtPage name with composable for common page setup 
 - Slice simulator preview not working correctly for some slices
 
-
-- setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
-
-
 ## Need review
-- Prerender all page except Preview
+- Top bar | bug de disparition de la top bar au changement de page
 - Preview (Preview page should be build on fly and others prerender)
 - pageProject: back link sticky ?
 - 
 ## Abandoned 
+- Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Create VPageFactory ?
 - CrossNav: Text Reveal
 - 

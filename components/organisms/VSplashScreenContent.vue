@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import LogoSvg from '~/assets/images/logo.svg?component'
+import LottieData from '~/assets/lottie/account-export-2.json'
+import fontFolderPath from '~/assets/fonts/fhlecturis-light-subset.ttf?url'
 
 const state = useSplashScreenState()
 const root = ref<HTMLElement | null>(null)
@@ -24,7 +26,7 @@ function onStart() {
 
 const { startCounter } = useCounter({
     duration: 600,
-    onFinish,
+    onFinish: () => {},
     onStart,
 })
 
@@ -40,6 +42,26 @@ const rootClasses = computed(() => {
         state.value === 'leave' && $style['root--leave'],
     ]
 })
+
+// LOTTIE
+const lottieInstance = ref()
+watch(lottieInstance, (value) => {
+    console.log('lottieInstance', value)
+})
+
+function onLottieAnimationLoaded() {
+    console.log('onLottieAnimationLoaded')
+    window.setTimeout(() => {
+        console.log('6 seconds past after onLottieAnimationLoaded')
+        // onFinish()
+    }, 6000)
+}
+
+function onLottieComplete() {
+    console.log('onLottieComplete')
+}
+
+console.log('fontFolderPath', fontFolderPath)
 </script>
 
 <template>
@@ -48,6 +70,18 @@ const rootClasses = computed(() => {
         :class="rootClasses"
         :aria-label="$t('splash_screen_loading')"
     >
+        <ClientOnly>
+            <Vue3Lottie
+                ref="lottieInstance"
+                :animation-data="LottieData"
+                auto-play
+                loop
+                assets-path="/_nuxt/assets/fonts/"
+                :class="$style.lottie"
+                @on-animation-loaded="onLottieAnimationLoaded"
+                @on-complete="onLottieComplete"
+            />
+        </ClientOnly>
         <LogoSvg :class="$style.logo" />
         <VSpinner
             :class="$style.spinner"
