@@ -85,7 +85,7 @@ const reveal = computed(() => {
 
 .list {
     margin-block: initial;
-    row-gap: rem(54);
+    row-gap: rem(120);
 
     @include media('>=lg') {
         row-gap: rem(180);
