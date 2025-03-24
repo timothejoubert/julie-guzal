@@ -146,16 +146,16 @@ useHead({
 
 .title {
     max-width: 30ch;
+    min-height: 2lh;
     font-family: $font-suisse-family;
     font-size: rem(20);
     font-weight: 400;
     line-height: 1.25;
-    min-height: 2lh;
     text-wrap: balance;
 
     @include media('>=md') {
-        font-size: rem(16);
         max-width: flex-grid(2, 3);
+        font-size: rem(16);
     }
 }
 

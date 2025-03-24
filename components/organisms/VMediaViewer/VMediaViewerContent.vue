@@ -199,10 +199,10 @@ function isLandscape(document: PossibleMedia) {
     justify-content: space-evenly;
 
     @include media('>=md') {
-        left: initial;
-        column-gap: rem(111);
         right: var(--gutter);
         bottom: var(--gutter);
+        left: initial;
+        column-gap: rem(111);
     }
 
     @include media('>=lg') {
@@ -217,8 +217,8 @@ function isLandscape(document: PossibleMedia) {
     justify-content: center;
     border: initial;
     background-color: initial;
-    cursor: pointer;
     color: var(--theme-color-on-background);
+    cursor: pointer;
 
     &[disabled="true"] {
         color: var(--color-brand-inactive);
@@ -247,9 +247,10 @@ function isLandscape(document: PossibleMedia) {
 
 .slide {
     display: flex;
+    overflow: hidden;
     width: 100%;
-    max-height: 100%;
     height: 100%;
+    max-height: 100%;
     flex-direction: column;
     flex-shrink: 0;
     justify-content: space-between;
@@ -257,7 +258,6 @@ function isLandscape(document: PossibleMedia) {
     opacity: 0;
     padding-inline: var(--gutter);
     scroll-snap-align: start;
-    overflow: hidden;
     transition: opacity 0.4s ease(in-quad);
 
     &--active {
@@ -276,6 +276,7 @@ function isLandscape(document: PossibleMedia) {
     width: 100%;
     max-width: 100%;
     max-height: 70vh;
+    flex-grow: 1;
     object-fit: contain;
     object-position: center;
     -webkit-user-drag: none;
@@ -283,7 +284,6 @@ function isLandscape(document: PossibleMedia) {
     -moz-user-drag: none;
     -o-user-drag: none;
     user-drag: none;
-    flex-grow: 1;
 
     @include media('>=md') {
         max-height: 80vh;
@@ -301,9 +301,9 @@ function isLandscape(document: PossibleMedia) {
     }
 
     @include media('>=lg') {
-        flex-grow: initial;
         width: flex-grid(6, 12);
         max-height: calc(100vh - var(--gutter) * 2);
+        flex-grow: initial;
         object-position: right;
     }
 }
