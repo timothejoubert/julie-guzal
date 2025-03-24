@@ -43,6 +43,7 @@ const primary = computed(() => props.slice.primary)
 
 .root {
     padding-block: rem(40) rem(24);
+    row-gap: rem(24);
 
     @include media('>=lg') {
         padding-block: rem(80) rem(24);
