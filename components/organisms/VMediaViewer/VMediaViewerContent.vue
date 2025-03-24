@@ -209,6 +209,7 @@ function onClick(_event: MouseEvent) {
     border: initial;
     background-color: initial;
     cursor: pointer;
+    color: var(--theme-color-on-background);
 
     &[disabled="true"] {
         color: var(--color-brand-inactive);
