@@ -1,12 +1,14 @@
 import gsap from 'gsap'
 import type { TransitionProps } from 'vue'
-import { getScrollBarWidth } from '~/utils/scroll-bar'
+import { useBodyScrollLock } from '~/composables/use-body-scroll-lock'
 
 export const cardPageTransition: TransitionProps = {
     name: 'card-transition',
     onBeforeLeave: () => {
-        // document.body.style.overflowX = 'hidden'
-        document.body.style.paddingRight = `${getScrollBarWidth()}px`
+        // If leave page animation ended before after page
+        // scrollBar need to be fixed to avoid shift when enter page fixed is the only page in DOM
+        const { disableScroll } = useBodyScrollLock()
+        disableScroll()
         const nuxtApp = useNuxtApp()
         nuxtApp.$lenis.stop()
     },
@@ -27,12 +29,13 @@ export const cardPageTransition: TransitionProps = {
                 transformOrigin: 'top',
             })
 
+            // Need to finish before enter page to place
             tl.to(el, {
                 y: -60,
                 opacity: 0.3,
                 scale: 0.9,
-                duration: 1,
-                ease: 'power2.out',
+                duration: 0.8,
+                ease: 'power1.in',
             })
         }
         else {
@@ -46,7 +49,7 @@ export const cardPageTransition: TransitionProps = {
             tl.to(el, {
                 top: '100vh',
                 duration: 1,
-                ease: 'power2.out',
+                ease: 'power3.out',
             })
         }
 
@@ -58,7 +61,6 @@ export const cardPageTransition: TransitionProps = {
         const tl = gsap.timeline({
             paused: true,
             onComplete() {
-                console.log('enter done')
                 gsap.set(el, { clearProps: true })
                 animationComplete.value = true
                 done()
@@ -68,8 +70,8 @@ export const cardPageTransition: TransitionProps = {
         if (pageDirection.value === 'forwards') {
             gsap.set(el, {
                 position: 'fixed',
-                width: '100%',
-                top: '100vh',
+                maxWidth: `calc(100% - var(--scroll-bar-width)`,
+                top: '130vh',
                 scale: 1.1,
                 transformOrigin: 'top',
             })
@@ -78,14 +80,15 @@ export const cardPageTransition: TransitionProps = {
                 scale: 1,
                 top: 0,
                 duration: 1,
-                ease: 'power3.out',
+                ease: 'power2.out',
             })
         }
         else {
             tl.set(el, {
                 position: 'fixed',
+                width: '100%',
                 y: -60,
-                width: `calc(100% - var(--scroll-bar-width)`,
+                maxWidth: `calc(100% - var(--scroll-bar-width)`,
                 opacity: 0.3,
                 scale: 0.9,
                 transformOrigin: 'top',
@@ -105,5 +108,7 @@ export const cardPageTransition: TransitionProps = {
     onAfterEnter: () => {
         const nuxtApp = useNuxtApp()
         nuxtApp.$lenis.start()
+        const { enabledScroll } = useBodyScrollLock()
+        enabledScroll()
     },
 }

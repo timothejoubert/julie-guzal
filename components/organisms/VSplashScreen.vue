@@ -15,7 +15,17 @@ function onAfterLeave() {
     firstReveal.value = true
     window.scrollTo({ top: 0 })
     document.body.classList.remove(SCROLL_LOCK_CLASS)
+    setScrollBarWidth()
 }
+
+// SET GLOBAL CSS VAR
+const { width } = useWindowSize()
+function setScrollBarWidth() {
+    document.body.style.setProperty('--scroll-bar-width', getScrollBarWidth())
+}
+
+watch(width, setScrollBarWidth)
+tryOnMounted(setScrollBarWidth)
 </script>
 
 <template>

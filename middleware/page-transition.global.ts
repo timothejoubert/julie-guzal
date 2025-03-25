@@ -32,5 +32,4 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     }) || -1
 
     pageDirection.value = fromIndex > toIndex ? 'backwards' : 'forwards'
-    console.log('indexes', pageDirection.value)
 })

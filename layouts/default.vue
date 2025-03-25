@@ -1,7 +1,6 @@
 <script  lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { usePrismicPreviewRoute } from '~/composables/use-prismic-preview-route'
-import { getScrollBarWidth } from '~/utils/scroll-bar'
 
 const route = useRoute()
 const { isPreview } = usePrismicPreviewRoute()
@@ -16,11 +15,6 @@ if (isWildCardPage || isPreview) {
         useCurrentPage({ webResponse })
     }
 }
-
-// Global data
-onMounted(() => {
-    document.body.style.setProperty('--scroll-bar-width', getScrollBarWidth())
-})
 
 const appConfig = useAppConfig()
 </script>

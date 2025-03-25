@@ -1,22 +1,20 @@
-type BodyScrollLockElement = Parameters<typeof useScrollLock>[0]
-
-export function useBodyScrollLock(el?: BodyScrollLockElement, initialState?: boolean) {
-    const target = ref<BodyScrollLockElement>(toValue(el))
-
+export function useBodyScrollLock() {
+    // SETUP TARGET
+    const bodyRef = ref<HTMLElement>()
     tryOnMounted(() => {
-        if (import.meta.client && !target.value) {
-            target.value = document?.body
-        }
+        bodyRef.value = document.body
     })
 
-    const isLocked = useScrollLock(target, initialState)
+    const isLocked = useScrollLock(bodyRef)
 
+    // SCROLL LOCK + BODY PADDING
     function disableScroll() {
-        if (target.value && 'style' in target.value) target.value.style.paddingRight = getScrollBarWidth()
+        document.body.style.paddingRight = `var(--scroll-bar-width)`
         isLocked.value = true
     }
+
     function enabledScroll() {
-        if (target.value && 'style' in target.value) target.value.style.paddingRight = '0px'
+        document.body.style.paddingRight = `initial`
         isLocked.value = false
     }
 
