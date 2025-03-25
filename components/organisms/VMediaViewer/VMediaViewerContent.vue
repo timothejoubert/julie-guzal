@@ -183,6 +183,7 @@ function isLandscape(document: PossibleMedia) {
     border: initial;
     background-color: initial;
     cursor: pointer;
+    color: var(--theme-color-on-background);
 
     @include media('>=lg') {
         top: rem(24);
