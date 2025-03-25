@@ -81,6 +81,11 @@ $padding-bottom: rem(24);
 .root {
     z-index: 99;
     padding-block: $padding-top $padding-bottom;
+    pointer-events: initial;
+
+    &--hidden {
+        pointer-events: none;
+    }
 
     @include media('>=md') {
         position: sticky;
