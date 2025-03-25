@@ -93,8 +93,8 @@ const rootClasses = computed(() => {
     bottom: 24px;
     margin-top: rem(16);
 
-    //font-family: $font-suisse-family;
-    //font-size: rem(16);
-    //font-weight: 400;
+    // font-family: $font-suisse-family;
+    // font-size: rem(16);
+    // font-weight: 400;
 }
 </style>

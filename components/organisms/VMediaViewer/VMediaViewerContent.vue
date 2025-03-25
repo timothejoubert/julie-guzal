@@ -182,8 +182,8 @@ function isLandscape(document: PossibleMedia) {
     justify-content: center;
     border: initial;
     background-color: initial;
-    cursor: pointer;
     color: var(--theme-color-on-background);
+    cursor: pointer;
 
     @include media('>=lg') {
         top: rem(24);
