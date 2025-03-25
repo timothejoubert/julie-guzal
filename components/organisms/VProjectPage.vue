@@ -47,6 +47,7 @@ const backLinkTheme = computed(() => {
                 ref="headerImg"
                 :document="image"
                 :class="$style.image"
+                loading="eager"
             >
                 <VPictureSource
                     sizes="xs:100vw sm:100vw md:100vw"
