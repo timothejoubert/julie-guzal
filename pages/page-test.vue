@@ -5,5 +5,5 @@ defineRouteRules({
 </script>
 
 <template>
-    <div>Page test</div>
+    <div>Page test : 2</div>
 </template>
