@@ -42,6 +42,7 @@ jobs:
         # Steps represent a sequence of tasks
         # that will be executed as part of the job
         steps:
+            - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
                   name: appBuild
@@ -62,6 +63,7 @@ jobs:
                   remote-password: ${{ secrets.FTP_PASSWORD }}
 
                   # Path for specific folder on server for files deployment
+                  local-path: app
                   remote-path: /home/juliegd/staging
 
                   # Port for SFTP access to server
