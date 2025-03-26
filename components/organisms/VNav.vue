@@ -87,6 +87,7 @@ const rootElement = useTemplateElement('rootElement')
     flex-direction: column;
     padding: initial;
     margin-block: initial;
+    max-width: 100%;
 
     @include media('<md') {
         width: fit-content;
@@ -127,6 +128,9 @@ const rootElement = useTemplateElement('rootElement')
         padding-block: rem(18);
         padding-inline: rem(14);
 
+    }
+
+    @include media('>=340px', '<md') {
         .item:first-child & {
             padding-left: rem(24);
         }
