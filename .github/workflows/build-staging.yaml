@@ -27,7 +27,7 @@ jobs:
               run: pnpm generate
             - uses: actions/upload-artifact@v4
               with:
-                  name: built
+                  name: appBuild
                   path: app
 
     # This workflow contains a single job called "SFTP-Deploy-Action"
@@ -42,11 +42,9 @@ jobs:
         # Steps represent a sequence of tasks
         # that will be executed as part of the job
         steps:
-
-            - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  name: built
+                  name: appBuild
                   path: app
             - run: echo 'Successfully generate'
             - run: ls -lah app
