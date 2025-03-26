@@ -11,26 +11,34 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
+
             - name: Install Node.js
               uses: actions/setup-node@v4
               with:
                   node-version-file: 'package.json'
+
             - uses: pnpm/action-setup@v4
               name: Install pnpm
+
             - name: Install dependencies
               run: pnpm install
+
             - name: Lint scripts
               run: pnpm lint:js
+
             - name: Lint styles
               run: pnpm lint:css
+
             - name: Generate static site
               run: pnpm generate
+
             - name: Upload artifacts for deployment job
               uses: actions/upload-artifact@v4
               with:
                   name: appBuild
                   path: app
                   if-no-files-found: error
+
             - run: ls -lah app
 
     # This workflow contains a single job called "SFTP-Deploy-Action"
@@ -49,30 +57,27 @@ jobs:
               uses: actions/checkout@v4
               with:
                   fetch-depth: 0
+
             - name: Download build app artifact
               uses: actions/download-artifact@v4
               with:
                   name: appBuild
                   path: app
+
             - name: SFTP deploy
               uses: milanmk/actions-file-deployer@master
               with:
                   remote-protocol: sftp
-
                   # Credentials for SFTP access to server using GitHub secrets
                   remote-host: ${{ secrets.FTP_HOST }}
                   remote-user: ${{ secrets.FTP_USER }}
                   remote-password: ${{ secrets.FTP_PASSWORD }}
-
                   # Path for specific folder on server for files deployment
                   # local-path: app
                   remote-path: /home/juliegd/staging
-
                   # Transfer all files (useful for first deploy)
                   sync: full
-
                   artifacts: true
                   debug: true
-
                   # Port for SFTP access to server
-                  remote-port: 221
+                  remote-port: 22
