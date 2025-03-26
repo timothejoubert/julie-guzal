@@ -73,11 +73,9 @@ jobs:
                   remote-user: ${{ secrets.FTP_USER }}
                   remote-password: ${{ secrets.FTP_PASSWORD }}
                   # Path for specific folder on server for files deployment
-                  # local-path: app
+                  local-path: app
                   remote-path: /home/juliegd/staging
                   # Transfer all files (useful for first deploy)
                   sync: full
-                  artifacts: true
-                  debug: true
                   # Port for SFTP access to server
                   remote-port: 22
