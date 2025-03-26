@@ -69,5 +69,8 @@ jobs:
 #                  local-path: app
                   remote-path: /home/juliegd/staging
 
+                  artifacts: true
+                  debug: true
+
                   # Port for SFTP access to server
                   remote-port: 221
