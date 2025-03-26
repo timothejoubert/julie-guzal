@@ -193,12 +193,12 @@ function isLandscape(document: PossibleMedia) {
 
 .controls {
     position: fixed;
+    z-index: 10;
     right: 0;
     bottom: min(#{rem(165)}, 17vh);
     left: 0;
     display: flex;
     justify-content: space-evenly;
-    z-index: 10;
 
     @include media('>=md') {
         right: var(--gutter);

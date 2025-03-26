@@ -84,10 +84,10 @@ const rootElement = useTemplateElement('rootElement')
 
 .list {
     display: flex;
+    max-width: 100%;
     flex-direction: column;
     padding: initial;
     margin-block: initial;
-    max-width: 100%;
 
     @include media('<md') {
         width: fit-content;
@@ -114,7 +114,6 @@ const rootElement = useTemplateElement('rootElement')
     line-height: 1.4;
     padding-block: rem(14);
     padding-inline: rem(14);
-
     text-decoration: none;
     text-transform: uppercase;
     transition: color 0.3s;
@@ -141,11 +140,11 @@ const rootElement = useTemplateElement('rootElement')
     }
 
     @include media('>=md') {
-        padding-block: initial;
-        padding-inline: initial;
         font-size: rem(14);
         font-weight: 400;
         line-height: 1.3;
+        padding-block: initial;
+        padding-inline: initial;
         text-transform: initial;
     }
 

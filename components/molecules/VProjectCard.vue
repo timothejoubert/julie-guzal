@@ -79,8 +79,8 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 
 .media-wrapper {
     display: block;
-    width: 100%;
     overflow: hidden;
+    width: 100%;
 }
 
 .image {
