@@ -1,6 +1,5 @@
 import gsap from 'gsap'
 import type { TransitionProps } from 'vue'
-import { useBodyScrollLock } from '~/composables/use-body-scroll-lock'
 
 export const cardPageTransition: TransitionProps = {
     name: 'card-transition',
