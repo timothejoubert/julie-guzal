@@ -28,7 +28,7 @@ jobs:
               run: pnpm generate
             - uses: actions/upload-artifact@v4
               with:
-                  name: built
+                  name: appBuild
                   path: app
 
     # This workflow contains a single job called "SFTP-Deploy-Action"
@@ -43,11 +43,13 @@ jobs:
         # Steps represent a sequence of tasks
         # that will be executed as part of the job
         steps:
-
             - uses: actions/checkout@v4
+              with:
+                  # Fetch all history for all tags and branches
+                  fetch-depth: 0
             - uses: actions/download-artifact@v4
               with:
-                  name: built
+                  name: appBuild
                   path: app
             - run: echo 'Successfully generate'
             - run: ls -lah app
@@ -65,7 +67,8 @@ jobs:
                   remote-password: ${{ secrets.FTP_PASSWORD }}
 
                   # Path for specific folder on server for files deployment
-                  remote-path: /home/juliegd/staging
+                  local-path: app
+                  remote-path: /home/juliegd/wwww
 
                   # Port for SFTP access to server
                   remote-port: 221

@@ -198,6 +198,7 @@ function isLandscape(document: PossibleMedia) {
     left: 0;
     display: flex;
     justify-content: space-evenly;
+    z-index: 10;
 
     @include media('>=md') {
         right: var(--gutter);
