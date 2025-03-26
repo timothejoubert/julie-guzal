@@ -47,18 +47,13 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
               with:
-                  # Fetch all history for all tags and branches
                   fetch-depth: 0
-            - name: DownloadArtifact
+            - name: Download build app artifact
               uses: actions/download-artifact@v4
               with:
                   name: appBuild
-                  path: .
-            - run: ls -lah .
-
-            # This is a composite GitHub Action (Linux runner)
-            # for deploying repository content to remote server
-            - name: SFTP-Deploy-Action
+                  path: app
+            - name: SFTP deploy
               uses: milanmk/actions-file-deployer@master
               with:
                   remote-protocol: sftp
