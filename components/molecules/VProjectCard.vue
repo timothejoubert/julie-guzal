@@ -80,14 +80,23 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 .media-wrapper {
     display: block;
     width: 100%;
+    overflow: hidden;
 }
 
 .image {
     width: 100%;
+    scale: 1.03;
+    transition: scale 0.4s ease(out-quad);
 
     &--placeholder {
         aspect-ratio: 460 / 248;
         background-color: lightgrey;
+    }
+
+    @media (hover: hover) {
+        .root:hover & {
+            scale: 1;
+        }
     }
 }
 
