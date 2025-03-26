@@ -1,17 +1,31 @@
+## Deploy
+- update .env SITE_URL
+- enable site on robots.txt
+- check sitemap
+- check lightSpeed (seo, a11y, perf)
+- check meta seo
+- Auto deploy (build or generate)
+- image share
+- balise canonical
+- update node version (netlify and package)
+
 ## In progress
-- page transition
+- debug VDraggableScroll
+- Deploy on OVH
+  - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
+  - Hybrid: create branch for prod and store prod assets, sync OVH data to this branch and pull when code is updated
 
 ## TODO
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Top bar | bug de disparition de la top bar au changement de page
 - Use NuxtPage name with composable for common page setup 
 - Add cache on generated page (swr ?)
-- VSplashScreen
 - Slice simulator preview not working correctly for some slices
-
-
 - setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 
+## Later
+- Splash Screen
+- Page transition home -> project
 
 ## Need review
 - Prerender all page except Preview
@@ -23,6 +37,7 @@
 - CrossNav: Text Reveal
 - 
 ## Done
+- page transition
 - Page error
 - VTopBar | text reveal
 - Footer | text reveal
