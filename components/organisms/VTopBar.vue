@@ -111,6 +111,12 @@ $padding-bottom: rem(24);
         font-size: fluid((xs: 70, xl: 100));
     }
 
+    @include media('<340px') {
+        .root:not(.root--contact-page) & {
+            font-size: rem(70);
+        }
+    }
+
     @include media('<md') {
         .root:not(.root--contact-page) & {
             justify-content: center;

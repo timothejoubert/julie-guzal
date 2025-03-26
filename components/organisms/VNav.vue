@@ -111,7 +111,9 @@ const rootElement = useTemplateElement('rootElement')
     font-size: rem(16);
     font-weight: 300;
     line-height: 1.4;
-    padding-inline: initial;
+    padding-block: rem(14);
+    padding-inline: rem(14);
+
     text-decoration: none;
     text-transform: uppercase;
     transition: color 0.3s;
@@ -121,13 +123,7 @@ const rootElement = useTemplateElement('rootElement')
         font-weight: 400;
     }
 
-  @media (hover: hover) {
-    &:hover {
-      color: var(--theme-color-brand-text);
-    }
-  }
-
-    @include media('<md') {
+    @include media('>=340px') {
         padding-block: rem(18);
         padding-inline: rem(14);
 
@@ -140,11 +136,19 @@ const rootElement = useTemplateElement('rootElement')
         }
     }
 
-  @include media('>=md') {
+    @include media('>=md') {
+        padding-block: initial;
+        padding-inline: initial;
         font-size: rem(14);
         font-weight: 400;
         line-height: 1.3;
         text-transform: initial;
-  }
+    }
+
+    @media (hover: hover) {
+        &:hover {
+            color: var(--theme-color-brand-text);
+        }
+    }
 }
 </style>
