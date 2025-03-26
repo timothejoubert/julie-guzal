@@ -66,7 +66,7 @@ jobs:
                   remote-password: ${{ secrets.FTP_PASSWORD }}
 
                   # Path for specific folder on server for files deployment
-                  local-path: app
+#                  local-path: app
                   remote-path: /home/juliegd/staging
 
                   # Port for SFTP access to server
