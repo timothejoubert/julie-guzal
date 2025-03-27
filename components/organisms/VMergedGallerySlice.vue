@@ -15,7 +15,7 @@ const imageList = computed(() => {
     return slicesItems.value?.filter((groupField) => {
         return groupField.image?.url
     }).map((groupField, index) => {
-        const isLandscape = index % 9 === 0 || index % 9 === 1
+        const isLandscape = index % 8 === 0 || index % 8 === 1
         return {
             document: {
                 ...groupField.image,
@@ -107,7 +107,7 @@ const reveal = computed(() => {
 <template>
     <section
         ref="rootElement"
-        data-slice-type="custom_gallery_grid"
+        data-slice-type="v_merged_gallery_grid"
         data-slice-variation="default"
         class="grid element-translate"
         :class="[$style.root, reveal && 'element-translate--reveal']"
@@ -168,56 +168,55 @@ const reveal = computed(() => {
     grid-column: 1 / -1;
 
     @include media('>=md') {
-        &:nth-child(9n + 1) {
+        &:nth-child(8n + 1) {
             grid-column: 8 / -1;
         }
 
-        &:nth-child(9n + 2) {
-            display: grid;
+        &:nth-child(8n + 2) {
             grid-column: 1 / -1;
-            grid-template-columns: subgrid;
+            // Subgrid not working on safari
+            // display: grid;
+            // grid-template-columns: subgrid;
 
             & > * {
+                max-width: flex-grid(5, 12);
                 grid-column: 1 / span 5;
             }
         }
 
-        &:nth-child(9n + 3) {
+        &:nth-child(8n + 3) {
             grid-column: 7 / span 3;
         }
 
-        &:nth-child(9n + 4) {
+        &:nth-child(8n + 4) {
             grid-column: 1 / span 3;
         }
 
-        &:nth-child(9n + 5) {
+        &:nth-child(8n + 5) {
             grid-column: 10 / -1;
         }
 
-        &:nth-child(9n + 6) {
+        &:nth-child(8n + 6) {
             grid-column: 4 / span 3;
         }
 
-        &:nth-child(9n + 7) {
-            grid-column: 7 / span 3;
-        }
-
-        &:nth-child(9n + 8) {
-            display: grid;
+        &:nth-child(8n + 7) {
             grid-column: 1 / -1;
-            grid-template-columns: subgrid;
 
             & > * {
+                max-width: flex-grid(3, 12);
+                margin-left: flex-grid(9, 12);
                 grid-column: 10 / -1;
             }
         }
 
-        &:nth-child(9n + 9) {
-            display: grid;
+        &:nth-child(8n + 8) {
+            // display: grid;
+            // grid-template-columns: subgrid;
             grid-column: 1 / -1;
-            grid-template-columns: subgrid;
 
             & > * {
+                max-width: flex-grid(3, 12);
                 grid-column: 1 / span 3;
             }
         }
