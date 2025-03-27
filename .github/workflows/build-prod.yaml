@@ -1,97 +1,97 @@
-#name: Deploy prod
-#
-#on:
-#    push:
-#        branches:
-#            - main
-#        tags: ['**']
-#
-#    repository_dispatch:
-#        types:
-#            - prismic_publish_trigger
-#
-#jobs:
-#    # Cancel previous builds to avoid build stacking
-#    pre-job:
-#        name: Pre-job
-#        runs-on: ubuntu-latest
-#        steps:
-#            - uses: technote-space/auto-cancel-redundant-workflow@v1
-#            - name: Cancel redundant workflows
-#              run: echo "Cancel redundant workflows finished"
-#
-#    build:
-#        runs-on: ubuntu-latest
-#        steps:
-#            - uses: actions/checkout@v4
-#
-#            - name: Install Node.js
-#              uses: actions/setup-node@v4
-#              with:
-#                  node-version-file: 'package.json'
-#
-#            - uses: pnpm/action-setup@v4
-#              name: Install pnpm
-#
-#            - name: Install dependencies
-#              run: pnpm install
-#
-#            - name: Lint scripts
-#              run: pnpm lint:js
-#
-#            - name: Lint styles
-#              run: pnpm lint:css
-#
-#            - name: Generate static site
-#              run: pnpm generate
-#              env:
-#                  NUXT_PUBLIC_SITE_NAME: Julie Guzal
-#                  NUXT_PUBLIC_SITE_URL: https://julieguzal.fr
-#
-#            - name: Upload artifacts for deployment job
-#              uses: actions/upload-artifact@v4
-#              with:
-#                  name: appBuild
-#                  path: app
-#                  if-no-files-found: error
-#
-#            - run: ls -lah app
-#
-#    # This workflow contains a single job called "SFTP-Deploy-Action"
-#    SFTP-Deploy-Action:
-#        name: SFTP-Deploy-Action
-#        needs: build
-#
-#        # The type of runner that the job will run on
-#        # (depends on server but usually this value is works)
-#        runs-on: ubuntu-latest
-#
-#        # Steps represent a sequence of tasks
-#        # that will be executed as part of the job
-#        steps:
-#            - name: Checkout
-#              uses: actions/checkout@v4
-#              with:
-#                  fetch-depth: 0
-#
-#            - name: Download build app artifact
-#              uses: actions/download-artifact@v4
-#              with:
-#                  name: appBuild
-#                  path: app
-#
-#            - name: SFTP deploy
-#              uses: milanmk/actions-file-deployer@master
-#              with:
-#                  remote-protocol: sftp
-#                  # Credentials for SFTP access to server using GitHub secrets
-#                  remote-host: ${{ secrets.FTP_HOST }}
-#                  remote-user: ${{ secrets.FTP_USER }}
-#                  remote-password: ${{ secrets.FTP_PASSWORD }}
-#                  # Path for specific folder on server for files deployment
-#                  local-path: app
-#                  remote-path: /home/juliegd/staging
-#                  # Transfer all files (useful for first deploy)
-#                  sync: full
-#                  # Port for SFTP access to server
-#                  remote-port: 22
+name: Deploy prod
+
+on:
+    push:
+        branches:
+            - main
+        tags: ['**']
+
+    repository_dispatch:
+        types:
+            - prismic_publish_trigger
+
+jobs:
+    # Cancel previous builds to avoid build stacking
+    pre-job:
+        name: Pre-job
+        runs-on: ubuntu-latest
+        steps:
+            - uses: technote-space/auto-cancel-redundant-workflow@v1
+            - name: Cancel redundant workflows
+              run: echo "Cancel redundant workflows finished"
+
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version-file: 'package.json'
+
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Lint scripts
+              run: pnpm lint:js
+
+            - name: Lint styles
+              run: pnpm lint:css
+
+            - name: Generate static site
+              run: pnpm generate
+              env:
+                  NUXT_PUBLIC_SITE_NAME: Julie Guzal
+                  NUXT_PUBLIC_SITE_URL: https://julieguzal.fr
+
+            - name: Upload artifacts for deployment job
+              uses: actions/upload-artifact@v4
+              with:
+                  name: appBuild
+                  path: app
+                  if-no-files-found: error
+
+            - run: ls -lah app
+
+    # This workflow contains a single job called "SFTP-Deploy-Action"
+    SFTP-Deploy-Action:
+        name: SFTP-Deploy-Action
+        needs: build
+
+        # The type of runner that the job will run on
+        # (depends on server but usually this value is works)
+        runs-on: ubuntu-latest
+
+        # Steps represent a sequence of tasks
+        # that will be executed as part of the job
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Download build app artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: appBuild
+                  path: app
+
+            - name: SFTP deploy
+              uses: milanmk/actions-file-deployer@master
+              with:
+                  remote-protocol: sftp
+                  # Credentials for SFTP access to server using GitHub secrets
+                  remote-host: ${{ secrets.FTP_HOST }}
+                  remote-user: ${{ secrets.FTP_USER }}
+                  remote-password: ${{ secrets.FTP_PASSWORD }}
+                  # Path for specific folder on server for files deployment
+                  local-path: app
+                  remote-path: /home/juliegd/www
+                  # Transfer all files (useful for first deploy)
+                  sync: full
+                  # Port for SFTP access to server
+                  remote-port: 22
