@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /prismic-preview
+Disallow: /slice-simulator
