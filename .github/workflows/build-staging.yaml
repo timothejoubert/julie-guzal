@@ -5,10 +5,6 @@ on:
         branches:
             - develop
     workflow_dispatch:
-    # Allows external webhook trigger
-    repository_dispatch:
-        types:
-            - prismic_publish_trigger
 
 jobs:
     # Cancel previous builds to avoid build stacking

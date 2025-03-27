@@ -5,7 +5,7 @@ meta {
 }
 
 post {
-  url: https://api.github.com/repos/{{REPO_NAME}}/{{REPO_OWNER}}/dispatches
+  url: https://api.github.com/repos/{{REPO_OWNER}}/{{REPO_NAME}}/dispatches
   body: json
   auth: none
 }
@@ -17,6 +17,10 @@ headers {
 
 body:json {
   { 
-    "event_type": "prismic_publish_trigger"
+    "event_type": "{{WEBHOOK_NAME}}",
+    "client_payload": {
+      "unit": "false",
+      "integration": "true"
+    }
   }
 }
