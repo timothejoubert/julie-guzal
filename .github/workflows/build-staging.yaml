@@ -4,9 +4,22 @@ on:
     push:
         branches:
             - develop
-
+    workflow_dispatch:
+    # Allows external webhook trigger
+    repository_dispatch:
+        types:
+            - prismic_publish_trigger
 
 jobs:
+    # Cancel previous builds to avoid build stacking
+    pre-job:
+        name: Pre-job
+        runs-on: ubuntu-latest
+        steps:
+            - uses: technote-space/auto-cancel-redundant-workflow@v1
+            - name: Cancel redundant workflows
+              run: echo "Cancel redundant workflows finished"
+
     build:
         runs-on: ubuntu-latest
         steps:

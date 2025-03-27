@@ -14,6 +14,7 @@
 - Deploy on OVH
   - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
   - Hybrid: create branch for prod and store prod assets, sync OVH data to this branch and pull when code is updated
+  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23) 
 
 ## TODO
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)

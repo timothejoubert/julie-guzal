@@ -1,0 +1,22 @@
+meta {
+  name: Github action build
+  type: http
+  seq: 2
+}
+
+post {
+  url: https://api.github.com/repos/{{REPO_NAME}}/{{REPO_OWNER}}/dispatches
+  body: json
+  auth: none
+}
+
+headers {
+  Accept: application/vnd.github+json
+  Authorization: token {{GITHUB_ACCESS_TOKEN}}
+}
+
+body:json {
+  { 
+    "event_type": "prismic_publish_trigger"
+  }
+}
