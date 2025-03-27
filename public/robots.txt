@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /prismic-preview
-Disallow: /slice-simulator

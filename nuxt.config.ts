@@ -20,6 +20,8 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@nuxt/eslint',
         '@rezo-zero/nuxt-stories',
+        '@nuxtjs/sitemap',
+        '@nuxtjs/robots',
     ],
     plugins: [],
     components: [
@@ -77,12 +79,17 @@ export default defineNuxtConfig({
     },
     compatibilityDate: '2024-07-09',
     nitro: {
+        prerender: {
+            // enabled by default with nuxt generate, not required
+            crawlLinks: true,
+        },
         output: {
             publicDir: path.join(__dirname, '/app'),
         },
         // https://nitro.build/config#routerules
         routeRules: {
             '/**': {
+                prerender: true,
                 headers: {
                     // 'Access-Control-Allow-Origin': 'Same-Origin \'self\' \'http://localhost:3000\' \'https://i.ytimg.com\'',
                     'Access-Control-Allow-Origin': '*',
@@ -102,20 +109,25 @@ export default defineNuxtConfig({
             },
             '/_icons': {
                 prerender: false,
+                robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
             },
             '/prismic-preview': {
                 swr: false,
+                robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
             },
             '/slice-smulator': {
                 prerender: false,
+                robots: false,
             },
             '/_stories/**': {
+                prerender: false,
+                robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex',
                 },
@@ -162,7 +174,6 @@ export default defineNuxtConfig({
             },
         },
     },
-    // '@nuxtjs/sitemap',
     i18n: {
         bundle: {
             optimizeTranslationDirective: false,
@@ -214,10 +225,16 @@ export default defineNuxtConfig({
             routes: prismicDocumentRoutes,
         },
     },
+    robots: {
+        // provide simple disallow rules for all robots `user-agent: *`
+        disallow: ['/slice-simulator', '/slice-smulator', '/prismic-preview'],
+    },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
         // enabled: !isGenerateMaintenance,
-        exclude: ['/slice-simulator'],
+        exclude: ['/slice-simulator', '/slice-smulator', '/prismic-preview'],
+        credits: false,
+        debug: true,
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {
