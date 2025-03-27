@@ -20,20 +20,19 @@ export function usePrismicHead(webResponse?: PrismicWebResponse) {
     ]
 
     // ALTERNATE LINKS
-    const currentAlternateLink = { id: 'default', type: webResponse?.type || '', lang: I18N_DEFAULT_LOCALE }
-    const alternateLinks = [...webResponse?.alternate_languages || [], currentAlternateLink]
-
-    const alternateLinksHead = alternateLinks.map((alternateLink) => {
-        const formattedLocale = getFormattedLocale(alternateLink.lang)
-        const locale = formattedLocale === I18N_DEFAULT_LOCALE ? '' : formattedLocale
-        return {
-            hid: `alternate-${alternateLink.lang}`,
-            rel: 'alternate',
-            hreflang: alternateLink.lang,
-            href: joinURL(runtimeConfig.public.site.url, locale, route.fullPath),
-        }
-    })
-    if (alternateLinksHead.length) link.push(...alternateLinksHead)
+    const alternateLinks = webResponse?.alternate_languages || []
+    if (alternateLinks.length) {
+        alternateLinks.forEach((alternateLink) => {
+            const formattedLocale = getFormattedLocale(alternateLink.lang)
+            const locale = formattedLocale === I18N_DEFAULT_LOCALE ? '' : formattedLocale
+            link.push({
+                hid: `alternate-${alternateLink.lang}`,
+                rel: 'alternate',
+                hreflang: alternateLink.lang,
+                href: joinURL(runtimeConfig.public.site.url, locale, route.fullPath),
+            })
+        })
+    }
 
     //
     useHead({

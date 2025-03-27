@@ -15,7 +15,7 @@ definePageMeta({
 
 defineRouteRules({
     prerender: true,
-    isr: 60 * 60, // 1 hour
+    // isr: 60 * 60, // 1 hour
 })
 
 const route = useRoute()
