@@ -44,6 +44,9 @@ jobs:
 
             - name: Generate static site
               run: pnpm generate
+              env:
+                  NUXT_PUBLIC_SITE_NAME: Julie Guzal
+                  NUXT_PUBLIC_SITE_URL: https://julieguzal.fr
 
             - name: Upload artifacts for deployment job
               uses: actions/upload-artifact@v4
