@@ -178,7 +178,7 @@ export default defineNuxtConfig({
         bundle: {
             optimizeTranslationDirective: false,
         },
-        strategy: 'prefix_except_default',
+        strategy: I18N_LOCALES.length > 1 ? 'prefix_except_default' : 'no_prefix',
         // I18n issue, disabled detectBrowserLanguage work only with empty obj
         // https://github.com/nuxt-modules/i18n/issues/3039
         detectBrowserLanguage: false,
@@ -234,7 +234,6 @@ export default defineNuxtConfig({
         // enabled: !isGenerateMaintenance,
         exclude: ['/slice-simulator', '/slice-smulator', '/prismic-preview'],
         credits: false,
-        debug: true,
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {
