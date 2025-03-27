@@ -26,6 +26,8 @@
         "@nuxt/image": "1.10.0",
         "@nuxtjs/i18n": "^9.3.4",
         "@nuxtjs/prismic": "^4.1.0",
+        "@nuxtjs/robots": "5.2.8",
+        "@nuxtjs/sitemap": "7.2.9",
         "@nuxtjs/svg-sprite": "^1.0.2",
         "@prismicio/client": "^7.17.0",
         "@prismicio/helpers": "^2.3.9",
