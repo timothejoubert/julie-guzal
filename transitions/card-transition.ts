@@ -3,18 +3,17 @@ import type { TransitionProps } from 'vue'
 
 export const cardPageTransition: TransitionProps = {
     name: 'card-transition',
-    onBeforeLeave: () => {
-        // If leave page animation ended before after page
-        // scrollBar need to be fixed to avoid shift when enter page fixed is the only page in DOM
-        const { disableScroll } = useBodyScrollLock()
-        disableScroll()
-        const nuxtApp = useNuxtApp()
-        nuxtApp.$lenis.stop()
-    },
     onLeave: (el, done) => {
+        if (window.innerWidth < 700) {
+            done()
+            return
+        }
+
         const { animationComplete, pageDirection } = usePageTransitionState()
         animationComplete.value = false
 
+        // If leave page animation ended before after page
+        // scrollBar need to be fixed to avoid shift when enter page fixed is the only page in DOM
         const tl = gsap.timeline({
             paused: true,
             onComplete() {
@@ -54,7 +53,18 @@ export const cardPageTransition: TransitionProps = {
 
         tl.play()
     },
+    onBeforeEnter: () => {
+        const { disableScroll } = useBodyScrollLock()
+        disableScroll()
+
+        const nuxtApp = useNuxtApp()
+        nuxtApp.$lenis.stop()
+    },
     onEnter: (el, done) => {
+        if (window.innerWidth < 700) {
+            done()
+            return
+        }
         const { animationComplete, pageDirection } = usePageTransitionState()
 
         const tl = gsap.timeline({
