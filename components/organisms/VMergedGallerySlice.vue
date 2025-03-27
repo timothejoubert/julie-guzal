@@ -174,6 +174,7 @@ const reveal = computed(() => {
 
         &:nth-child(8n + 2) {
             grid-column: 1 / -1;
+
             // Subgrid not working on safari
             // display: grid;
             // grid-template-columns: subgrid;
