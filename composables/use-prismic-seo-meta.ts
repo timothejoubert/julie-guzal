@@ -38,7 +38,7 @@ export async function usePrismicSeoMeta(webResponse?: PrismicWebResponse) {
                     provider: 'imgix',
                 },
             )
-        : joinURL(runtimeConfig.public.site.url, '/assets/share.jpg')
+        : joinURL(runtimeConfig.public.site.url, 'share.jpg')
 
     const { fullPath } = useRoute()
     const canonicalUrl = joinURL(runtimeConfig.public.site.url, fullPath)
