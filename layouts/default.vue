@@ -24,7 +24,6 @@ const appConfig = useAppConfig()
 
 // console.log('post fetch response', data.value);
 // console.log('post fetch error', error.value);
-
 </script>
 
 <template>
