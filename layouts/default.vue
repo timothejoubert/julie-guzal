@@ -17,6 +17,14 @@ if (isWildCardPage || isPreview) {
 }
 
 const appConfig = useAppConfig()
+
+// const { data, error } = await useFetch('/api/run-github-actions-deploy', {
+//     method: 'post',
+// })
+
+// console.log('post fetch response', data.value);
+// console.log('post fetch error', error.value);
+
 </script>
 
 <template>

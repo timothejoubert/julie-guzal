@@ -56,12 +56,14 @@ export default defineNuxtConfig({
         },
     },
     runtimeConfig: {
+        githubUserToken: '',
+        prismicWebhookSecret: '',
         public: {
             version,
             site: {
-                name: 'Julie Guzal Preprod',
-                url: 'http://localhost:3000',
-                environment: 'development',
+                name: 'Julie Guzal',
+                url: '',
+                environment: '',
             },
         },
     },
