@@ -4,7 +4,7 @@
     "description": "Julie guzal personal website",
     "author": "Timothé Joubert",
     "engines": {
-        "node": "18.20.6"
+        "node": "22.14.0"
     },
     "scripts": {
         "slicemachine": "start-slicemachine",
