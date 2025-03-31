@@ -1,7 +1,6 @@
 ## Deploy
-- update .env SITE_URL
-- enable site on robots.txt
-- check sitemap
+- Add redirection
+- Ajouter prefetch on nav link
 - check lightSpeed (seo, a11y, perf)
 - check meta seo
 - Auto deploy (build or generate)
@@ -11,18 +10,12 @@
 
 ## In progress
 - debug VDraggableScroll
-- Deploy on OVH
-  - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
-  - Hybrid: create branch for prod and store prod assets, sync OVH data to this branch and pull when code is updated
-  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23) 
 
 ## TODO
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- Top bar | bug de disparition de la top bar au changement de page
 - Use NuxtPage name with composable for common page setup 
-- Add cache on generated page (swr ?)
+- Add cache on generated page (swr, isr ?)
 - Slice simulator preview not working correctly for some slices
-- setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 
 ## Later
 - Splash Screen
@@ -36,8 +29,19 @@
 ## Abandoned 
 - Create VPageFactory ?
 - CrossNav: Text Reveal
-- 
+- Top bar | bug de disparition de la top bar au changement de page
+
+
 ## Done
+- setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
+- Deploy on OVH
+  - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
+  - Hybrid: create branch for prod and store prod assets, sync OVH data to this branch and pull when code is updated
+  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23) 
+- Add runtime deploy-server-route (not generated in process)
+- update .env SITE_URL
+- enable site on robots.txt
+- check sitemap
 - page transition
 - Page error
 - VTopBar | text reveal

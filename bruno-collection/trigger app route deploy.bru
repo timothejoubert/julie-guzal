@@ -1,0 +1,11 @@
+meta {
+  name: trigger app route deploy
+  type: http
+  seq: 3
+}
+
+post {
+  url: https://staging.julieguzal.fr/api/run-github-actions-deploy
+  body: json
+  auth: none
+}

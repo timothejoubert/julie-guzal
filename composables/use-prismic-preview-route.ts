@@ -5,14 +5,17 @@
 export function usePrismicPreviewRoute() {
     const route = useRoute()
 
-    const searchParams = new URLSearchParams(route.fullPath)
-    const documentID = searchParams.get('documentId')
-    const previewToken = searchParams.get('token')
-    const websitePreviewId = searchParams.get('websitePreviewId')
+    const searchParams = computed(() => new URLSearchParams(route.fullPath))
+    const documentID = computed(() => searchParams.value.get('documentId'))
+    const previewToken = computed(() => searchParams.value.get('token'))
+    const websitePreviewId = computed(() => searchParams.value.get('websitePreviewId'))
 
     const runtimeConfig = useRuntimeConfig()
     const previewPath = runtimeConfig.public?.prismic?.preview
-    const isPreview = route.fullPath.includes(`/${previewPath}`) || !!documentID
+
+    const isPreview = computed(() => {
+        return route.path.includes(`${previewPath}`) && !!documentID.value
+    })
 
     return { isPreview, documentID, previewToken, websitePreviewId }
 }

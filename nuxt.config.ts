@@ -56,12 +56,14 @@ export default defineNuxtConfig({
         },
     },
     runtimeConfig: {
+        githubUserToken: '',
+        prismicWebhookSecret: '',
         public: {
             version,
             site: {
-                name: 'Julie Guzal Preprod',
-                url: 'http://localhost:3000',
-                environment: 'development',
+                name: 'Julie Guzal',
+                url: '',
+                environment: '',
             },
         },
     },
@@ -73,6 +75,7 @@ export default defineNuxtConfig({
         'assets/backup/**',
     ],
     experimental: {
+        payloadExtraction: true,
         inlineRouteRules: true,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
@@ -88,6 +91,12 @@ export default defineNuxtConfig({
         },
         // https://nitro.build/config#routerules
         routeRules: {
+            '/home': { redirect: '/' },
+            '/accueil': { redirect: '/' },
+            '/en': { redirect: '/' },
+            '/about': { redirect: '/contact' },
+            '/en/about': { redirect: '/contact' },
+            '/projects/arturia': { redirect: '/' },
             '/**': {
                 prerender: true,
                 headers: {
@@ -115,7 +124,7 @@ export default defineNuxtConfig({
                 },
             },
             '/prismic-preview': {
-                swr: false,
+                ssr: false,
                 robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
@@ -247,5 +256,4 @@ export default defineNuxtConfig({
         input: '~/assets/images/icons',
         output: '~/assets/images/sprites',
     },
-    target: 'static',
 })

@@ -12,7 +12,7 @@ export async function usePrismicFetchPage(prismicDocument: PrismicDocumentType |
 
     const { documentID } = usePrismicPreviewRoute()
 
-    const key = `page-${prismicDocument}-${uid || documentID || 'single-document'}`
+    const key = `page-${prismicDocument}-${uid || documentID.value || 'single-document'}`
 
     const prismicClient = usePrismic().client
 
@@ -21,7 +21,7 @@ export async function usePrismicFetchPage(prismicDocument: PrismicDocumentType |
             const { fetchLocaleOption } = useLocale()
 
             if (prismicDocument === 'preview') {
-                if (documentID) return await prismicClient.getByID(documentID, { ...fetchLocaleOption.value })
+                if (documentID && documentID.value) return await prismicClient.getByID(documentID.value, { ...fetchLocaleOption.value })
             }
             else if (uid && isDynamicDocument(prismicDocument)) {
                 return await prismicClient.getByUID(prismicDocument, uid, { ...fetchLocaleOption.value })
