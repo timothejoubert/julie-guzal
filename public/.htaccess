@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Redirection de julie-guzal.com vers julieguzal.fr
+RewriteCond %{HTTP_HOST} ^julie-guzal\.com [NC]
+RewriteRule ^(.*)$ https://julieguzal.fr/$1 [L,R=301]
+
+# Redirection de julie-guzal.fr (si avec www) vers julieguzal.fr (sans www)
+RewriteCond %{HTTP_HOST} ^www\.julie-guzal\.fr [NC]
+RewriteRule ^(.*)$ https://julieguzal.fr/$1 [L,R=301]
+
+# Redirection de julieguzal.com vers julieguzal.fr
+RewriteCond %{HTTP_HOST} ^julieguzal\.com [NC]
+RewriteRule ^(.*)$ https://julieguzal.fr/$1 [L,R=301]
+
+# Redirection de www.julieguzal.com vers julieguzal.fr (sans www)
+RewriteCond %{HTTP_HOST} ^www\.julieguzal\.com [NC]
+RewriteRule ^(.*)$ https://julieguzal.fr/$1 [L,R=301]
