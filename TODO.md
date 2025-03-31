@@ -1,4 +1,6 @@
 ## Deploy
+- Ajouter prefetch on nav link
+- Add runtime deploy-server-route (not generated in process)
 - update .env SITE_URL
 - enable site on robots.txt
 - check sitemap

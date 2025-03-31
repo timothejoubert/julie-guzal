@@ -249,5 +249,4 @@ export default defineNuxtConfig({
         input: '~/assets/images/icons',
         output: '~/assets/images/sprites',
     },
-    target: 'static',
 })
