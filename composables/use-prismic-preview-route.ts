@@ -14,9 +14,8 @@ export function usePrismicPreviewRoute() {
     const previewPath = runtimeConfig.public?.prismic?.preview
 
     const isPreview = computed(() => {
-        return route.path.includes(`/${previewPath}`) && !!documentID.value
-    },
-    )
+        return route.path.includes(`${previewPath}`) && !!documentID.value
+    })
 
     return { isPreview, documentID, previewToken, websitePreviewId }
 }
