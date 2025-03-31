@@ -42,7 +42,9 @@ const rootElement = useTemplateElement('rootElement')
                     :to="link.internal_page"
                     :url="link.external_url"
                     :class="$style.link"
-                >
+                    prefetch
+                    prefetch-on="interaction"
+                    >
                     <span
                         class="element-translate"
                         :style="{ '--element-translate-delay': `${i *100 + 400}ms` }"

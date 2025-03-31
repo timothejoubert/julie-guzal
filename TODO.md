@@ -1,4 +1,5 @@
 ## Deploy
+- Add redirection
 - Ajouter prefetch on nav link
 - Add runtime deploy-server-route (not generated in process)
 - update .env SITE_URL
