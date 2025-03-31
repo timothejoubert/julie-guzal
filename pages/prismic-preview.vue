@@ -9,7 +9,7 @@ import type {
 
 // /prismic-preview?token=https://julie-guzal.prismic.io/previews/Z6OzehEAACoACzli:Z6OzhxEAACoACzl4?websitePreviewId%3DZ6FQNhEAACwAB0Gl&documentId=Z5vznhEAAC0A_xZN
 const { isPreview } = usePrismicPreviewRoute()
-console.log('preview page', isPreview.value);
+console.log('preview page', isPreview.value)
 
 const { webResponse } = await usePrismicFetchPage('preview')
 

@@ -21,8 +21,8 @@ export async function usePrismicFetchPage(prismicDocument: PrismicDocumentType |
             const { fetchLocaleOption } = useLocale()
 
             if (prismicDocument === 'preview') {
-                console.log('fetch preview page document', documentID.value);
-                
+                console.log('fetch preview page document', documentID.value)
+
                 if (documentID && documentID.value) return await prismicClient.getByID(documentID.value, { ...fetchLocaleOption.value })
             }
             else if (uid && isDynamicDocument(prismicDocument)) {
