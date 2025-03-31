@@ -93,7 +93,10 @@ export default defineNuxtConfig({
         routeRules: {
             '/home': { redirect: '/' },
             '/accueil': { redirect: '/' },
-            '/fr': { redirect: '/' },
+            '/en': { redirect: '/' },
+            '/about': { redirect: '/contact' },
+            '/en/about': { redirect: '/contact' },
+            '/projects/arturia': { redirect: '/' },
             '/**': {
                 prerender: true,
                 headers: {
