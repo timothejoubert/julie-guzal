@@ -91,6 +91,9 @@ export default defineNuxtConfig({
         },
         // https://nitro.build/config#routerules
         routeRules: {
+            '/home': { redirect: '/' },
+            '/accueil': { redirect: '/' },
+            '/fr': { redirect: '/' },
             '/**': {
                 prerender: true,
                 headers: {
@@ -118,7 +121,7 @@ export default defineNuxtConfig({
                 },
             },
             '/prismic-preview': {
-                swr: false,
+                ssr: false,
                 robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
