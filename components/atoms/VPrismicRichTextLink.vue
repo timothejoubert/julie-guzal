@@ -53,11 +53,36 @@ function copyToClipBoard(_event: MouseEvent) {
 
 <style lang="scss" module>
 .mail-to {
+    position: relative;
     padding: 0;
     border: none;
     margin: 0;
     background-color: initial;
     cursor: pointer;
+    text-decoration: underline;
+
+    @media (hover: 'hover') {
+        &:after {
+            position: absolute;
+            content: '';
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--theme-color-on-background);
+            transform-origin: left;
+            scale: 0 1;
+            transition: scale 0.2s ease(out-quad);
+        }
+
+        &:hover:after {
+            scale: 1 1;
+        }
+    }
+
+    @include media('>lg') {
+        text-decoration: initial;
+    }
 }
 
 .link {
