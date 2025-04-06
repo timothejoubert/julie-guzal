@@ -1,0 +1,15 @@
+meta {
+  name: GetDocuments
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{API_URL}}?documentType=contact
+  body: none
+  auth: inherit
+}
+
+params:query {
+  documentType: contact
+}
