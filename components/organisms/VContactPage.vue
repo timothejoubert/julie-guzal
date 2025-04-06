@@ -191,14 +191,14 @@ useHead({
 
 .right__column {
     display: flex;
+    max-width: 60ch;
     align-items: flex-end;
     margin-top: rem(48);
     grid-column: 1 / -1;
-    max-width: 60ch;
 
     @include media('>=md') {
-        grid-column: 7 / -1;
         margin-top: rem(126);
+        grid-column: 7 / -1;
     }
 
     @include media('>=lg') {

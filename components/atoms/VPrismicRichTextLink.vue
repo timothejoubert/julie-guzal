@@ -62,20 +62,20 @@ function copyToClipBoard(_event: MouseEvent) {
     text-decoration: underline;
 
     @media (hover: 'hover') {
-        &:after {
+        &::after {
             position: absolute;
-            content: '';
-            left: 0;
-            bottom: 0;
             right: 0;
+            bottom: 0;
+            left: 0;
             height: 1px;
             background-color: var(--theme-color-on-background);
-            transform-origin: left;
+            content: '';
             scale: 0 1;
+            transform-origin: left;
             transition: scale 0.2s ease(out-quad);
         }
 
-        &:hover:after {
+        &:hover::after {
             scale: 1 1;
         }
     }
