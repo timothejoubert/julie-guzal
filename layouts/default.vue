@@ -5,17 +5,17 @@ import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 callOnce(async () => {
     const route = useRoute()
     const isWildCardPage = route.matched?.find(match => match.path === '/:uid(.*)*')
+    if (!isWildCardPage) return
 
-    if (isWildCardPage) {
-        const pageType = getDocumentTypeByUrl(route.path)
+    const pageType = getDocumentTypeByUrl(route.path)
 
-        if (pageType) {
-            const { webResponse } = await usePrismicFetchPage(pageType)
-            useCurrentPage({ webResponse })
-        }
-    }
+    const { webResponse } = await usePrismicFetchPage(pageType)
+    const currentPage = useCurrentPage()
+
+    if (webResponse) currentPage.value = { webResponse }
 })
 
+console.log('default layout')
 const appConfig = useAppConfig()
 </script>
 

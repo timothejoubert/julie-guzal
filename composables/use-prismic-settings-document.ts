@@ -1,15 +1,14 @@
 const DATA_KEY = 'settings-document'
 
 export async function usePrismicSettingsDocument() {
-    const nuxtApp = useNuxtApp()
+    const prismicClient = usePrismic().client
 
     const { data } = await useAsyncData(DATA_KEY, async () => {
-        const prismicClient = usePrismic().client
-
-        return await prismicClient.getSingle('settings')
+        return prismicClient.getSingle('settings')
     }, {
-        getCachedData: key => nuxtApp.static.data[key] ?? nuxtApp.payload.data[key], // no re-fetch data if the key is already in the payload
-        dedupe: 'defer', // wait for the first request to finish before making another request
+        getCachedData: (key, nuxtApp) => nuxtApp.static.data[key] ?? nuxtApp.payload.data[key],
+        dedupe: 'defer',
+        deep: false,
     })
 
     return data.value

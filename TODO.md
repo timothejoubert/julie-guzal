@@ -1,4 +1,5 @@
 ## Deploy
+- 404 page isn't displayed (ex: https://julieguzal.fr/en/)
 - Add redirection
 - Ajouter prefetch on nav link
 - check lightSpeed (seo, a11y, perf)

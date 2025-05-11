@@ -18,6 +18,7 @@ export async function usePrismicSeoMeta(webResponse?: PrismicWebResponse) {
     const nuxtApp = useNuxtApp()
     const settingDocument = await usePrismicSettingsDocument()
     const runtimeConfig = useRuntimeConfig()
+    const siteUrl = runtimeConfig.public.site.name
 
     const siteName = settingDocument?.data?.site_name || (nuxtApp.$config.siteName as string) || ''
     const title = webResponse?.data?.meta_title || webResponse?.data?.title || siteName
@@ -38,10 +39,10 @@ export async function usePrismicSeoMeta(webResponse?: PrismicWebResponse) {
                     provider: 'imgix',
                 },
             )
-        : joinURL(runtimeConfig.public.site.url, 'share.jpg')
+        : joinURL(siteUrl, 'share.jpg')
 
     const { fullPath } = useRoute()
-    const canonicalUrl = joinURL(runtimeConfig.public.site.url, fullPath)
+    const canonicalUrl = joinURL(siteUrl, fullPath)
 
     useSeoMeta({
         ogSiteName: siteName,

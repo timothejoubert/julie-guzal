@@ -1,4 +1,4 @@
-<script  lang="ts" setup="">
+<script  lang="ts" setup>
 const settings = await usePrismicSettingsDocument()
 const socials = settings?.data.socials
 </script>
