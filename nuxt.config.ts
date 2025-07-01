@@ -1,4 +1,3 @@
-import path from 'path'
 import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { endpoint } from '#root/slicemachine.config.json'
@@ -89,9 +88,6 @@ export default defineNuxtConfig({
             // enabled by default with nuxt generate, not required
             crawlLinks: true, // true by default if pnpm generate
             routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
-        },
-        output: {
-            publicDir: path.join(__dirname, '/app'),
         },
         // https://nitro.build/config#routerules
         routeRules: {
