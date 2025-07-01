@@ -80,15 +80,15 @@ export default defineNuxtConfig({
     ],
     experimental: {
         payloadExtraction: true,
-        inlineRouteRules: true,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
     compatibilityDate: '2024-07-09',
     nitro: {
+        compressPublicAssets: true,
+        minify: true,
         prerender: {
-            // enabled by default with nuxt generate, not required
-            crawlLinks: true, // true by default if pnpm generate
+            // crawlLinks: true, // enabled by default with nuxt generate, not required
             routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
         },
         // https://nitro.build/config#routerules
@@ -100,7 +100,9 @@ export default defineNuxtConfig({
             '/en/about': { redirect: '/contact' },
             '/projects/arturia': { redirect: '/' },
             '/**': {
-                prerender: true,
+                prerender: true, // pre-rendered at build time
+                ssr: true, // when prerendered, it will have the full html of the page present, not an empty div
+                isr: true, //  generated on demand once until next deployment, cached on CDN
                 headers: {
                     // 'Access-Control-Allow-Origin': 'Same-Origin \'self\' \'http://localhost:3000\' \'https://i.ytimg.com\'',
                     'Access-Control-Allow-Origin': '*',
@@ -125,23 +127,22 @@ export default defineNuxtConfig({
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
             },
-            '/prismic-preview': {
-                ssr: false,
-                robots: false,
-                headers: {
-                    'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
-                },
-            },
-            '/slice-smulator': {
-                prerender: false,
-                robots: false,
-            },
             '/_stories/**': {
                 prerender: false,
                 robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex',
                 },
+            },
+            '/prismic-preview': {
+                prerender: false,
+                ssr: false, // Client-Side rendered
+                robots: false,
+            },
+            '/slice-smulator': {
+                prerender: false,
+                ssr: false, // Client-Side rendered
+                robots: false,
             },
         },
     },

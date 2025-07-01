@@ -1,8 +1,8 @@
 import { joinURL } from 'ufo'
 import { getText } from '~/utils/prismic/prismic-rich-field.js'
-import type { PrismicWebResponse } from '~/composables/use-prismic-fetch-page'
+import type { ReachableDocument } from '~/types/api'
 
-function getDescription(webResponse: PrismicWebResponse | undefined) {
+function getDescription(webResponse: ReachableDocument | undefined) {
     const data = webResponse?.data
     if (!data) return
 
@@ -14,13 +14,12 @@ function getDescription(webResponse: PrismicWebResponse | undefined) {
     return
 }
 
-export async function usePrismicSeoMeta(webResponse?: PrismicWebResponse) {
-    const nuxtApp = useNuxtApp()
+export async function usePrismicSeoMeta(webResponse?: ReachableDocument) {
     const settingDocument = await usePrismicSettingsDocument()
     const runtimeConfig = useRuntimeConfig()
-    const siteUrl = runtimeConfig.public.site.name
+    const siteUrl = runtimeConfig.public.site.url
+    const siteName = settingDocument?.data?.site_name || runtimeConfig.public.site.name
 
-    const siteName = settingDocument?.data?.site_name || (nuxtApp.$config.siteName as string) || ''
     const title = webResponse?.data?.meta_title || webResponse?.data?.title || siteName
     const description = webResponse?.data?.meta_description || getDescription(webResponse)
     const apiImgUrl = webResponse?.data?.meta_image?.url || webResponse?.data?.image?.url

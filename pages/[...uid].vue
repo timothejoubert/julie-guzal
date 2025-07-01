@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 import { cardPageTransition } from '~/transitions/card-transition'
+import type { ReachableDocument } from '~/types/api'
 import type {
     ContactPageDocument,
     GalleryPageDocument,
@@ -13,11 +14,6 @@ definePageMeta({
     pageTransition: cardPageTransition, // defaultPageTransition,
 })
 
-defineRouteRules({
-    prerender: true,
-    // isr: 60 * 60, // 1 hour
-})
-
 const route = useRoute()
 const pageType = getDocumentTypeByUrl(route.path)
 
@@ -28,7 +24,7 @@ if (!pageType) {
     })
 }
 
-const { webResponse, error } = await usePrismicFetchPage(pageType)
+const { webResponse, error } = await usePrismicFetchPage<ReachableDocument>(pageType)
 
 if (error) {
     showError(error)
@@ -43,9 +39,9 @@ const alternateLinks = usePrismicHead(webResponse)
 const settings = await usePrismicSettingsDocument()
 
 const title = computed(() => {
-    const pageTitle = webResponse?.data.meta_title || webResponse?.data.title
+    if (webResponse?.data.meta_title) return webResponse?.data.meta_title
     const siteName = settings?.data?.site_name || useRuntimeConfig().public.site.name
-    return `${pageTitle} | ${siteName}`
+    return `${webResponse?.data.title} | ${siteName}`
 })
 
 usePage({
