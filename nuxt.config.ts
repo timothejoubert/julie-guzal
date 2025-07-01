@@ -86,9 +86,10 @@ export default defineNuxtConfig({
     },
     compatibilityDate: '2024-07-09',
     nitro: {
+        compressPublicAssets: true,
+        minify: true,
         prerender: {
-            // enabled by default with nuxt generate, not required
-            crawlLinks: true, // true by default if pnpm generate
+            // crawlLinks: true, // enabled by default with nuxt generate, not required
             routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
         },
         // https://nitro.build/config#routerules
@@ -100,7 +101,9 @@ export default defineNuxtConfig({
             '/en/about': { redirect: '/contact' },
             '/projects/arturia': { redirect: '/' },
             '/**': {
-                prerender: true,
+                prerender: true, // pre-rendered at build time
+                ssr: true, // when prerendered, it will have the full html of the page present, not an empty div
+                isr: true, //  generated on demand once until next deployment, cached on CDN
                 headers: {
                     // 'Access-Control-Allow-Origin': 'Same-Origin \'self\' \'http://localhost:3000\' \'https://i.ytimg.com\'',
                     'Access-Control-Allow-Origin': '*',
