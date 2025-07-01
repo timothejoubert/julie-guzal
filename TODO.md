@@ -1,13 +1,18 @@
 ## Deploy
 - 404 page isn't displayed (ex: https://julieguzal.fr/en/)
+- Ajouter les regles de cache
 - Add redirection
+- enlever payload
+- enlever prismic preview sur prod
+
 - Ajouter prefetch on nav link
 - check lightSpeed (seo, a11y, perf)
 - check meta seo
+- add canonical url
 - Auto deploy (build or generate)
 - image share
-- balise canonical
 - update node version (netlify and package)
+- ajouter nuxtRouterAnnouncer
 
 ## In progress
 - debug VDraggableScroll

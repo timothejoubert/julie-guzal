@@ -12,6 +12,7 @@
         "build": "nuxi build",
         "analyze": "nuxi analyze",
         "generate": "nuxi generate",
+        "generate:prod": "nuxi generate --dotenv .env.prod",
         "preview": "nuxi preview",
         "prepare": "nuxi prepare && husky .husky",
         "postinstall": "nuxi prepare",

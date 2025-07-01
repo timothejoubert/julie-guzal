@@ -8,6 +8,7 @@ import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
 import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 
 const isDev = process.env.NODE_ENV === 'development'
+const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
 
 export default defineNuxtConfig({
     // Setup app modules
@@ -41,11 +42,13 @@ export default defineNuxtConfig({
                 { rel: 'manifest', href: '/favicon/site.webmanifest' },
             ],
             script: [
-                {
-                    src: `https://static.cdn.prismic.io/prismic.js?new=true&repo=${prismicData.repositoryName}`,
-                    async: true,
-                    defer: true,
-                },
+                isProd
+                    ? undefined
+                    : {
+                            src: `https://static.cdn.prismic.io/prismic.js?new=true&repo=${prismicData.repositoryName}`,
+                            async: true,
+                            defer: true,
+                        },
             ],
         },
     },
@@ -61,7 +64,7 @@ export default defineNuxtConfig({
         public: {
             version,
             site: {
-                name: 'Julie Guzal',
+                name: 'Julie Guzal | dev',
                 url: '',
                 environment: '',
             },
@@ -84,7 +87,8 @@ export default defineNuxtConfig({
     nitro: {
         prerender: {
             // enabled by default with nuxt generate, not required
-            crawlLinks: true,
+            crawlLinks: true, // true by default if pnpm generate
+            routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
         },
         output: {
             publicDir: path.join(__dirname, '/app'),
@@ -229,7 +233,7 @@ export default defineNuxtConfig({
     prismic: {
         endpoint,
         preview: nuxtPage.PREVIEW,
-        toolbar: true,
+        toolbar: !isProd,
         clientConfig: {
             routes: prismicDocumentRoutes,
         },
