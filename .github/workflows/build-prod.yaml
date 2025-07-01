@@ -2,13 +2,13 @@ name: Deploy prod
 
 on:
     push:
-        branches:
-            - main
         tags: ['**']
 
     repository_dispatch:
         types:
-            - prismic_publish_trigger
+            - custom_bruno_trigger # use for manual or test purpose (bruno)
+            - preprod_api_publish_trigger # send by nuxt api route (/server/api/run-gh-dispatched.post.ts)
+            - netlify_function_publish_trigger # send by netlify function (/netlify/functions/run-gh-dispatched.mts)
 
 jobs:
     # Cancel previous builds to avoid build stacking
@@ -53,10 +53,10 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: appBuild
-                  path: app
+                  path: .output/public
                   if-no-files-found: error
 
-            - run: ls -lah app
+            - run: ls -lah .output/public
 
     # This workflow contains a single job called "SFTP-Deploy-Action"
     SFTP-Deploy-Action:
@@ -79,7 +79,7 @@ jobs:
               uses: actions/download-artifact@v4
               with:
                   name: appBuild
-                  path: app
+                  path: .output/public
 
             - name: SFTP deploy
               uses: milanmk/actions-file-deployer@master
@@ -90,7 +90,7 @@ jobs:
                   remote-user: ${{ secrets.FTP_USER }}
                   remote-password: ${{ secrets.FTP_PASSWORD }}
                   # Path for specific folder on server for files deployment
-                  local-path: app
+                  path: .output/public
                   remote-path: /home/juliegd/www
                   # Transfer all files (useful for first deploy)
                   sync: full

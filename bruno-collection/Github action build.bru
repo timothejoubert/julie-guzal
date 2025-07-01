@@ -13,11 +13,12 @@ post {
 headers {
   Accept: application/vnd.github+json
   Authorization: token {{GITHUB_ACCESS_TOKEN}}
+  User-Agent: julie-guzal/1.0
 }
 
 body:json {
   { 
-    "event_type": "{{WEBHOOK_NAME}}",
+    "event_type": "custom_bruno_trigger",
     "client_payload": {
       "unit": "false",
       "integration": "true"
