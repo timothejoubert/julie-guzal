@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2025-07-01
+
+### 🐛 Bug Fixes
+
+- Fix type and page title
+- Update seo meta
+
+### 💼 Other
+
+- Update nitro config
+- Update nitro page config
+
+### 🎨 Styling
+
+- Add NuxtRouteAnnouncer
+
+### ⚙️ Miscellaneous Tasks
+
+- Update todo and .htaccess
+- Don't use defineRouteRules
+
 ## [1.0.1] - 2025-07-01
 
 ### 💼 Other
