@@ -128,23 +128,22 @@ export default defineNuxtConfig({
                     'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
                 },
             },
-            '/prismic-preview': {
-                ssr: false,
-                robots: false,
-                headers: {
-                    'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
-                },
-            },
-            '/slice-smulator': {
-                prerender: false,
-                robots: false,
-            },
             '/_stories/**': {
                 prerender: false,
                 robots: false,
                 headers: {
                     'X-Robots-Tag': 'noindex',
                 },
+            },
+            '/prismic-preview': {
+                prerender: false,
+                ssr: false, // Client-Side rendered
+                robots: false,
+            },
+            '/slice-smulator': {
+                prerender: false,
+                ssr: false, // Client-Side rendered
+                robots: false,
             },
         },
     },
