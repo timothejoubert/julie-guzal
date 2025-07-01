@@ -1,6 +1,5 @@
 ## Deploy
 - Add redirection
-- check lightSpeed (seo, a11y, perf)
 - check meta seo
 
 ## In progress
@@ -25,6 +24,7 @@
 
 
 ## Done
+- check lightSpeed (seo, a11y, perf)
 - add canonical url
 - ajouter nuxtRouterAnnouncer
 - enlever prismic preview sur prod
