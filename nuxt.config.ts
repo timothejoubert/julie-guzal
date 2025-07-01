@@ -58,8 +58,10 @@ export default defineNuxtConfig({
         },
     },
     runtimeConfig: {
-        githubUserToken: '',
-        prismicWebhookSecret: '',
+        github: {
+            repo: '/timothejoubert/julie-guzal',
+            userToken: '',
+        },
         public: {
             version,
             site: {
