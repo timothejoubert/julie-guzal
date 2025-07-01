@@ -52,8 +52,11 @@ jobs:
             - name: Upload artifacts for deployment job
               uses: actions/upload-artifact@v4
               with:
-                  name: appBuild
-                  path: .output/public
+                  name: SSG_APP
+                  include-hidden-files: true # allow .htaccess file
+                  path: | 
+                    .output/public
+                    !.output/public/.env
                   if-no-files-found: error
 
             - run: ls -lah .output/public
@@ -75,24 +78,26 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Download build app artifact
+            - name: Download SSG_APP artifact
               uses: actions/download-artifact@v4
               with:
-                  name: appBuild
-                  path: .output/public
+                  name: SSG_APP
 
-            - name: SFTP deploy
-              uses: milanmk/actions-file-deployer@master
-              with:
-                  remote-protocol: sftp
-                  # Credentials for SFTP access to server using GitHub secrets
-                  remote-host: ${{ secrets.FTP_HOST }}
-                  remote-user: ${{ secrets.FTP_USER }}
-                  remote-password: ${{ secrets.FTP_PASSWORD }}
-                  # Path for specific folder on server for files deployment
-                  path: .output/public
-                  remote-path: /home/juliegd/www
-                  # Transfer all files (useful for first deploy)
-                  sync: full
-                  # Port for SFTP access to server
-                  remote-port: 22
+            - name: Display structure of downloaded files
+              run: ls -R
+
+            # - name: SFTP deploy
+            #   uses: milanmk/actions-file-deployer@master
+            #   with:
+            #       remote-protocol: sftp
+            #       # Credentials for SFTP access to server using GitHub secrets
+            #       remote-host: ${{ secrets.FTP_HOST }}
+            #       remote-user: ${{ secrets.FTP_USER }}
+            #       remote-password: ${{ secrets.FTP_PASSWORD }}
+            #       # Path for specific folder on server for files deployment
+            #       path: .output/public
+            #       remote-path: /home/juliegd/www
+            #       # Transfer all files (useful for first deploy)
+            #       sync: full
+            #       # Port for SFTP access to server
+            #       remote-port: 22
