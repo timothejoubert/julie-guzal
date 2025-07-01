@@ -2,18 +2,16 @@
 import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 
 // Set current page for component data outside pages
-callOnce(async () => {
-    const route = useRoute()
-    const isWildCardPage = route.matched?.find(match => match.path === '/:uid(.*)*')
-    if (!isWildCardPage) return
-
+// callOnce(async () => {
+const route = useRoute()
+const isWildCardPage = route.matched?.find(match => match.path === '/:uid(.*)*')
+if (isWildCardPage) {
     const pageType = getDocumentTypeByUrl(route.path)
 
     const { webResponse } = await usePrismicFetchPage(pageType)
-    const currentPage = useCurrentPage()
-
-    if (webResponse) currentPage.value = { webResponse }
-})
+    if (webResponse) useCurrentPage().value = { webResponse }
+}
+// })
 
 console.log('default layout')
 const appConfig = useAppConfig()

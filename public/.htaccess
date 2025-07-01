@@ -15,3 +15,6 @@ RewriteRule ^(.*)$ https://julieguzal.fr/$1 [L,R=301]
 # Redirection de www.julieguzal.com vers julieguzal.fr (sans www)
 RewriteCond %{HTTP_HOST} ^www\.julieguzal\.com [NC]
 RewriteRule ^(.*)$ https://julieguzal.fr/$1 [L,R=301]
+
+# Affichage de la page 404 générée par Nuxt
+ErrorDocument 404 /404.html
