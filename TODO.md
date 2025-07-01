@@ -2,8 +2,6 @@
 - Add redirection
 - check lightSpeed (seo, a11y, perf)
 - check meta seo
-- add canonical url
-- ajouter nuxtRouterAnnouncer
 
 ## In progress
 - Ajouter les regles de cache
@@ -27,6 +25,8 @@
 
 
 ## Done
+- add canonical url
+- ajouter nuxtRouterAnnouncer
 - enlever prismic preview sur prod
 - image share
 - update node version (netlify and package)
