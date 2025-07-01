@@ -80,7 +80,6 @@ export default defineNuxtConfig({
     ],
     experimental: {
         payloadExtraction: true,
-        inlineRouteRules: true,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
