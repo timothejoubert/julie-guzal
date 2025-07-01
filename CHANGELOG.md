@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.1] - 2025-07-01
+
+### 💼 Other
+
+- Trigger gh workflow only on tag update
+- Add netlify function
+- Update output dir for ssg
+- Update nuxt secret
+
+### ⚙️ Miscellaneous Tasks
+
+- Update .env and add comment
+
 ## [1.0.0] - 2025-07-01
 
 ### 🚀 Features
