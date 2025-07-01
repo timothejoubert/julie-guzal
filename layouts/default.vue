@@ -17,6 +17,7 @@ const appConfig = useAppConfig()
 </script>
 
 <template>
+    <NuxtRouteAnnouncer />
     <ClientOnly>
         <VGridVisualizer />
         <VMediaViewer />
