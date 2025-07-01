@@ -1,44 +1,38 @@
 ## Deploy
-- 404 page isn't displayed (ex: https://julieguzal.fr/en/)
-- Ajouter les regles de cache
 - Add redirection
-- enlever payload
-- enlever prismic preview sur prod
-
-- Ajouter prefetch on nav link
 - check lightSpeed (seo, a11y, perf)
 - check meta seo
 - add canonical url
-- Auto deploy (build or generate)
-- image share
-- update node version (netlify and package)
 - ajouter nuxtRouterAnnouncer
 
 ## In progress
-- debug VDraggableScroll
+- Ajouter les regles de cache
+- enlever payload
+- Auto deploy (build or generate)
 
 ## TODO
+- debug VDraggableScroll
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - Use NuxtPage name with composable for common page setup 
 - Add cache on generated page (swr, isr ?)
 - Slice simulator preview not working correctly for some slices
+- pageProject: back link sticky ?
 
 ## Later
+- Ajouter prefetch on nav link
 - Splash Screen
 - Page transition home -> project
 
 ## Need review
-- Prerender all page except Preview
-- Preview (Preview page should be build on fly and others prerender)
-- pageProject: back link sticky ?
-- 
-## Abandoned 
-- Create VPageFactory ?
-- CrossNav: Text Reveal
-- Top bar | bug de disparition de la top bar au changement de page
 
 
 ## Done
+- enlever prismic preview sur prod
+- image share
+- update node version (netlify and package)
+- Prerender all page except Preview
+- Preview (Preview page should be build on fly and others prerender)
+- 404 page isn't displayed (ex: https://julieguzal.fr/en/)
 - setup CI/CD with OVH server [tuto](https://help.ovhcloud.com/csm/fr-web-hosting-git-integration?id=kb_article_view&sysparm_article=KB0063755)
 - Deploy on OVH
   - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
@@ -89,19 +83,19 @@
 ## RECETTE: Done
 - hover des liens externes
 - ContatcPage: lien custom dans prismic
-- 
 - Update typo (menu item nav , credit)
-- 
 - verifier si l'import des svg functionne
-- 
 - qualite photo mediaViewer (mauvaise dimension dans prismic)
 - GelleryGrid: crop horizontal d'img dans la gallery
-- 
 - ProjectPage: button back projet couleur
-- 
 - enlever crop sur img contact
 - aligner line au center
 - titre 2 mots a la ligne
-
 - enlever controls vimeo (autoplay)
 - lab (possibilité de mettre des vidéos)
+
+
+## Abandoned 
+- Create VPageFactory ?
+- CrossNav: Text Reveal
+- Top bar | bug de disparition de la top bar au changement de page
