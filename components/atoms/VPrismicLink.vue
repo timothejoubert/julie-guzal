@@ -1,8 +1,10 @@
 <script lang="ts">
-import { h, type PropType } from 'vue'
+import { h } from 'vue'
+import type { PropType } from 'vue'
 import type { NuxtLinkProps } from '#app/components/nuxt-link'
 import { NuxtLink } from '#components'
-import { type PossibleRouteReference, useLinkResolver } from '~/composables/use-link-resolver'
+import { useLinkResolver } from '~/composables/use-link-resolver'
+import type { PossibleRouteReference } from '~/composables/use-link-resolver'
 
 export const vPrismicLinkProps = {
     to: [Object, String] as PropType<PossibleRouteReference>,

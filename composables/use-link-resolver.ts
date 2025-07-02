@@ -8,8 +8,8 @@ import type { PrismicReachableDocumentType, ReachableDocument } from '~/types/ap
 import type { PrismicDocumentRoute } from '~/utils/prismic/route-resolver'
 import { isPrismicDocumentRoute } from '~/utils/prismic/route-resolver'
 
-export type PossibleRouteReference =
-    string | undefined | null | LocationAsRelativeRaw | _RouteRecordBase | ReachableDocument | ContentRelationshipField<PrismicReachableDocumentType> | PrismicDocumentRoute
+export type PossibleRouteReference
+    = string | undefined | null | LocationAsRelativeRaw | _RouteRecordBase | ReachableDocument | ContentRelationshipField<PrismicReachableDocumentType> | PrismicDocumentRoute
 
 export function useLinkResolver(reference: PossibleRouteReference) {
     const siteUrl = useRuntimeConfig().public?.site.url

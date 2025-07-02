@@ -5,7 +5,8 @@ import { VImg, VPicture } from '#components'
 import { imgProps, pictureProps } from '#image/components/_base'
 
 import type { Writeable } from '~/utils/types'
-import { imgixProviderAttributes, type ImgixProviderPropsKeys } from '~/utils/image/imgix'
+import { imgixProviderAttributes } from '~/utils/image/imgix'
+import type { ImgixProviderPropsKeys } from '~/utils/image/imgix'
 import type { PossibleMedia } from '~/composables/use-prismic-media'
 
 export const vPrismicImageProps = {

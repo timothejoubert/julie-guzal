@@ -169,8 +169,8 @@ interface ContactPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type ContactPageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+export type ContactPageDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithoutUID<
       Simplify<ContactPageDocumentData>,
       'contact_page',
       Lang
@@ -245,8 +245,8 @@ interface GalleryPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type GalleryPageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+export type GalleryPageDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithoutUID<
       Simplify<GalleryPageDocumentData>,
       'gallery_page',
       Lang
@@ -321,8 +321,8 @@ interface HomePageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type HomePageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+export type HomePageDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithoutUID<
       Simplify<HomePageDocumentData>,
       'home_page',
       Lang
@@ -397,8 +397,8 @@ interface LabPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type LabPageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+export type LabPageDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithoutUID<
       Simplify<LabPageDocumentData>,
       'lab_page',
       Lang
@@ -477,13 +477,13 @@ interface MenuDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type MenuDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<Simplify<MenuDocumentData>, 'menu', Lang>
+export type MenuDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithoutUID<Simplify<MenuDocumentData>, 'menu', Lang>
 
-type ProjectPageDocumentDataSlicesSlice =
-    | SimpleContentSlice
-    | MediaSlice
-    | CrossNavSlice
+type ProjectPageDocumentDataSlicesSlice
+    = | SimpleContentSlice
+        | MediaSlice
+        | CrossNavSlice
 
 /**
  * Content for Project page documents
@@ -653,8 +653,8 @@ interface ProjectPageDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type ProjectPageDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
+export type ProjectPageDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithUID<
       Simplify<ProjectPageDocumentData>,
       'project_page',
       Lang
@@ -784,21 +784,21 @@ interface SettingsDocumentData {
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type SettingsDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+export type SettingsDocument<Lang extends string = string>
+  = prismic.PrismicDocumentWithoutUID<
       Simplify<SettingsDocumentData>,
       'settings',
       Lang
   >
 
-export type AllDocumentTypes =
-    | ContactPageDocument
-    | GalleryPageDocument
-    | HomePageDocument
-    | LabPageDocument
-    | MenuDocument
-    | ProjectPageDocument
-    | SettingsDocument
+export type AllDocumentTypes
+    = | ContactPageDocument
+        | GalleryPageDocument
+        | HomePageDocument
+        | LabPageDocument
+        | MenuDocument
+        | ProjectPageDocument
+        | SettingsDocument
 
 /**
  * Item in *CrossNav → Default → Primary → Links*
@@ -1300,9 +1300,9 @@ export type ProjectFeedSliceManualChoice = prismic.SharedSliceVariation<
 /**
  * Slice variation for *ProjectFeed*
  */
-type ProjectFeedSliceVariation =
-    | ProjectFeedSliceDefault
-    | ProjectFeedSliceManualChoice
+type ProjectFeedSliceVariation
+    = | ProjectFeedSliceDefault
+        | ProjectFeedSliceManualChoice
 
 /**
  * ProjectFeed Shared Slice

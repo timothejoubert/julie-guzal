@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
+import { getHtmlElement } from '~/utils/ref/get-html-element'
+import type { TemplateElement } from '~/utils/ref/get-html-element'
 
 const mediaViewerInstance = ref<TemplateElement>(null)
 const mediaViewer = ref<HTMLElement | null>(null)

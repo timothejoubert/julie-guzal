@@ -1,5 +1,6 @@
 <script lang="ts">
-import { createTextVNode, type PropType, type VNode } from 'vue'
+import { createTextVNode } from 'vue'
+import type { PropType, VNode } from 'vue'
 import type { SplitText } from '~/utils/split-text'
 
 export type VSplitTextRender = 'all' | 'lines' | 'words' | 'chars'

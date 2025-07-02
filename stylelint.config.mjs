@@ -26,5 +26,5 @@ export default {
         'color-function-notation': null, // do not change rgba() to rgb()
     },
     defaultSeverity: 'warning',
-    ignoreFiles: ['./assets/scss/vendors/**', './dist/**/*.css'],
+    ignoreFiles: ['./assets/scss/vendors/**', './dist/**/*.css', './prismicio-types.d.ts'],
 }

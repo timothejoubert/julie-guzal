@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import type { MasonryMediasSlice } from '~/prismicio-types'
-import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
+import { getHtmlElement } from '~/utils/ref/get-html-element'
+import type { TemplateElement } from '~/utils/ref/get-html-element'
 
 type StoredImage = { el: null | HTMLElement, top: null | number, index: number }
 
