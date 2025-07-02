@@ -15,14 +15,13 @@ export async function usePrismicFetchPage<T extends AllDocumentTypes>(prismicDoc
     const dataKey = `page-${prismicDocument || ''}-${uid || documentId.value || 'single-document'}`
 
     const prismicClient = usePrismic().client
-    const { fetchLocaleOption } = useLocale()
 
     const prismicFetchOptions = {
-        ...fetchLocaleOption.value,
+        ...useLocale().fetchLocaleOption.value,
         brokenRoute: '/404',
     }
 
-    const { data, error } = await useAsyncData(dataKey, async () => {
+    const { data: responseData, error } = await useAsyncData(dataKey, async () => {
         try {
             if (isPreview.value && documentId.value) {
                 return await prismicClient.getByID(documentId.value, prismicFetchOptions)
@@ -33,6 +32,7 @@ export async function usePrismicFetchPage<T extends AllDocumentTypes>(prismicDoc
             else if (prismicDocument && isExistingDocumentType(prismicDocument)) {
                 return await prismicClient.getSingle(prismicDocument, prismicFetchOptions)
             }
+            return { data: '' }
         }
         catch (error) {
             console.error('Error during Prismic document fetch', error)
@@ -45,8 +45,8 @@ export async function usePrismicFetchPage<T extends AllDocumentTypes>(prismicDoc
     })
 
     return {
-        webResponse: data.value as T,
-        documentData: data.value?.data,
+        webResponse: responseData.value as T,
+        documentData: responseData.value?.data,
         error: error.value,
     }
 }

@@ -2,7 +2,7 @@ import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
 import { endpoint } from '#root/slicemachine.config.json'
 import { version } from '#root/package.json'
-import nuxtPage from '#root/constants/nuxt-page'
+import staticPage from '#root/constants/static-page.js'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
 import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 
@@ -79,7 +79,7 @@ export default defineNuxtConfig({
         'assets/backup/**',
     ],
     experimental: {
-        payloadExtraction: true,
+        payloadExtraction: false,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
@@ -120,28 +120,16 @@ export default defineNuxtConfig({
                     ].join('; '),
                 },
             },
+            [staticPage.PREVIEW]: {
+                prerender: false, // Exclude from sitemap and robot.txt
+                robots: false,
+            },
+            '/slice-simulator': {
+                prerender: false, // Exclude from sitemap and robot.txt
+                robots: false,
+            },
             '/_icons': {
                 prerender: false,
-                robots: false,
-                headers: {
-                    'X-Robots-Tag': 'noindex', // Do not index the page and remove it from sitemap
-                },
-            },
-            '/_stories/**': {
-                prerender: false,
-                robots: false,
-                headers: {
-                    'X-Robots-Tag': 'noindex',
-                },
-            },
-            '/prismic-preview': {
-                prerender: false,
-                ssr: false, // Client-Side rendered
-                robots: false,
-            },
-            '/slice-smulator': {
-                prerender: false,
-                ssr: false, // Client-Side rendered
                 robots: false,
             },
         },
@@ -199,7 +187,6 @@ export default defineNuxtConfig({
             code: locale,
             file: `nuxt.${locale}.json`,
         })),
-        // langDir: 'i18n/locales/',
         lazy: true,
         compilation: {
             strictMessage: false, // Allow value to include HTML
@@ -215,6 +202,8 @@ export default defineNuxtConfig({
         screens: {
             xs: 375,
             sm: 480,
+            md: 768,
+            lg: 1024,
             vl: 1280, // initially xl
             xl: 1440,
             xxl: 1600,
@@ -225,13 +214,13 @@ export default defineNuxtConfig({
         densities: '1',
         presets: {
             default: {
-                sizes: 'xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw',
+                sizes: 'xs:100vw md:100vw lg:100vw xl:100vw hd:100vw qhd:100vw',
             },
         },
     },
     prismic: {
         endpoint,
-        preview: nuxtPage.PREVIEW,
+        preview: staticPage.PREVIEW,
         toolbar: !isProd,
         clientConfig: {
             routes: prismicDocumentRoutes,
@@ -239,13 +228,11 @@ export default defineNuxtConfig({
     },
     robots: {
         // provide simple disallow rules for all robots `user-agent: *`
-        disallow: ['/slice-simulator', '/slice-smulator', '/prismic-preview'],
+        disallow: ['/slice-simulator', staticPage.PREVIEW],
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
-        // enabled: !isGenerateMaintenance,
-        exclude: ['/slice-simulator', '/slice-smulator', '/prismic-preview'],
-        credits: false,
+        // exclude: ['/_icons'],
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {

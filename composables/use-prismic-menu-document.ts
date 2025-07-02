@@ -1,16 +1,8 @@
-import type { MenuDocument } from '~/prismicio-types'
+export const DATA_KEY = 'menu-document'
 
-const DATA_KEY = 'menu-document'
 export async function usePrismicMenuDocument() {
-    const cachedData = useNuxtData<MenuDocument>(DATA_KEY)
+    const prismicClient = usePrismic().client
 
-    const { data } = cachedData.data.value
-        ? cachedData
-        : await useAsyncData(DATA_KEY, async () => {
-            const prismicClient = usePrismic().client
-
-            return await prismicClient.getSingle('menu')
-        })
-
+    const { data } = await useAsyncData(DATA_KEY, () => prismicClient.getSingle('menu'))
     return data
 }

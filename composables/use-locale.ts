@@ -18,11 +18,15 @@ export function useLocale() {
     })
 
     const fetchLocaleOption = computed(() => {
-        if (!hasMultipleLocale.value) return undefined
+        if (!hasMultipleLocale.value || !extractLocaleFromUrl.value) {
+            // dont't add locale to option
+            // if Prismic has only one locale setup
+            return undefined
+        }
 
-        if (!extractLocaleFromUrl.value)
-            return undefined // { lang: $i18n.defaultLocale }
-        else return { lang: extractLocaleFromUrl.value }
+        return {
+            lang: extractLocaleFromUrl.value,
+        }
     })
 
     function getLocalizedUrl(url: string) {

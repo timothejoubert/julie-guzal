@@ -1,30 +1,28 @@
-## Deploy
-- Add redirection
-- check lightSpeed (seo, a11y, perf)
-- check meta seo
-
 ## In progress
-- Ajouter les regles de cache
+
 - enlever payload
-- Auto deploy (build or generate)
 
 ## TODO
 - debug VDraggableScroll
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- Use NuxtPage name with composable for common page setup 
 - Add cache on generated page (swr, isr ?)
-- Slice simulator preview not working correctly for some slices
 - pageProject: back link sticky ?
 
 ## Later
+- Add redirection
+- Ajouter les regles de cache
 - Ajouter prefetch on nav link
 - Splash Screen
 - Page transition home -> project
 
 ## Need review
 
-
 ## Done
+- check meta seo
+- Use NuxtPage name with composable for common page setup
+- Slice simulator preview not working correctly for some slices
+- Auto deploy (build or generate)
+- check lightSpeed (seo, a11y, perf)
 - add canonical url
 - ajouter nuxtRouterAnnouncer
 - enlever prismic preview sur prod
