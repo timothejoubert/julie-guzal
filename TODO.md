@@ -10,7 +10,7 @@
 ## TODO
 - debug VDraggableScroll
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- Use NuxtPage name with composable for common page setup 
+- Use NuxtPage name with composable for common page setup
 - Add cache on generated page (swr, isr ?)
 - Slice simulator preview not working correctly for some slices
 - pageProject: back link sticky ?
@@ -21,7 +21,6 @@
 - Page transition home -> project
 
 ## Need review
-
 
 ## Done
 - check lightSpeed (seo, a11y, perf)

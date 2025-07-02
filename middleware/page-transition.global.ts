@@ -24,6 +24,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // Set page direction
     const menu = await usePrismicMenuDocument()
     const menuItems = menu.value?.data.links
+
     const fromIndex = menuItems?.findIndex((item) => {
         return (item.internal_page as { url?: string })?.url === from.path || item.external_url === from.fullPath
     }) || -1
