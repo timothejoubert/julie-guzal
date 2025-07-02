@@ -79,7 +79,7 @@ export default defineNuxtConfig({
         'assets/backup/**',
     ],
     experimental: {
-        payloadExtraction: true,
+        payloadExtraction: false,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
@@ -121,10 +121,14 @@ export default defineNuxtConfig({
                 },
             },
             [staticPage.PREVIEW]: {
-                prerender: false,
+                prerender: false, // Exclude from sitemap and robot.txt
                 robots: false,
             },
-            '/slice-smulator': {
+            '/slice-simulator': {
+                prerender: false, // Exclude from sitemap and robot.txt
+                robots: false,
+            },
+            '/_icons': {
                 prerender: false,
                 robots: false,
             },
@@ -228,9 +232,7 @@ export default defineNuxtConfig({
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
-        // enabled: !isGenerateMaintenance,
-        exclude: ['/slice-simulator', staticPage.PREVIEW],
-        credits: false,
+        // exclude: ['/_icons'],
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {

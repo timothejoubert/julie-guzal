@@ -1,6 +1,7 @@
 {
   "name": "Julie Guzal",
   "short_name": "JulieGuzal",
+  "lang": "en",
   "icons": [
     {
       "src": "./web-app-manifest-192x192.png",
