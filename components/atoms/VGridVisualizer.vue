@@ -42,7 +42,7 @@ useEventListener('keydown', (e) => {
 }
 
 .item {
-    background-color: rgba(255, 0, 0, 10%);
+    background-color: rgb(255, 0, 0, 10%);
     list-style: none;
 }
 </style>

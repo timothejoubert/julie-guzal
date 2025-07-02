@@ -194,7 +194,7 @@ const onVideoEnded = () => (hadInteraction.value = false)
 
         &::after {
             position: absolute;
-            background: linear-gradient(45deg, rgba(0, 0, 0, 80%) 0%, transparent 100%);
+            background: linear-gradient(45deg, rgb(0, 0, 0, 80%) 0%, transparent 100%);
             content: '';
             inset: 0;
         }

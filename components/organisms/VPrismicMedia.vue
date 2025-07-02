@@ -1,6 +1,8 @@
 <script lang="ts">
-import { type Component, h, type PropType } from 'vue'
-import { type VPrismicVideo, type VPrismicImage, LazyVPrismicVideo, LazyVPrismicImage } from '#components'
+import { h } from 'vue'
+import type { Component, PropType } from 'vue'
+import { LazyVPrismicVideo, LazyVPrismicImage } from '#components'
+import type { VPrismicVideo, VPrismicImage } from '#components'
 import type { PossibleMedia } from '~/composables/use-prismic-media'
 
 type VVideoProps = InstanceType<typeof VPrismicVideo>['$props']

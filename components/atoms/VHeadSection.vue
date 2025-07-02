@@ -1,6 +1,7 @@
 <script  lang="ts" setup>
 import type { KeyTextField } from '@prismicio/types'
-import { type PossibleRouteReference, useLinkResolver } from '~/composables/use-link-resolver'
+import { useLinkResolver } from '~/composables/use-link-resolver'
+import type { PossibleRouteReference } from '~/composables/use-link-resolver'
 
 const props = defineProps<{
     title?: string | null
