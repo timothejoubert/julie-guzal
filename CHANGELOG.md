@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.4] - 2025-07-02
+
+### 💼 Other
+
+- Update build-prod.yaml
+- Update build-prod.yaml
+- Update build-prod.yaml and fix file-deployer local-path
+- Update build-prod.yaml
+- Update deps
+- Remove payload from build
+
+### 🚜 Refactor
+
+- Simplify function
+
+### ⚙️ Miscellaneous Tasks
+
+- Update todo
+
 ## [1.0.3] - 2025-07-01
 
 ### 💼 Other
