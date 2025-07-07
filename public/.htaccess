@@ -22,3 +22,19 @@ RewriteRule ^about(?:\.html)?/?$ /contact [R=301,L]
 
 # Affichage de la page 404 générée par Nuxt
 ErrorDocument 404 /404.html
+
+# ---------------------------------------------------
+# 🎥 Cache uniquement splash.webm et splash.mp4 (10 min)
+<IfModule mod_headers.c>
+  <FilesMatch "^splash\.(webm|mp4)$">
+    Header set Cache-Control "public, max-age=600, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "^splash\.(webm|mp4)$">
+    ExpiresDefault "access plus 10 minutes"
+  </FilesMatch>
+</IfModule>
+# ---------------------------------------------------
