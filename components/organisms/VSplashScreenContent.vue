@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-// import lottie from 'lottie-web'
-// import lottieData from '~/assets/lottie/splash-screen-lottie-final.json'
 import LogoSvg from '~/assets/images/logo.svg?component'
 
 const state = useSplashScreenState()
@@ -21,7 +19,7 @@ function onFinish() {
     state.value = 'leave'
 }
 
-const START_LEAVE = 2600
+const START_LEAVE = 400
 const { startCounter } = useCounter({
     duration: START_LEAVE,
     onFinish,
@@ -42,57 +40,24 @@ const rootClasses = computed(() => {
 
 function playVideo() {
     videoEl.value?.play()
-    startCounter()
 }
 
 // VIDEO
 const videoEl = useTemplateRef<HTMLMediaElement>('video')
 onMounted(() => {
-    if (videoEl.value?.readyState === 4) playVideo()
-    else videoEl.value?.addEventListener('canplaythrough', playVideo, { once: true })
+    startCounter()
+    if (videoEl.value?.readyState === 4) {
+        playVideo()
+    }
+    else {
+        videoEl.value?.addEventListener('canplaythrough', playVideo, { once: true })
+        videoEl.value?.addEventListener('canplay', playVideo, { once: true })
+    }
+    window.setTimeout(() => {
+        // Not playing on mobile
+        if (state.value === 'pending' || state.value === 'enter') playVideo()
+    }, videoEl.value ? 3200 : 0)
 })
-
-// LOTTIE animation
-// const lottieContainer = useTemplateElement<HTMLElement>('lottieContainer')
-// const lottieElMounted = ref(false)
-// onMounted(() => {
-//     if (!lottieContainer.value) return
-
-//     const lottieAnimation = lottie.loadAnimation({
-//         container: lottieContainer.value,
-//         renderer: 'canvas',
-//         loop: true,
-//         autoplay: false,
-//         // path: 'https://assets10.lottiefiles.com/packages/lf20_soCRuE.json',
-//         animationData: lottieData,
-//         rendererSettings: {
-//             preserveAspectRatio: 'xMinYMin slice', // Supports the same options as the svg element's preserveAspectRatio property
-//             title: 'Loading screen', // Adds SVG title element for accessible animation title
-//             description: 'Splash screen animation that contain art direction & branding, interactive design.', // Adds SVG desc element for accessible long description of animation
-//             progressiveLoad: false, // Boolean, only svg renderer, loads dom elements when needed. Might speed up initialization for large number of elements.
-//             hideOnTransparent: true, // Boolean, only svg renderer, hides elements when opacity reaches 0 (defaults to true)
-//             className: $style.lottie,
-//         },
-//     })
-
-//     lottieAnimation.addEventListener('complete', () => {
-//         console.log('Lottie animation finished')
-//     })
-
-//     lottieAnimation.addEventListener('loopComplete', () => {
-//         console.log('Lottie animation loopComplete')
-//     })
-
-//     lottieAnimation.addEventListener('data_failed', () => {
-//         console.error('Lottie failed to parse the JSON')
-//     })
-
-//     lottieAnimation.addEventListener('DOMLoaded', () => {
-//         lottieElMounted.value = true
-//         console.log('Lottie animation DOMLoaded')
-//         lottieAnimation.play()
-//     })
-// })
 </script>
 
 <template>
@@ -103,7 +68,7 @@ onMounted(() => {
         aria-live="polite"
         aria-atomic="true"
     >
-        <video
+        <!-- <video
             ref="video"
             :class="$style.video"
             muted
@@ -120,7 +85,7 @@ onMounted(() => {
                 type="video/mp4"
             >
             Votre navigateur ne supporte pas les vidéos HTML5.
-        </video>
+        </video> -->
         <LogoSvg :class="$style.logo" />
         <VSpinner
             :class="$style.spinner"
@@ -146,7 +111,7 @@ onMounted(() => {
     clip-path: inset(0);
     color: var(--theme-color-on-primary);
     inset: 0;
-    transition: clip-path 0.4s ease(out-quad);
+    transition: clip-path 0.5s ease(out-quad);
 
     &--leave {
         clip-path: inset(0 0 100% 0);

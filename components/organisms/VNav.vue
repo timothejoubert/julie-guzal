@@ -45,7 +45,7 @@ const rootElement = useTemplateElement('rootElement')
                 >
                     <span
                         class="element-translate"
-                        :style="{ '--element-translate-delay': `${i *100 + 400}ms` }"
+                        :style="{ '--element-translate-delay': `${i * 100 + 100}ms` }"
                         :class="[$style.label, firstReveal && 'element-translate--reveal']"
                     >{{ link.label }}</span>
                 </VPrismicLink>
