@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.7] - 2025-07-07
+
+### ⚙️ Miscellaneous Tasks
+
+- Run lint-fix
+
 ## [1.0.6] - 2025-07-07
 
 ### 🎨 Styling
