@@ -143,19 +143,19 @@ onMounted(() => {
     justify-content: center;
     border: initial;
     background-color: var(--theme-color-primary);
+    clip-path: inset(0);
     color: var(--theme-color-on-primary);
     inset: 0;
     transition: clip-path 0.4s ease(out-quad);
-    clip-path: inset(0px);
 
     &--leave {
-        clip-path: inset(0px 0px 100% 0px);
+        clip-path: inset(0 0 100% 0);
     }
 }
 
 .video {
-    height: 100%;
     width: auto;
+    height: 100%;
 }
 
 .lottie {
@@ -171,11 +171,11 @@ onMounted(() => {
 
 .logo {
     position: absolute;
+    z-index: 11;
     width: 78px;
     height: auto;
-    z-index: 11;
-    transition: 0.3s ease(out-quad);
     opacity: 0;
+    transition: 0.3s ease(out-quad);
 
     .root--pending & {
         opacity: 1;
