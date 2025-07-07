@@ -1,23 +1,23 @@
 ## In progress
-
-- enlever payload
+- Splash Screen (lottie)
+- Regénérer et upload uniquement la page modifié sur prismic
 
 ## TODO
 - debug VDraggableScroll
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
-- Add cache on generated page (swr, isr ?)
 - pageProject: back link sticky ?
 
 ## Later
 - Add redirection
-- Ajouter les regles de cache
+- Ajouter les regles de cache (.htaccess)
 - Ajouter prefetch on nav link
-- Splash Screen
+
 - Page transition home -> project
 
 ## Need review
 
 ## Done
+- enlever payload
 - check meta seo
 - Use NuxtPage name with composable for common page setup
 - Slice simulator preview not working correctly for some slices
