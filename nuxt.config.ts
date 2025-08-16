@@ -35,10 +35,11 @@ export default defineNuxtConfig({
         head: {
             htmlAttrs: { class: 'app' },
             link: [
-                { rel: 'icon', href: '/favicon/favicon.svg' },
-                { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon/favicon-96x96.png' },
-                { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
-                { rel: 'manifest', href: '/favicon/site.webmanifest' },
+                { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+                { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+                { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' },
+                { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+                { rel: 'manifest', href: '/site.webmanifest' },
             ],
             script: [
                 isProd
@@ -79,6 +80,7 @@ export default defineNuxtConfig({
         'assets/backup/**',
     ],
     experimental: {
+        sharedPrerenderData: true, // shares payload data between pages that are prerendered (always use unique key in useAsyncData)
         payloadExtraction: false,
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
