@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.10] - 2025-09-04
+
+### 🎨 Styling
+
+- Update favicon.svg
+- Add png favicon
+
 ## [1.0.9] - 2025-08-16
 
 ### 🎨 Styling
