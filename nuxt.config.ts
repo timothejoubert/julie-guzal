@@ -1,10 +1,10 @@
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
+import staticPage from '#root/constants/static-page.js'
+import { version } from '#root/package.json'
+import { endpoint } from '#root/slicemachine.config.json'
+import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 import svgLoader from 'vite-svg-loader'
 import prismicData from './slicemachine.config.json'
-import { endpoint } from '#root/slicemachine.config.json'
-import { version } from '#root/package.json'
-import staticPage from '#root/constants/static-page.js'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
-import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
@@ -37,6 +37,7 @@ export default defineNuxtConfig({
             link: [
                 { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
                 { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+                { rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicon-48x48.png' },
                 { rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96x96.png' },
                 { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
                 { rel: 'manifest', href: '/site.webmanifest' },
