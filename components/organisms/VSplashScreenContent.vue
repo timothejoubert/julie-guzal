@@ -1,91 +1,41 @@
 <script lang="ts" setup>
 import LogoSvg from '~/assets/images/logo.svg?component'
+import { SPLASH_ACTIVE_CLASS } from '~/constants/splash-screen'
 
-const state = useSplashScreenState()
-const root = ref<HTMLElement | null>(null)
+const emit = defineEmits<{
+    reveal: []
+    finish: []
+}>()
 
-function onFinish() {
-    if (root.value) {
-        root.value.addEventListener('transitionend', () => {
-            state.value = 'done'
-        }, { once: true })
-    }
-    else {
-        window.setTimeout(() => {
-            state.value = 'done'
-        }, 500)
-    }
+const root = useTemplateRef<HTMLElement>('root')
 
-    state.value = 'leave'
-}
-
-const START_LEAVE = 400
-const { startCounter } = useCounter({
-    duration: START_LEAVE,
-    onFinish,
-    onStart: () => (state.value = 'enter'),
-})
-
-// Style
-const $style = useCssModule()
-const rootClasses = computed(() => {
-    return [
-        $style.root,
-        state.value !== 'pending' && $style['root--started'],
-        state.value === 'pending' && $style['root--pending'],
-        state.value === 'enter' && $style['root--enter'],
-        state.value === 'leave' && $style['root--leave'],
-    ]
-})
-
-function playVideo() {
-    videoEl.value?.play()
-}
-
-// VIDEO
-const videoEl = useTemplateRef<HTMLMediaElement>('video')
+// The animation is pure CSS and starts on first paint (it doesn't wait for
+// hydration). Once mounted, sync the page reveal with the wipe and remove the
+// splash when it's over.
 onMounted(() => {
-    startCounter()
-    if (videoEl.value?.readyState === 4) {
-        playVideo()
+    const wipe = document.documentElement.classList.contains(SPLASH_ACTIVE_CLASS)
+        ? root.value?.getAnimations()[0]
+        : undefined
+
+    if (!wipe) {
+        emit('finish')
+        return
     }
-    else {
-        videoEl.value?.addEventListener('canplaythrough', playVideo, { once: true })
-        videoEl.value?.addEventListener('canplay', playVideo, { once: true })
-    }
-    window.setTimeout(() => {
-        // Not playing on mobile
-        if (state.value === 'pending' || state.value === 'enter') playVideo()
-    }, videoEl.value ? 3200 : 0)
+
+    const elapsed = Number(wipe.currentTime ?? 0)
+    const wipeDelay = Number(wipe.effect?.getComputedTiming().delay ?? 0)
+    window.setTimeout(() => emit('reveal'), Math.max(0, wipeDelay - elapsed))
+
+    wipe.finished.finally(() => emit('finish'))
 })
 </script>
 
 <template>
     <div
         ref="root"
-        :class="rootClasses"
-        :aria-label="$t('splash_screen_loading')"
-        aria-live="polite"
-        aria-atomic="true"
+        :class="$style.root"
+        aria-hidden="true"
     >
-        <!-- <video
-            ref="video"
-            :class="$style.video"
-            muted
-            playsinline
-            loop
-            preload="auto"
-        >
-            <source
-                src="/splash.webm"
-                type="video/webm"
-            >
-            <source
-                src="/splash.mp4"
-                type="video/mp4"
-            >
-            Votre navigateur ne supporte pas les vidéos HTML5.
-        </video> -->
         <LogoSvg :class="$style.logo" />
         <VSpinner
             :class="$style.spinner"
@@ -95,12 +45,10 @@ onMounted(() => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/variables/fonts' as *;
-
 .root {
     position: fixed;
     z-index: 999;
-    display: flex;
+    display: none;
     width: 100%;
     height: 100dvh;
     flex-direction: column;
@@ -108,29 +56,21 @@ onMounted(() => {
     justify-content: center;
     border: initial;
     background-color: var(--theme-color-primary);
-    clip-path: inset(0);
     color: var(--theme-color-on-primary);
     inset: 0;
-    transition: clip-path 0.5s ease(out-quad);
 
-    &--leave {
-        clip-path: inset(0 0 100% 0);
+    // Decorative layer: never catch clicks, taps or wheel/touch scroll
+    pointer-events: none;
+
+    :global(.splash-active) & {
+        display: flex;
+        animation: wipe 0.5s ease(out-quad) 0.5s both;
     }
-}
 
-.video {
-    width: auto;
-    height: 100%;
-}
-
-.lottie {
-    position: absolute;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.3s;
-
-    .root--lottie-mounted & {
-        opacity: 1;
+    @media (prefers-reduced-motion: reduce) {
+        :global(.splash-active) & {
+            display: none;
+        }
     }
 }
 
@@ -139,12 +79,7 @@ onMounted(() => {
     z-index: 11;
     width: 78px;
     height: auto;
-    opacity: 0;
-    transition: 0.3s ease(out-quad);
-
-    .root--pending & {
-        opacity: 1;
-    }
+    animation: fade-out 0.3s ease(out-quad) 0.3s both;
 }
 
 .spinner {
@@ -152,5 +87,21 @@ onMounted(() => {
     right: 24px;
     bottom: 24px;
     margin-top: rem(16);
+}
+
+@keyframes wipe {
+    from {
+        clip-path: inset(0);
+    }
+
+    to {
+        clip-path: inset(0 0 100% 0);
+    }
+}
+
+@keyframes fade-out {
+    to {
+        opacity: 0;
+    }
 }
 </style>
