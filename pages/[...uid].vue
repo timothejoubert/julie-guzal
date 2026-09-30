@@ -33,25 +33,12 @@ else if (!webResponse) {
     showError({ status: 404, statusText: 'can\'t find prismic document' })
 }
 
-await usePrismicSeoMeta(webResponse)
-const alternateLinks = usePrismicHead(webResponse)
-
-const settings = await usePrismicSettingsDocument()
-
-const title = computed(() => {
-    if (webResponse?.data.meta_title) return webResponse?.data.meta_title
-    const siteName = settings?.data?.site_name || useRuntimeConfig().public.site.name
-    return `${webResponse?.data.title} | ${siteName}`
-})
+const { title } = await usePrismicSeoMeta(webResponse)
+usePrismicHead(webResponse)
 
 usePage({
-    title: title.value,
+    title,
     webResponse,
-    alternateLinks,
-})
-
-useHead({
-    title: title.value,
 })
 
 const homeDocument = computed(() => pageType === 'home_page' && webResponse as HomePageDocument)
