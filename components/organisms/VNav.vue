@@ -26,7 +26,7 @@ const rootElement = useTemplateElement('rootElement')
 <template>
     <nav
         ref="rootElement"
-        aria-label="Main"
+        :aria-label="$t('nav.main')"
         :class="rootClasses"
     >
         <ul
