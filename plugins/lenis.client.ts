@@ -1,5 +1,7 @@
 import Lenis from 'lenis'
-import 'lenis/dist/lenis.css'
+// Don't import 'lenis/dist/lenis.css': its `.lenis-stopped { overflow: clip }` turns <html> into a
+// non-scroll container when the page transition calls `lenis.stop()`, which resets the scroll to 0
+// and makes the leaving page jump to its top. Scroll locking is handled by useBodyScrollLock().
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
