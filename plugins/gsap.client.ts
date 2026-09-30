@@ -1,20 +1,13 @@
 import { gsap } from 'gsap'
-import Flip from 'gsap/Flip'
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
-import { ScrollToPlugin } from 'gsap/dist/ScrollToPlugin'
-// import ScrollSmoother from 'gsap/ScrollSmoother'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-export default defineNuxtPlugin((_nuxtApp) => {
-    if (import.meta.client) {
-        gsap.registerPlugin(Flip, ScrollTrigger, ScrollToPlugin)
-    }
+export default defineNuxtPlugin(() => {
+    gsap.registerPlugin(ScrollTrigger)
 
     return {
         provide: {
             gsap,
             scrollTrigger: ScrollTrigger,
-            // flip: Flip,
-            // scrollToPlugin: ScrollToPlugin,
         },
     }
 })
