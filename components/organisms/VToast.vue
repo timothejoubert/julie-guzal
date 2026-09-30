@@ -27,30 +27,37 @@ watch(toasts, (list) => {
 </script>
 
 <template>
-    <TransitionGroup
-        :name="$style['transition-slide-in']"
-        tag="ul"
-        :class="$style.root"
+    <!-- Persistent live region: it is in the DOM before any toast is added, so new messages are announced -->
+    <div
+        role="status"
+        aria-live="polite"
+        aria-atomic="false"
     >
-        <template v-if="toasts.length">
-            <li
-                v-for="toast in toasts"
-                :id="toast.id"
-                :key="toast.id"
-                :class="[$style.toast, toast.type && $style[`toast--type-${toast.type}`]]"
-                class="text-body-sm"
-            >
-                {{ toast.message }}
-                <button
-                    :aria-label="$t('close')"
-                    :class="$style.close"
-                    @click="removeToast(toast)"
+        <TransitionGroup
+            :name="$style['transition-slide-in']"
+            tag="ul"
+            :class="$style.root"
+        >
+            <template v-if="toasts.length">
+                <li
+                    v-for="toast in toasts"
+                    :id="toast.id"
+                    :key="toast.id"
+                    :class="[$style.toast, toast.type && $style[`toast--type-${toast.type}`]]"
+                    class="text-body-sm"
                 >
-                    <VIcon name="close" />
-                </button>
-            </li>
-        </template>
-    </TransitionGroup>
+                    {{ toast.message }}
+                    <button
+                        :aria-label="$t('close')"
+                        :class="$style.close"
+                        @click="removeToast(toast)"
+                    >
+                        <VIcon name="close" />
+                    </button>
+                </li>
+            </template>
+        </TransitionGroup>
+    </div>
 </template>
 
 <style lang="scss" module>

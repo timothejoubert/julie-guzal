@@ -16,16 +16,23 @@ const nextProjectIndex = computed(() => {
 const nextProject = computed(() => {
     return projects.value[nextProjectIndex.value]
 })
+
+const titleId = useId()
 </script>
 
 <template>
-    <section
+    <nav
+        :aria-labelledby="titleId"
         :class="$style.root"
         class="grid"
     >
-        <h1 :class="$style.title">
+        <h2
+            :id="titleId"
+            :class="$style.title"
+            :aria-label="$t('see_more_projects')"
+        >
             {{ $t('more') }}
-        </h1>
+        </h2>
         <ul
             v-if="projects.length"
             :class="$style.list"
@@ -65,7 +72,7 @@ const nextProject = computed(() => {
                 sizes="xs:100vw md:100vw lg:50vw xl:50vw xxl:50vw qhd:50vw"
             />
         </VPrismicLink>
-    </section>
+    </nav>
 </template>
 
 <style lang="scss" module>

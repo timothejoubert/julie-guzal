@@ -85,7 +85,11 @@ const backLinkTheme = computed(() => {
                 :class="$style.content"
             />
         </header>
-        <main :class="$style.main">
+        <main
+            id="main-content"
+            tabindex="-1"
+            :class="$style.main"
+        >
             <LazySliceZone
                 v-if="slices?.length"
                 :slices="slices"

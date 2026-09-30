@@ -27,7 +27,10 @@ useHead({
             :document="document"
             :class="$style['top-bar']"
         />
-        <main>
+        <main
+            id="main-content"
+            tabindex="-1"
+        >
             <LazyVMergedGallerySlice
                 v-if="galleryGridSlices.length"
                 :slices="galleryGridSlices"

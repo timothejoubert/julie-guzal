@@ -74,7 +74,11 @@ console.error('Error page:', props.error)
                 </span>
             </a>
         </header>
-        <main :class="$style.main">
+        <main
+            id="main-content"
+            tabindex="-1"
+            :class="$style.main"
+        >
             <VTextGlitched
                 root-tag="h1"
                 :class="$style.title"

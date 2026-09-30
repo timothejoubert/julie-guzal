@@ -37,7 +37,7 @@ const { firstReveal } = useWebsiteReveal()
 </script>
 
 <template>
-    <div
+    <header
         v-if="!isProject"
         :class="[rootClasses, $attrs.class]"
         class="grid"
@@ -59,12 +59,12 @@ const { firstReveal } = useWebsiteReveal()
         <VNav
             :class="$style.nav"
         />
-    </div>
+    </header>
     <VText
         v-if="description"
         ref="textElement"
         :content="description"
-        tag="h2"
+        tag="p"
         class="element-translate"
         :class="[$style.content, firstReveal && 'element-translate--reveal']"
     />

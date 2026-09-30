@@ -18,12 +18,12 @@ const primary = computed(() => props.slice.primary)
         :slice="slice"
         :class="$style.root"
     >
-        <h1
+        <h2
             v-if="primary.title"
             :class="$style.title"
         >
             {{ primary.title }}
-        </h1>
+        </h2>
         <h2
             v-if="primary.secondary_title"
             :class="$style['secondary-title']"

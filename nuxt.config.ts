@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     app: {
         layoutTransition: false, // Prevent issue with layout without root element
         head: {
-            htmlAttrs: { class: 'app' },
+            htmlAttrs: { lang: 'en', class: 'app' },
             link: [
                 { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
                 { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
