@@ -90,6 +90,8 @@ export default defineNuxtConfig({
             routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
         },
         // https://nitro.build/config#routerules
+        // Static hosting: headers, cache and real 301s are NOT applied from here in production,
+        // they live in `public/.htaccess`. The redirects below only serve `pnpm dev`.
         routeRules: {
             '/home': { redirect: '/' },
             '/accueil': { redirect: '/' },
@@ -100,23 +102,6 @@ export default defineNuxtConfig({
             '/**': {
                 prerender: true, // pre-rendered at build time
                 ssr: true, // when prerendered, it will have the full html of the page present, not an empty div
-                isr: true, //  generated on demand once until next deployment, cached on CDN
-                headers: {
-                    // 'Access-Control-Allow-Origin': 'Same-Origin \'self\' \'http://localhost:3000\' \'https://i.ytimg.com\'',
-                    'Access-Control-Allow-Origin': '*',
-                    // https://web.dev/articles/floc?hl=fr#can_websites_opt_out_of_being_included_in_the_floc_computation
-                    'Permissions-Policy': 'interest-cohort=()',
-                    // Hardening client security policies
-                    // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
-                    'Content-Security-Policy': [
-                        // Only allows these iframe origins
-                        'frame-src \'self\' https://julie-guzal.prismic.io *.youtube-nocookie.com *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com',
-                        // Only allows these script origins
-                        'script-src \'self\' \'unsafe-inline\' https://html2canvas.hertzen.com https://prismic.io https://static.cdn.prismic.io *.googletagmanager.com *.youtube.com *.google.com *.googleapis.com *.gstatic.com',
-                        // Only allows these images origins
-                        // "img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
-                    ].join('; '),
-                },
             },
             [staticPage.PREVIEW]: {
                 prerender: false, // Exclude from sitemap and robot.txt
