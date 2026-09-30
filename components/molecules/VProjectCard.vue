@@ -5,6 +5,8 @@ interface VProjectCardProps {
     project: PossibleProjectPageDocument | null
     skeleton?: boolean
     rootTag?: string
+    // Above-the-fold card (e.g. first card of the home feed): load its image eagerly with a high fetch priority (LCP)
+    priority?: boolean
 }
 
 const props = defineProps<VProjectCardProps>()
@@ -32,6 +34,8 @@ const { image, title, date, tags } = useProjectUtils(props.project)
                 height="414"
                 :alt="image.alt || $t('v_project_card.alt', { projectName: title })"
                 :class="$style.image"
+                :loading="priority ? 'eager' : 'lazy'"
+                :fetchpriority="priority ? 'high' : undefined"
                 sizes="xs:100vw sm:100vw md:100vw lg:50vw xl:50vw hd:50vw qhd:50vw"
             />
             <div

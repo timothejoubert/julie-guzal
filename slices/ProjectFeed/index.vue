@@ -61,6 +61,7 @@ const reveal = computed(() => {
                 <VProjectCard
                     :project="project"
                     root-tag="div"
+                    :priority="i === 0"
                     :class="$style.project"
                 />
             </li>
