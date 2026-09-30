@@ -52,7 +52,7 @@ export default defineNuxtConfig({
     css: ['~/assets/scss/main.scss'],
     router: {
         options: {
-            scrollBehaviorType: 'smooth',
+            scrollBehaviorType: 'auto', // instant: the page transition handles the motion (a smooth scroll would fight Lenis)
         },
     },
     // https://nuxtseo.com/docs/site-config/getting-started/how-it-works
