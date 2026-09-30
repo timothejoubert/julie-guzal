@@ -112,9 +112,6 @@ importers:
       stylelint-config-standard-vue:
         specifier: ^2.0.0
         version: 2.0.0(postcss-html@2.0.0(postcss@8.5.28))(stylelint-config-html@2.0.0(postcss-html@2.0.0(postcss@8.5.28))(stylelint@17.15.0(typescript@5.9.3)))(stylelint-config-recommended-vue@2.0.0(postcss-html@2.0.0(postcss@8.5.28))(stylelint-config-html@2.0.0(postcss-html@2.0.0(postcss@8.5.28))(stylelint@17.15.0(typescript@5.9.3)))(stylelint-config-recommended-scss@17.0.1(postcss@8.5.28)(stylelint@17.15.0(typescript@5.9.3)))(stylelint-config-recommended@18.0.0(stylelint@17.15.0(typescript@5.9.3)))(stylelint@17.15.0(typescript@5.9.3)))(stylelint-config-standard-scss@17.0.0(postcss@8.5.28)(stylelint@17.15.0(typescript@5.9.3)))(stylelint-config-standard@40.0.0(stylelint@17.15.0(typescript@5.9.3)))(stylelint@17.15.0(typescript@5.9.3))
-      stylelint-order:
-        specifier: ^8.1.1
-        version: 8.1.1(stylelint@17.15.0(typescript@5.9.3))
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
