@@ -55,6 +55,13 @@ export default defineNuxtConfig({
             scrollBehaviorType: 'smooth',
         },
     },
+    // https://nuxtseo.com/docs/site-config/getting-started/how-it-works
+    // Shared by @nuxtjs/robots and @nuxtjs/sitemap: only production is indexable
+    // (staging builds output `Disallow: /` and a `noindex` robots meta).
+    site: {
+        env: process.env.NUXT_PUBLIC_SITE_ENV || 'development',
+        indexable: isProd,
+    },
     runtimeConfig: {
         github: {
             repo: '/timothejoubert/julie-guzal',
@@ -223,11 +230,11 @@ export default defineNuxtConfig({
     },
     robots: {
         // provide simple disallow rules for all robots `user-agent: *`
-        disallow: ['/slice-simulator', staticPage.PREVIEW],
+        disallow: ['/slice-simulator', staticPage.PREVIEW, '/_icons'],
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
-        // exclude: ['/_icons'],
+        exclude: ['/_icons', '/_icons/**', '/slice-simulator', staticPage.PREVIEW, `${staticPage.PREVIEW}/**`],
     },
     // https://github.com/nuxt-modules/svg-sprite#options
     // ".DS_Store" file could create an error sometime during parsing svg
