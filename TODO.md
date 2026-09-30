@@ -1,12 +1,12 @@
 ## In progress
 - Mettre à jour les deps
-- Améliorer le fonctionnement du layout masonry dans la page
+- Améliorer le fonctionnement du layout masonry dans la page (dès fois mal placé en fonction du load des medias, optimiser au resize, rendu plus performant, un code plus lisible...)
 - Améliorer le fonctionnement des transitions de page (un peu laggy)
 - Faire un audit A11Y
 - Faire un audit SEO
 - Faire un audit de sécurité
 - Optimisation du code pour augmenter le score pageSpeed
-
+- Fix un bug de changement de slide dans le media viewer, des fois au changement de slide l'image de la slide current resté cachée
 
 ## TODO
 - Splash Screen (lottie)
