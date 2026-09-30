@@ -3,13 +3,16 @@ import type { TransitionProps } from 'vue'
 
 // Below this width the page swap is instant (no animation)
 const MIN_ANIMATED_WIDTH = 700
-// Max time the leaving page waits for the entering page before animating anyway
-const ENTER_TIMEOUT = 2000
+// Max time the transition waits for the entering page hero image before animating anyway
+const HERO_TIMEOUT = 1800
+
+// Set on the image that must be loaded and decoded before the entering page is revealed
+export const TRANSITION_HERO_ATTRIBUTE = 'data-transition-hero'
 
 type Deferred = { promise: Promise<void>, resolve: () => void }
 
 const timelines = new WeakMap<Element, gsap.core.Timeline>()
-// Leave and enter animations start together, once the entering page is ready
+// Leave and enter animations start together, once the entering page is ready (hero decoded)
 let enterReady: Deferred | null = null
 
 function isInstant() {
@@ -26,6 +29,35 @@ function createDeferred(): Deferred {
 
 function wait(ms: number) {
     return new Promise<void>(resolve => window.setTimeout(resolve, ms))
+}
+
+// Resolves when the image is loaded and decoded, when it fails, or after `timeout`
+function waitForImage(img: HTMLImageElement, timeout: number) {
+    return new Promise<void>((resolve) => {
+        const finish = () => {
+            window.clearTimeout(timer)
+            img.removeEventListener('load', decode)
+            img.removeEventListener('error', finish)
+            resolve()
+        }
+        // decode() also waits for a pending load; it rejects on error or when the request changes
+        // (e.g. <source> reselection), in which case the load/error listeners or the timeout take over
+        function decode() {
+            img.decode().then(finish, () => {
+                if (img.complete) finish()
+            })
+        }
+        const timer = window.setTimeout(finish, timeout)
+
+        if (img.complete && !img.naturalWidth) {
+            finish() // broken image: don't wait for nothing
+            return
+        }
+
+        img.addEventListener('load', decode)
+        img.addEventListener('error', finish)
+        decode()
+    })
 }
 
 function killTimeline(el: Element) {
@@ -104,7 +136,7 @@ export const cardPageTransition: TransitionProps = {
         }
 
         // Safety net if no enter hook resolves the gate
-        Promise.race([gate.promise, wait(ENTER_TIMEOUT)]).then(() => {
+        Promise.race([gate.promise, wait(HERO_TIMEOUT + 200)]).then(() => {
             if (timelines.get(el) === tl) tl.play()
         })
     },
@@ -180,11 +212,17 @@ export const cardPageTransition: TransitionProps = {
             })
         }
 
-        // Start on a fresh frame so the first animated frame doesn't absorb the page mount cost
-        requestAnimationFrame(() => {
-            gate?.resolve()
-            if (enterReady === gate) enterReady = null
-            if (timelines.get(el) === tl) tl.play()
+        // Don't reveal the page before its hero image is loaded and decoded (with a timeout)
+        const hero = el.querySelector<HTMLImageElement>(`img[${TRANSITION_HERO_ATTRIBUTE}]`)
+        const ready = hero ? waitForImage(hero, HERO_TIMEOUT) : Promise.resolve()
+
+        ready.then(() => {
+            // Start on a fresh frame so the first animated frame doesn't absorb the page mount cost
+            requestAnimationFrame(() => {
+                gate?.resolve()
+                if (enterReady === gate) enterReady = null
+                if (timelines.get(el) === tl) tl.play()
+            })
         })
     },
     onAfterEnter: () => {
