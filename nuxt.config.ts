@@ -81,6 +81,7 @@ export default defineNuxtConfig({
     },
     ignore: [
         'assets/backup/**',
+        '.claude/**', // AI agents' git worktrees (full project copies)
     ],
     experimental: {
         sharedPrerenderData: true, // shares payload data between pages that are prerendered (always use unique key in useAsyncData)
@@ -125,6 +126,12 @@ export default defineNuxtConfig({
         },
     },
     vite: {
+        server: {
+            watch: {
+                // AI agents' git worktrees contain full project copies (node_modules, .nuxt…)
+                ignored: ['**/.claude/**'],
+            },
+        },
         css: {
             preprocessorOptions: {
                 scss: {

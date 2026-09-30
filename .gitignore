@@ -27,3 +27,6 @@ logs
 !.env.sample
 !.env.stories
 !.env.staging
+
+# AI agents git worktrees
+.claude/worktrees/
