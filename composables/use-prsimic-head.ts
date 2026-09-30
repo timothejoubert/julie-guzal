@@ -1,50 +1,35 @@
 import { joinURL } from 'ufo'
-import type { Script, Link } from '@unhead/vue'
 import type { PrismicWebResponse } from '~/composables/use-prismic-fetch-page'
-import { getFormattedLocale } from '~/composables/use-locale'
-import { I18N_DEFAULT_LOCALE } from '~/constants/i18n'
+
+/**
+ * Canonical URL of the current page, without query string nor hash.
+ * Shared by `<link rel="canonical">` and `og:url` so they always match.
+ */
+export function usePrismicCanonicalUrl(webResponse?: PrismicWebResponse) {
+    const route = useRoute()
+    const siteUrl = useRuntimeConfig().public.site.url
+
+    return joinURL(siteUrl, webResponse?.url || route.path)
+}
 
 export function usePrismicHead(webResponse?: PrismicWebResponse) {
     const nuxtApp = useNuxtApp()
-    const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
 
     const { $i18n } = nuxtApp
 
-    const script: (Script | string)[] = []
-    const link: Link[] = [
-        {
-            rel: 'canonical',
-            href: joinURL(runtimeConfig.public.site.url, webResponse?.url || route.fullPath),
-        },
-    ]
-
-    // ALTERNATE LINKS
-    const alternateLinks = webResponse?.alternate_languages || []
-    if (alternateLinks.length) {
-        alternateLinks.forEach((alternateLink) => {
-            const formattedLocale = getFormattedLocale(alternateLink.lang)
-            const locale = formattedLocale === I18N_DEFAULT_LOCALE ? '' : formattedLocale
-            link.push({
-                hid: `alternate-${alternateLink.lang}`,
-                rel: 'alternate',
-                hreflang: alternateLink.lang,
-                href: joinURL(runtimeConfig.public.site.url, locale, route.fullPath),
-            })
-        })
-    }
-
-    //
     useHead({
         htmlAttrs: {
             lang: $i18n.locale.value,
         },
-        script,
-        link,
+        link: [
+            {
+                rel: 'canonical',
+                href: usePrismicCanonicalUrl(webResponse),
+            },
+        ],
         meta: [
             { name: 'version', content: runtimeConfig.public.version },
         ],
     })
-
-    return alternateLinks
 }

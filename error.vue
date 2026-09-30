@@ -11,6 +11,16 @@ const props = defineProps<{
 
 const statusCode = computed(() => props.error?.statusCode)
 
+const runtimeConfig = useRuntimeConfig()
+const siteName = runtimeConfig.public.site.name
+
+useHead({
+    title: computed(() => {
+        const label = statusCode.value === 404 ? 'Page not found' : 'An error occurred'
+        return siteName ? `${label} | ${siteName}` : label
+    }),
+})
+
 // const { t } = useI18n()
 // const title = computed(() => {
 //     return t('error_code', { code: statusCode.value })
@@ -31,7 +41,6 @@ onMounted(() => {
     })
 })
 
-const runtimeConfig = useRuntimeConfig()
 const siteUrl = runtimeConfig.public.site.url
 
 const dateTime = computed(() => {
