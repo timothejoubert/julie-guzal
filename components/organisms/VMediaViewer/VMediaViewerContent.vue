@@ -118,6 +118,7 @@ function isLandscape(document: PossibleMedia) {
                 >
                     <VPrismicMedia
                         :document="document"
+                        :image="{ loading: Math.abs(index - slideIndex) <= 1 ? 'eager' : 'lazy' }"
                         :class="$style.image"
                         sizes="xs:95vw md:95vw lg:40vw vl:40vw xl:40vw hd:40vw qhd:40vw"
                     />
@@ -232,6 +233,7 @@ function isLandscape(document: PossibleMedia) {
     width: 100%;
     height: 100%;
     align-items: flex-end;
+    scroll-snap-type: x mandatory;
 
     .root--native-cursor-disabled & {
         cursor: none !important;
