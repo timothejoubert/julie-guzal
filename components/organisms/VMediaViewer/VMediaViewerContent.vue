@@ -282,10 +282,6 @@ function isLandscape(document: PossibleMedia) {
     object-fit: contain;
     object-position: center;
     -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
 
     @include media('>=md') {
         max-height: 80vh;

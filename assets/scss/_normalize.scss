@@ -11,8 +11,10 @@
 :where([contenteditable]:not([contenteditable="false"])) {
     -webkit-line-break: after-white-space;
     overflow-wrap: break-word;
+    /* stylelint-disable property-no-deprecated -- still required by Firefox / Chromium for this contenteditable fix */
     -moz-user-modify: read-write;
     -webkit-user-modify: read-write;
+    /* stylelint-enable property-no-deprecated */
     user-select: auto;
 }
 
