@@ -24,6 +24,8 @@ useHead({
             :class="$style['top-bar']"
         />
         <main
+            id="main-content"
+            tabindex="-1"
             class="grid"
             :class="$style.main"
         >
@@ -32,9 +34,12 @@ useHead({
                 :key="index"
                 :class="$style.column"
             >
-                <div :class="$style.title">
+                <component
+                    :is="column.title ? 'h2' : 'div'"
+                    :class="$style.title"
+                >
                     {{ column.title }}
-                </div>
+                </component>
                 <VText
                     :content="column.content"
                     :class="$style.text"
@@ -151,6 +156,7 @@ useHead({
     font-size: rem(20);
     font-weight: 400;
     line-height: 1.25;
+    margin-block: 0;
     text-wrap: balance;
 
     @include media('>=md') {
