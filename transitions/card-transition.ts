@@ -1,10 +1,55 @@
-import gsap from 'gsap'
+import { gsap } from 'gsap'
 import type { TransitionProps } from 'vue'
+
+// Below this width the page swap is instant (no animation)
+const MIN_ANIMATED_WIDTH = 700
+// Max time the leaving page waits for the entering page before animating anyway
+const ENTER_TIMEOUT = 2000
+
+type Deferred = { promise: Promise<void>, resolve: () => void }
+
+const timelines = new WeakMap<Element, gsap.core.Timeline>()
+// Leave and enter animations start together, once the entering page is ready
+let enterReady: Deferred | null = null
+
+function isInstant() {
+    return window.innerWidth < MIN_ANIMATED_WIDTH
+}
+
+function createDeferred(): Deferred {
+    let resolve = () => {}
+    const promise = new Promise<void>((r) => {
+        resolve = r
+    })
+    return { promise, resolve }
+}
+
+function wait(ms: number) {
+    return new Promise<void>(resolve => window.setTimeout(resolve, ms))
+}
+
+function killTimeline(el: Element) {
+    timelines.get(el)?.kill()
+    timelines.delete(el)
+}
+
+function releaseScroll() {
+    const nuxtApp = useNuxtApp()
+    const { enabledScroll } = useBodyScrollLock()
+    const { animationComplete } = usePageTransitionState()
+
+    enabledScroll()
+    nuxtApp.$lenis.start()
+    // The new page is in the flow again: start from its top and resync Lenis with the real scroll position
+    nuxtApp.$lenis.scrollTo(0, { immediate: true, force: true })
+    animationComplete.value = true
+}
 
 export const cardPageTransition: TransitionProps = {
     name: 'card-transition',
+    css: false, // JS only: skip Vue's CSS class toggling and transition style reads
     onLeave: (el, done) => {
-        if (window.innerWidth < 700) {
+        if (isInstant()) {
             done()
             return
         }
@@ -12,19 +57,22 @@ export const cardPageTransition: TransitionProps = {
         const { animationComplete, pageDirection } = usePageTransitionState()
         animationComplete.value = false
 
-        // If leave page animation ended before after page
-        // scrollBar need to be fixed to avoid shift when enter page fixed is the only page in DOM
+        const gate = enterReady = createDeferred()
         const tl = gsap.timeline({
             paused: true,
+            defaults: { force3D: true },
             onComplete() {
-                gsap.set(el, { clearProps: true })
+                timelines.delete(el)
                 done()
             },
         })
+        timelines.set(el, tl)
 
+        // Only transform/opacity are animated (compositor-friendly), no layout property
         if (pageDirection.value === 'forwards') {
             gsap.set(el, {
                 transformOrigin: 'top',
+                willChange: 'transform, opacity',
             })
 
             // Need to finish before enter page to place
@@ -37,21 +85,32 @@ export const cardPageTransition: TransitionProps = {
             })
         }
         else {
+            // Freeze the page where it currently is (position: fixed alone would snap it back to its top)
             gsap.set(el, {
                 position: 'fixed',
+                top: -window.scrollY,
+                left: 0,
                 width: '100%',
                 zIndex: '1100',
                 transformOrigin: 'top',
+                willChange: 'transform',
             })
 
             tl.to(el, {
-                top: '100vh',
+                y: window.innerHeight,
                 duration: 1,
                 ease: 'power3.out',
             })
         }
 
-        tl.play()
+        // Safety net if no enter hook resolves the gate
+        Promise.race([gate.promise, wait(ENTER_TIMEOUT)]).then(() => {
+            if (timelines.get(el) === tl) tl.play()
+        })
+    },
+    onLeaveCancelled: (el) => {
+        killTimeline(el)
+        gsap.set(el, { clearProps: 'all' })
     },
     onBeforeEnter: () => {
         const { disableScroll } = useBodyScrollLock()
@@ -61,46 +120,55 @@ export const cardPageTransition: TransitionProps = {
         nuxtApp.$lenis.stop()
     },
     onEnter: (el, done) => {
-        if (window.innerWidth < 700) {
+        if (isInstant()) {
             done()
             return
         }
-        const { animationComplete, pageDirection } = usePageTransitionState()
+        const { pageDirection } = usePageTransitionState()
+        const gate = enterReady
 
         const tl = gsap.timeline({
             paused: true,
+            defaults: { force3D: true },
             onComplete() {
-                gsap.set(el, { clearProps: true })
-                animationComplete.value = true
+                timelines.delete(el)
+                gsap.set(el, { clearProps: 'all' })
                 done()
             },
         })
+        timelines.set(el, tl)
+
+        const initialState = {
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            maxWidth: `calc(100% - var(--scroll-bar-width, 0px))`,
+            transformOrigin: 'top',
+        }
 
         if (pageDirection.value === 'forwards') {
             gsap.set(el, {
-                position: 'fixed',
-                maxWidth: `calc(100% - var(--scroll-bar-width)`,
-                top: '130vh',
+                ...initialState,
+                y: window.innerHeight * 1.3,
                 scale: 1.1,
-                transformOrigin: 'top',
+                willChange: 'transform',
             })
 
             tl.to(el, {
+                y: 0,
                 scale: 1,
-                top: 0,
                 duration: 1,
                 ease: 'power2.out',
             })
         }
         else {
-            tl.set(el, {
-                position: 'fixed',
-                width: '100%',
+            gsap.set(el, {
+                ...initialState,
                 y: -60,
-                maxWidth: `calc(100% - var(--scroll-bar-width)`,
                 opacity: 0.3,
                 scale: 0.9,
-                transformOrigin: 'top',
+                willChange: 'transform, opacity',
             })
 
             tl.to(el, {
@@ -112,12 +180,22 @@ export const cardPageTransition: TransitionProps = {
             })
         }
 
-        tl.play()
+        // Start on a fresh frame so the first animated frame doesn't absorb the page mount cost
+        requestAnimationFrame(() => {
+            gate?.resolve()
+            if (enterReady === gate) enterReady = null
+            if (timelines.get(el) === tl) tl.play()
+        })
     },
     onAfterEnter: () => {
-        const nuxtApp = useNuxtApp()
-        nuxtApp.$lenis.start()
-        const { enabledScroll } = useBodyScrollLock()
-        enabledScroll()
+        releaseScroll()
+        useNuxtApp().$scrollTrigger?.refresh()
+    },
+    onEnterCancelled: (el) => {
+        // A new navigation started before the end: never leave the scroll locked or Lenis stopped
+        killTimeline(el)
+        gsap.set(el, { clearProps: 'all' })
+        enterReady?.resolve()
+        releaseScroll()
     },
 }
