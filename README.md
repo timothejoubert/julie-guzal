@@ -11,16 +11,22 @@ Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introdu
 ```bash
 npx nuxi@latest init nuxt-starter-timothe
 cd nuxt-starter-timothe
-npx @slicemachine/init@latest --repository nuxt-starter-timothe
-npm run slicemachine
+npx prismic init --repo nuxt-starter-timothe
+```
+
+Content models are edited in the Prismic Type Builder, then synced locally with the Prismic CLI:
+
+```bash
+npx prismic pull       # pull types and slices from Prismic
+pnpm type-gen          # regenerate prismicio-types.d.ts
 ```
 
 ### Local setup
 * Clone skeleton project [Nuxt | Prismic starter](https://github.com/timothejoubert/nuxt-prismic-skeleton)
 * Update .env file from .sample.env (PRISMIC_REPOSITORY_NAME)
-* Init Slice machine in local (npx @slicemachine/init@latest --repository [repo-name])
+* Init Prismic in local (npx prismic init --repo [repo-name])
 * Push on your github repo
-* Sync slice_model data on prismic repo from local slice machine
+* Sync models with `npx prismic pull` / `npx prismic push`
 
 ### Preprod on netlify
 * Login in your Netlify account

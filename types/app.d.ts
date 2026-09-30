@@ -1,4 +1,4 @@
-import type { ContentRelationshipField } from '@prismicio/types'
+import type { ContentRelationshipField } from '@prismicio/client'
 import type { PickPrismicDocument, PrismicDocumentType } from '~/types/api'
 import type { ProjectPageDocument } from '~/prismicio-types'
 

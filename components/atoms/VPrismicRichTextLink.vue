@@ -1,10 +1,9 @@
 <script  lang="ts" setup>
-import type { RTLinkNode } from '@prismicio/types'
+import type { RTLinkNode } from '@prismicio/client'
 import type { RichTextComponentProps } from '@prismicio/vue'
 
 const props = defineProps<RichTextComponentProps<RTLinkNode>>()
 
-const label = computed(() => props.node?.text)
 const linkData = computed(() => props.node.data)
 const url = computed(() => linkData.value.url)
 
@@ -44,11 +43,12 @@ function copyToClipBoard(_event: MouseEvent) {
     <VPrismicLinkIcon
         v-else
         :to="linkData.url"
-        :label="label"
         icon-size="6"
         icon-name="arrow-right-top-xs"
         :class="$style.link"
-    />
+    >
+        <slot />
+    </VPrismicLinkIcon>
 </template>
 
 <style lang="scss" module>

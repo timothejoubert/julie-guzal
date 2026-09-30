@@ -2,7 +2,7 @@ import withNuxt from './.nuxt/eslint.config.mjs'
 
 export default withNuxt(
     {
-        ignores: ['dist', '.output', './prismicio-types.d.ts'],
+        ignores: ['dist', '.output', './prismicio-types.d.ts', './slices/index.ts'],
     },
 ).override('nuxt/vue/rules', {
     rules: {

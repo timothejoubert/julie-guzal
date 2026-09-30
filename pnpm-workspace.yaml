@@ -1,0 +1,19 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@scarf/scarf': false # telemetry only
+  core-js: false # postinstall only prints a banner
+  esbuild: true
+  unrs-resolver: true
+  vue-demi: true
+
+overrides:
+  # typescript-eslint doesn't support TS 7.0 yet (github.com/typescript-eslint/typescript-eslint/issues/10940)
+  # — force the whole graph onto the last 5.x line so `pnpm lint:js` can run at all.
+  typescript: ^5.9.3
+  # stylelint-config-idiomatic-order is unmaintained and pins stylelint-order@6 (no stylelint 17 support)
+  stylelint-config-idiomatic-order>stylelint-order: ^8.1.1
+
+peerDependencyRules:
+  allowedVersions:
+    # transitive peer from nuxt cli, not ours to fix
+    '@bomb.sh/tab>cac': '7'

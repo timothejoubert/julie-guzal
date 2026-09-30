@@ -1,0 +1,7 @@
+{
+  "repositoryName": "julie-guzal",
+  "libraries": [
+    "./slices"
+  ],
+  "routes": []
+}

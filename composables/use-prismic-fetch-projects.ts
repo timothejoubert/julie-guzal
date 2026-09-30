@@ -1,10 +1,8 @@
-import { usePrismic } from '@prismicio/vue'
+import { filter } from '@prismicio/client'
 import type { ProjectPageDocument } from '~/prismicio-types'
 import type { PrismicFetchDocumentsOptions } from '~/composables/use-prismic-fetch-documents'
 
 export function usePrismicFetchProjects(options: PrismicFetchDocumentsOptions = {}, isArchived = false) {
-    const prismicFilter = usePrismic().filter
-
     return usePrismicFetchDocuments<ProjectPageDocument>('project_page', {
         orderings: [
             {
@@ -17,7 +15,7 @@ export function usePrismicFetchProjects(options: PrismicFetchDocumentsOptions = 
             },
         ],
         pageSize: options.pageSize || 20,
-        filters: [prismicFilter.at('my.project_page.archived', isArchived)],
+        filters: [filter.at('my.project_page.archived', isArchived)],
         ...options,
     })
 }

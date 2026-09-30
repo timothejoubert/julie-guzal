@@ -1,8 +1,7 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import { imgProps } from '#image/components/_base'
-import { getInt, parseSize } from '#image/utils'
+import { getInt, imgProps, parseSize } from '~/utils/image/nuxt-image-props'
 
 export const vImgProps = {
     ...imgProps,

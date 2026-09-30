@@ -1,12 +1,10 @@
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
 import staticPage from '#root/constants/static-page.js'
 import { version } from '#root/package.json'
-import { endpoint } from '#root/slicemachine.config.json'
+import { repositoryName } from '#root/prismic.config.json'
 import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
 import svgLoader from 'vite-svg-loader'
-import prismicData from './slicemachine.config.json'
 
-const isDev = process.env.NODE_ENV === 'development'
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
 
 export default defineNuxtConfig({
@@ -15,11 +13,9 @@ export default defineNuxtConfig({
         '@nuxtjs/svg-sprite',
         '@nuxt/image',
         '@nuxtjs/prismic',
-        '@nuxt/image',
         '@nuxtjs/i18n',
         '@vueuse/nuxt',
         '@nuxt/eslint',
-        '@rezo-zero/nuxt-stories',
         '@nuxtjs/sitemap',
         '@nuxtjs/robots',
     ],
@@ -46,7 +42,7 @@ export default defineNuxtConfig({
                 isProd
                     ? undefined
                     : {
-                            src: `https://static.cdn.prismic.io/prismic.js?new=true&repo=${prismicData.repositoryName}`,
+                            src: `https://static.cdn.prismic.io/prismic.js?new=true&repo=${repositoryName}`,
                             async: true,
                             defer: true,
                         },
@@ -77,7 +73,6 @@ export default defineNuxtConfig({
         '#root': __dirname,
     },
     ignore: [
-        isDev ? undefined : 'pages/_stories/**',
         'assets/backup/**',
     ],
     experimental: {
@@ -178,9 +173,6 @@ export default defineNuxtConfig({
         },
     },
     i18n: {
-        bundle: {
-            optimizeTranslationDirective: false,
-        },
         strategy: I18N_LOCALES.length > 1 ? 'prefix_except_default' : 'no_prefix',
         // I18n issue, disabled detectBrowserLanguage work only with empty obj
         // https://github.com/nuxt-modules/i18n/issues/3039
@@ -222,7 +214,7 @@ export default defineNuxtConfig({
         },
     },
     prismic: {
-        endpoint,
+        endpoint: repositoryName,
         preview: staticPage.PREVIEW,
         toolbar: !isProd,
         clientConfig: {
@@ -236,12 +228,6 @@ export default defineNuxtConfig({
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
         // exclude: ['/_icons'],
-    },
-    // https://github.com/rezozero/nuxt-stories
-    stories: {
-        pattern: [
-            '**/*.stories.vue',
-        ],
     },
     // https://github.com/nuxt-modules/svg-sprite#options
     // ".DS_Store" file could create an error sometime during parsing svg

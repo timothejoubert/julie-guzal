@@ -1,8 +1,16 @@
 ## In progress
-- Splash Screen (lottie)
-- Regénérer et upload uniquement la page modifié sur prismic
+- Mettre à jour les deps
+- Améliorer le fonctionnement du layout masonry dans la page
+- Améliorer le fonctionnement des transitions de page (un peu laggy)
+- Faire un audit A11Y
+- Faire un audit SEO
+- Faire un audit de sécurité
+- Optimisation du code pour augmenter le score pageSpeed
+
 
 ## TODO
+- Splash Screen (lottie)
+- Regénérer et upload uniquement la page modifié sur prismic
 - debug VDraggableScroll
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - pageProject: back link sticky ?
@@ -35,7 +43,7 @@
 - Deploy on OVH
   - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
   - Hybrid: create branch for prod and store prod assets, sync OVH data to this branch and pull when code is updated
-  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23) 
+  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23)
 - Add runtime deploy-server-route (not generated in process)
 - update .env SITE_URL
 - enable site on robots.txt
@@ -75,7 +83,7 @@
 - Color theme logic
 - Style typo
 - Deploy preprod
-- attrs and seo meta 
+- attrs and seo meta
 
 
 ## RECETTE: Done
@@ -93,7 +101,7 @@
 - lab (possibilité de mettre des vidéos)
 
 
-## Abandoned 
+## Abandoned
 - Create VPageFactory ?
 - CrossNav: Text Reveal
 - Top bar | bug de disparition de la top bar au changement de page

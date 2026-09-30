@@ -1,22 +1,21 @@
 {
-  "id": "media",
-  "type": "SharedSlice",
-  "name": "Media",
   "description": "Media",
+  "id": "media",
+  "name": "Media",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/media/default/0885ff7a5e407a05c110d5cce35a77020f5a1c60.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "spacing": {
-          "type": "Select",
           "config": {
+            "default_value": "none",
             "label": "Spacing",
-            "placeholder": "",
             "options": [
               "none",
               "xs",
@@ -24,58 +23,58 @@
               "md",
               "lg"
             ],
-            "default_value": "none"
-          }
+            "placeholder": ""
+          },
+          "type": "Select"
         },
         "image": {
-          "type": "Image",
           "config": {
-            "label": "Image",
             "constraint": {},
+            "label": "Image",
             "thumbnails": []
-          }
+          },
+          "type": "Image"
         },
         "embed": {
-          "type": "Embed",
           "config": {
             "label": "Embed",
             "placeholder": ""
-          }
+          },
+          "type": "Embed"
         },
         "video": {
-          "type": "Link",
           "config": {
+            "allowText": false,
             "label": "video",
             "placeholder": "",
-            "select": "media",
-            "allowText": false
-          }
+            "select": "media"
+          },
+          "type": "Link"
         },
         "video_autoplay": {
-          "type": "Boolean",
           "config": {
+            "default_value": false,
             "label": "Video autoplay",
             "placeholder_false": "false",
-            "placeholder_true": "true",
-            "default_value": false
-          }
+            "placeholder_true": "true"
+          },
+          "type": "Boolean"
         }
       },
-      "items": {}
+      "version": "initial"
     },
     {
-      "id": "duoMedia",
-      "name": "DuoMedia",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "duoMedia",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/media/duoMedia/205d91f13c60e2a3b6cf4084d52221df99774211.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "DuoMedia",
       "primary": {
         "spacing": {
-          "type": "Select",
           "config": {
+            "default_value": "none",
             "label": "Spacing",
-            "placeholder": "",
             "options": [
               "none",
               "xs",
@@ -83,77 +82,78 @@
               "md",
               "lg"
             ],
-            "default_value": "none"
-          }
+            "placeholder": ""
+          },
+          "type": "Select"
         },
         "main_image": {
-          "type": "Image",
           "config": {
-            "label": "Main image",
             "constraint": {},
+            "label": "Main image",
             "thumbnails": []
-          }
+          },
+          "type": "Image"
         },
         "main_embed": {
-          "type": "Embed",
           "config": {
             "label": "Main embed",
             "placeholder": ""
-          }
+          },
+          "type": "Embed"
         },
         "main_video": {
-          "type": "Link",
           "config": {
+            "allowText": false,
             "label": "Main video",
             "placeholder": "",
-            "select": "media",
-            "allowText": false
-          }
+            "select": "media"
+          },
+          "type": "Link"
         },
         "main_video_autoplay": {
-          "type": "Boolean",
           "config": {
+            "default_value": false,
             "label": "Main video autoplay",
             "placeholder_false": "false",
-            "placeholder_true": "true",
-            "default_value": false
-          }
+            "placeholder_true": "true"
+          },
+          "type": "Boolean"
         },
         "secondary_image": {
-          "type": "Image",
           "config": {
-            "label": "Secondary image",
             "constraint": {},
+            "label": "Secondary image",
             "thumbnails": []
-          }
+          },
+          "type": "Image"
         },
         "secondary_embed": {
-          "type": "Embed",
           "config": {
             "label": "Secondary embed",
             "placeholder": ""
-          }
+          },
+          "type": "Embed"
         },
         "secondary_video": {
-          "type": "Link",
           "config": {
+            "allowText": false,
             "label": "Secondary video",
             "placeholder": "",
-            "select": "media",
-            "allowText": false
-          }
+            "select": "media"
+          },
+          "type": "Link"
         },
         "secondary_video_autoplay": {
-          "type": "Boolean",
           "config": {
+            "default_value": false,
             "label": "Secondary video autoplay",
             "placeholder_false": "false",
-            "placeholder_true": "true",
-            "default_value": false
-          }
+            "placeholder_true": "true"
+          },
+          "type": "Boolean"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

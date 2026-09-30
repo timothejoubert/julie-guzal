@@ -1,5 +1,4 @@
 <script  lang="ts" setup>
-import type { SliceComponentProps } from '@prismicio/vue/src/SliceZone/types'
 import themes from 'assets/scss/export/_themes.module.scss'
 import type { GalleryGridSlice, GalleryPageDocument } from '~/prismicio-types'
 import { components } from '~/slices'
@@ -10,7 +9,7 @@ const props = defineProps<{
 
 const slices = computed(() => props.document.data.slices)
 
-const isGalleryGrid = (slice: SliceComponentProps) => (slice.slice_type === 'gallery_grid')
+const isGalleryGrid = (slice: { slice_type: string }) => (slice.slice_type === 'gallery_grid')
 const galleryGridSlices = computed(() => slices.value.filter(isGalleryGrid) as GalleryGridSlice[])
 const otherSlices = computed(() => slices.value.filter(s => !isGalleryGrid(s)))
 

@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import { asText } from '@prismicio/helpers'
+import { asText } from '@prismicio/client'
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'

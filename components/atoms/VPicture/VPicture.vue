@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
 import pick from 'lodash/pick'
-import { imgProps, pictureProps } from '#image/components/_base'
+import { imgProps, pictureProps } from '~/utils/image/nuxt-image-props'
 import VImg from '~/components/atoms/VImg.vue'
 import VPictureSource from '~/components/atoms/VPicture/VPictureSource.vue'
 

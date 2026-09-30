@@ -1,5 +1,5 @@
-import type { KeyTextField, RichTextField } from '@prismicio/types'
-import { asText } from '@prismicio/helpers'
+import type { KeyTextField, RichTextField } from '@prismicio/client'
+import { asText } from '@prismicio/client'
 
 export type PossibleTextField = KeyTextField | RichTextField | null | undefined | string
 

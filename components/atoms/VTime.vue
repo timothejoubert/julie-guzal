@@ -1,5 +1,5 @@
 <script  lang="ts" setup="">
-import type { DateField } from '@prismicio/types'
+import type { DateField } from '@prismicio/client'
 import { parseDate } from '~/utils/prismic/prismic-date'
 
 const props = withDefaults(defineProps<{

@@ -7,8 +7,8 @@ import type {
     FilledImageFieldImage,
     EmbedField,
     VideoOEmbed, RichTextField,
-} from '@prismicio/types'
-import { LinkType, RichTextNodeType } from '@prismicio/types'
+} from '@prismicio/client'
+import { LinkType, RichTextNodeType } from '@prismicio/client'
 import { hasAllKeys, getObjWithAllKeys, isObject } from '~/utils/object/object-validation'
 import type { CustomEmbedField } from '~/utils/prismic/prismic-media'
 
