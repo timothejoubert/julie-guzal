@@ -21,7 +21,6 @@ const { image, title, date, tags } = useProjectUtils(props.project)
         <VPrismicLink
             :to="project"
             :class="$style['media-wrapper']"
-            rel="noopener nofollow"
             tabindex="-1"
         >
             <VPrismicImage
