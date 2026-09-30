@@ -26,7 +26,7 @@ const mediaGroup = computed(() => {
                     linkToMedia: props.slice.primary.main_video,
                 }),
                 image: {
-                    sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hq:50vw qhd:50vw',
+                    sizes: 'xs:100vw sm:100vw md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw',
                 },
                 video: {
                     thumbnail: getFilledDocument({ image: props.slice.primary.main_image }),
@@ -41,7 +41,7 @@ const mediaGroup = computed(() => {
                     linkToMedia: props.slice.primary.secondary_video,
                 }),
                 image: {
-                    sizes: 'xs:100vw md:100vw lg:50vw xxl:50vw hq:50vw qhd:50vw',
+                    sizes: 'xs:100vw md:100vw lg:50vw xxl:50vw hd:50vw qhd:50vw',
                 },
                 video: {
                     thumbnail: getFilledDocument({ image: props.slice.primary.secondary_image }),
@@ -60,7 +60,7 @@ const mediaGroup = computed(() => {
                 linkToMedia: props.slice.primary.video,
             }),
             image: {
-                sizes: 'xs:100vw md:100vw lg:100vw xxl:100vw hq:100vw qhd:100vw',
+                sizes: 'xs:100vw md:100vw lg:100vw xxl:100vw hd:100vw qhd:100vw',
             },
             video: {
                 thumbnail: getFilledDocument({ image: props.slice.primary.image }),

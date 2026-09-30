@@ -5,6 +5,8 @@ interface VProjectCardProps {
     project: PossibleProjectPageDocument | null
     skeleton?: boolean
     rootTag?: string
+    // Above-the-fold card (e.g. first card of the home feed): load its image eagerly with a high fetch priority (LCP)
+    priority?: boolean
 }
 
 const props = defineProps<VProjectCardProps>()
@@ -21,7 +23,6 @@ const { image, title, date, tags } = useProjectUtils(props.project)
         <VPrismicLink
             :to="project"
             :class="$style['media-wrapper']"
-            rel="noopener nofollow"
             tabindex="-1"
         >
             <VPrismicImage
@@ -33,7 +34,9 @@ const { image, title, date, tags } = useProjectUtils(props.project)
                 height="414"
                 :alt="image.alt || $t('v_project_card.alt', { projectName: title })"
                 :class="$style.image"
-                sizes="xs:100vw sm:100vw md:100vw lg:50vw xl:50vw hq:50vw qhd:50vw"
+                :loading="priority ? 'eager' : 'lazy'"
+                :fetchpriority="priority ? 'high' : undefined"
+                sizes="xs:100vw sm:100vw md:100vw lg:50vw xl:50vw hd:50vw qhd:50vw"
             />
             <div
                 v-else
