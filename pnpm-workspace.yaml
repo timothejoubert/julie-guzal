@@ -12,8 +12,3 @@ overrides:
   typescript: ^5.9.3
   # stylelint-config-idiomatic-order is unmaintained and pins stylelint-order@6 (no stylelint 17 support)
   stylelint-config-idiomatic-order>stylelint-order: ^8.1.1
-
-peerDependencyRules:
-  allowedVersions:
-    # transitive peer from nuxt cli, not ours to fix
-    '@bomb.sh/tab>cac': '7'
