@@ -23,12 +23,12 @@ useHead({
             :document="document"
             :class="$style['top-bar']"
         />
-        <LazySliceZone
-            v-if="slices?.length"
-            :slices="slices"
-            :components="components"
-            wrapper="main"
-        />
+        <main v-if="slices?.length">
+            <LazySliceZone
+                :slices="slices"
+                :components="components"
+            />
+        </main>
     </div>
 </template>
 
