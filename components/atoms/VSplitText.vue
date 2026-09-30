@@ -88,7 +88,7 @@ export default defineComponent({
             const splitNodes = (renderNodes.flat() as VNode[]).map(node => cloneVNode(node, { 'aria-hidden': 'true' }))
 
             return [
-                h('span', { class: $style['visually-hidden'] }, props.content),
+                h('span', { class: 'visually-hidden' }, props.content),
                 ...splitNodes,
             ]
         }
@@ -99,17 +99,5 @@ export default defineComponent({
 <style lang="scss" module>
 .word {
     display: flex;
-}
-
-.visually-hidden {
-    position: absolute;
-    overflow: hidden;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    border: 0;
-    margin: -1px;
-    clip-path: inset(50%);
-    white-space: nowrap;
 }
 </style>

@@ -34,12 +34,12 @@ useHead({
                 :key="index"
                 :class="$style.column"
             >
-                <component
-                    :is="column.title ? 'h2' : 'div'"
+                <h2
+                    v-if="column.title"
                     :class="$style.title"
                 >
                     {{ column.title }}
-                </component>
+                </h2>
                 <VText
                     :content="column.content"
                     :class="$style.text"

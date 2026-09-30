@@ -29,6 +29,7 @@ const titleId = useId()
         <h2
             :id="titleId"
             :class="$style.title"
+            :aria-label="$t('see_more_projects')"
         >
             {{ $t('more') }}
         </h2>
