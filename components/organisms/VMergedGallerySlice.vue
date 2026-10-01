@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { GalleryGridSlice } from '~/prismicio-types'
+import type { ScrollParallaxLayer } from '~/composables/use-scroll-parallax'
 
 const props = defineProps<{
     slices: GalleryGridSlice[]
@@ -40,58 +41,17 @@ function onClick(index: number) {
     mediaViewerIndex.value = index
 }
 
-// TWEENS
-const { $gsap } = useNuxtApp()
-let tweenList: GSAPTween[] = []
+// PARALLAX
+// One scrubbed tween per image, alternating directions
 const elementList = useTemplateRefsList<HTMLDivElement>()
-
-function resetTweens() {
-    if (!tweenList.length) return
-    tweenList.forEach(tween => tween?.scrollTrigger?.refresh())
-}
-
-function initTweens() {
-    if (!elementList.value?.length) {
-        return
-    }
-
-    if (tweenList.length) {
-        resetTweens()
-        return
-    }
-
-    tweenList = []
-    elementList.value.forEach((el, index) => {
-        const tween = $gsap.to(el, {
-            scrollTrigger: {
-                trigger: el,
-                scrub: true,
-                start: 'clamp(top center)',
-                end: 'bottom top',
-                // markers: true,
-            },
-            yPercent: (index % 2) ? 20 : -20,
-            ease: 'none',
-        })
-
-        tweenList.push(tween)
-    })
-}
-
-function killTweens() {
-    if (!tweenList?.length) return
-
-    tweenList.forEach(tween => tween?.kill())
-    tweenList = []
-}
-
-const isLargeScreen = useMediaQuery('(min-width: 768px)', { ssrWidth: 767 })
-watch(isLargeScreen, (value) => {
-    if (value) initTweens()
-    else killTweens()
+const parallaxLayers = computed<ScrollParallaxLayer[]>(() => {
+    return elementList.value.map((el, index) => ({
+        target: el,
+        start: 'clamp(top center)',
+        vars: { yPercent: (index % 2) ? 20 : -20 },
+    }))
 })
-
-onBeforeUnmount(killTweens)
+useScrollParallax(parallaxLayers, { media: '(min-width: 768px)' })
 
 // Reveal
 const rootElement = useTemplateElement('rootElement')
