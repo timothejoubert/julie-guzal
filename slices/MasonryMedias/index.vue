@@ -1,86 +1,73 @@
 <script setup lang="ts">
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { MasonryMediasSlice } from '~/prismicio-types'
-import { getHtmlElement } from '~/utils/ref/get-html-element'
-import type { TemplateElement } from '~/utils/ref/get-html-element'
-
-type StoredImage = { el: null | HTMLElement, top: null | number, index: number }
+import type { MasonryItem } from '~/utils/masonry/get-masonry-split-index'
+import type { ScrollParallaxLayer } from '~/composables/use-scroll-parallax'
 
 const props = defineProps(getSliceComponentProps<MasonryMediasSlice>())
 const primary = computed(() => props.slice.primary)
 
-const mediaInstances = useTemplateRefsList<TemplateElement>()
-const imageElementList = computed(() => {
-    return mediaInstances.value.map((instance) => {
-        return getHtmlElement(instance) as HTMLElement
-    }).filter(el => !!el)
-})
-const lastTopColumnedElement = computed(() => {
-    return imageElementList.value.reduce((acc, el, index) => {
-        const top = el?.getBoundingClientRect?.().top
+// Same value as `$breakpoints.lg`: two columns from there, stacked below
+const TWO_COLUMNS_MEDIA = '(min-width: 1024px)'
+// Embeds without dimensions are rendered 16/9 by VVideoPlayer
+const DEFAULT_EMBED_DIMENSIONS = { width: 16, height: 9 }
 
-        if (!acc.el || (top && acc?.top && top <= acc?.top)) acc = { el, top, index } as StoredImage
-        return acc
-    }, { el: null, top: null, index: -1 } as StoredImage)
+// ITEMS
+// Dimensions come from Prismic (image dimensions, oEmbed width/height): the box of each media is known
+// before its component chunk or its file is loaded.
+const items = computed(() => {
+    return primary.value.list.map((field, index) => {
+        const image = field.image?.url ? field.image : undefined
+        const embedWidth = Number(field.embed?.width)
+        const embedHeight = Number(field.embed?.height)
+        const dimensions: MasonryItem = image?.dimensions
+            ? { ...image.dimensions, maxWidth: image.dimensions.width }
+            : embedWidth && embedHeight ? { width: embedWidth, height: embedHeight } : DEFAULT_EMBED_DIMENSIONS
+
+        return {
+            key: index,
+            field,
+            document: image || field.embed,
+            dimensions,
+            style: {
+                aspectRatio: `${dimensions.width} / ${dimensions.height}`,
+                maxWidth: dimensions.maxWidth ? `${dimensions.maxWidth}px` : undefined,
+            },
+        }
+    })
 })
 
-const lastTopColumnedElementIndex = computed(() => lastTopColumnedElement.value.index || 0)
-watch(lastTopColumnedElementIndex, (value) => {
-    if (value) initTweens()
+// COLUMNS
+// Two contiguous columns: the DOM (and reading) order is the Prismic list order, top to bottom of the first
+// column then of the second one, as with the previous CSS columns. Below lg the columns are simply stacked.
+const columnElements = useTemplateRefsList<HTMLElement>()
+const { splitIndex } = useMasonryColumns(() => items.value.map(item => item.dimensions), {
+    firstColumn: computed(() => columnElements.value[0]),
+    secondColumn: computed(() => columnElements.value[1]),
+    media: TWO_COLUMNS_MEDIA,
+    // 1440px wide viewport: (1440 - 2 * 24 gutter - 24 column gap) / 2, rem(24) gap, rem(316) offset
+    initialMetrics: { columnWidth: 684, gap: 24, offset: 316 },
 })
-// TWEENS
+const columns = computed(() => [items.value.slice(0, splitIndex.value), items.value.slice(splitIndex.value)])
+
+// Columns changed of height: update the ScrollTrigger positions (this one and the ones below on the page)
+const { $scrollTrigger } = useNuxtApp()
+watch(splitIndex, () => nextTick(() => $scrollTrigger?.refresh()))
+
+// PARALLAX
+// One scrubbed tween per column (all the items of a column move together), driven by the slice position
 const rootElement = useTemplateElement('rootElement')
-const { $gsap } = useNuxtApp()
-let tweenList: GSAPTween[] = []
+const parallaxLayers = computed<ScrollParallaxLayer[]>(() => {
+    const trigger = rootElement.value as HTMLElement | undefined
+    if (!trigger) return []
 
-function resetTweens() {
-    if (!tweenList.length) return
-    tweenList.forEach(tween => tween?.scrollTrigger?.refresh())
-}
-
-function initTweens() {
-    if (!imageElementList.value?.length) {
-        return
-    }
-
-    if (tweenList.length) {
-        resetTweens()
-        return
-    }
-
-    killTweens()
-    imageElementList.value
-        .forEach((el, index) => {
-            const tween = $gsap.to(el, {
-                scrollTrigger: {
-                    trigger: rootElement.value || el,
-                    scrub: true,
-                    start: 'top',
-                    end: 'bottom',
-                    // markers: true,
-                },
-                y: ScrollTrigger.maxScroll(window) * (index < lastTopColumnedElementIndex.value ? 0.01 : -0.02),
-                ease: 'none',
-            })
-
-            tweenList.push(tween)
-        })
-}
-
-function killTweens() {
-    if (!tweenList?.length) return
-
-    tweenList.forEach(tween => tween?.kill())
-    tweenList = []
-}
-
-const isLargeScreen = useMediaQuery('(min-width: 1024px)', { ssrWidth: 1023 })
-watch(isLargeScreen, (value) => {
-    if (value) initTweens()
-    else killTweens()
+    return columnElements.value.map((column, index) => ({
+        target: column,
+        trigger,
+        // First column moves down (slower than the scroll), second one moves up (faster)
+        vars: { y: () => column.offsetHeight * (index === 0 ? 0.01 : -0.02) },
+    }))
 })
-
-onBeforeUnmount(killTweens)
+useScrollParallax(parallaxLayers, { media: TWO_COLUMNS_MEDIA })
 
 // Reveal
 const rootElementIsVisible = useElementVisibility(rootElement)
@@ -99,19 +86,29 @@ const reveal = computed(() => {
         class="element-translate element-translate--05-delay"
         :class="[$style.root, reveal && 'element-translate--reveal']"
     >
-        <template v-if="primary.list.length">
-            <VPrismicMedia
-                v-for="(field, index) in primary.list"
-                :key="index"
-                ref="mediaInstances"
-                :class="[$style.image, index === lastTopColumnedElementIndex && $style['image--offset-top']]"
-                :document="field.image?.url ? field.image : field.embed"
-                :image="{ sizes: 'xs:100vw md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw' }"
-                :video="{
-                    autoplay: field.video_autoplay,
-                    controls: !field.video_autoplay,
-                }"
-            />
+        <template v-if="items.length">
+            <div
+                v-for="(column, columnIndex) in columns"
+                :key="columnIndex"
+                :ref="columnElements.set"
+                :class="$style.column"
+            >
+                <div
+                    v-for="item in column"
+                    :key="item.key"
+                    :class="$style.item"
+                    :style="item.style"
+                >
+                    <VPrismicMedia
+                        :document="item.document"
+                        :image="{ sizes: 'xs:100vw md:100vw lg:50vw xl:50vw xxl:50vw hd:50vw qhd:50vw' }"
+                        :video="{
+                            autoplay: item.field.video_autoplay,
+                            controls: !item.field.video_autoplay,
+                        }"
+                    />
+                </div>
+            </div>
         </template>
     </VSlice>
 </template>
@@ -121,26 +118,31 @@ const reveal = computed(() => {
     position: relative;
     z-index: 1;
     background-color: var(--theme-color-background);
-    column-count: 1;
     padding-block: #{rem(242 - 24 - 16)} rem(120);
     padding-inline: var(--gutter);
 
     @include media('>=lg') {
-        column-count: 2;
-        column-gap: rem(24);
+        display: flex;
+        align-items: flex-start;
         padding-block: rem(235) rem(180);
+        column-gap: rem(24);
     }
 }
 
-.image {
-    margin-bottom: var(--gutter);
-
+.column {
     @include media('>=lg') {
-        transition: padding-top 0.4s ease(out-quad);
+        min-width: 0;
+        flex: 1 1 0;
 
-        &--offset-top {
+        & + & {
+            // Static offset of the second column (not animated: it's part of the layout)
             padding-top: rem(316);
         }
     }
+}
+
+.item {
+    // The box keeps the media ratio before the media (and its async component) is loaded
+    margin-bottom: var(--gutter);
 }
 </style>
