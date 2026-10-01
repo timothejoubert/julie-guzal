@@ -25,9 +25,9 @@ interface UseScrollParallaxOptions {
  * (tweens and ScrollTriggers killed, inline transforms removed) when the media query stops matching, when the
  * layers change and on unmount. Motion preferences are to be handled here too.
  *
- * The media query is watched with useMediaQuery rather than `gsap.matchMedia()`: GSAP doesn't keep a reference
- * to its MediaQueryList, which Chrome can garbage collect along with its listener, and the tweens then stay
- * active below the breakpoint.
+ * The media query is watched with VueUse's useMediaQuery (reactive, tied to the component lifecycle, like the
+ * rest of the codebase); `gsap.matchMedia()` would work too. Tweens are reverted, not only killed, when leaving
+ * the breakpoint, otherwise their last transform stays applied.
  */
 export function useScrollParallax(layers: MaybeRefOrGetter<ScrollParallaxLayer[]>, options: UseScrollParallaxOptions) {
     const { $gsap } = useNuxtApp()
