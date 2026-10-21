@@ -1,6 +1,7 @@
 ## In progress
 - Lors de la transition de page il faut que l'emplacement de la scrollabr évite de fairer shifter le contenu de la page.
 - transition fluide de l'image dans VProjectCard vers l'image dans VProjectPage. L'animation de page est differente du reste du site, ca doit donner l'impression que l'image reste la meme et se déplace puis s'agrandie pour se placer au niveau de l'image dans le header de la page de projet.
+- Bug lorsqu'on change de page lorsqu'on à scroll dans un page (lab -> photo, photo -> home)
 
 ## TODO
 - Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
