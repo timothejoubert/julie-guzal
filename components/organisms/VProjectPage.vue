@@ -46,34 +46,12 @@ const heroImgAttrs = { fetchpriority: 'high', [TRANSITION_HERO_ATTRIBUTE]: '' }
                 />
                 {{ $t('back') }}
             </VPrismicLink>
-            <VPrismicImage
+            <VProjectHeroPicture
                 v-if="image"
-                ref="headerImg"
-                :document="image"
+                :image="image"
                 :class="$style.image"
-                loading="eager"
                 :img-attrs="heroImgAttrs"
-            >
-                <VPictureSource
-                    sizes="xs:100vw sm:100vw md:100vw"
-                    media="(max-width: 767px)"
-                    :modifiers="{
-                        fit: 'crop',
-                        ar: '375:448',
-                        width: '375',
-                        height: '448',
-                    }"
-                />
-                <VPictureSource
-                    sizes="lg:100vw xl:100vw xxl:100vw qhd:100vw"
-                    :modifiers="{
-                        fit: 'crop',
-                        ar: '1440:610',
-                        width: '1440',
-                        height: '610',
-                    }"
-                />
-            </VPrismicImage>
+            />
             <h1 :class="$style.title">
                 {{ title }}
             </h1>
