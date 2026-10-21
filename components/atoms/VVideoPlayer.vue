@@ -122,7 +122,27 @@ export default defineComponent({
             return style
         })
 
-        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src }
+        // Only load the media once it gets close to the viewport: native `loading="lazy"` starts up to
+        // ~2500px ahead on mobile (and doesn't exist for <video>), which autoplayed every video on load.
+        const iframeWrapper = useTemplateRef<HTMLElement>('iframeWrapper')
+        const videoElement = useTemplateRef<HTMLVideoElement>('playerComponent')
+        const isNear = useElementVisibility(() => iframeWrapper.value || videoElement.value, { rootMargin: '200px' })
+        const hasBeenNear = ref(false)
+        const stopWatch = watch(isNear, (value) => {
+            if (!value) return
+            hasBeenNear.value = true
+            stopWatch()
+        })
+
+        // No-JS fallback. Rendered with v-html so that, when JS runs, the iframe stays inert noscript text
+        // instead of a real (loading) element created by Vue.
+        const iframeNoscript = computed(() => {
+            if (!isEmbed.value || !src.value) return ''
+            const escapedSrc = src.value.replace(/&/g, '&amp;').replace(/"/g, '&quot;')
+            return `<iframe src="${escapedSrc}" frameborder="0" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" style="width:100%;height:100%"></iframe>`
+        })
+
+        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, hasBeenNear, iframeNoscript }
     },
 })
 </script>
@@ -130,16 +150,19 @@ export default defineComponent({
 <template>
     <div
         v-if="isEmbed"
+        ref="iframeWrapper"
         :style="playerStyle"
         :class="[$style['iframe-wrapper'], !controls && $style['iframe-wrapper--no-controls']]"
     >
         <iframe
-            :src="src"
+            :src="hasBeenNear ? src : undefined"
             frameborder="0"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             :class="$style.iframe"
         />
+        <!-- eslint-disable-next-line vue/no-v-html -- built from the escaped embed URL; v-html keeps it raw text when JS runs -->
+        <noscript v-html="iframeNoscript" />
         <!--        <VSpinner v-if="!videoReady" :class="$style.spinner" /> -->
     </div>
     <video
@@ -149,7 +172,7 @@ export default defineComponent({
         :class="$style.video"
     >
         <source
-            v-for="source in videoSources"
+            v-for="source in hasBeenNear ? videoSources : []"
             :key="source.src"
             :src="source.src"
             :type="source.type"
