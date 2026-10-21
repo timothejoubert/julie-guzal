@@ -10,6 +10,8 @@ const primary = computed(() => props.slice.primary)
 const TWO_COLUMNS_MEDIA = '(min-width: 1024px)'
 // Embeds without dimensions are rendered 16/9 by VVideoPlayer
 const DEFAULT_EMBED_DIMENSIONS = { width: 16, height: 9 }
+// Distance the second column moves up while scrolling the slice, in viewport heights
+const PARALLAX_SHIFT = 0.5
 
 // ITEMS
 // Dimensions come from Prismic (image dimensions, oEmbed width/height): the box of each media is known
@@ -44,6 +46,8 @@ const { splitIndex } = useMasonryColumns(() => items.value.map(item => item.dime
     firstColumn: computed(() => columnElements.value[0]),
     secondColumn: computed(() => columnElements.value[1]),
     media: TWO_COLUMNS_MEDIA,
+    // The parallax lifts the second column by PARALLAX_SHIFT at the end: balance the columns as they are seen there
+    endShift: () => -window.innerHeight * PARALLAX_SHIFT,
     // 1440px wide viewport: (1440 - 2 * 24 gutter - 24 column gap) / 2, rem(24) gap, rem(316) offset
     initialMetrics: { columnWidth: 684, gap: 24, offset: 316 },
 })
@@ -54,18 +58,23 @@ const { $scrollTrigger } = useNuxtApp()
 watch(splitIndex, () => nextTick(() => $scrollTrigger?.refresh()))
 
 // PARALLAX
-// One scrubbed tween per column (all the items of a column move together), driven by the slice position
+// One scrubbed tween on the second column (all its items move together), driven by the slice position
 const rootElement = useTemplateElement('rootElement')
 const parallaxLayers = computed<ScrollParallaxLayer[]>(() => {
     const trigger = rootElement.value as HTMLElement | undefined
     if (!trigger) return []
 
-    return columnElements.value.map((column, index) => ({
+    const column = columnElements.value[1]
+    if (!column) return []
+
+    // Only the second column moves (up, faster than the scroll): it starts on its layout position and ends
+    // PARALLAX_SHIFT higher when the slice bottom reaches the viewport bottom, where the columns are balanced.
+    return [{
         target: column,
         trigger,
-        // First column moves down (slower than the scroll), second one moves up (faster)
-        vars: { y: () => column.offsetHeight * (index === 0 ? 0.01 : -0.02) },
-    }))
+        end: 'bottom bottom',
+        vars: { y: () => -window.innerHeight * PARALLAX_SHIFT },
+    }]
 })
 useScrollParallax(parallaxLayers, { media: TWO_COLUMNS_MEDIA })
 

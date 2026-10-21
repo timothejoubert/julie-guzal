@@ -9,6 +9,8 @@ interface UseMasonryColumnsOptions {
     secondColumn: Readonly<Ref<HTMLElement | null | undefined>>
     /** Media query matching the two-column layout (below it, the columns are stacked and the split doesn't matter) */
     media: string
+    /** Shift of the second column at the end of the list (e.g. a parallax landing above its layout position), in px */
+    endShift?: () => number
     /** Metrics used before the columns can be measured (SSR, first render) */
     initialMetrics: MasonryMetrics
 }
@@ -35,7 +37,7 @@ export function useMasonryColumns(items: MaybeRefOrGetter<MasonryItem[]>, option
         const next: MasonryMetrics = {
             columnWidth: first.clientWidth,
             gap: firstItem ? parseFloat(getComputedStyle(firstItem).marginBottom) || 0 : 0,
-            offset: parseFloat(getComputedStyle(second).paddingTop) || 0,
+            offset: (parseFloat(getComputedStyle(second).paddingTop) || 0) + (options.endShift?.() || 0),
         }
         const current = metrics.value
 
