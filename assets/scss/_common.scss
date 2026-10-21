@@ -1,7 +1,9 @@
 @use 'assets/scss/functions/rem' as *;
 
 html {
-    // Always reserve the scrollbar space so locking the scroll (page transition, media viewer) never shifts the layout
+    // Always show the scrollbar: an empty reserved gutter isn't always repainted by Chromium when the page color changes,
+    // a scrollbar track is. The gutter stays reserved while the scroll is locked (page transition, media viewer).
+    overflow-y: scroll;
     scrollbar-gutter: stable;
     // Classic (non-overlay) scrollbars paint the reserved gutter with the track color, not the <html> background
     scrollbar-color: rgb(128 128 128 / 60%) var(--page-background, var(--theme-color-background));
