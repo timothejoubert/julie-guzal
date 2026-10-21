@@ -1,30 +1,42 @@
 ## In progress
-- Mettre à jour les deps
-- Améliorer le fonctionnement du layout masonry dans la page (dès fois mal placé en fonction du load des medias, optimiser au resize, rendu plus performant, un code plus lisible...)
-- Améliorer le fonctionnement des transitions de page (un peu laggy)
-- Faire un audit A11Y
-- Faire un audit SEO
-- Faire un audit de sécurité
-- Optimisation du code pour augmenter le score pageSpeed
-- Fix un bug de changement de slide dans le media viewer, des fois au changement de slide l'image de la slide current resté cachée
+- A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## TODO
+- Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
+- CSP : passer de Report-Only à appliquée si la console prod est propre, puis retirer 'unsafe-inline' (hashes au build)
+- Page projet inexistante : renvoie une page vide en 200 au lieu d'une 404
+- Contenu invisible sans JS (element-translate et titre restent en opacity 0)
+- Données : chaque navigation vers un projet appelle l'API Prismic (vérifier après perf/prismic-payload)
+- Précharger le hero du projet au survol de la card (réduit la pause avant la transition)
+- VImg rend crossorigin="false" (invalide)
+- Prismic : renseigner settings.socials (sameAs du JSON-LD)
+- Splash : sessionStorage par onglet, passer en cookie de session si besoin
+- Déploiement : clé SSH au lieu du mot de passe FTP + environment GitHub "production" protégé
 - Splash Screen (lottie)
 - Regénérer et upload uniquement la page modifié sur prismic
-- debug VDraggableScroll
 - Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - pageProject: back link sticky ?
 
 ## Later
-- Add redirection
-- Ajouter les regles de cache (.htaccess)
 - Ajouter prefetch on nav link
 
-- Page transition home -> project
-
 ## Need review
+- debug VDraggableScroll : logique de scroll réécrite dans fix/media-viewer-slide, à revérifier
+- Validation RGAA par les référents (landmarks, h1, skip link, toast, média/motion)
 
 ## Done
+- Mettre à jour les deps (pnpm 11, Nuxt 4.5, Prismic CLI à la place de Slice Machine, Nuxt Image v2, @prismicio/vue v6, dépréciations Sass)
+- Setup IA : CLAUDE.md + CI sur les PR (lint + generate)
+- Audit sécurité : workflow de déploiement durci (actions épinglées par SHA), secret du webhook Prismic, en-têtes de sécurité + CSP report-only (.htaccess)
+- Ajouter les regles de cache (.htaccess) + compression br/gz
+- Add redirection (vraies 301 dans .htaccess)
+- Audit SEO : titres/OG/Twitter unifiés, JSON-LD, sitemap, staging non indexable
+- Audit A11Y (structure) : landmarks, un seul h1, skip link, lang, toast annoncé
+- Optimisation pageSpeed : LCP accueil, sizes, polices woff2, splash non bloquant (1re visite seulement), lazy embeds vidéo, payload Prismic réduit, CLS du titre
+- Améliorer les transitions de page (transform only, hero décodé avant apparition, scroll de la page sortante conservé)
+- Améliorer le layout masonry (placement déterministe, 2 parallax au lieu de 43, resize optimisé)
+- Fix bug media viewer : slide courante parfois cachée
+- Page transition home -> project
 - enlever payload
 - check meta seo
 - Use NuxtPage name with composable for common page setup
