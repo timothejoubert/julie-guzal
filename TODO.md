@@ -1,30 +1,25 @@
 ## In progress
-- A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
+- Lors de la transition de page il faut que l'emplacement de la scrollabr évite de fairer shifter le contenu de la page.
+- transition fluide de l'image dans VProjectCard vers l'image dans VProjectPage. L'animation de page est differente du reste du site, ca doit donner l'impression que l'image reste la meme et se déplace puis s'agrandie pour se placer au niveau de l'image dans le header de la page de projet.
 
 ## TODO
 - Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
 - CSP : passer de Report-Only à appliquée si la console prod est propre, puis retirer 'unsafe-inline' (hashes au build)
-- Page projet inexistante : renvoie une page vide en 200 au lieu d'une 404
-- Contenu invisible sans JS (element-translate et titre restent en opacity 0)
-- Données : chaque navigation vers un projet appelle l'API Prismic (vérifier après perf/prismic-payload)
-- Précharger le hero du projet au survol de la card (réduit la pause avant la transition)
-- VImg rend crossorigin="false" (invalide)
 - Prismic : renseigner settings.socials (sameAs du JSON-LD)
 - Splash : sessionStorage par onglet, passer en cookie de session si besoin
 - Déploiement : clé SSH au lieu du mot de passe FTP + environment GitHub "production" protégé
-- Splash Screen (lottie)
 - Regénérer et upload uniquement la page modifié sur prismic
-- Add v-nav theme color for mobile and desktop (with 'filled' style name)
 - pageProject: back link sticky ?
 
-## Later
-- Ajouter prefetch on nav link
-
 ## Need review
-- debug VDraggableScroll : logique de scroll réécrite dans fix/media-viewer-slide, à revérifier
-- Validation RGAA par les référents (landmarks, h1, skip link, toast, média/motion)
+- A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## Done
+- Page projet inexistante : vraie page 404 (#18)
+- Contenu visible sans JS (#19)
+- VImg ne rend plus crossorigin="false" (#20)
+- Précharger le hero du projet au survol/focus de la card (#22)
+- Précharger le document Prismic du projet au survol/focus de la card (#23)
 - Mettre à jour les deps (pnpm 11, Nuxt 4.5, Prismic CLI à la place de Slice Machine, Nuxt Image v2, @prismicio/vue v6, dépréciations Sass)
 - Setup IA : CLAUDE.md + CI sur les PR (lint + generate)
 - Audit sécurité : workflow de déploiement durci (actions épinglées par SHA), secret du webhook Prismic, en-têtes de sécurité + CSP report-only (.htaccess)
