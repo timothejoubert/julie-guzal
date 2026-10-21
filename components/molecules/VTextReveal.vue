@@ -11,23 +11,18 @@ const props = defineProps<{
 const _tag = computed(() => props.tag || 'div')
 const text = computed(() => getText(props.content))
 
-const isMounted = ref(false)
-onMounted(() => {
-    isMounted.value = true
+// Split chars are hidden until revealed: show them when JS is disabled
+useHead({
+    noscript: [{ innerHTML: '<style>[data-content]::after{translate:0 0 !important}</style>' }],
 })
 </script>
 
 <template>
-    <VText
-        v-if="!isMounted"
-        :tag="_tag"
-        :class="[$attrs.class, $style.root, $style['root--server']]"
-        :content="text"
-    />
+    <!-- Rendered split on the server too, so hydration doesn't swap the markup (layout shift) -->
     <component
         :is="_tag"
-        v-else-if="text"
-        :class="[$attrs.class, $style.root, $style['root--client']]"
+        v-if="text"
+        :class="$style.root"
     >
         <VSplitTextReveal
             :reveal="reveal"
@@ -39,9 +34,7 @@ onMounted(() => {
 
 <style lang="scss" module>
 .root {
-    &--client {
-        display: flex;
-        flex-wrap: wrap;
-    }
+    display: flex;
+    flex-wrap: wrap;
 }
 </style>

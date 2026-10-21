@@ -30,3 +30,25 @@
     font-weight: 300;
     src: url('~/assets/fonts/suisseintl-thin-subset.woff2') format('woff2');
 }
+
+// Arial adjusted to FH Lecturis metrics (uppercase advance widths, ascent, descent, line gap),
+// so the swap to the web font barely moves the text (CLS). Values computed with fontkit from the subset files.
+@font-face {
+    ascent-override: 103.23%;
+    descent-override: 27.35%;
+    font-family: $font-lecturis-fallback;
+    font-weight: 400;
+    line-gap-override: 11.23%;
+    size-adjust: 98.71%;
+    src: local('Arial'), local('ArialMT');
+}
+
+@font-face {
+    ascent-override: 106.93%;
+    descent-override: 28.23%;
+    font-family: $font-lecturis-fallback;
+    font-weight: 300;
+    line-gap-override: 11.73%;
+    size-adjust: 95.3%;
+    src: local('Arial'), local('ArialMT');
+}
