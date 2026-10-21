@@ -12,6 +12,13 @@ interface VProjectCardProps {
 const props = defineProps<VProjectCardProps>()
 
 const { image, title, date, tags } = useProjectUtils(props.project)
+
+// Preload the project page hero on hover/focus, so the page transition (which waits for the hero to be
+// decoded) can start right away on click. The hidden picture renders the same sources as the page.
+const preloadHero = ref(false)
+function onIntent() {
+    preloadHero.value = true
+}
 </script>
 
 <template>
@@ -19,7 +26,15 @@ const { image, title, date, tags } = useProjectUtils(props.project)
         :is="rootTag || 'div'"
         :id="project?.url?.replaceAll('/', '-')"
         :class="[$style.root, skeleton && $style['root--skeleton']]"
+        @pointerenter.once="onIntent"
+        @focusin.once="onIntent"
     >
+        <VProjectHeroPicture
+            v-if="preloadHero && image"
+            :image="image"
+            :class="$style['hero-preload']"
+            aria-hidden="true"
+        />
         <VPrismicLink
             :to="project"
             :class="$style['media-wrapper']"
@@ -73,6 +88,17 @@ const { image, title, date, tags } = useProjectUtils(props.project)
 @use 'assets/scss/functions/fluid' as *;
 @use 'assets/scss/variables/fonts' as *;
 @use 'assets/scss/mixins/include-media' as *;
+
+// Off-screen copy of the project page hero: loaded, never visible. Full viewport width so `sizes` in vw resolve like on the page.
+.hero-preload {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    pointer-events: none;
+    visibility: hidden;
+}
 
 .root {
     position: relative;

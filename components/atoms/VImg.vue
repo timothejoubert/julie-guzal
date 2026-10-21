@@ -129,7 +129,8 @@ export default defineComponent({
                 height: height.value,
                 alt: props.alt,
                 loading: props.loading,
-                crossorigin: props.crossorigin,
+                // Boolean prop cast: absent → false, which would render the invalid crossorigin="false" (treated as anonymous)
+                crossorigin: props.crossorigin === true ? 'anonymous' : props.crossorigin || undefined,
                 decoding: props.decoding,
                 longdesc: props.longdesc,
                 style: style.value,
