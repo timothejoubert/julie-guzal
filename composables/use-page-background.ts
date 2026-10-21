@@ -9,12 +9,22 @@ function usePageBackgroundState() {
     return { current, pending }
 }
 
-export function usePageBackground(color: string) {
+interface PageBackgroundOptions {
+    // Apply the color right away instead of waiting for the end of the page transition (e.g. error page)
+    immediate?: boolean
+}
+
+export function usePageBackground(color: string, options?: PageBackgroundOptions) {
     const { current, pending } = usePageBackgroundState()
 
-    // First render: nothing is animating
-    if (!current.value) current.value = color
-    else pending.value = color
+    // Nothing is animating on the server, while hydrating (`current` comes from the payload) or on the first render
+    if (options?.immediate || import.meta.server || useNuxtApp().isHydrating || !current.value) {
+        current.value = color
+        pending.value = null
+    }
+    else {
+        pending.value = color
+    }
 
     useHead({
         meta: [{ name: 'theme-color', content: color }],

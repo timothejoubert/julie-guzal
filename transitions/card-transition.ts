@@ -67,7 +67,7 @@ function killTimeline(el: Element) {
 
 function releaseScroll() {
     const nuxtApp = useNuxtApp()
-    const { enabledScroll } = useBodyScrollLock()
+    const { enabledScroll } = useBodyScrollLock('page-transition')
     const { animationComplete } = usePageTransitionState()
 
     enabledScroll()
@@ -146,7 +146,7 @@ export const cardPageTransition: TransitionProps = {
         gsap.set(el, { clearProps: 'all' })
     },
     onBeforeEnter: () => {
-        const { disableScroll } = useBodyScrollLock()
+        const { disableScroll } = useBodyScrollLock('page-transition')
         disableScroll()
 
         const nuxtApp = useNuxtApp()
