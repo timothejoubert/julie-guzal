@@ -17,5 +17,12 @@
     "lost_in_the_stars": "Lost in the stars •",
     "v_project_card.alt": "Project cover: {projectName}",
     "nav.main": "Main",
-    "skip_link": "Skip to content"
+    "skip_link": "Skip to content",
+    "media_viewer.label": "Media viewer",
+    "media_viewer.open_item": "Open image {position} of {total} in the media viewer",
+    "media_viewer.open_item_alt": "Open image {position} of {total} in the media viewer: {alt}",
+    "media_viewer.position": "Image {position} of {total}",
+    "video.embed_title": "Embedded video",
+    "video.pause": "Pause the video",
+    "email.copy": "Copy the email address {email}"
 }

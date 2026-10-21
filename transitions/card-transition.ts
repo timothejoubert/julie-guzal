@@ -1,7 +1,7 @@
 import { gsap } from 'gsap'
 import type { TransitionProps } from 'vue'
 
-// Below this width the page swap is instant (no animation)
+// Below this width, or with prefers-reduced-motion, the page swap is instant (no animation)
 const MIN_ANIMATED_WIDTH = 700
 // Max time the transition waits for the entering page hero image before animating anyway
 const HERO_TIMEOUT = 1800
@@ -17,6 +17,7 @@ let enterReady: Deferred | null = null
 
 function isInstant() {
     return window.innerWidth < MIN_ANIMATED_WIDTH
+        || window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
 function createDeferred(): Deferred {

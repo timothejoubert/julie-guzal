@@ -16,8 +16,17 @@ const mailToContent = computed(() => {
 const { addToast } = useToast()
 const { t } = useI18n()
 
+function openMailTo() {
+    if (url.value) window.location.href = url.value
+}
+
 function copyToClipBoard(_event: MouseEvent) {
     if (!mailToContent.value) return
+    // No Clipboard API (insecure context, old browser): fall back to the mail client
+    if (!navigator.clipboard?.writeText) {
+        openMailTo()
+        return
+    }
 
     navigator.clipboard.writeText(mailToContent.value).then(() => {
         addToast({
@@ -26,15 +35,15 @@ function copyToClipBoard(_event: MouseEvent) {
             message: t('email.copied__success'),
             duration: 2000,
         })
-    }).catch((error) => {
-        console.log('error', error)
-    })
+    }).catch(openMailTo)
 }
 </script>
 
 <template>
     <button
         v-if="mailToContent"
+        type="button"
+        :aria-label="t('email.copy', { email: mailToContent })"
         :class="$style['mail-to']"
         @click="copyToClipBoard"
     >

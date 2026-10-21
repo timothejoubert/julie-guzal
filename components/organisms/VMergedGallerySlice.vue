@@ -36,6 +36,13 @@ const mediaViewerDocument = computed(() => {
     return imageList.value.map(media => (media.document))
 })
 
+const { t } = useI18n()
+function getTriggerLabel(index: number) {
+    const alt = imageList.value[index]?.document?.alt
+    const params = { position: index + 1, total: imageList.value.length, alt }
+    return alt ? t('media_viewer.open_item_alt', params) : t('media_viewer.open_item', params)
+}
+
 function onClick(index: number) {
     documents.value = mediaViewerDocument.value
     mediaViewerIndex.value = index
@@ -43,7 +50,7 @@ function onClick(index: number) {
 
 // PARALLAX
 // One scrubbed tween per image, alternating directions
-const elementList = useTemplateRefsList<HTMLDivElement>()
+const elementList = useTemplateRefsList<HTMLButtonElement>()
 const parallaxLayers = computed<ScrollParallaxLayer[]>(() => {
     return elementList.value.map((el, index) => ({
         target: el,
@@ -73,10 +80,12 @@ const reveal = computed(() => {
         :class="[$style.root, reveal && 'element-translate--reveal']"
     >
         <template v-if="imageList.length">
-            <div
+            <button
                 v-for="(media, index) in imageList"
                 :key="index"
                 :ref="elementList.set"
+                type="button"
+                :aria-label="getTriggerLabel(index)"
                 :class="$style.item"
                 @click="onClick(index)"
             >
@@ -84,7 +93,7 @@ const reveal = computed(() => {
                     v-bind="media"
                     :class="$style.img"
                 />
-            </div>
+            </button>
         </template>
     </section>
 </template>

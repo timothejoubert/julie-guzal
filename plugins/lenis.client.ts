@@ -5,16 +5,21 @@ import Lenis from 'lenis'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// TODO: disable if prefersReduceMotion is enable
 export default defineNuxtPlugin((_nuxtApp) => {
     const lenis = new Lenis({
         touchMultiplier: 0,
     })
 
-    const reduceMotion = !!window?.matchMedia(`(prefers-reduced-motion: reduce)`).matches
-
-    lenis.options.wheelMultiplier = reduceMotion ? 0 : 1
-    lenis.options.lerp = reduceMotion ? 1 : 0.08
+    // Reduced motion: no smoothing, the wheel scrolls natively (never block it: wheelMultiplier 0 froze the page).
+    // Kept in sync when the preference changes at runtime.
+    const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+    function applyMotionPreference() {
+        const reduceMotion = reduceMotionQuery.matches
+        lenis.options.smoothWheel = !reduceMotion
+        lenis.options.lerp = reduceMotion ? 1 : 0.08
+    }
+    applyMotionPreference()
+    reduceMotionQuery.addEventListener('change', applyMotionPreference)
 
     // Drive Lenis from the GSAP ticker: one rAF loop for smooth scroll and animations (page transitions,
     // ScrollTrigger scrubs), so both read the same scroll position on the same frame.

@@ -37,6 +37,13 @@ const mediaViewerDocument = computed(() => {
     return imageList.value.map(media => (media.document))
 })
 
+const { t } = useI18n()
+function getTriggerLabel(index: number) {
+    const alt = imageList.value[index]?.document?.alt
+    const params = { position: index + 1, total: imageList.value.length, alt }
+    return alt ? t('media_viewer.open_item_alt', params) : t('media_viewer.open_item', params)
+}
+
 function onClick(index: number) {
     documents.value = mediaViewerDocument.value
     mediaViewerIndex.value = index
@@ -54,7 +61,8 @@ function onClick(index: number) {
                 v-for="(media, index) in imageList"
                 :key="index"
                 :class="$style.item"
-                :aria-label="$t('media_viewer.open')"
+                type="button"
+                :aria-label="getTriggerLabel(index)"
                 @click="onClick(index)"
             >
                 <VPrismicImage

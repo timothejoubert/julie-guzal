@@ -10,9 +10,9 @@ const { documents, index: slideIndex, close, nextSlide, previousSlide, onStart, 
 
 useEventListener('keyup', onKeyPressed)
 
+// Escape is handled by the dialog native `cancel` event (see onCancel)
 function onKeyPressed(event: KeyboardEvent) {
-    if (event.key === 'Escape') close()
-    else if (event.key === 'ArrowLeft') previousSlide()
+    if (event.key === 'ArrowLeft') previousSlide()
     else if (event.key === 'ArrowRight') nextSlide()
 }
 
@@ -31,12 +31,29 @@ watch(
 
 const root = ref<HTMLDialogElement | null>(null)
 
+// Focus is moved into the modal by showModal() and given back to the trigger on close (RGAA 7.1 / WCAG 2.4.3)
+let returnFocusTo: HTMLElement | null = null
+
 onMounted(() => {
+    returnFocusTo = document.activeElement instanceof HTMLElement ? document.activeElement : null
     root.value?.showModal()
 })
 
 onBeforeUnmount(() => {
     root.value?.close()
+    if (returnFocusTo?.isConnected) returnFocusTo.focus({ preventScroll: true })
+    returnFocusTo = null
+})
+
+// Native close (Escape): keep the media viewer state in sync and let the leave transition run
+function onCancel(event: Event) {
+    event.preventDefault()
+    close()
+}
+
+const { t } = useI18n()
+const positionLabel = computed(() => {
+    return t('media_viewer.position', { position: slideIndex.value + 1, total: documents.value?.length || 0 })
 })
 
 // ROOT CLICK LISTENER
@@ -44,8 +61,10 @@ const cursorDisplayed = ref(false)
 const customMouseHidden = ref(false)
 const cursorDirection = ref<'right' | 'left'>('right')
 
-function onClick(_event: MouseEvent) {
+function onClick(event: MouseEvent) {
     if (!cursorDisplayed.value) return
+    // Buttons (close, prev, next) handle their own click, also when activated with the keyboard
+    if ((event.target as Element | null)?.closest('button')) return
 
     if (cursorDirection.value === 'left') previousSlide()
     else if (cursorDirection.value === 'right') nextSlide()
@@ -60,13 +79,22 @@ function isLandscape(document: PossibleMedia) {
     <dialog
         :id="id"
         ref="root"
+        :aria-label="$t('media_viewer.label')"
         :class="[
             $style.root,
             customMouseHidden && $style['root--custom-cursor-hidden'],
             cursorDisplayed && $style['root--native-cursor-disabled'],
         ]"
         @click="onClick"
+        @cancel="onCancel"
     >
+        <p
+            class="visually-hidden"
+            aria-live="polite"
+            aria-atomic="true"
+        >
+            {{ positionLabel }}
+        </p>
         <VFollowCusor
             v-model:displayed="cursorDisplayed"
             v-model:direction="cursorDirection"
@@ -77,6 +105,7 @@ function isLandscape(document: PossibleMedia) {
             :class="$style.wrapper"
         >
             <button
+                type="button"
                 :class="$style.close"
                 :aria-label="$t('media_viewer.close')"
                 @click="close"
