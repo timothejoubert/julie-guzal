@@ -16,6 +16,8 @@ export function usePrismicFetchProjects(options: PrismicFetchDocumentsOptions = 
         ],
         pageSize: options.pageSize || 20,
         filters: [filter.at('my.project_page.archived', isArchived)],
+        // Lists only render cards and cross links: skip the slices, which make up most of the inlined payload
+        fetch: ['project_page.title', 'project_page.image', 'project_page.creation_date'],
         ...options,
     })
 }
