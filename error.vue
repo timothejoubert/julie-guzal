@@ -9,7 +9,7 @@ const props = defineProps<{
     error: NuxtError
 }>()
 
-const statusCode = computed(() => props.error?.statusCode)
+const statusCode = computed(() => props.error?.status ?? 500)
 
 const runtimeConfig = useRuntimeConfig()
 const siteName = runtimeConfig.public.site.name
@@ -50,7 +50,7 @@ const dateTime = computed(() => {
         hour: '2-digit',
         minute: '2-digit',
     })
-    return localizedDate.split(',')?.[1].trim()
+    return localizedDate.split(',')?.[1]?.trim()
 })
 
 // Log the error for debugging purposes
