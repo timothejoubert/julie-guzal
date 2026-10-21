@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import type { MasonryMediasSlice } from '~/prismicio-types'
 import { getHtmlElement } from '~/utils/ref/get-html-element'
 import type { TemplateElement } from '~/utils/ref/get-html-element'

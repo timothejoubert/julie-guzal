@@ -5,6 +5,7 @@ import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
 import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
+import { TRANSITION_HERO_ATTRIBUTE } from '~/transitions/card-transition'
 
 const props = defineProps<{
     document: ProjectPageDocument
@@ -24,6 +25,9 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
 const backLinkTheme = computed(() => {
     return props.document.data.back_button_theme
 })
+
+// Above-the-fold image (LCP): high fetch priority, and the page transition waits for it to be decoded
+const heroImgAttrs = { fetchpriority: 'high', [TRANSITION_HERO_ATTRIBUTE]: '' }
 </script>
 
 <template>
@@ -48,6 +52,7 @@ const backLinkTheme = computed(() => {
                 :document="image"
                 :class="$style.image"
                 loading="eager"
+                :img-attrs="heroImgAttrs"
             >
                 <VPictureSource
                     sizes="xs:100vw sm:100vw md:100vw"
