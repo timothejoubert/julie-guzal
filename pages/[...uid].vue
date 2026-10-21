@@ -26,11 +26,13 @@ if (!pageType) {
 
 const { webResponse, error } = await usePrismicFetchPage<ReachableDocument>(pageType)
 
+// Throw (not showError) so rendering stops here: otherwise the page keeps rendering with no document
+// and an unknown project URL answers an empty page with HTTP 200 instead of the 404 error page.
 if (error) {
-    showError(error)
+    throw createError({ ...error, fatal: true })
 }
-else if (!webResponse) {
-    showError({ status: 404, statusText: 'can\'t find prismic document' })
+else if (!webResponse?.id) { // the fetch resolves to `{ data: '' }` when Prismic has no document
+    throw createError({ statusCode: 404, statusMessage: 'Page not found', fatal: true })
 }
 
 const { title } = await usePrismicSeoMeta(webResponse)
