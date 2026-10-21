@@ -32,6 +32,7 @@ export function usePageBackgroundHead() {
     const { current } = usePageBackgroundState()
 
     useHead({
-        htmlAttrs: { style: () => current.value ? `background-color: ${current.value}` : undefined },
+        // Used by the <html> background and scrollbar track (assets/scss/_common.scss)
+        htmlAttrs: { style: () => current.value ? `--page-background: ${current.value}` : undefined },
     })
 }

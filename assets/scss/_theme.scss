@@ -3,7 +3,8 @@
 @use 'sass:meta';
 
  :root {
-     background-color: var(--theme-color-background);
+     // --page-background: set per page (composables/use-page-background.ts)
+     background-color: var(--page-background, var(--theme-color-background));
      color: var(--theme-color-on-background);
 
      @include theme(dark);

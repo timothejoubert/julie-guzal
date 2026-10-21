@@ -1,10 +1,10 @@
 @use 'assets/scss/functions/rem' as *;
 
 html {
-    background-color: var(--theme-color-background);
-
     // Always reserve the scrollbar space so locking the scroll (page transition, media viewer) never shifts the layout
     scrollbar-gutter: stable;
+    // Classic (non-overlay) scrollbars paint the reserved gutter with the track color, not the <html> background
+    scrollbar-color: rgb(128 128 128 / 60%) var(--page-background, var(--theme-color-background));
     // scroll-behavior: smooth;
 
     --spacing-over-title-padding-block: #{rem(16)};
