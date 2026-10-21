@@ -1,7 +1,7 @@
-// Page background color, exposed to the browser UI (theme-color) and to <html>:
-// the scrollbar gutter (`scrollbar-gutter: stable`) and the page transition show the <html> background
+// Page background color, exposed to the browser UI (theme-color) and to the scrollbar track (assets/scss/_common.scss).
+// The <html> background keeps the theme color: it's what the page transition reveals between the two pages.
 function usePageBackgroundState() {
-    // Color applied on <html> (see layouts/default.vue)
+    // Color exposed on <html> as `--page-background` (see layouts/default.vue)
     const current = useState<string | null>('page-background', () => null)
     // Color of the entering page, applied once the page transition is over (no color jump mid-animation)
     const pending = useState<string | null>('page-background-pending', () => null)
@@ -32,7 +32,7 @@ export function usePageBackgroundHead() {
     const { current } = usePageBackgroundState()
 
     useHead({
-        // Used by the <html> background and scrollbar track (assets/scss/_common.scss)
+        // Used by the scrollbar track (assets/scss/_common.scss)
         htmlAttrs: { style: () => current.value ? `--page-background: ${current.value}` : undefined },
     })
 }
