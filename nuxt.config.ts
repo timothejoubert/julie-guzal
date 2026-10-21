@@ -1,4 +1,5 @@
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from '#root/constants/i18n'
+import { SPLASH_HEAD_SCRIPT } from '#root/constants/splash-screen'
 import staticPage from '#root/constants/static-page.js'
 import { version } from '#root/package.json'
 import { repositoryName } from '#root/prismic.config.json'
@@ -39,6 +40,8 @@ export default defineNuxtConfig({
                 { rel: 'manifest', href: '/site.webmanifest' },
             ],
             script: [
+                // Splash screen: first visit of the session only, decided before first paint
+                { innerHTML: SPLASH_HEAD_SCRIPT, tagPriority: 'critical' },
                 isProd
                     ? undefined
                     : {

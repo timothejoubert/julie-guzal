@@ -1,5 +1,5 @@
-type SplashScreenState = 'pending' | 'enter' | 'leave' | 'done'
+type SplashScreenState = 'active' | 'done'
 
 export function useSplashScreenState() {
-    return useState<SplashScreenState>('splashScreenState', () => 'pending')
+    return useState<SplashScreenState>('splashScreenState', () => 'active')
 }

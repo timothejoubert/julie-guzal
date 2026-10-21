@@ -178,11 +178,6 @@ RewriteRule \.txt\.(br|gz)$ - [T=text/plain;charset=utf-8,E=no-gzip:1,E=no-brotl
         Header set Cache-Control "public, max-age=86400"
     </FilesMatch>
 
-    # Splash video: 10 minutes
-    <FilesMatch "^splash\.(webm|mp4)$">
-        Header set Cache-Control "public, max-age=600, must-revalidate"
-    </FilesMatch>
-
     # Hashed build assets (JS, CSS, fonts, images, i18n messages): 1 year.
     # <If> sections are merged after <FilesMatch>, so this wins.
     <If "%{REQUEST_URI} =~ m#^/(_nuxt|_i18n)/#">
@@ -190,9 +185,3 @@ RewriteRule \.txt\.(br|gz)$ - [T=text/plain;charset=utf-8,E=no-gzip:1,E=no-brotl
     </If>
 </IfModule>
 
-<IfModule mod_expires.c>
-    ExpiresActive On
-    <FilesMatch "^splash\.(webm|mp4)$">
-        ExpiresDefault "access plus 10 minutes"
-    </FilesMatch>
-</IfModule>
