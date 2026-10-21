@@ -67,6 +67,7 @@ function onClick(index: number) {
             >
                 <VPrismicImage
                     v-bind="media"
+                    alt=""
                     :class="$style.img"
                 />
             </button>

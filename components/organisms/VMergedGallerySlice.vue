@@ -91,6 +91,7 @@ const reveal = computed(() => {
             >
                 <VPrismicImage
                     v-bind="media"
+                    alt=""
                     :class="$style.img"
                 />
             </button>
