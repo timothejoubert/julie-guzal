@@ -1,4 +1,5 @@
 $font-lecturis: 'FH Lecturis';
+$font-lecturis-fallback: 'FH Lecturis Fallback';
 $font-suisse: 'Suisse Int l';
-$font-lecturis-family: $font-lecturis, arial, sans-serif;
+$font-lecturis-family: $font-lecturis, $font-lecturis-fallback, arial, sans-serif;
 $font-suisse-family: $font-suisse, arial, sans-serif;
