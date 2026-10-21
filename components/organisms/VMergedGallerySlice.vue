@@ -47,8 +47,8 @@ const elementList = useTemplateRefsList<HTMLDivElement>()
 const parallaxLayers = computed<ScrollParallaxLayer[]>(() => {
     return elementList.value.map((el, index) => ({
         target: el,
-        start: 'clamp(top center)',
-        vars: { yPercent: (index % 2) ? 20 : -20 },
+        // Distance in px (re-evaluated on refresh) so wide and narrow items move at the same visible speed
+        vars: { y: () => window.innerHeight * ((index % 2) ? 0.10 : -0.10) },
     }))
 })
 useScrollParallax(parallaxLayers, { media: '(min-width: 768px)' })
