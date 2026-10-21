@@ -112,7 +112,6 @@ function isLandscape(document: PossibleMedia) {
                     :key="index"
                     :class="[
                         $style.slide,
-                        index === slideIndex && $style['slide--active'],
                         $style[`slide--orientation-${isLandscape(document) ? 'landscape' : 'portrait'}`],
                     ]"
                 >
@@ -259,14 +258,8 @@ function isLandscape(document: PossibleMedia) {
     flex-shrink: 0;
     justify-content: space-between;
     column-gap: var(--gutter);
-    opacity: 0;
     padding-inline: var(--gutter);
     scroll-snap-align: start;
-    transition: opacity 0.4s ease(in-quad);
-
-    &--active {
-        opacity: 1;
-    }
 
     @include media('>=lg') {
         flex-direction: row;
