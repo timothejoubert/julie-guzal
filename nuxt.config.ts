@@ -31,6 +31,10 @@ export default defineNuxtConfig({
         layoutTransition: false, // Prevent issue with layout without root element
         head: {
             htmlAttrs: { lang: 'en', class: 'app' },
+            // Without JS nothing reveals `.element-translate` (opacity: 0 until the reveal class is added): keep the content visible
+            noscript: [
+                { innerHTML: '<style>.element-translate{opacity:1!important;translate:none!important;transition:none!important}</style>' },
+            ],
             link: [
                 { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
                 { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
