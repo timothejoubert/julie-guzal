@@ -236,10 +236,17 @@ function isLandscape(document: PossibleMedia) {
         column-gap: rem(111);
     }
 
+    // Desktop navigates with the custom cursor: the buttons stay reachable with the keyboard and show up
+    // when focused (RGAA 7.3 / WCAG 2.1.1, 2.4.7)
     @include media('>=lg') {
-        display: none;
+        &:not(:focus-within) {
+            overflow: hidden;
+            width: 1px;
+            height: 1px;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
     }
-
 }
 
 .control {
