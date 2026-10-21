@@ -1,6 +1,7 @@
 <script  lang="ts" setup>
 import { asText } from '@prismicio/client'
 import type { ProjectPageDocument } from '~/prismicio-types'
+import themes from '~/assets/scss/export/_themes.module.scss'
 import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
@@ -10,6 +11,8 @@ import { TRANSITION_HERO_ATTRIBUTE } from '~/transitions/card-transition'
 const props = defineProps<{
     document: ProjectPageDocument
 }>()
+
+usePageBackground(themes['dark-color-background'])
 
 const { image, title, tags, date, content, credits, externalUrl, externalUrlLabel } = useProjectUtils(props.document)
 

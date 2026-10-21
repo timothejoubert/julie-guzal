@@ -10,12 +10,7 @@ const props = defineProps<{
 const data = computed(() => props.document.data)
 const slices = computed(() => data.value.slices)
 
-useHead({
-    meta: [{
-        name: 'theme-color',
-        content: themes['dark-color-background'],
-    }],
-})
+usePageBackground(themes['dark-color-background'])
 </script>
 
 <template>

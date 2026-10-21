@@ -9,12 +9,7 @@ const props = defineProps<{
 const data = computed(() => props.document.data)
 const rightColumn = computed(() => data.value.right_column?.[0])
 
-useHead({
-    meta: [{
-        name: 'theme-color',
-        content: themes['light-color-primary'],
-    }],
-})
+usePageBackground(themes['light-color-primary'])
 </script>
 
 <template>

@@ -71,6 +71,7 @@ function releaseScroll() {
     const { animationComplete } = usePageTransitionState()
 
     enabledScroll()
+    commitPageBackground()
     nuxtApp.$lenis.start()
     // The new page is in the flow again: start from its top and resync Lenis with the real scroll position
     nuxtApp.$lenis.scrollTo(0, { immediate: true, force: true })
@@ -175,7 +176,6 @@ export const cardPageTransition: TransitionProps = {
             top: 0,
             left: 0,
             width: '100%',
-            maxWidth: `calc(100% - var(--scroll-bar-width, 0px))`,
             transformOrigin: 'top',
         }
 
