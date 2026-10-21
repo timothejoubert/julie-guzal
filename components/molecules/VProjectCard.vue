@@ -13,11 +13,13 @@ const props = defineProps<VProjectCardProps>()
 
 const { image, title, date, tags } = useProjectUtils(props.project)
 
-// Preload the project page hero on hover/focus, so the page transition (which waits for the hero to be
-// decoded) can start right away on click. The hidden picture renders the same sources as the page.
+// On hover/focus, preload what the project page waits for before its transition can start:
+// its Prismic document (data) and its hero image (the hidden picture renders the same sources as the page).
 const preloadHero = ref(false)
+const prefetchPage = usePrismicPrefetchPage()
 function onIntent() {
     preloadHero.value = true
+    if (props.project?.uid) prefetchPage('project_page', props.project.uid)
 }
 </script>
 
