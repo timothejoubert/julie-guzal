@@ -247,6 +247,17 @@ export default defineNuxtConfig({
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
+        // <lastmod> from Prismic (merged by `loc` with the prerendered pages). Archived projects are noindex: left out.
+        async urls() {
+            const documents = await createClient(repositoryName, { routes: prismicDocumentRoutes }).dangerouslyGetAll({
+                filters: [filter.any('document.type', prismicDocumentRoutes.map(route => route.type))],
+                fetch: ['project_page.archived'],
+            })
+
+            return documents
+                .filter(document => document.url && !(document.type === 'project_page' && document.data.archived))
+                .map(document => ({ loc: document.url!, lastmod: new Date(document.last_publication_date).toISOString() }))
+        },
         exclude: ['/_icons', '/_icons/**', '/slice-simulator', staticPage.PREVIEW, `${staticPage.PREVIEW}/**`],
     },
     // https://github.com/nuxt-modules/svg-sprite#options
