@@ -2,6 +2,99 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-10-23
+
+### 🚀 Features
+
+- *(seo)* Unify page title, complete Open Graph tags and add JSON-LD
+- *(seo)* Add a title to the error page
+- *(htaccess)* Harden Apache config (redirects, security headers, compression, cache)
+- *(transitions)* Reveal project pages once their hero image is decoded
+- *(parallax)* Add useScrollParallax to create scrubbed parallax tweens in one place
+
+### 🐛 Bug Fixes
+
+- *(ci)* Harden production deploy workflow
+- *(a11y)* Set document lang and translate the main nav label
+- *(a11y)* Add a skip link to the main content
+- *(a11y)* Fix landmarks and heading hierarchy
+- *(a11y)* Announce toasts and expose split text as a whole
+- *(a11y)* Enhance accessibility with visually-hidden class and aria-labels
+- *(seo)* Escape JSON-LD and drop nullish keys properly
+- *(images)* Use existing hd screen instead of unknown hq in sizes
+- *(seo)* Drop nofollow on internal project card link
+- *(netlify)* Require Prismic webhook secret before dispatching deploy
+- *(lenis)* Drive Lenis from the GSAP ticker and load its stylesheet
+- *(transitions)* Compute page direction from the cached menu
+- *(lenis)* Keep the leaving page scroll position during page transitions
+- *(masonry)* Place items from media dimensions instead of measuring the DOM
+- *(parallax)* Adjust parallax layer movement for consistent speed across item sizes
+- *(masonry)* Add endShift option to adjust second column offset for parallax effect
+- *(media-viewer)* Keep carousel scroll position and active slide in sync
+- *(error)* Correct status code retrieval and improve date formatting
+- *(page)* Show the 404 error page for unknown documents
+- Keep revealed content visible without JavaScript
+- *(img)* Don't render crossorigin="false" on images
+- *(VPrismicLink)* Pass the resolved url to NuxtLink instead of the ref
+- Update hero image class for improved accessibility and remove unused styles
+- *(layout)* Apply the page background to html so the scrollbar gutter matches the page
+- *(layout)* Paint the scrollbar track with the page background
+- *(layout)* Always show the scrollbar so its track follows the page background
+- *(layout)* Keep the theme background on html, page color on the scrollbar track only
+- *(scroll-lock)* Share the html scroll lock between page transition and media viewer
+
+### 🚜 Refactor
+
+- Update Prismic imports and configurations
+- Improve SCSS functions and mixins, remove unused VCopyright component
+- Restructure LazySliceZone component placement within VHomePage template
+- Remove unused peerDependencyRules from pnpm-workspace.yaml
+- *(seo)* Remove hreflang alternate links and unused fr locale
+- *(gsap)* Import ScrollTrigger from the ESM build and drop unused plugins
+- *(gallery)* Set up the merged gallery parallax with useScrollParallax
+- *(TODO)* Update in-progress and review sections for clarity and relevance
+- *(VProjectCard)* Improve comments and adjust hero preload width
+- *(layout)* Replace the page background scrollbar setup with scrollbar-gutter: stable
+
+### 📚 Documentation
+
+- *(parallax)* Correct why useMediaQuery is used instead of gsap.matchMedia
+- Allow direct commits on develop for this personal project
+- Document Prismic deploy relay and add release checklist
+
+### ⚡ Performance
+
+- *(home)* Load the first project card image eagerly with high priority
+- *(video)* Lazy-load embed iframes
+- *(fonts)* Ship woff2 only
+- Show the splash screen once per session without blocking the page
+- *(transitions)* Animate page transitions with transforms only
+- Show the splash screen once per session without blocking the page
+- *(top-bar)* Add metric-matched fallback font to limit title CLS
+- *(prismic)* Fetch only card fields for project lists to shrink inlined payload
+- *(video)* Load embeds and native videos only when near the viewport
+- *(project-card)* Preload the project hero image on hover and focus
+- *(project-card)* Prefetch the project Prismic document on hover and focus
+
+### 🎨 Styling
+
+- *(media-viewer)* Keep inactive slides fully opaque
+- *(a11y)* Remove focus outline on main content skip link target
+
+### ⚙️ Miscellaneous Tasks
+
+- Update todo
+- Add CLAUDE.md and pull request CI workflow
+- *(seo)* Only index production and exclude technical routes from sitemap
+- Ignore AI agents' git worktrees in git, Nuxt and Vite watcher
+- Remove the unused splash videos and their cache rule
+- Remove the unused splash videos and their cache rule
+- Update todo with the completed roadmap
+- Update todo
+- *(node)* Bump to 24.22.1 LTS
+- *(pnpm)* Update to pnpm 12.15.0
+- Declare the package as ESM
+
 ## [1.0.10] - 2025-09-04
 
 ### 🎨 Styling
