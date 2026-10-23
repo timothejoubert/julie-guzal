@@ -1,4 +1,5 @@
 ## In progress
+- le project https://julieguzal.fr/project/content est encore accessible alors qu'il a été supprimé de prismic
 
 ## TODO
 - Vérifier la prod : workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
