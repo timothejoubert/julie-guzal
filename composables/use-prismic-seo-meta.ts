@@ -156,6 +156,11 @@ export async function usePrismicSeoMeta(webResponse?: ReachableDocument) {
         imageUrl: image.url,
     })
 
+    // Archived projects stay reachable by URL but out of search engines (and of the sitemap, which skips noindex pages)
+    if (webResponse?.type === 'project_page' && webResponse.data.archived) {
+        useRobotsRule('noindex, follow')
+    }
+
     if (structuredData) {
         useHead({
             script: [getJsonLdScriptContent(structuredData)],

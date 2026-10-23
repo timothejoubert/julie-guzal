@@ -3,7 +3,8 @@ import { SPLASH_HEAD_SCRIPT } from '#root/constants/splash-screen'
 import staticPage from '#root/constants/static-page.js'
 import { version } from '#root/package.json'
 import { repositoryName } from '#root/prismic.config.json'
-import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
+import { getDocumentRoutePath, prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
+import { createClient, filter } from '@prismicio/client'
 import svgLoader from 'vite-svg-loader'
 
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
@@ -169,6 +170,19 @@ export default defineNuxtConfig({
                 defaultImport: 'url',
             }),
         ],
+    },
+    hooks: {
+        // Archived projects are linked from nowhere, so the generate crawler never reaches them:
+        // prerender them explicitly to keep their URL alive (they are noindex, see usePrismicSeoMeta).
+        async 'prerender:routes'(ctx) {
+            const archivedProjects = await createClient(repositoryName).getAllByType('project_page', {
+                filters: [filter.at('my.project_page.archived', true)],
+                fetch: [],
+            })
+            const projectPath = getDocumentRoutePath('project_page')
+
+            archivedProjects.forEach(project => ctx.routes.add(`${projectPath}${project.uid}`))
+        },
     },
     // https://eslint.nuxt.com/packages/module
     eslint: {
