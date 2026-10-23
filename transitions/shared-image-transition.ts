@@ -3,11 +3,14 @@ import { gsap } from 'gsap'
 // Shared element transition: the clicked home card image flies to the project page hero.
 // A fixed clone (outside both pages) is resized from the card clip to the hero box with transforms only:
 // the frame is scaled non-uniformly and each image layer is counter-scaled, so the image itself is never distorted.
+// Card and hero files are centered crops (imgix `fit=crop`) of the same original: both layers are placed inside one
+// interpolated "original" box, so they stay aligned pixel to pixel and the image moves as a single picture.
 
-const FLIGHT_DURATION = 1 // same as the entering page animation
-const FLIGHT_EASE = 'power2.inOut'
-// Part of the flight during which the card image cross-fades into the hero image
-const CROSS_FADE_END = 0.6
+const FLIGHT_DURATION = 1
+const FLIGHT_EASE = 'expo.inOut'
+// Part of the flight during which the card image (on top) fades out over the hero image
+const CROSS_FADE_START = 0.2
+const CROSS_FADE_END = 0.7
 const FADE_OUT_DURATION = 0.3
 const Z_INDEX = 1200 // above the leaving (1100) and the entering page
 
@@ -20,21 +23,26 @@ interface Source {
     img: HTMLImageElement
     clip: HTMLElement
     to: string
+    originalRatio?: number
 }
 
 interface Layer {
     img: HTMLImageElement
-    ratio: number
+    region: Rect // part of the original shown by this file (0-1 coordinates)
     base: Rect // size at the end of the flight (scale 1: crisp image on handoff)
 }
 
 interface Flight {
     img: HTMLImageElement
     root: HTMLDivElement
+    originalRatio: number
     clip: Rect // card visible box when the flight was created
-    card: Layer & { zoom: number, offsetX: number, offsetY: number }
+    card: Layer & { ratio: number }
     hero?: Layer & { el: HTMLImageElement }
     target?: Rect // hero box at the end of the transition
+    // Screen box of the whole original image at the start and at the end of the flight
+    from: Rect
+    to?: Rect
     overlays: HTMLElement[]
 }
 
@@ -58,10 +66,40 @@ function lerpRect(from: Rect, to: Rect, p: number): Rect {
 }
 
 // Same box as `object-fit: cover; object-position: center` of an image with this ratio
-function cover(ratio: number, box: Rect, zoom = 1): Rect {
-    const w = Math.max(box.w, box.h * ratio) * zoom
+function cover(ratio: number, box: Rect): Rect {
+    const w = Math.max(box.w, box.h * ratio)
     const h = w / ratio
     return { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h }
+}
+
+function clamp01(value: number) {
+    return Math.min(Math.max(value, 0), 1)
+}
+
+// Part of an original image (ratio `original`) kept by a centered crop of ratio `crop`, in 0-1 coordinates
+function cropRegion(original: number, crop: number): Rect {
+    if (original > crop) {
+        const w = crop / original
+        return { x: (1 - w) / 2, y: 0, w, h: 1 }
+    }
+    const h = original / crop
+    return { x: 0, y: (1 - h) / 2, w: 1, h }
+}
+
+// Screen box of the whole original, from the screen box of one of its crops
+function originalRect(displayed: Rect, region: Rect): Rect {
+    const w = displayed.w / region.w
+    const h = displayed.h / region.h
+    return { x: displayed.x - region.x * w, y: displayed.y - region.y * h, w, h }
+}
+
+function regionRect(original: Rect, region: Rect): Rect {
+    return {
+        x: original.x + region.x * original.w,
+        y: original.y + region.y * original.h,
+        w: region.w * original.w,
+        h: region.h * original.h,
+    }
 }
 
 function imageRatio(img: HTMLImageElement, fallback: Rect) {
@@ -100,14 +138,12 @@ function render(f: Flight, p: number) {
 
     gsap.set(f.root, { x: frame.x, y: frame.y, scaleX: sx, scaleY: sy })
 
-    const cardRect = cover(f.card.ratio, frame, lerp(f.card.zoom, 1, p))
-    cardRect.x += f.card.offsetX * (1 - p)
-    cardRect.y += f.card.offsetY * (1 - p)
-    placeLayer(f.card, cardRect, frame, sx, sy)
+    const original = lerpRect(f.from, f.to ?? f.from, p)
+    placeLayer(f.card, regionRect(original, f.card.region), frame, sx, sy)
 
     if (f.hero) {
-        placeLayer(f.hero, cover(f.hero.ratio, frame), frame, sx, sy)
-        gsap.set(f.hero.img, { opacity: Math.min(p / CROSS_FADE_END, 1) })
+        placeLayer(f.hero, regionRect(original, f.hero.region), frame, sx, sy)
+        gsap.set(f.card.img, { opacity: 1 - clamp01((p - CROSS_FADE_START) / (CROSS_FADE_END - CROSS_FADE_START)) })
     }
 }
 
@@ -130,8 +166,9 @@ function isReducedMotion() {
 }
 
 // Called on click on a home card link, before the navigation starts
-export function registerSharedImageSource(img: HTMLImageElement, clip: HTMLElement, to: string) {
-    source = { img, clip, to: normalizePath(to) }
+// `originalRatio`: ratio of the uncropped image (Prismic dimensions), to align the card and hero crops
+export function registerSharedImageSource(img: HTMLImageElement, clip: HTMLElement, to: string, originalRatio?: number) {
+    source = { img, clip, to: normalizePath(to), originalRatio }
 }
 
 // Leave hook: creates the clone over the card, then hides the card image (the home leaves without it)
@@ -149,7 +186,9 @@ export function startSharedImage() {
     if (!clip.w || !clip.h || !imgRect.w) return
 
     const ratio = imageRatio(current.img, imgRect)
-    const coverRect = cover(ratio, clip)
+    // Unknown original: consider the card file as the original
+    const originalRatio = current.originalRatio && Number.isFinite(current.originalRatio) ? current.originalRatio : ratio
+    const cardRegion = cropRegion(originalRatio, ratio)
 
     const root = document.createElement('div')
     root.setAttribute('aria-hidden', 'true')
@@ -165,19 +204,13 @@ export function startSharedImage() {
         contain: 'strict',
     })
 
-    const card = {
-        img: createLayer(current.img.currentSrc),
-        ratio,
-        base: coverRect,
-        // The visible crop of the card: its image can be zoomed (hover scale) inside the clip
-        zoom: imgRect.w / coverRect.w,
-        offsetX: imgRect.x + imgRect.w / 2 - (clip.x + clip.w / 2),
-        offsetY: imgRect.y + imgRect.h / 2 - (clip.y + clip.h / 2),
-    }
-    card.img.style.willChange = 'transform'
+    // The image rect (not the clip) keeps the visible crop: the card image can be zoomed (hover scale) inside the clip
+    const card = { img: createLayer(current.img.currentSrc), ratio, region: cardRegion, base: imgRect }
+    card.img.style.willChange = 'transform, opacity'
     root.append(card.img)
 
-    const f: Flight = { img: current.img, root, clip, card, overlays: [] }
+    const from = originalRect(imgRect, cardRegion)
+    const f: Flight = { img: current.img, root, originalRatio, clip, card, from, overlays: [] }
     root.style.width = `${clip.w}px`
     root.style.height = `${clip.h}px`
     setLayerBase(card)
@@ -214,24 +247,31 @@ export async function prepareSharedImageTarget(page: HTMLElement, hero: HTMLImag
 
     f.root.style.width = `${target.w}px`
     f.root.style.height = `${target.h}px`
-    f.card.base = cover(f.card.ratio, target)
-    setLayerBase(f.card)
+    // Hero not decoded (timeout): the card image alone lands as a cover of the hero box
+    f.to = originalRect(cover(f.card.ratio, target), f.card.region)
 
     if (hero && hero.complete && hero.naturalWidth && hero.currentSrc) {
         const ratio = imageRatio(hero, target)
-        const heroLayer = { img: createLayer(hero.currentSrc), ratio, base: cover(ratio, target), el: hero }
+        const region = cropRegion(f.originalRatio, ratio)
+        // The real hero is an `object-fit: cover` of its box
+        const heroRect = cover(ratio, target)
+        const heroLayer = { img: createLayer(hero.currentSrc), region, base: heroRect, el: hero }
         setLayerBase(heroLayer)
-        heroLayer.img.style.willChange = 'transform, opacity'
-        heroLayer.img.style.opacity = '0'
+        heroLayer.img.style.willChange = 'transform'
 
         // Same file as the hero (already decoded): only the cached copy is decoded again
         await heroLayer.img.decode().catch(() => {})
         if (flight !== f) return false
 
-        f.root.append(heroLayer.img)
+        // Below the card image, fully opaque: it fills what the card crop doesn't show, then the card fades out
+        f.root.prepend(heroLayer.img)
         f.hero = heroLayer
+        f.to = originalRect(heroRect, region)
         hero.style.opacity = '0'
     }
+
+    f.card.base = regionRect(f.to, f.card.region)
+    setLayerBase(f.card)
 
     // The page is still off-screen: hide what would pass over the flying image, then pop over the hero on handoff
     f.overlays = [...page.querySelectorAll<HTMLElement>(`[${TRANSITION_OVERLAY_ATTRIBUTE}]`)]

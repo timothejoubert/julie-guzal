@@ -33,7 +33,11 @@ function onLinkClick(event: MouseEvent) {
 
     const link = event.currentTarget as HTMLAnchorElement
     const img = mediaWrapper.value?.querySelector('img')
-    if (img && mediaWrapper.value && link.pathname) registerSharedImageSource(img, mediaWrapper.value, link.pathname)
+    const dimensions = image.value ? image.value.dimensions : undefined
+    const originalRatio = dimensions?.width && dimensions.height ? dimensions.width / dimensions.height : undefined
+    if (img && mediaWrapper.value && link.pathname) {
+        registerSharedImageSource(img, mediaWrapper.value, link.pathname, originalRatio)
+    }
 }
 </script>
 
