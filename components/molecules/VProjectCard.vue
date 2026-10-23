@@ -34,7 +34,7 @@ function onIntent() {
         <VProjectHeroPicture
             v-if="preloadHero && image"
             :image="image"
-            class="visually-hidden"
+            :class="$style['hero-preload']"
             aria-hidden="true"
         />
         <VPrismicLink
@@ -90,6 +90,19 @@ function onIntent() {
 @use 'assets/scss/functions/fluid' as *;
 @use 'assets/scss/variables/fonts' as *;
 @use 'assets/scss/mixins/include-media' as *;
+
+// Off-screen copy of the project page hero: loaded, never visible. Its `sizes` in vw resolve against the viewport,
+// whatever its own width. Not 100vw: it includes the scrollbar and, inside a translated ancestor (reveal), this
+// "fixed" element extends the page's scrollable area (horizontal scroll).
+.hero-preload {
+    position: fixed;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    visibility: hidden;
+}
 
 .root {
     position: relative;
