@@ -1,0 +1,26 @@
+meta {
+  name: GetProjects
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{API_URL}}/documents/search?ref={{PRISMIC_REF}}&q=[[at(document.type,"project_page")]]&pageSize=100&orderings=[document.first_publication_date desc]
+  body: none
+  auth: inherit
+}
+
+params:query {
+  ref: {{PRISMIC_REF}}
+  q: [[at(document.type,"project_page")]]
+  pageSize: 100
+  orderings: [document.first_publication_date desc]
+}
+
+script:pre-request {
+  const axios = require('axios')
+
+  // The search endpoint requires the current master ref
+  const { data } = await axios.get(bru.getEnvVar('API_URL'))
+  bru.setVar('PRISMIC_REF', data.refs.find(ref => ref.isMasterRef).ref)
+}
