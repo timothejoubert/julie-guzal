@@ -11,6 +11,9 @@ const CROSS_FADE_END = 0.6
 const FADE_OUT_DURATION = 0.3
 const Z_INDEX = 1200 // above the leaving (1100) and the entering page
 
+// Set on the entering page elements laid over the hero (e.g. back link): hidden during the flight, faded in after it
+export const TRANSITION_OVERLAY_ATTRIBUTE = 'data-transition-overlay'
+
 interface Rect { x: number, y: number, w: number, h: number }
 
 interface Source {
@@ -32,6 +35,7 @@ interface Flight {
     card: Layer & { zoom: number, offsetX: number, offsetY: number }
     hero?: Layer & { el: HTMLImageElement }
     target?: Rect // hero box at the end of the transition
+    overlays: HTMLElement[]
 }
 
 let source: Source | null = null
@@ -114,6 +118,13 @@ function removeFlight(f: Flight) {
     if (flight === f) flight = null
 }
 
+function showOverlays(f: Flight, duration: number) {
+    if (!f.overlays.length) return
+
+    gsap.killTweensOf(f.overlays)
+    gsap.to(f.overlays, { opacity: 1, duration, clearProps: 'opacity' })
+}
+
 function isReducedMotion() {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
@@ -166,7 +177,7 @@ export function startSharedImage() {
     card.img.style.willChange = 'transform'
     root.append(card.img)
 
-    const f: Flight = { img: current.img, root, clip, card }
+    const f: Flight = { img: current.img, root, clip, card, overlays: [] }
     root.style.width = `${clip.w}px`
     root.style.height = `${clip.h}px`
     setLayerBase(card)
@@ -222,6 +233,10 @@ export async function prepareSharedImageTarget(page: HTMLElement, hero: HTMLImag
         hero.style.opacity = '0'
     }
 
+    // The page is still off-screen: hide what would pass over the flying image, then pop over the hero on handoff
+    f.overlays = [...page.querySelectorAll<HTMLElement>(`[${TRANSITION_OVERLAY_ATTRIBUTE}]`)]
+    gsap.set(f.overlays, { opacity: 0 })
+
     render(f, 0)
     return true
 }
@@ -250,16 +265,21 @@ export function finishSharedImage() {
     // Hero not decoded before the timeout: the card image landed on the hero box, fade it out over the real hero
     if (!f.hero) {
         gsap.to(f.root, { opacity: 0, duration: FADE_OUT_DURATION, onComplete: () => removeFlight(f) })
+        showOverlays(f, FADE_OUT_DURATION)
         return
     }
 
     f.hero.el.style.removeProperty('opacity')
-    requestAnimationFrame(() => requestAnimationFrame(() => removeFlight(f)))
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+        removeFlight(f)
+        showOverlays(f, FADE_OUT_DURATION)
+    }))
 }
 
 export function cancelSharedImage() {
     if (!flight) return
 
     gsap.killTweensOf(flight.root)
+    showOverlays(flight, 0)
     removeFlight(flight)
 }

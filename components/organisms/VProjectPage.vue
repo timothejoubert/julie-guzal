@@ -6,6 +6,7 @@ import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
 import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
 import { TRANSITION_HERO_ATTRIBUTE } from '~/transitions/card-transition'
+import { TRANSITION_OVERLAY_ATTRIBUTE } from '~/transitions/shared-image-transition'
 
 const props = defineProps<{
     document: ProjectPageDocument
@@ -28,6 +29,8 @@ const backLinkTheme = computed(() => {
 
 // Above-the-fold image (LCP): high fetch priority, and the page transition waits for it to be decoded
 const heroImgAttrs = { fetchpriority: 'high', [TRANSITION_HERO_ATTRIBUTE]: '' }
+// Laid over the hero: hidden while the home card image flies to it
+const backLinkAttrs = { [TRANSITION_OVERLAY_ATTRIBUTE]: '' }
 </script>
 
 <template>
@@ -39,6 +42,7 @@ const heroImgAttrs = { fetchpriority: 'high', [TRANSITION_HERO_ATTRIBUTE]: '' }
             <VPrismicLink
                 :to="projectListingUrl"
                 :class="[$style.back, $style[`back--theme-${backLinkTheme}`]]"
+                v-bind="backLinkAttrs"
             >
                 <VIcon
                     :class="$style.back__arrow"
