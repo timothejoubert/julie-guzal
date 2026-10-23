@@ -1,5 +1,4 @@
 ## In progress
-- Lors de la transition de page il faut que l'emplacement de la scrollabr évite de fairer shifter le contenu de la page.
 - transition fluide de l'image dans VProjectCard vers l'image dans VProjectPage. L'animation de page est differente du reste du site, ca doit donner l'impression que l'image reste la meme et se déplace puis s'agrandie pour se placer au niveau de l'image dans le header de la page de projet.
 - Bug lorsqu'on change de page lorsqu'on à scroll dans un page (lab -> photo, photo -> home)
 
@@ -13,6 +12,7 @@
 - pageProject: back link sticky ?
 
 ## Need review
+- Pas de shift de scrollbar (PR fix/scrollbar-shift) : scrollbar-gutter: stable, transition de page + dialog gallery
 - A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## Done
