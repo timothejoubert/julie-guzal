@@ -5,7 +5,15 @@ meta {
 }
 
 post {
-  url: https://staging.julieguzal.fr/api/run-github-actions-deploy
+  url: https://staging.julieguzal.fr/.netlify/functions/run-gh-dispatches
   body: json
   auth: none
+}
+
+body:json {
+  {
+    "secret": "{{PRISMIC_WEBHOOK_SECRET}}",
+    "type": "api-update",
+    "documents": []
+  }
 }

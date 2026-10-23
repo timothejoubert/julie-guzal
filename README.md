@@ -34,11 +34,6 @@ pnpm type-gen          # regenerate prismicio-types.d.ts
 * Customize your domain name
 * Add your environment variables in "site settings"
 
-### Webhook
-If you are creating a Static Website:  
-Use Prismic webhook for rebuild the app each time Prismic data is updated. [Prismic tuto](https://prismic.io/docs/webhooks) | [Netlify build hook page](https://app.netlify.com/sites/hugo-tomasi/settings/deploys#build-hooks)
-
-
 ### Preview
 Not
 * Setup preview in prismic setting BO (add name, domain and path to the preview in prismic settings)
@@ -56,7 +51,49 @@ prismic: {
 ```
 
 ### Redirection
-* Create netlify.toml file in static folder with specific rules [Netlify tuto](https://docs.netlify.com/routing/redirects/)
+* Production is static on Apache: redirects, HTTP headers and cache rules live in `public/.htaccess` (copied to `.output/public` by `nuxi generate`). `nitro.routeRules` are not applied there.
+
+## Production deploy
+
+Production is the statically generated site (`pnpm generate`) uploaded over SFTP to OVH (`/home/juliegd/www`) by `.github/workflows/build-prod.yaml`. The Netlify site (https://staging.julieguzal.fr) is the staging, built from `develop`.
+
+### Triggers
+
+`build-prod.yaml` runs on:
+
+| Trigger | When |
+| --- | --- |
+| Git tag push | Release (`release/*` merged into `main`, then tagged) |
+| `repository_dispatch` `netlify_function_publish_trigger` | A document is published/unpublished in Prismic |
+| `repository_dispatch` `custom_bruno_trigger` | Manual run from the Bruno collection (`Github action build`) |
+
+### Prismic publish → production
+
+```
+Prismic (publish) ──webhook──▶ Netlify function ──repository_dispatch──▶ GitHub Actions ──SFTP──▶ OVH
+                               run-gh-dispatches                        build-prod.yaml
+```
+
+Prismic cannot call GitHub directly: its webhook body is fixed (`secret`, `type`, `documents`…) while the GitHub `dispatches` endpoint expects `{ event_type }` and a bearer token. `netlify/functions/run-gh-dispatches.mts` is the relay: it checks the Prismic secret, then dispatches `netlify_function_publish_trigger` (only the document ids are forwarded, never the secret).
+
+It replaces the former standalone repository `timothejoubert/julie-guzal-webhook`, which is obsolete.
+
+- Endpoint: `https://staging.julieguzal.fr/.netlify/functions/run-gh-dispatches` (`POST` only)
+- Deployed with the Netlify staging: a change to the function is live only once `develop` is pushed.
+- Responses: `200` dispatched · `401` wrong/missing secret · `405` not `POST` · `500` missing env variable · `502` GitHub refused the dispatch (see Netlify function logs).
+
+### Configuration
+
+Values are in Bitwarden, never in the repository.
+
+| Where | Name | Notes |
+| --- | --- | --- |
+| Netlify env | `NUXT_GITHUB_USER_TOKEN` | Fine-grained PAT, repository `timothejoubert/julie-guzal` only, permission *Contents: read & write* |
+| Netlify env | `PRISMIC_WEBHOOK_SECRET` | Same value as the Prismic webhook secret |
+| GitHub secrets | `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` | OVH SFTP access |
+| Prismic → Settings → Webhooks | URL + secret | Function endpoint above, triggers on document publish/unpublish |
+
+Release and production checks: see [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
 ---
 
