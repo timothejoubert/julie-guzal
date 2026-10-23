@@ -30,3 +30,6 @@ logs
 
 # AI agents git worktrees
 .claude/worktrees/
+
+# Lighthouse CI reports
+.lighthouseci

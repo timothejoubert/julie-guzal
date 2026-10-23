@@ -21,9 +21,11 @@
         "lint:js": "eslint .",
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
         "typecheck": "nuxi typecheck",
+        "lhci": "lhci autorun",
         "type-gen": "npx prismic gen types"
     },
     "devDependencies": {
+        "@lhci/cli": "0.15.1",
         "@nuxt/eslint": "^1.17.0",
         "@nuxt/image": "2.2.0",
         "@nuxtjs/i18n": "^10.6.0",
