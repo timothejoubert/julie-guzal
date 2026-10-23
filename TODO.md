@@ -4,7 +4,7 @@
 
 ## TODO
 - Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
-- CSP : passer de Report-Only à appliquée si la console prod est propre, puis retirer 'unsafe-inline' (hashes au build)
+- CSP : après la release, vérifier la console prod (CSP appliquée, hashes des scripts inline ajoutés au build)
 - Prismic : renseigner settings.socials (sameAs du JSON-LD)
 - Prismic (SEO/GEO) : meta_description propres sur contact, gallery, lab et chaque projet (≤ 160 car., aujourd'hui fallback sur site_description, dupliqué)
 - Prismic (SEO/GEO/RGAA) : alt des images projets, gallery et lab (tous vides)
@@ -19,6 +19,9 @@
 - A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## Done
+- CSP appliquée + hashes des scripts inline calculés au build (`scripts/csp-script-hashes.mjs`)
+- CI sur les push develop + Lighthouse CI (`lighthouserc.cjs`)
+- Retrait de lodash (objectPick et useThrottleFn de VueUse)
 - Page projet inexistante : vraie page 404 (#18)
 - Contenu visible sans JS (#19)
 - VImg ne rend plus crossorigin="false" (#20)
