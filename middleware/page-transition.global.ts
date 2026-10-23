@@ -1,6 +1,7 @@
 import type { RouteLocationNormalized } from 'vue-router'
 import { DATA_KEY as MENU_DATA_KEY } from '~/composables/use-prismic-menu-document'
 import type { MenuDocument } from '~/prismicio-types'
+import { loadGsap } from '~/utils/animation/gsap'
 
 type MenuItems = MenuDocument['data']['links'] | undefined
 
@@ -25,4 +26,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // Pages outside the menu (e.g. projects) always use the forwards transition
     const isBackwards = fromIndex !== -1 && toIndex !== -1 && fromIndex > toIndex
     pageDirection.value = isBackwards ? 'backwards' : 'forwards'
+
+    // The transition hooks use GSAP synchronously: make sure it is loaded (usually already done once the app is idle).
+    // Not on the initial load: nothing is animated and it would delay the hydration.
+    if (import.meta.client && !useNuxtApp().isHydrating) await loadGsap()
 })

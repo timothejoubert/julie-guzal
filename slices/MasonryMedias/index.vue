@@ -2,6 +2,7 @@
 import type { MasonryMediasSlice } from '~/prismicio-types'
 import type { MasonryItem } from '~/utils/masonry/get-masonry-split-index'
 import type { ScrollParallaxLayer } from '~/composables/use-scroll-parallax'
+import { ScrollTrigger } from '~/utils/animation/gsap'
 
 const props = defineProps(getSliceComponentProps<MasonryMediasSlice>())
 const primary = computed(() => props.slice.primary)
@@ -54,8 +55,7 @@ const { splitIndex } = useMasonryColumns(() => items.value.map(item => item.dime
 const columns = computed(() => [items.value.slice(0, splitIndex.value), items.value.slice(splitIndex.value)])
 
 // Columns changed of height: update the ScrollTrigger positions (this one and the ones below on the page)
-const { $scrollTrigger } = useNuxtApp()
-watch(splitIndex, () => nextTick(() => $scrollTrigger?.refresh()))
+watch(splitIndex, () => nextTick(() => ScrollTrigger?.refresh()))
 
 // PARALLAX
 // One scrubbed tween on the second column (all its items move together), driven by the slice position
