@@ -55,12 +55,9 @@ function onLinkClick(event: MouseEvent) {
             :class="$style['hero-preload']"
             aria-hidden="true"
         />
-        <VPrismicLink
+        <div
             ref="mediaWrapper"
-            :to="project"
             :class="$style['media-wrapper']"
-            tabindex="-1"
-            @click="onLinkClick"
         >
             <VPrismicImage
                 v-if="image"
@@ -69,7 +66,7 @@ function onLinkClick(event: MouseEvent) {
                 ar="684:414"
                 width="684"
                 height="414"
-                :alt="image.alt || $t('v_project_card.alt', { projectName: title })"
+                :alt="image.alt || ''"
                 :class="$style.image"
                 :loading="priority ? 'eager' : 'lazy'"
                 :fetchpriority="priority ? 'high' : undefined"
@@ -79,14 +76,16 @@ function onLinkClick(event: MouseEvent) {
                 v-else
                 :class="[$style.image, $style['image--placeholder']]"
             />
-        </VPrismicLink>
-        <VPrismicLink
-            :to="project"
-            :class="$style.title"
-            @click="onLinkClick"
-        >
-            {{ title }}
-        </VPrismicLink>
+        </div>
+        <h2 :class="$style.title">
+            <VPrismicLink
+                :to="project"
+                :class="$style.link"
+                @click="onLinkClick"
+            >
+                {{ title }}
+            </VPrismicLink>
+        </h2>
         <div
             v-if="tags.length"
             :class="$style.tags"
@@ -163,10 +162,30 @@ function onLinkClick(event: MouseEvent) {
     font-weight: 300;
     line-height: 1.4;
     margin-block: rem(14) rem(25);
-    text-decoration: none;
 
     @include media('>=lg') {
       margin-block: rem(48) rem(60);
+    }
+}
+
+// Single link of the card: its pseudo-element stretches over the whole card (.root is the positioned ancestor)
+.link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+        position: absolute;
+        content: '';
+        inset: 0;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
+
+    &:focus-visible::after {
+        outline: 2px solid var(--theme-color-primary, var(--theme-color-on-background));
+        outline-offset: 2px;
     }
 }
 

@@ -65,7 +65,8 @@ export default defineComponent({
                 src: src.value,
                 width: width.value,
                 height: height.value,
-                alt: props.alt || document.value?.alt || document.value?.name,
+                // An explicit empty alt marks a decorative image: keep it instead of falling back
+                alt: props.alt ?? (document.value?.alt || document.value?.name),
                 placeholder: document.value?.imageAverageColor || '#ddd',
                 sizes: sizes.value,
                 provider: provider.value,
