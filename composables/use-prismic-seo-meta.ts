@@ -2,6 +2,7 @@ import { joinURL } from 'ufo'
 import { asImageSrc, isFilled } from '@prismicio/client'
 import type { ImageField } from '@prismicio/client'
 import { getText } from '~/utils/prismic/prismic-rich-field.js'
+import { truncate } from '~/utils/string/truncate'
 import { getJsonLdScriptContent } from '~/utils/structured-data'
 import type { ReachableDocument } from '~/types/api'
 import type { SettingsDocument } from '~/prismicio-types'
@@ -122,8 +123,9 @@ export async function usePrismicSeoMeta(webResponse?: ReachableDocument) {
     const siteName = settingDocument?.data?.site_name || runtimeConfig.public.site.name
 
     const title = getSeoTitle(webResponse, siteName)
-    const description = webResponse?.data?.meta_description || getDescription(webResponse)
+    const description = truncate(webResponse?.data?.meta_description || getDescription(webResponse) || settingDocument?.data?.site_description || undefined)
     const image = getImage(webResponse, siteUrl)
+    const imageAlt = image.alt || title
     const canonicalUrl = usePrismicCanonicalUrl(webResponse)
 
     useSeoMeta({
@@ -138,12 +140,12 @@ export async function usePrismicSeoMeta(webResponse?: ReachableDocument) {
         ogImage: image.url,
         ogImageWidth: image.width,
         ogImageHeight: image.height,
-        ogImageAlt: image.alt,
+        ogImageAlt: imageAlt,
         twitterCard: 'summary_large_image',
         twitterTitle: title,
         twitterDescription: description,
         twitterImage: image.url,
-        twitterImageAlt: image.alt,
+        twitterImageAlt: imageAlt,
     })
 
     const structuredData = getStructuredData({
