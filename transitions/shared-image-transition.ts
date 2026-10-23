@@ -10,7 +10,7 @@ import { gsap } from 'gsap'
 const FLIGHT_DURATION = 1
 const FLIGHT_EASE = 'expo.inOut'
 const FADE_OUT_DURATION = 0.3
-const Z_INDEX = 1200 // above the leaving (1100) and the entering page
+const Z_INDEX = 3 // above the leaving (2) and the entering page, below the mobile nav (layout)
 
 // Set on the entering page elements laid over the hero (e.g. back link): hidden during the flight, faded in after it
 export const TRANSITION_OVERLAY_ATTRIBUTE = 'data-transition-overlay'

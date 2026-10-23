@@ -155,14 +155,12 @@ $padding-bottom: rem(24);
 }
 
 .nav {
-    grid-column: 1 / -1;
+    // Mobile: the layout renders the nav outside the pages (see layouts/default.vue)
+    display: none;
     transition: translate 0.5s ease(out-quad);
 
-    .root--hidden & {
-        translate: 0 calc(100% + #{rem(24)});
-    }
-
     @include media('>=md') {
+        display: block;
         grid-column: 10 / -1;
 
         .root--hidden & {

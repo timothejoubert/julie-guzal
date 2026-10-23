@@ -144,7 +144,7 @@ export const cardPageTransition: TransitionProps = {
                 top: -window.scrollY,
                 left: 0,
                 width: '100%',
-                zIndex: '1100',
+                zIndex: '2', // above the entering page, below the mobile nav (layout)
                 transformOrigin: 'top',
                 willChange: 'transform',
             })
