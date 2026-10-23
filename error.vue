@@ -2,12 +2,8 @@
 import type { NuxtError } from 'nuxt/app'
 import { I18N_DEFAULT_LOCALE } from '~/constants/i18n'
 import VTextGlitched from '~/components/molecules/VTextGlitched.vue'
-import themes from '~/assets/scss/export/_themes.module.scss'
 
 useSeoMeta({ robots: 'noindex, nofollow' })
-
-// No page transition here: drop any color left pending by the failed navigation
-usePageBackground(themes['dark-color-background'], { immediate: true })
 
 const props = defineProps<{
     error: NuxtError

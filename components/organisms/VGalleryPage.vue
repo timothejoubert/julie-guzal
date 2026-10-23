@@ -13,7 +13,12 @@ const isGalleryGrid = (slice: { slice_type: string }) => (slice.slice_type === '
 const galleryGridSlices = computed(() => slices.value.filter(isGalleryGrid) as GalleryGridSlice[])
 const otherSlices = computed(() => slices.value.filter(s => !isGalleryGrid(s)))
 
-usePageBackground(themes['light-color-background'])
+useHead({
+    meta: [{
+        name: 'theme-color',
+        content: themes['light-color-background'],
+    }],
+})
 </script>
 
 <template>

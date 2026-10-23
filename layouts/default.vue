@@ -13,8 +13,6 @@ if (isWildCardPage) {
     if (webResponse) useCurrentPage().value = { webResponse }
 }
 
-usePageBackgroundHead()
-
 const appConfig = useAppConfig()
 </script>
 

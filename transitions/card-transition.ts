@@ -67,11 +67,10 @@ function killTimeline(el: Element) {
 
 function releaseScroll() {
     const nuxtApp = useNuxtApp()
-    const { enabledScroll } = useBodyScrollLock('page-transition')
+    const { enabledScroll } = useBodyScrollLock()
     const { animationComplete } = usePageTransitionState()
 
     enabledScroll()
-    commitPageBackground()
     nuxtApp.$lenis.start()
     // The new page is in the flow again: start from its top and resync Lenis with the real scroll position
     nuxtApp.$lenis.scrollTo(0, { immediate: true, force: true })
@@ -146,7 +145,7 @@ export const cardPageTransition: TransitionProps = {
         gsap.set(el, { clearProps: 'all' })
     },
     onBeforeEnter: () => {
-        const { disableScroll } = useBodyScrollLock('page-transition')
+        const { disableScroll } = useBodyScrollLock()
         disableScroll()
 
         const nuxtApp = useNuxtApp()
