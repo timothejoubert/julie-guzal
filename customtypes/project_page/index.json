@@ -1,99 +1,98 @@
 {
   "format": "page",
   "id": "project_page",
-  "label": "Project page",
-  "repeatable": true,
-  "status": true,
   "json": {
     "Main": {
       "uid": {
-        "type": "UID",
         "config": {
-          "label": "UID"
-        }
+          "label": "URL",
+          "placeholder": "Ne plus changer après publication"
+        },
+        "type": "UID"
       },
       "back_button_theme": {
-        "type": "Select",
         "config": {
-          "label": "Back button theme",
-          "placeholder": "",
-          "options": ["light", "dark"],
-          "default_value": "light"
-        }
+          "default_value": "light",
+          "label": "Bouton retour",
+          "options": [
+            "light",
+            "dark"
+          ],
+          "placeholder": "Selon le fond de la 1re image"
+        },
+        "type": "Select"
       },
       "title": {
-        "type": "Text",
         "config": {
-          "label": "Title",
+          "label": "Titre",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "content": {
-        "type": "StructuredText",
         "config": {
-          "label": "Content",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
+          "label": "Introduction",
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "image": {
-        "type": "Image",
         "config": {
-          "label": "Image",
           "constraint": {},
+          "label": "Image de couverture",
           "thumbnails": []
-        }
+        },
+        "type": "Image"
       },
       "archived": {
-        "type": "Boolean",
         "config": {
-          "label": "Archived",
-          "placeholder_false": "false",
-          "placeholder_true": "true",
-          "default_value": true
-        }
+          "default_value": false,
+          "label": "Archivé",
+          "placeholder_false": "Visible",
+          "placeholder_true": "Masqué du site, lien direct actif"
+        },
+        "type": "Boolean"
       },
       "order_date": {
-        "type": "Date",
         "config": {
-          "label": "Order date",
-          "placeholder": "Use for ordered projects on the home page and in the project footer."
-        }
+          "label": "Date de tri",
+          "placeholder": "Tri de l'accueil, le plus récent en premier"
+        },
+        "type": "Date"
       },
       "creation_date": {
-        "type": "Date",
         "config": {
-          "label": "Creation date",
-          "placeholder": ""
-        }
+          "label": "Date du projet",
+          "placeholder": "Année affichée"
+        },
+        "type": "Date"
       },
       "credits": {
-        "type": "StructuredText",
         "config": {
-          "label": "Credits",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,strong,em,hyperlink"
-        }
+          "label": "Crédits",
+          "multi": "paragraph,strong,em,hyperlink",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "external_url": {
-        "type": "Text",
         "config": {
-          "label": "External url",
-          "placeholder": ""
-        }
+          "label": "Lien externe",
+          "placeholder": "https://…"
+        },
+        "type": "Text"
       },
       "external_url_label": {
-        "type": "Text",
         "config": {
-          "label": "External url label",
-          "placeholder": ""
-        }
+          "label": "Texte du lien",
+          "placeholder": "ex. Voir le site"
+        },
+        "type": "Text"
       },
       "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
         "config": {
           "choices": {
             "simple_content": {
@@ -106,21 +105,23 @@
               "type": "SharedSlice"
             }
           }
-        }
+        },
+        "fieldset": "Slice Zone",
+        "type": "Slices"
       }
     },
     "SEO & Metadata": {
       "meta_title": {
         "config": {
-          "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
+          "label": "Titre SEO",
+          "placeholder": "Titre pour Google"
         },
         "type": "Text"
       },
       "meta_description": {
         "config": {
-          "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
+          "label": "Description SEO",
+          "placeholder": "≈ 155 caractères"
         },
         "type": "Text"
       },
@@ -130,11 +131,14 @@
             "height": 1260,
             "width": 2400
           },
-          "label": "Meta Image",
+          "label": "Image de partage",
           "thumbnails": []
         },
         "type": "Image"
       }
     }
-  }
+  },
+  "label": "Projet",
+  "repeatable": true,
+  "status": true
 }
