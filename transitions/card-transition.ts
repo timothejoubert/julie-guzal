@@ -1,5 +1,12 @@
 import { gsap } from 'gsap'
 import type { TransitionProps } from 'vue'
+import {
+    addSharedImageFlight,
+    cancelSharedImage,
+    finishSharedImage,
+    prepareSharedImageTarget,
+    startSharedImage,
+} from '~/transitions/shared-image-transition'
 
 // Below this width the page swap is instant (no animation)
 const MIN_ANIMATED_WIDTH = 700
@@ -102,6 +109,9 @@ export const cardPageTransition: TransitionProps = {
 
         // Only transform/opacity are animated (compositor-friendly), no layout property
         if (pageDirection.value === 'forwards') {
+            // Home card → project: the card image flies on its own to the project hero
+            startSharedImage()
+
             gsap.set(el, {
                 transformOrigin: 'top',
                 willChange: 'transform, opacity',
@@ -141,6 +151,7 @@ export const cardPageTransition: TransitionProps = {
         })
     },
     onLeaveCancelled: (el) => {
+        cancelSharedImage()
         killTimeline(el)
         gsap.set(el, { clearProps: 'all' })
     },
@@ -215,7 +226,9 @@ export const cardPageTransition: TransitionProps = {
         const hero = el.querySelector<HTMLImageElement>(`img[${TRANSITION_HERO_ATTRIBUTE}]`)
         const ready = hero ? waitForImage(hero, HERO_TIMEOUT) : Promise.resolve()
 
-        ready.then(() => {
+        ready.then(() => prepareSharedImageTarget(el as HTMLElement, hero)).then((hasSharedImage) => {
+            if (hasSharedImage) addSharedImageFlight(tl)
+
             // Start on a fresh frame so the first animated frame doesn't absorb the page mount cost
             requestAnimationFrame(() => {
                 gate?.resolve()
@@ -226,12 +239,14 @@ export const cardPageTransition: TransitionProps = {
     },
     onAfterEnter: () => {
         releaseScroll()
+        finishSharedImage()
         useNuxtApp().$scrollTrigger?.refresh()
     },
     onEnterCancelled: (el) => {
         // A new navigation started before the end: never leave the scroll locked or Lenis stopped
         killTimeline(el)
         gsap.set(el, { clearProps: 'all' })
+        cancelSharedImage()
         enterReady?.resolve()
         releaseScroll()
     },

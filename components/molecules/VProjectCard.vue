@@ -1,5 +1,7 @@
 <script  lang="ts" setup>
 import type { PossibleProjectPageDocument } from '~/types/app'
+import { registerSharedImageSource } from '~/transitions/shared-image-transition'
+import { getDocumentTypeByUrl } from '~/utils/prismic/route-resolver'
 
 interface VProjectCardProps {
     project: PossibleProjectPageDocument | null
@@ -21,6 +23,18 @@ function onIntent() {
     preloadHero.value = true
     if (props.project?.uid) prefetchPage('project_page', props.project.uid)
 }
+
+// From the home page, the card image flies to the project page hero (see the page transition)
+const route = useRoute()
+const mediaWrapper = useTemplateElement<HTMLElement>('mediaWrapper')
+function onLinkClick(event: MouseEvent) {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+    if (getDocumentTypeByUrl(route.path) !== 'home_page') return
+
+    const link = event.currentTarget as HTMLAnchorElement
+    const img = mediaWrapper.value?.querySelector('img')
+    if (img && mediaWrapper.value && link.pathname) registerSharedImageSource(img, mediaWrapper.value, link.pathname)
+}
 </script>
 
 <template>
@@ -38,9 +52,11 @@ function onIntent() {
             aria-hidden="true"
         />
         <VPrismicLink
+            ref="mediaWrapper"
             :to="project"
             :class="$style['media-wrapper']"
             tabindex="-1"
+            @click="onLinkClick"
         >
             <VPrismicImage
                 v-if="image"
@@ -63,6 +79,7 @@ function onIntent() {
         <VPrismicLink
             :to="project"
             :class="$style.title"
+            @click="onLinkClick"
         >
             {{ title }}
         </VPrismicLink>
