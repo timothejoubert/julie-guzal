@@ -1,12 +1,14 @@
 // Runs after `nuxi generate`: adds the sha256 hash of every inline script of the generated pages
-// to the CSP `script-src` of `.output/public/.htaccess`. Browsers that support hashes then ignore
+// to the CSP `script-src` of `dist/.htaccess`. Browsers that support hashes then ignore
 // `'unsafe-inline'`, which stays in `public/.htaccess` as a fallback for the very old ones.
 // The hashes change on each build (import map entry, `window.__NUXT__` config), hence this step.
 import { createHash } from 'node:crypto'
 import { readdir, readFile, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
-const PUBLIC_DIR = '.output/public'
+// `nuxi generate` always outputs to `dist`: a symlink to `.output/public` with the default preset,
+// the real output directory with the `netlify-static` preset auto-selected on Netlify
+const PUBLIC_DIR = 'dist'
 const HTACCESS = join(PUBLIC_DIR, '.htaccess')
 // Inline scripts whose content is executed (data blocks such as JSON payloads or JSON-LD are not)
 const EXECUTABLE_TYPES = ['', 'module', 'importmap', 'text/javascript', 'application/javascript']
