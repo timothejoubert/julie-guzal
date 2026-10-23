@@ -1,27 +1,36 @@
 ## In progress
-- transition fluide de l'image dans VProjectCard vers l'image dans VProjectPage. L'animation de page est differente du reste du site, ca doit donner l'impression que l'image reste la meme et se déplace puis s'agrandie pour se placer au niveau de l'image dans le header de la page de projet.
-- Bug lorsqu'on change de page lorsqu'on à scroll dans un page (lab -> photo, photo -> home)
 
 ## TODO
-- Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
+- Vérifier la prod : workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
 - CSP : après la release, vérifier la console prod (CSP appliquée, hashes des scripts inline ajoutés au build)
 - Prismic : renseigner settings.socials (sameAs du JSON-LD)
 - Prismic (SEO/GEO) : meta_description propres sur contact, gallery, lab et chaque projet (≤ 160 car., aujourd'hui fallback sur site_description, dupliqué)
 - Prismic (SEO/GEO/RGAA) : alt des images projets, gallery et lab (tous vides)
 - Prismic (GEO) : courte bio factuelle (lieu, spécialités, clients) sur la home ou /contact ; rôle/client/année/livrables sur chaque projet
+- A11Y (Lighthouse) : liens de la nav trop petits (target-size, toutes les pages), contraste des textes révélés sur /contact
+- Lighthouse CI : remonter les seuils a11y/SEO à 0.95 dans `lighthouserc.cjs` une fois fix/a11y-media-motion mergée et les alt renseignés
+- Typecheck : gate progressif en CI (échec si le nombre d'erreurs augmente) plutôt que tout corriger
 - Splash : sessionStorage par onglet, passer en cookie de session si besoin
 - Déploiement : clé SSH au lieu du mot de passe FTP + environment GitHub "production" protégé
 - Regénérer et upload uniquement la page modifié sur prismic
 - pageProject: back link sticky ?
 
 ## Need review
-- Pas de shift de scrollbar (PR fix/scrollbar-shift) : scrollbar-gutter: stable, transition de page + dialog gallery
 - A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## Done
+- Vérif prod 1.1.1 : .htaccess OK (200 sur / et /contact, 301 http/www → https://julieguzal.fr, br, HSTS), aucune violation CSP en report-only
 - CSP appliquée + hashes des scripts inline calculés au build (`scripts/csp-script-hashes.mjs`)
 - CI sur les push develop + Lighthouse CI (`lighthouserc.cjs`)
 - Retrait de lodash (objectPick et useThrottleFn de VueUse)
+- Prismic : libellés et textes d'aide de l'éditeur clarifiés (#32)
+- SEO/GEO (1.1.1) : llms.txt, lastmod dans le sitemap, données structurées enrichies, meta descriptions avec fallback et tronquées
+- Projets archivés : noindex + prerender des routes (#31)
+- Perf : GSAP/ScrollTrigger hors du chunk d'entrée, polices de /contact préchargées + fallback métrique Suisse (CLS) (#31)
+- A11Y : un seul lien (titre étiré) par card projet
+- Transition d'image partagée card → hero de la page projet, aussi sur mobile et en navigation arrière (#29)
+- Bug de scroll au changement de page après avoir scrollé (lab -> photo, photo -> home) (#30)
+- Pas de shift de scrollbar : scrollbar-gutter: stable, transition de page + dialog gallery (#26)
 - Page projet inexistante : vraie page 404 (#18)
 - Contenu visible sans JS (#19)
 - VImg ne rend plus crossorigin="false" (#20)
