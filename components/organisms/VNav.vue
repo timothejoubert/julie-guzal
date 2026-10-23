@@ -96,6 +96,7 @@ const rootElement = useTemplateElement('rootElement')
         border-radius: rem(12);
         background-color: var(--theme-color-background);
         margin-inline: auto;
+        transition: background-color 0.3s;
     }
 }
 

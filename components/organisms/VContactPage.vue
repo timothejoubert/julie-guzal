@@ -1,6 +1,9 @@
 <script  lang="ts" setup>
 import type { ContactPageDocument } from '~/prismicio-types'
 import themes from '~/assets/scss/export/_themes.module.scss'
+import lecturisLight from '~/assets/fonts/fhlecturis-light-subset.woff2?url'
+import lecturisRegular from '~/assets/fonts/fhlecturis-regular-subset.woff2?url'
+import suisseRegular from '~/assets/fonts/suisseintl-regular-subset.woff2?url'
 
 const props = defineProps<{
     document: ContactPageDocument
@@ -14,6 +17,16 @@ useHead({
         name: 'theme-color',
         content: themes['light-color-primary'],
     }],
+    // The content is anchored to the bottom of the viewport: when a web font swaps in, the text rewraps and
+    // the whole <main> moves (CLS ~0.16 on mobile). Preloading the fonts of this page makes them ready for
+    // the first paint. Kept local to this page: a global preload regressed the home page LCP.
+    link: [lecturisLight, lecturisRegular, suisseRegular].map(href => ({
+        rel: 'preload',
+        as: 'font',
+        type: 'font/woff2',
+        href,
+        crossorigin: '',
+    })),
 })
 </script>
 
@@ -88,10 +101,6 @@ useHead({
 
 .top-bar {
     --v-top-bar-title-max-width: 9ch;
-
-    & :global(.v-nav) {
-        @include theme('dark')
-    }
 
     @include media('>=md') {
         & :global(.v-nav) {

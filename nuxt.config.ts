@@ -3,7 +3,8 @@ import { SPLASH_HEAD_SCRIPT } from '#root/constants/splash-screen'
 import staticPage from '#root/constants/static-page.js'
 import { version } from '#root/package.json'
 import { repositoryName } from '#root/prismic.config.json'
-import { prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
+import { getDocumentRoutePath, prismicDocumentRoutes } from '#root/utils/prismic/route-resolver'
+import { createClient, filter } from '@prismicio/client'
 import svgLoader from 'vite-svg-loader'
 
 const isProd = process.env.NUXT_PUBLIC_SITE_ENV === 'production'
@@ -102,7 +103,7 @@ export default defineNuxtConfig({
         minify: true,
         prerender: {
             // crawlLinks: true, // enabled by default with nuxt generate, not required
-            routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
+            routes: ['/', '/llms.txt'], // add any routes to prerender (usefull for sitemap generation)
         },
         // https://nitro.build/config#routerules
         // Static hosting: headers, cache and real 301s are NOT applied from here in production,
@@ -170,6 +171,19 @@ export default defineNuxtConfig({
             }),
         ],
     },
+    hooks: {
+        // Archived projects are linked from nowhere, so the generate crawler never reaches them:
+        // prerender them explicitly to keep their URL alive (they are noindex, see usePrismicSeoMeta).
+        async 'prerender:routes'(ctx) {
+            const archivedProjects = await createClient(repositoryName).getAllByType('project_page', {
+                filters: [filter.at('my.project_page.archived', true)],
+                fetch: [],
+            })
+            const projectPath = getDocumentRoutePath('project_page')
+
+            archivedProjects.forEach(project => ctx.routes.add(`${projectPath}${project.uid}`))
+        },
+    },
     // https://eslint.nuxt.com/packages/module
     eslint: {
         config: {
@@ -233,6 +247,17 @@ export default defineNuxtConfig({
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
+        // <lastmod> from Prismic (merged by `loc` with the prerendered pages). Archived projects are noindex: left out.
+        async urls() {
+            const documents = await createClient(repositoryName, { routes: prismicDocumentRoutes }).dangerouslyGetAll({
+                filters: [filter.any('document.type', prismicDocumentRoutes.map(route => route.type))],
+                fetch: ['project_page.archived'],
+            })
+
+            return documents
+                .filter(document => document.url && !(document.type === 'project_page' && document.data.archived))
+                .map(document => ({ loc: document.url!, lastmod: new Date(document.last_publication_date).toISOString() }))
+        },
         exclude: ['/_icons', '/_icons/**', '/slice-simulator', staticPage.PREVIEW, `${staticPage.PREVIEW}/**`],
     },
     // https://github.com/nuxt-modules/svg-sprite#options

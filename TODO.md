@@ -6,6 +6,9 @@
 - Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
 - CSP : passer de Report-Only à appliquée si la console prod est propre, puis retirer 'unsafe-inline' (hashes au build)
 - Prismic : renseigner settings.socials (sameAs du JSON-LD)
+- Prismic (SEO/GEO) : meta_description propres sur contact, gallery, lab et chaque projet (≤ 160 car., aujourd'hui fallback sur site_description, dupliqué)
+- Prismic (SEO/GEO/RGAA) : alt des images projets, gallery et lab (tous vides)
+- Prismic (GEO) : courte bio factuelle (lieu, spécialités, clients) sur la home ou /contact ; rôle/client/année/livrables sur chaque projet
 - Splash : sessionStorage par onglet, passer en cookie de session si besoin
 - Déploiement : clé SSH au lieu du mot de passe FTP + environment GitHub "production" protégé
 - Regénérer et upload uniquement la page modifié sur prismic

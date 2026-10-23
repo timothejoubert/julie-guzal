@@ -54,10 +54,6 @@ useHead({
 
 .top-bar {
     // TODO: add new v-nav color variable depending on theme
-    & :global(.v-nav) {
-        @include theme('dark')
-    }
-
     @include media('>=md') {
         & :global(.v-nav) {
             @include theme('light')

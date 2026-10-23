@@ -1,4 +1,5 @@
 import type { MaybeRefOrGetter } from 'vue'
+import { loadGsap } from '~/utils/animation/gsap'
 
 export interface ScrollParallaxLayer {
     /** Element moved by the parallax (transform only) */
@@ -30,23 +31,30 @@ interface UseScrollParallaxOptions {
  * the breakpoint, otherwise their last transform stays applied.
  */
 export function useScrollParallax(layers: MaybeRefOrGetter<ScrollParallaxLayer[]>, options: UseScrollParallaxOptions) {
-    const { $gsap } = useNuxtApp()
     const isEnabled = useMediaQuery(options.media)
     let context: gsap.Context | undefined
     let currentLayers: ScrollParallaxLayer[] = []
+    // Incremented on each revert: a setup still waiting for GSAP is outdated
+    let setupId = 0
 
     function revert() {
+        setupId++
         context?.revert()
         context = undefined
     }
 
-    function setup() {
+    async function setup() {
         revert()
         if (!isEnabled.value || !currentLayers.length) return
 
-        context = $gsap.context(() => {
+        // GSAP is not part of the entry chunk: the layers, the breakpoint or the component may change while it loads
+        const id = setupId
+        const { gsap } = await loadGsap()
+        if (id !== setupId) return
+
+        context = gsap.context(() => {
             currentLayers.forEach(({ target, trigger, start = 'clamp(top bottom)', end = 'bottom top', vars }) => {
-                $gsap.to(target, {
+                gsap.to(target, {
                     ...vars,
                     ease: 'none',
                     scrollTrigger: {
