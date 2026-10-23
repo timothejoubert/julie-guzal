@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2026-10-23
+
+### 🚀 Features
+
+- *(transition)* Shared image transition from home card to project hero
+- *(transition)* Enable page transitions on mobile
+- *(seo)* Add noindex rule for archived project pages and prerender routes
+- *(seo)* Enrich structured data
+- *(seo)* Add lastmod to sitemap
+- *(geo)* Add llms.txt
+
+### 🐛 Bug Fixes
+
+- *(transitions)* Mirror the forwards animation on backwards navigation
+- *(transition)* Hide the project back link during the shared image flight
+- *(transition)* Align the card and hero layers on the original image and use a punchier ease
+- *(transition)* Swap to the hero image instead of cross-fading during the flight
+- *(nav)* Keep the mobile nav above the pages during transitions
+- *(a11y)* Use a single stretched heading link in project cards
+- *(seo)* Fallback and truncate meta descriptions
+
+### 📚 Documentation
+
+- List SEO/GEO content to fill in Prismic
+
+### ⚡ Performance
+
+- *(contact)* Preload page fonts and add Suisse metric fallback to remove CLS
+- *(js)* Load GSAP and ScrollTrigger outside the entry chunk
+
+### ⚙️ Miscellaneous Tasks
+
+- *(bruno)* Add request to fetch all projects
+
 ## [1.1.0] - 2026-10-23
 
 ### 🚀 Features
