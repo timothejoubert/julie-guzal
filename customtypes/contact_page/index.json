@@ -1,105 +1,102 @@
 {
   "format": "page",
   "id": "contact_page",
-  "label": "Contact page",
-  "repeatable": false,
-  "status": true,
   "json": {
     "Main": {
       "title": {
-        "type": "Text",
         "config": {
           "label": "Title",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "title_mobile": {
-        "type": "Text",
         "config": {
-          "label": "Title mobile",
-          "placeholder": ""
-        }
+          "label": "Titre mobile",
+          "placeholder": "Version courte mobile"
+        },
+        "type": "Text"
       },
       "columns": {
-        "type": "Group",
         "config": {
-          "label": "Columns",
-          "repeat": true,
           "fields": {
             "title": {
-              "type": "Text",
               "config": {
                 "label": "Title",
                 "placeholder": ""
-              }
+              },
+              "type": "Text"
             },
             "content": {
-              "type": "StructuredText",
               "config": {
-                "label": "Content",
-                "placeholder": "",
                 "allowTargetBlank": true,
-                "multi": "strong,em,paragraph,hyperlink"
-              }
+                "label": "Content",
+                "multi": "strong,em,paragraph,hyperlink",
+                "placeholder": ""
+              },
+              "type": "StructuredText"
             }
-          }
-        }
+          },
+          "label": "Columns",
+          "repeat": true
+        },
+        "type": "Group"
       },
       "credits": {
-        "type": "StructuredText",
         "config": {
-          "label": "Credits",
-          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "strong,em,hyperlink"
-        }
+          "label": "Credits",
+          "multi": "strong,em,hyperlink",
+          "placeholder": ""
+        },
+        "type": "StructuredText"
       },
       "right_column": {
-        "type": "Group",
         "config": {
-          "label": "Right column",
-          "repeat": false,
           "fields": {
             "image": {
-              "type": "Image",
               "config": {
-                "label": "image",
                 "constraint": {},
+                "label": "image",
                 "thumbnails": []
-              }
+              },
+              "type": "Image"
             },
             "content": {
-              "type": "StructuredText",
               "config": {
-                "label": "Content",
-                "placeholder": "",
                 "allowTargetBlank": true,
-                "multi": "strong,em,hyperlink"
-              }
+                "label": "Content",
+                "multi": "strong,em,hyperlink",
+                "placeholder": ""
+              },
+              "type": "StructuredText"
             }
-          }
-        }
+          },
+          "label": "Right column",
+          "repeat": false
+        },
+        "type": "Group"
       },
       "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
         "config": {
           "choices": {}
-        }
+        },
+        "fieldset": "Slice Zone",
+        "type": "Slices"
       }
     },
     "SEO & Metadata": {
       "meta_title": {
         "config": {
-          "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
+          "label": "Titre SEO",
+          "placeholder": "Titre pour Google"
         },
         "type": "Text"
       },
       "meta_description": {
         "config": {
-          "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
+          "label": "Description SEO",
+          "placeholder": "≈ 155 caractères"
         },
         "type": "Text"
       },
@@ -109,11 +106,14 @@
             "height": 1260,
             "width": 2400
           },
-          "label": "Meta Image",
+          "label": "Image de partage",
           "thumbnails": []
         },
         "type": "Image"
       }
     }
-  }
+  },
+  "label": "Contact",
+  "repeatable": false,
+  "status": true
 }

@@ -1,7 +1,7 @@
 {
   "description": "ProjectFeed",
   "id": "project_feed",
-  "name": "ProjectFeed",
+  "name": "Liste de projets",
   "type": "SharedSlice",
   "variations": [
     {
@@ -20,7 +20,7 @@
       "id": "manualChoice",
       "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/project_feed/manualChoice/bae3b43966b52b4b3b9dbed9741abf72a7393a91.png?auto=compress%2Cformat",
       "items": {},
-      "name": "Manual choice",
+      "name": "Choix manuel",
       "primary": {
         "project": {
           "config": {
@@ -37,7 +37,7 @@
                 "type": "Link"
               }
             },
-            "label": "Manual project",
+            "label": "Projets (archivés ignorés)",
             "repeat": true
           },
           "type": "Group"

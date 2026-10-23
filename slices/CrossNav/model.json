@@ -1,7 +1,7 @@
 {
   "description": "CrossNav",
   "id": "cross_nav",
-  "name": "CrossNav",
+  "name": "Navigation",
   "type": "SharedSlice",
   "variations": [
     {
