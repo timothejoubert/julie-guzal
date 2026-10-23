@@ -24,9 +24,9 @@ export default defineComponent({
             const result = { ...attrs, ...props.nuxtLinkProps }
 
             if (isRelative.value) {
-                Object.assign(result, { to: url })
+                Object.assign(result, { to: url.value })
             }
-            else if (isExternal) {
+            else if (isExternal.value) {
                 Object.assign(result, {
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener noreferrer',

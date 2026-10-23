@@ -3,6 +3,7 @@ allowBuilds:
   '@scarf/scarf': false # telemetry only
   core-js: false # postinstall only prints a banner
   esbuild: true
+  plyr: false # 3.8.5 leaked its repo-only preinstall (`npx only-allow pnpm`), nothing to build
   unrs-resolver: true
   vue-demi: true
 
