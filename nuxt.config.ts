@@ -103,7 +103,7 @@ export default defineNuxtConfig({
         minify: true,
         prerender: {
             // crawlLinks: true, // enabled by default with nuxt generate, not required
-            routes: ['/'], // add any routes to prerender (usefull for sitemap generation)
+            routes: ['/', '/llms.txt'], // add any routes to prerender (usefull for sitemap generation)
         },
         // https://nitro.build/config#routerules
         // Static hosting: headers, cache and real 301s are NOT applied from here in production,
