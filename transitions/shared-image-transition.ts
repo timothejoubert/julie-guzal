@@ -5,12 +5,10 @@ import { gsap } from 'gsap'
 // the frame is scaled non-uniformly and each image layer is counter-scaled, so the image itself is never distorted.
 // Card and hero files are centered crops (imgix `fit=crop`) of the same original: both layers are placed inside one
 // interpolated "original" box, so they stay aligned pixel to pixel and the image moves as a single picture.
+// No cross-fade: mixing two files of different sharpness reads as a doubled image while moving.
 
 const FLIGHT_DURATION = 1
 const FLIGHT_EASE = 'expo.inOut'
-// Part of the flight during which the card image (on top) fades out over the hero image
-const CROSS_FADE_START = 0.2
-const CROSS_FADE_END = 0.7
 const FADE_OUT_DURATION = 0.3
 const Z_INDEX = 1200 // above the leaving (1100) and the entering page
 
@@ -70,10 +68,6 @@ function cover(ratio: number, box: Rect): Rect {
     const w = Math.max(box.w, box.h * ratio)
     const h = w / ratio
     return { x: box.x + (box.w - w) / 2, y: box.y + (box.h - h) / 2, w, h }
-}
-
-function clamp01(value: number) {
-    return Math.min(Math.max(value, 0), 1)
 }
 
 // Part of an original image (ratio `original`) kept by a centered crop of ratio `crop`, in 0-1 coordinates
@@ -141,10 +135,7 @@ function render(f: Flight, p: number) {
     const original = lerpRect(f.from, f.to ?? f.from, p)
     placeLayer(f.card, regionRect(original, f.card.region), frame, sx, sy)
 
-    if (f.hero) {
-        placeLayer(f.hero, regionRect(original, f.hero.region), frame, sx, sy)
-        gsap.set(f.card.img, { opacity: 1 - clamp01((p - CROSS_FADE_START) / (CROSS_FADE_END - CROSS_FADE_START)) })
-    }
+    if (f.hero) placeLayer(f.hero, regionRect(original, f.hero.region), frame, sx, sy)
 }
 
 function removeFlight(f: Flight) {
@@ -206,7 +197,7 @@ export function startSharedImage() {
 
     // The image rect (not the clip) keeps the visible crop: the card image can be zoomed (hover scale) inside the clip
     const card = { img: createLayer(current.img.currentSrc), ratio, region: cardRegion, base: imgRect }
-    card.img.style.willChange = 'transform, opacity'
+    card.img.style.willChange = 'transform'
     root.append(card.img)
 
     const from = originalRect(imgRect, cardRegion)
@@ -263,8 +254,9 @@ export async function prepareSharedImageTarget(page: HTMLElement, hero: HTMLImag
         await heroLayer.img.decode().catch(() => {})
         if (flight !== f) return false
 
-        // Below the card image, fully opaque: it fills what the card crop doesn't show, then the card fades out
-        f.root.prepend(heroLayer.img)
+        // Over the card image, aligned on the same pixels: the swap is invisible. The card layer stays below and only
+        // shows where its crop goes beyond the hero one (clipped out by the frame on arrival).
+        f.root.append(heroLayer.img)
         f.hero = heroLayer
         f.to = originalRect(heroRect, region)
         hero.style.opacity = '0'
