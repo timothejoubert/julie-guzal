@@ -8,8 +8,6 @@ import {
     startSharedImage,
 } from '~/transitions/shared-image-transition'
 
-// Below this width the page swap is instant (no animation)
-const MIN_ANIMATED_WIDTH = 700
 // Max time the transition waits for the entering page hero image before animating anyway
 const HERO_TIMEOUT = 1800
 
@@ -22,8 +20,20 @@ const timelines = new WeakMap<Element, gsap.core.Timeline>()
 // Leave and enter animations start together, once the entering page is ready (hero decoded)
 let enterReady: Deferred | null = null
 
+// URL reached by a history navigation the browser already animated (iOS / Android swipe back or forward)
+let uaTransitionHref: string | null = null
+
+if (import.meta.client) {
+    window.addEventListener('popstate', (event) => {
+        uaTransitionHref = (event as PopStateEvent & { hasUAVisualTransition?: boolean }).hasUAVisualTransition
+            ? window.location.href
+            : null
+    })
+}
+
+// The page swap is instant when the browser already played its own transition (no double animation)
 function isInstant() {
-    return window.innerWidth < MIN_ANIMATED_WIDTH
+    return uaTransitionHref === window.location.href
 }
 
 function createDeferred(): Deferred {
@@ -82,6 +92,7 @@ function releaseScroll() {
     // The new page is in the flow again: start from its top and resync Lenis with the real scroll position
     nuxtApp.$lenis.scrollTo(0, { immediate: true, force: true })
     animationComplete.value = true
+    uaTransitionHref = null
 }
 
 export const cardPageTransition: TransitionProps = {
