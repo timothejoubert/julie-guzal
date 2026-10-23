@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { Content } from '@prismicio/client'
+import type { Content, FilledContentRelationshipField } from '@prismicio/client'
 import { getSliceComponentProps } from '@prismicio/vue'
-import type { FilledContentRelationshipField } from '@prismicio/types'
 import { isContentRelationshipField } from '~/utils/prismic/guard'
 import type { ProjectPageDocument, ProjectPageDocumentData } from '~/prismicio-types'
 import { useWebsiteReveal } from '~/composables/use-website-reveal'
@@ -62,6 +61,7 @@ const reveal = computed(() => {
                 <VProjectCard
                     :project="project"
                     root-tag="div"
+                    :priority="i === 0"
                     :class="$style.project"
                 />
             </li>

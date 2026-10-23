@@ -112,12 +112,12 @@ function isLandscape(document: PossibleMedia) {
                     :key="index"
                     :class="[
                         $style.slide,
-                        index === slideIndex && $style['slide--active'],
                         $style[`slide--orientation-${isLandscape(document) ? 'landscape' : 'portrait'}`],
                     ]"
                 >
                     <VPrismicMedia
                         :document="document"
+                        :image="{ loading: Math.abs(index - slideIndex) <= 1 ? 'eager' : 'lazy' }"
                         :class="$style.image"
                         sizes="xs:95vw md:95vw lg:40vw vl:40vw xl:40vw hd:40vw qhd:40vw"
                     />
@@ -232,6 +232,7 @@ function isLandscape(document: PossibleMedia) {
     width: 100%;
     height: 100%;
     align-items: flex-end;
+    scroll-snap-type: x mandatory;
 
     .root--native-cursor-disabled & {
         cursor: none !important;
@@ -257,14 +258,8 @@ function isLandscape(document: PossibleMedia) {
     flex-shrink: 0;
     justify-content: space-between;
     column-gap: var(--gutter);
-    opacity: 0;
     padding-inline: var(--gutter);
     scroll-snap-align: start;
-    transition: opacity 0.4s ease(in-quad);
-
-    &--active {
-        opacity: 1;
-    }
 
     @include media('>=lg') {
         flex-direction: row;
@@ -282,10 +277,6 @@ function isLandscape(document: PossibleMedia) {
     object-fit: contain;
     object-position: center;
     -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
 
     @include media('>=md') {
         max-height: 80vh;

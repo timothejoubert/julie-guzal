@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import type { Head } from '@unhead/schema'
 import type { VPictureProps } from '~/components/atoms/VPicture/VPicture.vue'
 
 const props = defineProps({
@@ -106,7 +105,7 @@ const picturePropsValue = pictureProps && toValue<VPictureProps>(pictureProps)
 const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue?.preload)
 
 if (preload) {
-    const link: NonNullable<Head['link']>[number] = {
+    const link: Record<string, string | undefined> = {
         rel: 'preload',
         as: 'image',
         imagesrcset: sources.value[0].srcset,

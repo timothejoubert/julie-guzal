@@ -7,7 +7,7 @@ import type {
     EmptyLinkField,
     ImageFieldImage,
     FilledLinkToMediaField,
-} from '@prismicio/types'
+} from '@prismicio/client'
 
 export type PrismicLinkFilled
     = | FilledLinkToWebField

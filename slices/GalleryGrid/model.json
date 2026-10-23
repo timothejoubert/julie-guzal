@@ -1,45 +1,45 @@
 {
-  "id": "gallery_grid",
-  "type": "SharedSlice",
-  "name": "GalleryGrid",
   "description": "GalleryGrid",
+  "id": "gallery_grid",
+  "name": "GalleryGrid",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/gallery_grid/default/8f46ddd3c646ffe844db879855aac4ca5d5f45d1.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "item": {
-          "type": "Group",
           "config": {
-            "label": "Item",
-            "repeat": true,
             "fields": {
               "image": {
-                "type": "Image",
                 "config": {
-                  "label": "image",
                   "constraint": {},
+                  "label": "image",
                   "thumbnails": []
-                }
+                },
+                "type": "Image"
               },
               "description": {
-                "type": "StructuredText",
                 "config": {
-                  "label": "Description",
-                  "placeholder": "",
                   "allowTargetBlank": true,
-                  "multi": "paragraph,strong,em,hyperlink"
-                }
+                  "label": "Description",
+                  "multi": "paragraph,strong,em,hyperlink",
+                  "placeholder": ""
+                },
+                "type": "StructuredText"
               }
-            }
-          }
+            },
+            "label": "Item",
+            "repeat": true
+          },
+          "type": "Group"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

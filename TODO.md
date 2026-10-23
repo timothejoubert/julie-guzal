@@ -1,22 +1,38 @@
 ## In progress
-- Splash Screen (lottie)
-- Regénérer et upload uniquement la page modifié sur prismic
+- transition fluide de l'image dans VProjectCard vers l'image dans VProjectPage. L'animation de page est differente du reste du site, ca doit donner l'impression que l'image reste la meme et se déplace puis s'agrandie pour se placer au niveau de l'image dans le header de la page de projet.
+- Bug lorsqu'on change de page lorsqu'on à scroll dans un page (lab -> photo, photo -> home)
 
 ## TODO
-- debug VDraggableScroll
-- Add v-nav theme color for mobile and desktop (with 'filled' style name)
+- Vérifier la prod après la prochaine release : .htaccess (pas de 500, 301 http/www, br, /contact en 200), workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
+- CSP : passer de Report-Only à appliquée si la console prod est propre, puis retirer 'unsafe-inline' (hashes au build)
+- Prismic : renseigner settings.socials (sameAs du JSON-LD)
+- Splash : sessionStorage par onglet, passer en cookie de session si besoin
+- Déploiement : clé SSH au lieu du mot de passe FTP + environment GitHub "production" protégé
+- Regénérer et upload uniquement la page modifié sur prismic
 - pageProject: back link sticky ?
 
-## Later
-- Add redirection
-- Ajouter les regles de cache (.htaccess)
-- Ajouter prefetch on nav link
-
-- Page transition home -> project
-
 ## Need review
+- Pas de shift de scrollbar (PR fix/scrollbar-shift) : scrollbar-gutter: stable, transition de page + dialog gallery
+- A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## Done
+- Page projet inexistante : vraie page 404 (#18)
+- Contenu visible sans JS (#19)
+- VImg ne rend plus crossorigin="false" (#20)
+- Précharger le hero du projet au survol/focus de la card (#22)
+- Précharger le document Prismic du projet au survol/focus de la card (#23)
+- Mettre à jour les deps (pnpm 11, Nuxt 4.5, Prismic CLI à la place de Slice Machine, Nuxt Image v2, @prismicio/vue v6, dépréciations Sass)
+- Setup IA : CLAUDE.md + CI sur les PR (lint + generate)
+- Audit sécurité : workflow de déploiement durci (actions épinglées par SHA), secret du webhook Prismic, en-têtes de sécurité + CSP report-only (.htaccess)
+- Ajouter les regles de cache (.htaccess) + compression br/gz
+- Add redirection (vraies 301 dans .htaccess)
+- Audit SEO : titres/OG/Twitter unifiés, JSON-LD, sitemap, staging non indexable
+- Audit A11Y (structure) : landmarks, un seul h1, skip link, lang, toast annoncé
+- Optimisation pageSpeed : LCP accueil, sizes, polices woff2, splash non bloquant (1re visite seulement), lazy embeds vidéo, payload Prismic réduit, CLS du titre
+- Améliorer les transitions de page (transform only, hero décodé avant apparition, scroll de la page sortante conservé)
+- Améliorer le layout masonry (placement déterministe, 2 parallax au lieu de 43, resize optimisé)
+- Fix bug media viewer : slide courante parfois cachée
+- Page transition home -> project
 - enlever payload
 - check meta seo
 - Use NuxtPage name with composable for common page setup
@@ -35,7 +51,7 @@
 - Deploy on OVH
   - SSG: with gh actions push 'pnpm generate' output (when new tag is pushed) to OVH hosting
   - Hybrid: create branch for prod and store prod assets, sync OVH data to this branch and pull when code is updated
-  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23) 
+  - Setup github action to generate app and upload file on OVH [can't set body content in prismic webhook](https://community.prismic.io/t/setting-response-body-in-webhooks/9761/23)
 - Add runtime deploy-server-route (not generated in process)
 - update .env SITE_URL
 - enable site on robots.txt
@@ -75,7 +91,7 @@
 - Color theme logic
 - Style typo
 - Deploy preprod
-- attrs and seo meta 
+- attrs and seo meta
 
 
 ## RECETTE: Done
@@ -93,7 +109,7 @@
 - lab (possibilité de mettre des vidéos)
 
 
-## Abandoned 
+## Abandoned
 - Create VPageFactory ?
 - CrossNav: Text Reveal
 - Top bar | bug de disparition de la top bar au changement de page

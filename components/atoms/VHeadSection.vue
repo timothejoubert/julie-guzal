@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import type { KeyTextField } from '@prismicio/types'
+import type { KeyTextField } from '@prismicio/client'
 import { useLinkResolver } from '~/composables/use-link-resolver'
 import type { PossibleRouteReference } from '~/composables/use-link-resolver'
 

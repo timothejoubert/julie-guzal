@@ -1,3 +1,5 @@
+// "& {}" wrappers keep declarations before nested @media rules (avoids Sass mixed-decls deprecation)
+/* stylelint-disable block-no-redundant-nested-style-rules */
 @use 'assets/scss/mixins/grid' as *;
 @use 'assets/scss/variables/grid' as *;
 @use 'assets/scss/functions/breakpoint' as *;

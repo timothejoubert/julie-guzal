@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import pick from 'lodash/pick'
 import { VImg, VPicture } from '#components'
-import { imgProps, pictureProps } from '#image/components/_base'
+import { imgProps, pictureProps } from '~/utils/image/nuxt-image-props'
 
 import type { Writeable } from '~/utils/types'
 import { imgixProviderAttributes } from '~/utils/image/imgix'

@@ -1,42 +1,42 @@
 {
-  "id": "simple_content",
-  "type": "SharedSlice",
-  "name": "SimpleContent",
   "description": "SimpleContent",
+  "id": "simple_content",
+  "name": "SimpleContent",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/simple_content/default/70beb34b0f962a7aecd028d62d918620a04132f4.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "title": {
-          "type": "Text",
           "config": {
             "label": "Title",
             "placeholder": ""
-          }
+          },
+          "type": "Text"
         },
         "secondary_title": {
-          "type": "Text",
           "config": {
             "label": "Secondary title",
             "placeholder": ""
-          }
+          },
+          "type": "Text"
         },
         "content": {
-          "type": "StructuredText",
           "config": {
-            "label": "Content",
-            "placeholder": "",
             "allowTargetBlank": true,
-            "multi": "paragraph,strong,em,hyperlink"
-          }
+            "label": "Content",
+            "multi": "paragraph,strong,em,hyperlink",
+            "placeholder": ""
+          },
+          "type": "StructuredText"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

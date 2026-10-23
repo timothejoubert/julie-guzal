@@ -32,9 +32,9 @@ const reveal = computed(() => {
         :slice="slice"
         :class="[rootClasses, reveal && 'element-translate--reveal']"
     >
-        <h1 :class="$style.title">
+        <h2 :class="$style.title">
             {{ title }}
-        </h1>
+        </h2>
         <template v-if="primary.links">
             <VPrismicLinkIcon
                 v-for="(linkGroup, index) in primary.links"

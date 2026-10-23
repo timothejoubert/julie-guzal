@@ -1,37 +1,43 @@
-import type { MaybeRef } from 'vue'
-import { toDisplayString } from 'vue'
+import { toRaw, toValue, type MaybeRef } from 'vue'
 
-type structuredDataContent = { [key: string]: unknown }
+type StructuredDataContent = { [key: string]: unknown }
 
-const isNullishValue = (v: unknown) => {
-    if (typeof v === 'number') return false
-    return v === null || v === undefined || !Object.keys(v).length || (Array.isArray(v) && !v.length)
+const isNullishValue = (v: unknown): boolean => {
+    if (v === null || v === undefined) return true
+    if (typeof v === 'string') return !v.trim()
+    if (Array.isArray(v)) return !v.length || v.every(isNullishValue)
+    if (typeof v === 'object') return !Object.keys(v).length
+
+    return false
 }
 
-function removeNullishNestedKeys(obj: { [key: string]: unknown }) {
-    Object.keys(obj).forEach((key) => {
-        const value = obj[key]
+function removeNullishValues(value: unknown): unknown {
+    if (Array.isArray(value)) {
+        return value.map(removeNullishValues).filter(v => !isNullishValue(v))
+    }
 
-        if (isNullishValue(value)) delete obj.key
-        else if (Array.isArray(value) && value.every(v => isNullishValue(v))) delete obj.key
-        else if (value && typeof value === 'object') removeNullishNestedKeys(value as structuredDataContent)
-    })
+    if (value && typeof value === 'object') {
+        return Object.fromEntries(
+            Object.entries(value as StructuredDataContent)
+                .map(([key, v]) => [key, removeNullishValues(v)])
+                .filter(([, v]) => !isNullishValue(v)),
+        )
+    }
 
-    return obj
+    return value
 }
 
-export function getJsonLdScriptContent(content: MaybeRef<structuredDataContent | unknown[]>) {
-    const value = toValue(content)
+export function getJsonLdScriptContent(content: MaybeRef<StructuredDataContent | unknown[]>) {
+    const value = toRaw(toValue(content))
 
-    const filteredContent = Array.isArray(value)
-        ? value.filter(v => !isNullishValue(v))
-        : removeNullishNestedKeys(value)
+    const json = JSON.stringify(removeNullishValues(value))
+        // Remove auto genid from structured data. It could lead Google to follow them as links, plus it is useless.
+        .replaceAll(/"@id":\s?"\/api\/\.well-known\/genid\/([^"]+)",\s*/gm, '')
+        // Escape "<" so that CMS content (e.g. "</script>") can't break out of the script tag
+        .replaceAll('<', '\\u003c')
 
     return {
         type: 'application/ld+json',
-        innerHTML: toDisplayString(filteredContent).replaceAll(
-            /"@id":\s?"\/api\/\.well-known\/genid\/([^"]+)",\s*/gm, // Remove auto genid from structured data. It could lead Google to follow them as links, plus it is useless.
-            '',
-        ),
+        innerHTML: json,
     }
 }

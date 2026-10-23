@@ -1,49 +1,49 @@
 {
-  "id": "project_feed",
-  "type": "SharedSlice",
-  "name": "ProjectFeed",
   "description": "ProjectFeed",
+  "id": "project_feed",
+  "name": "ProjectFeed",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/project_feed/default/b4c3f024a3fea0011c598f44547445ca62672ade.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {},
-      "items": {}
+      "version": "initial"
     },
     {
-      "id": "manualChoice",
-      "name": "Manual choice",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "manualChoice",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/project_feed/manualChoice/bae3b43966b52b4b3b9dbed9741abf72a7393a91.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Manual choice",
       "primary": {
         "project": {
-          "type": "Group",
           "config": {
-            "label": "Manual project",
-            "repeat": true,
             "fields": {
               "project_document": {
-                "type": "Link",
                 "config": {
-                  "label": "Project document",
-                  "select": "document",
-                  "repeat": false,
                   "customtypes": [
                     "project_page"
-                  ]
-                }
+                  ],
+                  "label": "Project document",
+                  "repeat": false,
+                  "select": "document"
+                },
+                "type": "Link"
               }
-            }
-          }
+            },
+            "label": "Manual project",
+            "repeat": true
+          },
+          "type": "Group"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

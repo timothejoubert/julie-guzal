@@ -1,68 +1,68 @@
 {
-  "id": "cross_nav",
-  "type": "SharedSlice",
-  "name": "CrossNav",
   "description": "CrossNav",
+  "id": "cross_nav",
+  "name": "CrossNav",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/cross_nav/default/e39086cac86974bc2edbcb4a1f0cec559aa13d2a.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "title": {
-          "type": "Text",
           "config": {
             "label": "Title",
             "placeholder": ""
-          }
+          },
+          "type": "Text"
         },
         "theme": {
-          "type": "Select",
           "config": {
+            "default_value": "light",
             "label": "Theme",
-            "placeholder": "",
             "options": [
               "light",
               "dark"
             ],
-            "default_value": "light"
-          }
+            "placeholder": ""
+          },
+          "type": "Select"
         },
         "links": {
-          "type": "Group",
           "config": {
-            "label": "Links",
-            "repeat": true,
             "fields": {
               "label": {
-                "type": "Text",
                 "config": {
                   "label": "Label",
                   "placeholder": ""
-                }
+                },
+                "type": "Text"
               },
               "internal_page": {
-                "type": "Link",
                 "config": {
-                  "label": "Internal page",
-                  "select": "document",
-                  "repeat": false,
                   "customtypes": [
                     "about_page",
                     "home_page",
                     "lab_page",
                     "gallery_page"
-                  ]
-                }
+                  ],
+                  "label": "Internal page",
+                  "repeat": false,
+                  "select": "document"
+                },
+                "type": "Link"
               }
-            }
-          }
+            },
+            "label": "Links",
+            "repeat": true
+          },
+          "type": "Group"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

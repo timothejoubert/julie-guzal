@@ -1,38 +1,54 @@
 @use 'assets/scss/variables/fonts' as *;
 
+// woff2 only: supported by every browser we target.
+// Not preloaded on purpose: preloading them regressed the simulated mobile LCP of the home page in Lighthouse.
+
 @font-face {
     font-display: swap;
     font-family: $font-lecturis;
     font-weight: 400;
-    src: url('~/assets/fonts/fhlecturis-regular-subset.woff2') format('woff2'),
-        url('~/assets/fonts/fhlecturis-regular-subset.woff') format('woff'),
-        url('~/assets/fonts/fhlecturis-regular-subset.ttf') format('truetype');
+    src: url('~/assets/fonts/fhlecturis-regular-subset.woff2') format('woff2');
 }
 
 @font-face {
     font-display: swap;
     font-family: $font-lecturis;
     font-weight: 300;
-    src: url('~/assets/fonts/fhlecturis-light-subset.woff2') format('woff2'),
-            url('~/assets/fonts/fhlecturis-light-subset.woff') format('woff'),
-            url('~/assets/fonts/fhlecturis-light-subset.ttf') format('truetype');
+    src: url('~/assets/fonts/fhlecturis-light-subset.woff2') format('woff2');
 }
-
 
 @font-face {
     font-display: swap;
     font-family: $font-suisse;
     font-weight: 400;
-    src: url('~/assets/fonts/suisseintl-regular-subset.woff2') format('woff2'),
-    url('~/assets/fonts/suisseintl-regular-subset.woff') format('woff'),
-    url('~/assets/fonts/suisseintl-regular-subset.ttf') format('truetype');
+    src: url('~/assets/fonts/suisseintl-regular-subset.woff2') format('woff2');
 }
 
 @font-face {
     font-display: swap;
     font-family: $font-suisse;
     font-weight: 300;
-    src: url('~/assets/fonts/suisseintl-thin-subset.woff2') format('woff2'),
-    url('~/assets/fonts/suisseintl-thin-subset.woff') format('woff'),
-    url('~/assets/fonts/suisseintl-thin-subset.ttf') format('truetype');
+    src: url('~/assets/fonts/suisseintl-thin-subset.woff2') format('woff2');
+}
+
+// Arial adjusted to FH Lecturis metrics (uppercase advance widths, ascent, descent, line gap),
+// so the swap to the web font barely moves the text (CLS). Values computed with fontkit from the subset files.
+@font-face {
+    ascent-override: 103.23%;
+    descent-override: 27.35%;
+    font-family: $font-lecturis-fallback;
+    font-weight: 400;
+    line-gap-override: 11.23%;
+    size-adjust: 98.71%;
+    src: local('Arial'), local('ArialMT');
+}
+
+@font-face {
+    ascent-override: 106.93%;
+    descent-override: 28.23%;
+    font-family: $font-lecturis-fallback;
+    font-weight: 300;
+    line-gap-override: 11.73%;
+    size-adjust: 95.3%;
+    src: local('Arial'), local('ArialMT');
 }

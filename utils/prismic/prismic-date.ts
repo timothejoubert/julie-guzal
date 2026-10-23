@@ -1,4 +1,4 @@
-import type { DateField } from '@prismicio/types'
+import type { DateField } from '@prismicio/client'
 
 export function parseDate(date: DateField | string | undefined | null) {
     if (!date) return

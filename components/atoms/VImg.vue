@@ -1,8 +1,7 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import { imgProps } from '#image/components/_base'
-import { getInt, parseSize } from '#image/utils'
+import { getInt, imgProps, parseSize } from '~/utils/image/nuxt-image-props'
 
 export const vImgProps = {
     ...imgProps,
@@ -130,7 +129,8 @@ export default defineComponent({
                 height: height.value,
                 alt: props.alt,
                 loading: props.loading,
-                crossorigin: props.crossorigin,
+                // Boolean prop cast: absent → false, which would render the invalid crossorigin="false" (treated as anonymous)
+                crossorigin: props.crossorigin === true ? 'anonymous' : props.crossorigin || undefined,
                 decoding: props.decoding,
                 longdesc: props.longdesc,
                 style: style.value,

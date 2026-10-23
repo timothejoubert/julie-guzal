@@ -1,4 +1,4 @@
-import type { FilledContentRelationshipField } from '@prismicio/types'
+import type { FilledContentRelationshipField } from '@prismicio/client'
 import type { PossibleProjectPageDocument } from '~/types/app'
 import { isContentRelationshipField, isPrismicDocument } from '~/utils/prismic/guard'
 import type { ProjectPageDocument } from '~/prismicio-types'

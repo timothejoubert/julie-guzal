@@ -23,7 +23,10 @@ useHead({
         <VTopBar
             :document="document"
         />
-        <main>
+        <main
+            id="main-content"
+            tabindex="-1"
+        >
             <LazySliceZone
                 v-if="slices?.length"
                 :slices="slices"

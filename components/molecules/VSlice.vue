@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import type { SharedSlice } from '@prismicio/types'
+import type { SharedSlice } from '@prismicio/client'
 
 defineProps<{
     slice: SharedSlice

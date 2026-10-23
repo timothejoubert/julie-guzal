@@ -1,52 +1,52 @@
 {
-  "id": "masonry_medias",
-  "type": "SharedSlice",
-  "name": "MasonryMedias",
   "description": "MasonryMedias",
+  "id": "masonry_medias",
+  "name": "MasonryMedias",
+  "type": "SharedSlice",
   "variations": [
     {
-      "id": "default",
-      "name": "Default",
-      "docURL": "...",
-      "version": "initial",
       "description": "Default",
-      "imageUrl": "",
+      "docURL": "...",
+      "id": "default",
+      "imageUrl": "https://images.prismic.io/julie-guzal/shared-slices/masonry_medias/default/536829c0c35a66bda092760b2c818dc801670dfc.png?auto=compress%2Cformat",
+      "items": {},
+      "name": "Default",
       "primary": {
         "list": {
-          "type": "Group",
           "config": {
-            "label": "List",
-            "repeat": true,
             "fields": {
               "image": {
-                "type": "Image",
                 "config": {
-                  "label": "Image",
                   "constraint": {},
+                  "label": "Image",
                   "thumbnails": []
-                }
+                },
+                "type": "Image"
               },
               "embed": {
-                "type": "Embed",
                 "config": {
                   "label": "Embed",
                   "placeholder": ""
-                }
+                },
+                "type": "Embed"
               },
               "video_autoplay": {
-                "type": "Boolean",
                 "config": {
+                  "default_value": true,
                   "label": "Video autoplay",
                   "placeholder_false": "false",
-                  "placeholder_true": "true",
-                  "default_value": true
-                }
+                  "placeholder_true": "true"
+                },
+                "type": "Boolean"
               }
-            }
-          }
+            },
+            "label": "List",
+            "repeat": true
+          },
+          "type": "Group"
         }
       },
-      "items": {}
+      "version": "initial"
     }
   ]
 }

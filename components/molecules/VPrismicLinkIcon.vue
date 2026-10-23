@@ -22,7 +22,7 @@ export const vPrismicLinkIconProps = {
 
 export default defineComponent({
     props: vPrismicLinkIconProps,
-    setup(props) {
+    setup(props, { slots }) {
         const linkProps = computed(() => pick(props, Object.keys(vPrismicLinkProps)))
 
         const iconProps = computed(() => {
@@ -38,7 +38,7 @@ export default defineComponent({
             return h(VPrismicLink, { ...linkProps.value, class: $style.root },
                 {
                     default: () => [
-                        h('span', { class: $style.label }, props.label || ''),
+                        h('span', { class: $style.label }, slots.default?.() || props.label || ''),
                         h('span', { class: [props.iconClass, $style.icons, $style[`icons--direction-${props.iconDirection}`]] }, [
                             h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--first']] }),
                             h(VIcon, { ...iconProps.value, class: [$style['icon'], $style['icon--second']] }),

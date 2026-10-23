@@ -1,10 +1,11 @@
 <script  lang="ts" setup>
-import { asText } from '@prismicio/helpers'
+import { asText } from '@prismicio/client'
 import type { ProjectPageDocument } from '~/prismicio-types'
 import { useProjectUtils } from '~/composables/use-project-utils'
 import VProjectCrossLink from '~/components/organisms/VProjectCrossLink.vue'
 import { components } from '~/slices'
 import { prismicDocumentRoute } from '~/utils/prismic/route-resolver'
+import { TRANSITION_HERO_ATTRIBUTE } from '~/transitions/card-transition'
 
 const props = defineProps<{
     document: ProjectPageDocument
@@ -24,6 +25,9 @@ const { url: projectListingUrl } = useLinkResolver(prismicDocumentRoute.home_pag
 const backLinkTheme = computed(() => {
     return props.document.data.back_button_theme
 })
+
+// Above-the-fold image (LCP): high fetch priority, and the page transition waits for it to be decoded
+const heroImgAttrs = { fetchpriority: 'high', [TRANSITION_HERO_ATTRIBUTE]: '' }
 </script>
 
 <template>
@@ -42,33 +46,12 @@ const backLinkTheme = computed(() => {
                 />
                 {{ $t('back') }}
             </VPrismicLink>
-            <VPrismicImage
+            <VProjectHeroPicture
                 v-if="image"
-                ref="headerImg"
-                :document="image"
+                :image="image"
                 :class="$style.image"
-                loading="eager"
-            >
-                <VPictureSource
-                    sizes="xs:100vw sm:100vw md:100vw"
-                    media="(max-width: 767px)"
-                    :modifiers="{
-                        fit: 'crop',
-                        ar: '375:448',
-                        width: '375',
-                        height: '448',
-                    }"
-                />
-                <VPictureSource
-                    sizes="lg:100vw xl:100vw xxl:100vw qhd:100vw"
-                    :modifiers="{
-                        fit: 'crop',
-                        ar: '1440:610',
-                        width: '1440',
-                        height: '610',
-                    }"
-                />
-            </VPrismicImage>
+                :img-attrs="heroImgAttrs"
+            />
             <h1 :class="$style.title">
                 {{ title }}
             </h1>
@@ -85,7 +68,11 @@ const backLinkTheme = computed(() => {
                 :class="$style.content"
             />
         </header>
-        <main :class="$style.main">
+        <main
+            id="main-content"
+            tabindex="-1"
+            :class="$style.main"
+        >
             <LazySliceZone
                 v-if="slices?.length"
                 :slices="slices"

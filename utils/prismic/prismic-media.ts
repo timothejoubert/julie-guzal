@@ -1,10 +1,10 @@
-import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/types'
+import type { EmbedField, ImageField, LinkToMediaField } from '@prismicio/client'
 import {
     isFilledImageField,
     isFilledLinkToMediaField,
     isVideoEmbedField,
 } from '~/utils/prismic/guard'
-import prismicData from '~/slicemachine.config.json'
+import { repositoryName } from '~/prismic.config.json'
 import { replaceSpecialCharacter } from '~/utils/string/slugify'
 import { returnObjWithAllValidKey } from '~/utils/object/object-validation'
 
@@ -32,10 +32,10 @@ const isImageExtension = (ext?: string) => imgExtension.includes(ext || '')
 function extractDataFromUrl(url: string | undefined) {
     // Ex pattern: https://images.prismic.io/hugo-tomasi-v2/Zh10NDjCgu4jz1TZ_electrochoc-screen-01.png?auto=format,compress
     const path
-    = url?.substring(
-        url?.lastIndexOf(prismicData.repositoryName) + prismicData.repositoryName.length,
-        url?.lastIndexOf('?'),
-    ) || ''
+        = url?.substring(
+            url?.lastIndexOf(repositoryName) + repositoryName.length,
+            url?.lastIndexOf('?'),
+        ) || ''
 
     const id = path.substring(0, path.lastIndexOf('_'))
     const name = path.substring(path.indexOf('_') + 1, path.lastIndexOf('.'))
@@ -51,7 +51,7 @@ export function getPrismicMediaData(field: PrismicImageField | undefined) {
     let mediaType: MediaType = 'unknown'
 
     const isPrismicImage
-    = isImageExtension(extension) || (field as { kind?: string })?.kind === 'image' || url?.includes('images.prismic.io/')
+        = isImageExtension(extension) || (field as { kind?: string })?.kind === 'image' || url?.includes('images.prismic.io/')
 
     if (isVideoExtension(extension) || field?.kind === 'video') {
         mediaType = 'video'

@@ -9,7 +9,17 @@ const props = defineProps<{
     error: NuxtError
 }>()
 
-const statusCode = computed(() => props.error?.statusCode)
+const statusCode = computed(() => props.error?.status ?? 500)
+
+const runtimeConfig = useRuntimeConfig()
+const siteName = runtimeConfig.public.site.name
+
+useHead({
+    title: computed(() => {
+        const label = statusCode.value === 404 ? 'Page not found' : 'An error occurred'
+        return siteName ? `${label} | ${siteName}` : label
+    }),
+})
 
 // const { t } = useI18n()
 // const title = computed(() => {
@@ -31,7 +41,6 @@ onMounted(() => {
     })
 })
 
-const runtimeConfig = useRuntimeConfig()
 const siteUrl = runtimeConfig.public.site.url
 
 const dateTime = computed(() => {
@@ -41,7 +50,7 @@ const dateTime = computed(() => {
         hour: '2-digit',
         minute: '2-digit',
     })
-    return localizedDate.split(',')?.[1].trim()
+    return localizedDate.split(',')?.[1]?.trim()
 })
 
 // Log the error for debugging purposes
@@ -74,7 +83,11 @@ console.error('Error page:', props.error)
                 </span>
             </a>
         </header>
-        <main :class="$style.main">
+        <main
+            id="main-content"
+            tabindex="-1"
+            :class="$style.main"
+        >
             <VTextGlitched
                 root-tag="h1"
                 :class="$style.title"

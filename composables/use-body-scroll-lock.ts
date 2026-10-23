@@ -1,19 +1,13 @@
 export function useBodyScrollLock() {
-    const bodyRef = useBodyElement()
-    const isLocked = useScrollLock(bodyRef)
-
-    // SCROLL LOCK + BODY PADDING
+    // SCROLL LOCK: `overflow` on body applies to the viewport, `scrollbar-gutter: stable` on html keeps the scrollbar space (no layout shift)
     function disableScroll() {
-        document.body.style.paddingRight = `var(--scroll-bar-width)`
         document.body.style.overflow = `hidden`
-        // isLocked.value = true
     }
 
+    // Remove the inline value instead of forcing `initial`, so stylesheet rules apply again
     function enabledScroll() {
-        document.body.style.paddingRight = `initial`
-        document.body.style.overflow = `initial`
-        // isLocked.value = false
+        document.body.style.removeProperty('overflow')
     }
 
-    return { disableScroll, enabledScroll, isLocked }
+    return { disableScroll, enabledScroll }
 }

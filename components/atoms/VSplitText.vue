@@ -1,5 +1,5 @@
 <script lang="ts">
-import { createTextVNode } from 'vue'
+import { cloneVNode, createTextVNode } from 'vue'
 import type { PropType, VNode } from 'vue'
 import type { SplitText } from '~/utils/split-text'
 
@@ -83,7 +83,14 @@ export default defineComponent({
                 renderNodes = splitTextData.all.map(line => renderLine(line))
             }
 
-            return renderNodes
+            // The split nodes are decorative (one node per char/word/line): hide them from assistive technologies
+            // and expose the full text once, in a visually hidden node, so it is read as a whole (RGAA 8.9 / WCAG 1.3.1)
+            const splitNodes = (renderNodes.flat() as VNode[]).map(node => cloneVNode(node, { 'aria-hidden': 'true' }))
+
+            return [
+                h('span', { class: 'visually-hidden' }, props.content),
+                ...splitNodes,
+            ]
         }
     },
 })

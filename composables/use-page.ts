@@ -1,4 +1,4 @@
-import type { AlternateLanguage } from '@prismicio/types'
+import type { AlternateLanguage } from '@prismicio/client'
 import EventType from '~/constants/event-type'
 import type { ReachableDocument } from '~/types/api'
 

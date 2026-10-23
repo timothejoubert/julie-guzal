@@ -17,6 +17,10 @@ const appConfig = useAppConfig()
 </script>
 
 <template>
+    <a
+        href="#main-content"
+        :class="$style['skip-link']"
+    >{{ $t('skip_link') }}</a>
     <NuxtRouteAnnouncer />
     <ClientOnly>
         <VGridVisualizer />
@@ -28,3 +32,34 @@ const appConfig = useAppConfig()
     <LazyVSplashScreen v-if="appConfig.featureFlags.splashScreen" />
     <NuxtPage />
 </template>
+
+<style lang="scss" module>
+@use 'assets/scss/variables/fonts' as *;
+
+// Visually hidden until focused (RGAA 12.7)
+.skip-link {
+    position: fixed;
+    z-index: 1000;
+    top: rem(8);
+    left: rem(8);
+    padding: rem(12) rem(16);
+    border-radius: rem(4);
+    background-color: var(--theme-color-background);
+    color: var(--theme-color-on-background);
+    font-family: $font-suisse-family;
+    font-size: rem(16);
+    font-weight: 400;
+    line-height: 1.3;
+    text-decoration: none;
+
+    &:not(:focus) {
+        overflow: hidden;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+}
+</style>

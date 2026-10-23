@@ -3,7 +3,9 @@
 html {
     background-color: var(--theme-color-background);
 
-    // scrollbar-gutter: stable;
+    // Keep the scrollbar space whatever the page height or the scroll lock: no layout shift between pages
+    scrollbar-gutter: stable;
+
     // scroll-behavior: smooth;
 
     --spacing-over-title-padding-block: #{rem(16)};
@@ -20,6 +22,23 @@ body {
     outline-offset: 2px;
 }
 
+// Skip link target: receives focus programmatically, not interactive
+#main-content:focus {
+    outline: none;
+}
+
 pre {
     white-space: pre-wrap;
+}
+
+.visually-hidden {
+    position: absolute;
+    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: -1px;
+    clip-path: inset(50%);
+    white-space: nowrap;
 }
