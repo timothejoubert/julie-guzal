@@ -41,10 +41,6 @@ useHead({
 @use 'assets/scss/mixins/include-media' as *;
 
 .top-bar {
-    & :global(.v-nav) {
-        @include theme('light')
-    }
-
     @include media('>=md') {
         & :global(.v-nav) {
             @include theme('dark')

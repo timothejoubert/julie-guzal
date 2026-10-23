@@ -14,6 +14,13 @@ if (isWildCardPage) {
 }
 
 const appConfig = useAppConfig()
+
+// Mobile main nav: rendered here, outside the pages, so page transitions (transforms) never move it or cover it.
+// On desktop each page renders it in its top bar.
+const navPageType = computed(() => getDocumentTypeByUrl(route.path))
+const isNavVisible = computed(() => navPageType.value !== 'project_page')
+const navTheme = computed(() => (navPageType.value === 'home_page' ? 'light' : 'dark'))
+const { isHidden: isTopBarHidden } = useTopBarState()
 </script>
 
 <template>
@@ -30,11 +37,31 @@ const appConfig = useAppConfig()
     </ClientOnly>
 
     <LazyVSplashScreen v-if="appConfig.featureFlags.splashScreen" />
+    <VNav
+        :theme="navTheme"
+        :inert="!isNavVisible"
+        :class="[$style.nav, (!isNavVisible || isTopBarHidden) && $style['nav--hidden']]"
+    />
     <NuxtPage />
 </template>
 
 <style lang="scss" module>
 @use 'assets/scss/variables/fonts' as *;
+
+// Above the pages and their transitions, below the media viewer (101)
+.nav {
+    z-index: 100;
+    transition: translate 0.5s ease(out-quad);
+
+    &--hidden {
+        pointer-events: none;
+        translate: 0 calc(100% + #{rem(24)});
+    }
+
+    @include media('>=md') {
+        display: none;
+    }
+}
 
 // Visually hidden until focused (RGAA 12.7)
 .skip-link {

@@ -1,8 +1,13 @@
 import { gsap } from 'gsap'
 import type { TransitionProps } from 'vue'
+import {
+    addSharedImageFlight,
+    cancelSharedImage,
+    finishSharedImage,
+    prepareSharedImageTarget,
+    startSharedImage,
+} from '~/transitions/shared-image-transition'
 
-// Below this width the page swap is instant (no animation)
-const MIN_ANIMATED_WIDTH = 700
 // Max time the transition waits for the entering page hero image before animating anyway
 const HERO_TIMEOUT = 1800
 
@@ -15,8 +20,20 @@ const timelines = new WeakMap<Element, gsap.core.Timeline>()
 // Leave and enter animations start together, once the entering page is ready (hero decoded)
 let enterReady: Deferred | null = null
 
+// URL reached by a history navigation the browser already animated (iOS / Android swipe back or forward)
+let uaTransitionHref: string | null = null
+
+if (import.meta.client) {
+    window.addEventListener('popstate', (event) => {
+        uaTransitionHref = (event as PopStateEvent & { hasUAVisualTransition?: boolean }).hasUAVisualTransition
+            ? window.location.href
+            : null
+    })
+}
+
+// The page swap is instant when the browser already played its own transition (no double animation)
 function isInstant() {
-    return window.innerWidth < MIN_ANIMATED_WIDTH
+    return uaTransitionHref === window.location.href
 }
 
 function createDeferred(): Deferred {
@@ -75,6 +92,7 @@ function releaseScroll() {
     // The new page is in the flow again: start from its top and resync Lenis with the real scroll position
     nuxtApp.$lenis.scrollTo(0, { immediate: true, force: true })
     animationComplete.value = true
+    uaTransitionHref = null
 }
 
 export const cardPageTransition: TransitionProps = {
@@ -102,6 +120,9 @@ export const cardPageTransition: TransitionProps = {
 
         // Only transform/opacity are animated (compositor-friendly), no layout property
         if (pageDirection.value === 'forwards') {
+            // Home card → project: the card image flies on its own to the project hero
+            startSharedImage()
+
             gsap.set(el, {
                 transformOrigin: 'top',
                 willChange: 'transform, opacity',
@@ -144,6 +165,7 @@ export const cardPageTransition: TransitionProps = {
         })
     },
     onLeaveCancelled: (el) => {
+        cancelSharedImage()
         killTimeline(el)
         gsap.set(el, { clearProps: 'all' })
     },
@@ -220,7 +242,9 @@ export const cardPageTransition: TransitionProps = {
         const hero = el.querySelector<HTMLImageElement>(`img[${TRANSITION_HERO_ATTRIBUTE}]`)
         const ready = hero ? waitForImage(hero, HERO_TIMEOUT) : Promise.resolve()
 
-        ready.then(() => {
+        ready.then(() => prepareSharedImageTarget(el as HTMLElement, hero)).then((hasSharedImage) => {
+            if (hasSharedImage) addSharedImageFlight(tl)
+
             // Start on a fresh frame so the first animated frame doesn't absorb the page mount cost
             requestAnimationFrame(() => {
                 gate?.resolve()
@@ -231,12 +255,14 @@ export const cardPageTransition: TransitionProps = {
     },
     onAfterEnter: () => {
         releaseScroll()
+        finishSharedImage()
         useNuxtApp().$scrollTrigger?.refresh()
     },
     onEnterCancelled: (el) => {
         // A new navigation started before the end: never leave the scroll locked or Lenis stopped
         killTimeline(el)
         gsap.set(el, { clearProps: 'all' })
+        cancelSharedImage()
         enterReady?.resolve()
         releaseScroll()
     },

@@ -89,10 +89,6 @@ useHead({
 .top-bar {
     --v-top-bar-title-max-width: 9ch;
 
-    & :global(.v-nav) {
-        @include theme('dark')
-    }
-
     @include media('>=md') {
         & :global(.v-nav) {
             @include theme('light')
