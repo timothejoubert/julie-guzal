@@ -17,10 +17,11 @@ npx prismic pull     # sync types/slices from Prismic (Type Builder is the sourc
 
 ## Workflow
 
-- Git flow: branch `feature/*`, `fix/*`, `chore/*`, `perf/*` from `develop`, PR to `develop`, squash merge. Releases via `release/*` → `main`, tag triggers the production deploy.
-- Conventional commits in English (`fix:`, `feat:`, `chore:`, `refactor:`, `perf:`, `style:`), used by git-cliff for `CHANGELOG.md`.
-- One PR = one topic. CI (`.github/workflows/ci.yaml`) must be green: lint + generate.
-- A PR is done when: lint passes, `pnpm generate` succeeds, the change is checked in a browser on `pnpm preview`, and the PR description carries the proof (Lighthouse numbers, screenshot/GIF, generated HTML excerpt, `curl -I` output…).
+- Personal project: commit directly on `develop`, one commit = one topic. No branch/PR needed (a branch can be suggested for a large or risky change).
+- Commit locally only, never push: pushing `develop` deploys the Netlify staging (https://app.netlify.com/projects/julie-guzal). The owner pushes.
+- Releases via `release/*` → `main`, tag triggers the production deploy — owner only.
+- Conventional commits in English (`fix:`, `feat:`, `chore:`, `refactor:`, `perf:`, `style:`, `docs:`), used by git-cliff for `CHANGELOG.md`. CI (`.github/workflows/ci.yaml`) must stay green: lint + generate.
+- A change is done when: lint passes, `pnpm generate` succeeds, the change is checked in a browser on `pnpm preview`, and the proof is given in the reply (Lighthouse numbers, screenshot/GIF, generated HTML excerpt, `curl -I` output…).
 - Never commit secrets. They live in Bitwarden; GitHub/Netlify secrets are set by a human.
 
 ## Architecture
