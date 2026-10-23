@@ -1,14 +1,15 @@
-import throttle from 'lodash/throttle'
-
 export function useTopBarScroll(hiddenThresholdDown = 130, hiddenThresholdUp = 30) {
     const { isHidden, isOnPageTop } = useTopBarState()
 
     let scrollY = 0
     let scrollDirection = 1
     let scrollOffset = 0
-    let scrollCallback: null | EventListener = null
+    let isMounted = false
 
     function update() {
+        // A trailing throttled call can still fire after unmount: don't write the shared state then
+        if (!isMounted) return
+
         const newScrollY = Math.abs(window.scrollY)
         isOnPageTop.value = newScrollY < hiddenThresholdDown
 
@@ -29,16 +30,20 @@ export function useTopBarScroll(hiddenThresholdDown = 130, hiddenThresholdUp = 3
         if (hidden !== isHidden.value) isHidden.value = hidden
     }
 
+    // Leading and trailing calls: the last scroll position is always processed
+    const onScroll = useThrottleFn(update, 150, true, true)
+
     onMounted(() => {
+        isMounted = true
         scrollY = window.scrollY
-        scrollCallback = throttle(update, 150)
 
         update()
-        window.addEventListener('scroll', scrollCallback, { passive: true })
+        window.addEventListener('scroll', onScroll, { passive: true })
     })
 
     onBeforeUnmount(() => {
-        if (scrollCallback) window.removeEventListener('scroll', scrollCallback)
+        isMounted = false
+        window.removeEventListener('scroll', onScroll)
     })
 
     return { isHidden, isOnPageTop }

@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
-import pick from 'lodash/pick'
+import { objectPick } from '@vueuse/core'
 import { imgProps, pictureProps } from '~/utils/image/nuxt-image-props'
 import VImg from '~/components/atoms/VImg.vue'
 import VPictureSource from '~/components/atoms/VPicture/VPictureSource.vue'
@@ -21,7 +21,7 @@ export default defineComponent({
         provide('pictureProps', props)
 
         const $style = useCssModule()
-        const imgFilteredProps = computed(() => pick(props, Object.keys(imgProps)))
+        const imgFilteredProps = computed(() => objectPick(props, Object.keys(imgProps) as Array<keyof typeof props>))
 
         return () =>
             h('picture', { class: $style.root }, [

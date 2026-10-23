@@ -1,5 +1,5 @@
 <script lang="ts">
-import pick from 'lodash/pick'
+import { objectPick } from '@vueuse/core'
 import { vPrismicLinkProps } from '~/components/atoms/VPrismicLink.vue'
 import { VIcon, VPrismicLink } from '#components'
 
@@ -23,7 +23,7 @@ export const vPrismicLinkIconProps = {
 export default defineComponent({
     props: vPrismicLinkIconProps,
     setup(props, { slots }) {
-        const linkProps = computed(() => pick(props, Object.keys(vPrismicLinkProps)))
+        const linkProps = computed(() => objectPick(props, Object.keys(vPrismicLinkProps) as Array<keyof typeof props>))
 
         const iconProps = computed(() => {
             return {
