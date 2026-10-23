@@ -1,4 +1,4 @@
-import { gsap } from 'gsap'
+import { gsap, ScrollTrigger } from '~/utils/animation/gsap'
 import type { TransitionProps } from 'vue'
 import {
     addSharedImageFlight,
@@ -251,7 +251,7 @@ export const cardPageTransition: TransitionProps = {
     onAfterEnter: () => {
         releaseScroll()
         finishSharedImage()
-        useNuxtApp().$scrollTrigger?.refresh()
+        ScrollTrigger?.refresh()
     },
     onEnterCancelled: (el) => {
         // A new navigation started before the end: never leave the scroll locked or Lenis stopped
