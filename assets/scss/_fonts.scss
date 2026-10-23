@@ -1,7 +1,8 @@
 @use 'assets/scss/variables/fonts' as *;
 
 // woff2 only: supported by every browser we target.
-// Not preloaded on purpose: preloading them regressed the simulated mobile LCP of the home page in Lighthouse.
+// Not preloaded globally on purpose: it regressed the simulated mobile LCP of the home page in Lighthouse.
+// Pages whose layout depends on them preload their own fonts (see VContactPage).
 
 @font-face {
     font-display: swap;
@@ -50,5 +51,27 @@
     font-weight: 300;
     line-gap-override: 11.73%;
     size-adjust: 95.3%;
+    src: local('Arial'), local('ArialMT');
+}
+
+// Same for Suisse Int'l (body copy), matched on lowercase running text. Its swap changed the height of
+// bottom-anchored blocks (e.g. the contact page <main>), which then shifted entirely (CLS).
+@font-face {
+    ascent-override: 95.95%;
+    descent-override: 30.26%;
+    font-family: $font-suisse-fallback;
+    font-weight: 400;
+    line-gap-override: 0%;
+    size-adjust: 102.76%;
+    src: local('Arial'), local('ArialMT');
+}
+
+@font-face {
+    ascent-override: 99.86%;
+    descent-override: 31.5%;
+    font-family: $font-suisse-fallback;
+    font-weight: 300;
+    line-gap-override: 0%;
+    size-adjust: 98.74%;
     src: local('Arial'), local('ArialMT');
 }

@@ -1,4 +1,4 @@
-import { gsap } from 'gsap'
+import { gsap } from '~/utils/animation/gsap'
 
 // Shared element transition: the clicked home card image flies to the project page hero.
 // A fixed clone (outside both pages) is resized from the card clip to the hero box with transforms only:
