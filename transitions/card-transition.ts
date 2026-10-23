@@ -138,21 +138,24 @@ export const cardPageTransition: TransitionProps = {
             })
         }
         else {
+            // Mirror of forwards: the page recedes under the entering one, which comes from the top.
+            // Sliding the leaving page down instead reads as a scroll to its top when it was scrolled.
             // Freeze the page where it currently is (position: fixed alone would snap it back to its top)
             gsap.set(el, {
                 position: 'fixed',
                 top: -window.scrollY,
                 left: 0,
                 width: '100%',
-                zIndex: '2', // above the entering page, below the mobile nav (layout)
-                transformOrigin: 'top',
-                willChange: 'transform',
+                transformOrigin: `50% ${window.scrollY + window.innerHeight}px`, // bottom of the viewport
+                willChange: 'transform, opacity',
             })
 
             tl.to(el, {
-                y: window.innerHeight,
-                duration: 1,
-                ease: 'power3.out',
+                y: 60,
+                opacity: 0.3,
+                scale: 0.9,
+                duration: 0.8,
+                ease: 'power1.in',
             })
         }
 
@@ -216,20 +219,22 @@ export const cardPageTransition: TransitionProps = {
             })
         }
         else {
+            // Clip the page to the viewport so only its top is shown while it comes down from above
             gsap.set(el, {
                 ...initialState,
-                y: -60,
-                opacity: 0.3,
-                scale: 0.9,
-                willChange: 'transform, opacity',
+                height: window.innerHeight,
+                overflow: 'hidden',
+                transformOrigin: 'bottom',
+                y: -window.innerHeight * 1.3,
+                scale: 1.1,
+                willChange: 'transform',
             })
 
             tl.to(el, {
                 y: 0,
                 scale: 1,
-                opacity: 1,
-                duration: 0.8,
-                ease: 'power1.out',
+                duration: 1,
+                ease: 'power2.out',
             })
         }
 
