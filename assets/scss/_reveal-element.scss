@@ -25,3 +25,11 @@
         translate: 0;
     }
 }
+
+// Reduced motion: fade only, no translation
+@media (prefers-reduced-motion: reduce) {
+    .element-translate {
+        transition: opacity 0.5s var(--element-translate-delay, 0.3s) ease(out-quad);
+        translate: none;
+    }
+}

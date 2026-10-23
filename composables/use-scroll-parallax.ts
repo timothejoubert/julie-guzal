@@ -31,7 +31,10 @@ interface UseScrollParallaxOptions {
  */
 export function useScrollParallax(layers: MaybeRefOrGetter<ScrollParallaxLayer[]>, options: UseScrollParallaxOptions) {
     const { $gsap } = useNuxtApp()
-    const isEnabled = useMediaQuery(options.media)
+    const matchesMedia = useMediaQuery(options.media)
+    // No parallax when the user asks for reduced motion (RGAA 13.8 / WCAG 2.3.3), reacts to runtime changes
+    const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+    const isEnabled = computed(() => matchesMedia.value && !reduceMotion.value)
     let context: gsap.Context | undefined
     let currentLayers: ScrollParallaxLayer[] = []
 

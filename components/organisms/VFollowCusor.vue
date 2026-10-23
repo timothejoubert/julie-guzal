@@ -10,6 +10,8 @@ const isDisplayed = defineModel<boolean>('displayed', { default: false })
 const direction = defineModel<'left' | 'right'>('direction', { default: 'right' })
 const cursor = ref<HTMLElement | null>(null)
 const isLargeScreen = useMediaQuery('(min-width: 1024px)', { ssrWidth: 768 })
+// Reduced motion: the cursor follows the pointer without easing
+const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 
 let xSetter: null | ReturnType<typeof gsap.quickTo> = null
 let ySetter: null | ReturnType<typeof gsap.quickTo> = null
@@ -25,10 +27,10 @@ function onMove(event: MouseEvent) {
 function initSetters() {
     if (!isLargeScreen.value) return
     if (!xSetter) {
-        xSetter = gsap.quickTo(cursor.value, 'x', { duration: 0.4, ease: 'power3' })
+        xSetter = gsap.quickTo(cursor.value, 'x', { duration: reduceMotion.value ? 0 : 0.4, ease: 'power3' })
     }
     if (!ySetter) {
-        ySetter = gsap.quickTo(cursor.value, 'y', { duration: 0.4, ease: 'power3' })
+        ySetter = gsap.quickTo(cursor.value, 'y', { duration: reduceMotion.value ? 0 : 0.4, ease: 'power3' })
     }
 }
 
@@ -46,7 +48,7 @@ function killSetters() {
 function setOnCenter() {
     const x = window.innerWidth / 2 - (cursor.value?.offsetWidth || 1) / 2
     const y = window.innerHeight / 2 - (cursor.value?.offsetHeight || 1) / 2
-    gsap.to(cursor.value, { x, y, ease: 'back.out', duration: 0.25 })
+    gsap.to(cursor.value, { x, y, ease: 'back.out', duration: reduceMotion.value ? 0 : 0.25 })
 }
 
 function init() {
@@ -107,6 +109,10 @@ onBeforeUnmount(kill)
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.2s;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
 
     &--direction-right#{&}--is-last,
     &--direction-left#{&}--is-first {

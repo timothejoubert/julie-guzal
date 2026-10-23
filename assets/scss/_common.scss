@@ -15,9 +15,17 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+// Theme-aware focus ring (RGAA 10.7 / WCAG 1.4.11, 2.4.7): the text color of the current theme, so it keeps
+// the text/background contrast on both themes (the primary #CDFF3E was ~1.2:1 on the light theme).
 *:focus-visible {
-    outline: 2px solid var(--theme-color-primary, var(--theme-color-on-background));
+    outline: 2px solid var(--theme-color-on-background);
     outline-offset: 2px;
+}
+
+// Programmatic focus targets (skip link → <main tabindex="-1">) don't need a ring
+[tabindex='-1']:focus:not(:focus-visible),
+main[tabindex='-1']:focus {
+    outline: none;
 }
 
 pre {

@@ -11,6 +11,8 @@ export const vVideoPlayerProps = {
     ...embedVideoProps,
     ...commonVideoProps,
     plyr: { type: Object as PropType<Plyr.Options> },
+    // Embed title (Prismic oEmbed `title`), used as the iframe accessible name
+    title: { type: String },
 }
 
 export default defineComponent({
@@ -19,13 +21,16 @@ export default defineComponent({
         const isEmbed = computed(() => !!props.embedPlatform && !!props.embedId)
 
         // Attributes
-        const videoAttrsValue = computed(() => getVideoAttrsValues(props, props.background))
+        const reduceMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
+        const videoAttrsValue = computed(() => getVideoAttrsValues(props, props.background, reduceMotion.value))
 
         const playsinline = computed(() => videoAttrsValue.value.playsinline)
         const muted = computed(() => videoAttrsValue.value.muted)
         const loop = computed(() => videoAttrsValue.value.loop)
         const autoplay = computed(() => videoAttrsValue.value.autoplay)
         const controls = computed(() => videoAttrsValue.value.controls)
+        // Muted looping video without controls (autoplay/background): needs its own pause button (RGAA 13.8 / WCAG 2.2.2)
+        const isAmbient = computed(() => videoAttrsValue.value.ambient)
 
         const videoAttrs = computed(() => {
             return {
@@ -142,7 +147,36 @@ export default defineComponent({
             return `<iframe src="${escapedSrc}" frameborder="0" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" style="width:100%;height:100%"></iframe>`
         })
 
-        return { controls, isEmbed, playerStyle, videoAttrs, videoSources, src, hasBeenNear, iframeNoscript }
+        // Play / pause of ambient videos
+        const iframeElement = useTemplateRef<HTMLIFrameElement>('iframeElement')
+        const isPaused = ref(!autoplay.value)
+        watch(autoplay, value => (isPaused.value = !value))
+
+        function postEmbedCommand(play: boolean) {
+            const target = iframeElement.value?.contentWindow
+            if (!target) return
+            const platform = props.embedPlatform?.toLowerCase()
+            if (platform === 'youtube') {
+                target.postMessage(JSON.stringify({ event: 'command', func: play ? 'playVideo' : 'pauseVideo', args: [] }), '*')
+            }
+            else if (platform === 'vimeo') {
+                target.postMessage(JSON.stringify({ method: play ? 'play' : 'pause' }), '*')
+            }
+        }
+
+        function togglePlay() {
+            const play = isPaused.value
+            if (isEmbed.value) {
+                postEmbedCommand(play)
+                isPaused.value = !play
+            }
+            else if (videoElement.value) {
+                if (play) videoElement.value.play().catch(() => {})
+                else videoElement.value.pause()
+            }
+        }
+
+        return { controls, isAmbient, isEmbed, isPaused, togglePlay, playerStyle, videoAttrs, videoSources, src, hasBeenNear, iframeNoscript }
     },
 })
 </script>
@@ -155,7 +189,9 @@ export default defineComponent({
         :class="[$style['iframe-wrapper'], !controls && $style['iframe-wrapper--no-controls']]"
     >
         <iframe
+            ref="iframeElement"
             :src="hasBeenNear ? src : undefined"
+            :title="title || $t('video.embed_title')"
             frameborder="0"
             loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -163,13 +199,71 @@ export default defineComponent({
         />
         <!-- eslint-disable-next-line vue/no-v-html -- built from the escaped embed URL; v-html keeps it raw text when JS runs -->
         <noscript v-html="iframeNoscript" />
+        <button
+            v-if="isAmbient"
+            type="button"
+            :class="$style.toggle"
+            :aria-label="isPaused ? $t('play_video') : $t('video.pause')"
+            @click="togglePlay"
+        >
+            <VIcon
+                v-if="isPaused"
+                name="play"
+                width="14"
+                height="14"
+            />
+            <span
+                v-else
+                :class="$style['pause-icon']"
+                aria-hidden="true"
+            />
+        </button>
         <!--        <VSpinner v-if="!videoReady" :class="$style.spinner" /> -->
+    </div>
+    <div
+        v-else-if="isAmbient"
+        :class="$style['video-wrapper']"
+    >
+        <video
+            v-bind="videoAttrs"
+            ref="playerComponent"
+            :class="$style.video"
+            @play="isPaused = false"
+            @pause="isPaused = true"
+        >
+            <source
+                v-for="source in hasBeenNear ? videoSources : []"
+                :key="source.src"
+                :src="source.src"
+                :type="source.type"
+            >
+        </video>
+        <button
+            type="button"
+            :class="$style.toggle"
+            :aria-label="isPaused ? $t('play_video') : $t('video.pause')"
+            @click="togglePlay"
+        >
+            <VIcon
+                v-if="isPaused"
+                name="play"
+                width="14"
+                height="14"
+            />
+            <span
+                v-else
+                :class="$style['pause-icon']"
+                aria-hidden="true"
+            />
+        </button>
     </div>
     <video
         v-else
         v-bind="videoAttrs"
         ref="playerComponent"
         :class="$style.video"
+        @play="isPaused = false"
+        @pause="isPaused = true"
     >
         <source
             v-for="source in hasBeenNear ? videoSources : []"
@@ -209,6 +303,35 @@ export default defineComponent({
 .iframe,
 .video {
     @include video-properties;
+}
+
+.video-wrapper {
+    position: relative;
+}
+
+.toggle {
+    position: absolute;
+    z-index: 2;
+    right: rem(12);
+    bottom: rem(12);
+    display: flex;
+    width: rem(32);
+    height: rem(32);
+    align-items: center;
+    justify-content: center;
+    padding: initial;
+    border: none;
+    border-radius: 100%;
+    background-color: #fff;
+    color: #1a1a1a;
+    cursor: pointer;
+    pointer-events: auto; // the embed wrapper has pointer-events: none without controls
+}
+
+.pause-icon {
+    width: rem(10);
+    height: rem(12);
+    border-inline: rem(3) solid currentcolor;
 }
 
 .spinner {
