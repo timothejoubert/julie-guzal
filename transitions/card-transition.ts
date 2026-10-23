@@ -175,7 +175,6 @@ export const cardPageTransition: TransitionProps = {
             top: 0,
             left: 0,
             width: '100%',
-            maxWidth: `calc(100% - var(--scroll-bar-width, 0px))`,
             transformOrigin: 'top',
         }
 

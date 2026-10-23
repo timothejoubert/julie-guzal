@@ -16,15 +16,6 @@ function onFinish() {
     state.value = 'done'
     document.documentElement.classList.remove(SPLASH_ACTIVE_CLASS)
 }
-
-// SET GLOBAL CSS VAR
-const { width } = useWindowSize()
-function setScrollBarWidth() {
-    document.body.style.setProperty('--scroll-bar-width', getScrollBarWidth())
-}
-
-watch(width, setScrollBarWidth)
-tryOnMounted(setScrollBarWidth)
 </script>
 
 <template>
