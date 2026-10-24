@@ -98,5 +98,7 @@ jobs:
                   remote-path: /home/juliegd/www
                   # Transfer all files (useful for first deploy)
                   sync: full
+                  # Remove remote files no longer in the build (deleted projects, old chunks, removed assets)
+                  ftp-mirror-options: --delete
                   # Port for SFTP access to server
                   remote-port: 22
