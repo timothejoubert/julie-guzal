@@ -89,6 +89,7 @@ export default defineNuxtConfig({
     },
     ignore: [
         'assets/backup/**',
+        'backups/**', // local Prismic backups (pnpm backup)
         '.claude/**', // AI agents' git worktrees (full project copies)
     ],
     experimental: {
@@ -137,7 +138,7 @@ export default defineNuxtConfig({
         server: {
             watch: {
                 // AI agents' git worktrees contain full project copies (node_modules, .nuxt…)
-                ignored: ['**/.claude/**'],
+                ignored: ['**/.claude/**', '**/backups/**'],
             },
         },
         css: {

@@ -1,5 +1,5 @@
 ## In progress
-- le project https://julieguzal.fr/project/content est encore accessible alors qu'il a été supprimé de prismic
+- le project https://julieguzal.fr/project/content est encore accessible en prod alors qu'il a été supprimé de prismic, il faudrait que le processus de generation lorsqu'un webhook est envoyé fonctionne bien
 
 ## TODO
 - Vérifier la prod : workflow Deploy prod, webhook Prismic (Trigger OK, 401 sans secret)
@@ -20,6 +20,7 @@
 - A11Y médias & motion (PR fix/a11y-media-motion) : prefers-reduced-motion (molette bloquée), visionneuse au clavier, pause vidéo, contraste du focus
 
 ## Done
+- Backup local Prismic : `pnpm backup` → `backups/prismic/` (documents, manifest, médias originaux)
 - Vérif prod 1.1.1 : .htaccess OK (200 sur / et /contact, 301 http/www → https://julieguzal.fr, br, HSTS), aucune violation CSP en report-only
 - CSP appliquée + hashes des scripts inline calculés au build (`scripts/csp-script-hashes.mjs`)
 - CI sur les push develop + Lighthouse CI (`lighthouserc.cjs`)

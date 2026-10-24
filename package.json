@@ -22,6 +22,7 @@
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
         "typecheck": "nuxi typecheck",
         "lhci": "lhci autorun",
+        "backup": "node scripts/prismic-backup.mjs",
         "type-gen": "npx prismic gen types"
     },
     "devDependencies": {

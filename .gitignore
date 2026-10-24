@@ -33,3 +33,6 @@ logs
 
 # Lighthouse CI reports
 .lighthouseci
+
+# Local Prismic backups (pnpm backup)
+backups
