@@ -1,21 +1,16 @@
 {
   "format": "page",
   "id": "lab_page",
-  "label": "Lab page",
-  "repeatable": false,
-  "status": true,
   "json": {
     "Main": {
       "title": {
-        "type": "Text",
         "config": {
           "label": "Title",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "slices": {
-        "type": "Slices",
-        "fieldset": "Slice Zone",
         "config": {
           "choices": {
             "cross_nav": {
@@ -25,21 +20,23 @@
               "type": "SharedSlice"
             }
           }
-        }
+        },
+        "fieldset": "Slice Zone",
+        "type": "Slices"
       }
     },
     "SEO & Metadata": {
       "meta_title": {
         "config": {
-          "label": "Meta Title",
-          "placeholder": "A title of the page used for social media and search engines"
+          "label": "Titre SEO",
+          "placeholder": "Titre pour Google"
         },
         "type": "Text"
       },
       "meta_description": {
         "config": {
-          "label": "Meta Description",
-          "placeholder": "A brief summary of the page"
+          "label": "Description SEO",
+          "placeholder": "≈ 155 caractères"
         },
         "type": "Text"
       },
@@ -49,11 +46,14 @@
             "height": 1260,
             "width": 2400
           },
-          "label": "Meta Image",
+          "label": "Image de partage",
           "thumbnails": []
         },
         "type": "Image"
       }
     }
-  }
+  },
+  "label": "Lab",
+  "repeatable": false,
+  "status": true
 }

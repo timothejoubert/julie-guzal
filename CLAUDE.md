@@ -17,12 +17,13 @@ npx prismic pull     # sync types/slices from Prismic (Type Builder is the sourc
 
 ## Workflow
 
-- Personal project: commit directly on `develop`, one commit = one topic. No branch/PR needed (a branch can be suggested for a large or risky change).
-- Commit locally only, never push: pushing `develop` deploys the Netlify staging (https://app.netlify.com/projects/julie-guzal). The owner pushes.
+Generic rules (commit on `develop`, never push, conventional commits, secrets) come from the parent `TIM/CLAUDE.md`. Specific to this repo:
+
+- Pushing `develop` deploys the Netlify staging (https://app.netlify.com/projects/julie-guzal). The owner pushes.
 - Releases via `release/*` → `main`, tag triggers the production deploy — owner only.
-- Conventional commits in English (`fix:`, `feat:`, `chore:`, `refactor:`, `perf:`, `style:`, `docs:`), used by git-cliff for `CHANGELOG.md`. CI (`.github/workflows/ci.yaml`) must stay green: lint + generate.
+- Commit messages feed git-cliff for `CHANGELOG.md`. CI (`.github/workflows/ci.yaml`) must stay green: lint + generate.
 - A change is done when: lint passes, `pnpm generate` succeeds, the change is checked in a browser on `pnpm preview`, and the proof is given in the reply (Lighthouse numbers, screenshot/GIF, generated HTML excerpt, `curl -I` output…).
-- Never commit secrets. They live in Bitwarden; GitHub/Netlify secrets are set by a human.
+- GitHub/Netlify secrets are set by a human.
 
 ## Architecture
 

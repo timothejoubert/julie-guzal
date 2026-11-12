@@ -1,7 +1,7 @@
 {
   "description": "GalleryGrid",
   "id": "gallery_grid",
-  "name": "GalleryGrid",
+  "name": "Grille galerie",
   "type": "SharedSlice",
   "variations": [
     {

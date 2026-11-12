@@ -95,6 +95,25 @@ Values are in Bitwarden, never in the repository.
 
 Release and production checks: see [`RELEASE_CHECKLIST.md`](RELEASE_CHECKLIST.md).
 
+## Prismic backup
+
+`pnpm backup` (`scripts/prismic-backup.mjs`) saves the published Prismic content and its media in `backups/prismic/` (git-ignored, run it by hand after a big content update):
+
+```
+backups/prismic/
+├── assets/                  # original Prismic files, shared by all snapshots, never deleted
+└── snapshots/<UTC date>/
+    ├── documents.json       # raw Content API response (every document, every locale)
+    └── manifest.json        # media used by the documents
+```
+
+* Media are downloaded from their URL without imgix parameters, i.e. the original file as uploaded (format, full resolution, no recompression). The editor crop stays in `documents.json` (`apiUrl` in the manifest).
+* Files already in `assets/` are skipped: after the first run (~770 MB), only new media are downloaded.
+* `manifest.json`: `assets` (id, local `file`, original `url`, dimensions, alt, and `usedIn` = document + field path) and `embeds` (Vimeo links, thumbnail, iframe HTML, `usedIn`). Embedded videos are not downloaded.
+* Env: `BACKUP_DIR` (another target folder), `BACKUP_ASSETS_LIMIT=3` (test run, only the first n media).
+* Not covered: drafts, archived documents and unused media library assets (not exposed by the Content API). Models are versioned in `customtypes/` and `slices/`.
+* Restore is manual: re-create the documents with the Prismic Migration API, using `usedIn.path` and `file` to re-upload the media.
+
 ---
 
 ## Editorial sticky note

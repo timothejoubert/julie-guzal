@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-import pick from 'lodash/pick'
+import { objectPick } from '@vueuse/core'
 import { VImg, VPicture } from '#components'
 import { imgProps, pictureProps } from '~/utils/image/nuxt-image-props'
 
@@ -24,7 +24,7 @@ export default defineComponent({
         const document = computed(() => props.document)
 
         const modifiers = computed(() => {
-            return pick<Writeable<typeof props>, ImgixProviderPropsKeys>(
+            return objectPick<Writeable<typeof props>, ImgixProviderPropsKeys>(
                 props,
                 Object.keys(imgixProviderAttributes) as Array<ImgixProviderPropsKeys>,
             )
@@ -61,7 +61,7 @@ export default defineComponent({
 
         const imageAttrs = computed(() => {
             return {
-                ...pick(props, Object.keys(isPicture.value ? pictureProps : imgProps)),
+                ...objectPick(props, Object.keys(isPicture.value ? pictureProps : imgProps) as Array<keyof typeof props>),
                 src: src.value,
                 width: width.value,
                 height: height.value,

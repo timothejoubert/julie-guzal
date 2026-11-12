@@ -1,9 +1,12 @@
 name: CI
 
-# Checks every pull request before review: lint + static generation.
+# Checks every pull request and every push to develop (commits land there directly):
+# lint + static generation + Lighthouse audit of the generated pages.
 # Deployment stays in build-prod.yaml (tags / repository_dispatch).
 
 on:
+    push:
+        branches: [develop]
     pull_request:
         branches: [develop, main]
 
@@ -45,3 +48,15 @@ jobs:
                   NUXT_PUBLIC_SITE_NAME: Julie Guzal
                   NUXT_PUBLIC_SITE_ENV: staging
                   NUXT_PUBLIC_SITE_URL: https://julieguzal.fr
+
+            # Audits the generated pages (thresholds in lighthouserc.cjs). Chrome is preinstalled on ubuntu runners.
+            - name: Lighthouse audit
+              run: pnpm lhci
+
+            - name: Upload Lighthouse reports
+              if: ${{ !cancelled() }}
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                  name: lighthouse-reports
+                  path: .lighthouseci
+                  retention-days: 14

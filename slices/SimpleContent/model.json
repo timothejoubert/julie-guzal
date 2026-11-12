@@ -1,7 +1,7 @@
 {
   "description": "SimpleContent",
   "id": "simple_content",
-  "name": "SimpleContent",
+  "name": "Texte",
   "type": "SharedSlice",
   "variations": [
     {

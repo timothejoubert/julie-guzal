@@ -1,54 +1,54 @@
 {
   "format": "custom",
   "id": "menu",
-  "label": "Menu",
-  "repeatable": false,
-  "status": true,
   "json": {
     "Main": {
       "title": {
-        "type": "Text",
         "config": {
           "label": "Title",
           "placeholder": ""
-        }
+        },
+        "type": "Text"
       },
       "links": {
-        "type": "Group",
         "config": {
-          "label": "links",
-          "repeat": true,
           "fields": {
             "label": {
-              "type": "Text",
               "config": {
                 "label": "Label",
                 "placeholder": ""
-              }
+              },
+              "type": "Text"
             },
             "internal_page": {
-              "type": "Link",
               "config": {
-                "label": "Internal page",
-                "select": "document",
                 "customtypes": [
                   "home_page",
                   "lab_page",
                   "gallery_page",
                   "contact_page"
-                ]
-              }
+                ],
+                "label": "Internal page",
+                "select": "document"
+              },
+              "type": "Link"
             },
             "external_url": {
-              "type": "Text",
               "config": {
                 "label": "External url",
                 "placeholder": ""
-              }
+              },
+              "type": "Text"
             }
-          }
-        }
+          },
+          "label": "links",
+          "repeat": true
+        },
+        "type": "Group"
       }
     }
-  }
+  },
+  "label": "Menu",
+  "repeatable": false,
+  "status": true
 }

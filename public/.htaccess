@@ -142,24 +142,26 @@ RewriteRule \.txt\.(br|gz)$ - [T=text/plain;charset=utf-8,E=no-gzip:1,E=no-brotl
     Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=()"
 
     # Framing: same origin + Prismic (Page Builder / preview frames the site).
-    # X-Frame-Options for old browsers; modern browsers ignore it when an
-    # enforced CSP `frame-ancestors` is present, hence this dedicated,
-    # enforced policy (the full policy below is still report-only).
+    # X-Frame-Options for old browsers; modern browsers use the CSP
+    # `frame-ancestors` below.
     Header always set X-Frame-Options "SAMEORIGIN"
-    Header always set Content-Security-Policy "frame-ancestors 'self' https://*.prismic.io"
 
-    # Content Security Policy — REPORT-ONLY: violations are logged in the
-    # browser console but nothing is blocked. Switch the header name to
-    # `Content-Security-Policy` (merged with the frame-ancestors one above)
-    # once production shows no violation.
-    #  - script-src 'unsafe-inline': Nuxt inlines an import map and
-    #    `window.__NUXT__` config whose content (thus hash) changes each build.
+    # Content Security Policy (enforced). The report-only policy showed no
+    # violation in production, but it allowed every inline script: the hash
+    # list was only tested locally (CSP <meta> on the generated build).
+    # Netlify staging and Lighthouse CI don't apply this file, so check the
+    # production console after each release.
+    #  - script-src: `scripts/csp-script-hashes.mjs` (run by `pnpm generate`)
+    #    adds the hash of each inline script (import map, `window.__NUXT__`
+    #    config, splash) to the generated copy of this file. Browsers that
+    #    support hashes then ignore 'unsafe-inline', kept as a fallback.
     #    static.cdn.prismic.io = Prismic toolbar (non-production builds).
     #  - style-src 'unsafe-inline': Vue `style` bindings (CSS variables).
     #  - img/media: Prismic image CDN (imgix), Prismic media CDN, Vimeo thumbnails.
     #  - connect-src: Prismic API (client-side navigation, previews).
     #  - frame-src: embeds allowed in Prismic content.
-    Header always set Content-Security-Policy-Report-Only "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cdn.prismic.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.prismic.io https://*.cdn.prismic.io https://i.vimeocdn.com; media-src 'self' blob: https://images.prismic.io https://*.cdn.prismic.io; font-src 'self'; connect-src 'self' https://*.prismic.io; frame-src 'self' https://*.prismic.io https://*.youtube-nocookie.com https://*.youtube.com https://*.vimeo.com https://*.instagram.com https://*.soundcloud.com https://*.google.com https://*.deezer.com https://*.spotify.com; frame-ancestors 'self' https://*.prismic.io; object-src 'none'; base-uri 'self'; form-action 'self'"
+    #  - frame-ancestors: same origin + Prismic (Page Builder / preview).
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cdn.prismic.io; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://images.prismic.io https://*.cdn.prismic.io https://i.vimeocdn.com; media-src 'self' blob: https://images.prismic.io https://*.cdn.prismic.io; font-src 'self'; connect-src 'self' https://*.prismic.io; frame-src 'self' https://*.prismic.io https://*.youtube-nocookie.com https://*.youtube.com https://*.vimeo.com https://*.instagram.com https://*.soundcloud.com https://*.google.com https://*.deezer.com https://*.spotify.com; frame-ancestors 'self' https://*.prismic.io; object-src 'none'; base-uri 'self'; form-action 'self'"
 </IfModule>
 
 # -----------------------------------------------------------------------------
